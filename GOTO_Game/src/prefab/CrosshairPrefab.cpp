@@ -6,6 +6,7 @@
 #include <GameObject.h>
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
+#include <ParticleSystem.h>
 
 
 using namespace GOTOEngine;
@@ -25,6 +26,12 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
     spriteRenderer->SetRenderLayer((1 << (id + 1)));
 
 	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+
+	auto particleSys = GO->AddComponent<ParticleSystem>();
+	particleSys->SetParticleCommonRect({ 0,0,24.0f,24.0f });
+	particleSys->SetFadeOutTime(0.3f);
+	particleSys->SetFadeMode(ParticleFadeMode::Shrink);
+	particleSys->Play();
 
 	return GO;
 }

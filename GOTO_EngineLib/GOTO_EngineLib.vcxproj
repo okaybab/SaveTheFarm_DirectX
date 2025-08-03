@@ -221,8 +221,10 @@
     <ClInclude Include="inc\AnimatorController.h" />
     <ClInclude Include="inc\XInputGamepadDevice.h" />
     <ClInclude Include="inc\Text.h" />
+    <ClInclude Include="inc\ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="inc\ParticleSystem.cpp" />
     <ClCompile Include="src\Graphic.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\UIBehaviour.cpp" />

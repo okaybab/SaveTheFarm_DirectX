@@ -64,6 +64,7 @@ namespace GOTOEngine
 		friend class Font;
 		friend class Canvas;
 		friend class Graphic;
+		friend class ParticleSystem;
 		void StartUp(IWindow* window);
 		void ShutDown();
 		IRenderAPI* m_pRenderAPI = nullptr;
@@ -71,6 +72,7 @@ namespace GOTOEngine
 		std::vector<Camera*> m_cameras;
 		std::vector<Renderer*> m_renderers;
 		std::vector<Canvas*> m_canvases;
+		std::vector<ParticleSystem*> m_particleSystems;
 
 		float m_targetWidth;
 		float m_targetHeight;
@@ -83,6 +85,8 @@ namespace GOTOEngine
 		void UnRegisterRenderer(Renderer* renderer);
 		void RegisterCanvas(Canvas* canvas);	
 		void UnRegisterCanvas(Canvas* canvas);
+		void RegisterParticleSystem(ParticleSystem* particleSystem);
+		void UnRegisterParticleSystem(ParticleSystem* particleSystem);
 
 		void SortCamera();
 		void SortRenderer();

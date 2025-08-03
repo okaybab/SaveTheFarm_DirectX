@@ -12,6 +12,7 @@
 #include "RectTransform.h"
 #include "Graphic.h"
 #include "Screen.h"
+#include "ParticleSystem.h"
 #ifdef _DEBUG
 #include <iostream>
 #include "PhysicsManager.h"
@@ -123,6 +124,19 @@ void GOTOEngine::RenderManager::UnRegisterCanvas(Canvas* canvas)
 	SetCanvasSortDirty();
 }
 
+void GOTOEngine::RenderManager::RegisterParticleSystem(ParticleSystem* particleSystem)
+{
+	m_particleSystems.push_back(particleSystem);
+}
+
+void GOTOEngine::RenderManager::UnRegisterParticleSystem(ParticleSystem* particleSystem)
+{
+	m_particleSystems.erase(
+		std::remove_if(m_particleSystems.begin(), m_particleSystems.end(),
+			[particleSystem](const auto& item) { return item == particleSystem; }),
+		m_particleSystems.end());
+}
+
 void GOTOEngine::RenderManager::SortCamera()
 {
 	std::sort(m_cameras.begin(), m_cameras.end(),
@@ -197,11 +211,19 @@ void GOTOEngine::RenderManager::Render()
 	if (m_needRenderOrderSort)
 		SortRenderer();
 
+	//파티클 시스템 업데이트
+	for (auto& particleSystem : m_particleSystems)
+	{
+		if (!particleSystem->GetEnabled())
+			continue;
+
+		particleSystem->Update();
+	}
+
 	//렌더링
 	//멀티 카메라를 구현하려면 렌더타겟(백 버퍼)이 카메라마다 존재해야함
 	//활성화된 카메라를 돌면서 Clear -> 렌더링해주고 최종 렌더타겟을 하나에 모아서 Composite(합치기)
 	//그리고 그 렌더타겟을 스왑체인이나 메인버퍼로 올려주고 플립핑
-
 	for (const auto& camera : m_cameras)
 	{
 		if (!camera->GetEnabled())
