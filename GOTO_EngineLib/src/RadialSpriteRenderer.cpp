@@ -44,7 +44,7 @@ void GOTOEngine::RadialSpriteRenderer::Render(Matrix3x3& matrix)
     }
 
     // Radial Fill 사용 여부에 따라 다른 그리기 방법 사용
-    if (m_useRadialFill)
+    if (m_useRadialFill && m_fillAmount < 1.0f)
     {
         renderAPI->DrawRadialFillBitmap(
             bitmap,

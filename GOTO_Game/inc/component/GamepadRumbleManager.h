@@ -38,6 +38,7 @@ namespace GOTOEngine
 		void Update();
 		void Awake();
 		int Play(int padID, const RumbleAnimationClip& rumbleClip, float weight);
+		void Stop(int rumbleID);
 		void ClearFinishedClips();
 	};
 }

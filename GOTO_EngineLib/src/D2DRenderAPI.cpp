@@ -560,6 +560,12 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	// fillAmount를 0~1로 클램프
 	fillAmount = max(0.0f, min(1.0f, fillAmount));
 
+	if (fillAmount >= 1.0f)
+	{
+		DrawBitmap(bitmap, mat, destRect, sourceRect, color, filter, useScreenPos);
+		return;
+	}
+
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	float screenHeight = static_cast<float>(m_window->GetHeight());
@@ -585,54 +591,31 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	hr = pathGeometry->Open(&geometrySink);
 	if (FAILED(hr)) return;
 
-	if (fillAmount >= 1.0f)
-	{
-		// 완전한 원
-		D2D1_POINT_2F startPoint = {
-			centerX + radius * cosf(startRad),
-			centerY + radius * sinf(startRad)
-		};
+	// 부채꼴
+	D2D1_POINT_2F startPoint = {
+		centerX + radius * cosf(startRad),
+		centerY + radius * sinf(startRad)
+	};
 
-		geometrySink->BeginFigure(startPoint, D2D1_FIGURE_BEGIN_FILLED);
+	D2D1_POINT_2F endPoint = {
+		centerX + radius * cosf(endRad),
+		centerY + radius * sinf(endRad)
+	};
 
-		D2D1_ARC_SEGMENT arc = {
-			startPoint,
-			D2D1::SizeF(radius, radius),
-			0.0f,
-			D2D1_SWEEP_DIRECTION_CLOCKWISE,
-			D2D1_ARC_SIZE_LARGE
-		};
-		geometrySink->AddArc(&arc);
-		geometrySink->EndFigure(D2D1_FIGURE_END_CLOSED);
-	}
-	else
-	{
-		// 부채꼴
-		D2D1_POINT_2F startPoint = {
-			centerX + radius * cosf(startRad),
-			centerY + radius * sinf(startRad)
-		};
+	geometrySink->BeginFigure(D2D1::Point2F(centerX, centerY), D2D1_FIGURE_BEGIN_FILLED);
+	geometrySink->AddLine(startPoint);
 
-		D2D1_POINT_2F endPoint = {
-			centerX + radius * cosf(endRad),
-			centerY + radius * sinf(endRad)
-		};
-
-		geometrySink->BeginFigure(D2D1::Point2F(centerX, centerY), D2D1_FIGURE_BEGIN_FILLED);
-		geometrySink->AddLine(startPoint);
-
-		float sweepAngleAbs = abs(sweepAngle * M_PI / 180.0f);
-		D2D1_ARC_SEGMENT arc = {
-			endPoint,
-			D2D1::SizeF(radius, radius),
-			0.0f,
-			clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE,
-			(sweepAngleAbs > M_PI) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL
-		};
-		geometrySink->AddArc(&arc);
-		geometrySink->AddLine(D2D1::Point2F(centerX, centerY));
-		geometrySink->EndFigure(D2D1_FIGURE_END_CLOSED);
-	}
+	float sweepAngleAbs = abs(sweepAngle * M_PI / 180.0f);
+	D2D1_ARC_SEGMENT arc = {
+		endPoint,
+		D2D1::SizeF(radius, radius),
+		0.0f,
+		clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE,
+		(sweepAngleAbs > M_PI) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL
+	};
+	geometrySink->AddArc(&arc);
+	geometrySink->AddLine(D2D1::Point2F(centerX, centerY));
+	geometrySink->EndFigure(D2D1_FIGURE_END_CLOSED);
 
 	hr = geometrySink->Close();
 	if (FAILED(hr)) return;

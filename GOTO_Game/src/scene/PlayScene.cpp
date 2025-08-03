@@ -5,6 +5,7 @@
 #include <RectTransform.h>
 #include <SpriteRenderer.h>
 #include "CrosshairPrefab.h"
+#include "EnhancedCrosshairFire.h"
 
 #include "ItemManager.h"
 #include "GameManager.h"
@@ -24,7 +25,13 @@ void PlayScene::Initialize()
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 	if (Object::IsValidObject(player1CrosshairGO))
 	{
-		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
+		auto crosshairFire = player1CrosshairGO->GetComponent<CrosshairFire>();
+			if(Object::IsValidObject(crosshairFire))
+				crosshairFire->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
+
+		auto enhancedCrosshairFire = player1CrosshairGO->GetComponent<EnhancedCrosshairFire>();
+		if (Object::IsValidObject(enhancedCrosshairFire))
+			enhancedCrosshairFire->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
 	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
@@ -36,7 +43,13 @@ void PlayScene::Initialize()
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
 	if (Object::IsValidObject(player2CrosshairGO))
 	{
-		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
+		auto crosshairFire = player2CrosshairGO->GetComponent<CrosshairFire>();
+		if (Object::IsValidObject(crosshairFire))
+			crosshairFire->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
+
+		auto enhancedCrosshairFire = player2CrosshairGO->GetComponent<EnhancedCrosshairFire>();
+		if (Object::IsValidObject(enhancedCrosshairFire))
+			enhancedCrosshairFire->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
 	}
 
 	auto BackgroundGO = new GameObject(L"Background");	
