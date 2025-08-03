@@ -74,7 +74,9 @@ namespace GOTOEngine
 
         // 축 값 정규화 (데드존 처리 포함)
         float NormalizeAxis(SHORT value, SHORT deadzone) const;
+        float NormalizeAxisWithRaw(SHORT value) const;
         float NormalizeTrigger(BYTE value) const;
+        float NormalizeTriggerWithRaw(BYTE value) const;
 
         // D-Pad 헬퍼 함수들
         float GetDPadX(const XINPUT_GAMEPAD& gamepad) const;

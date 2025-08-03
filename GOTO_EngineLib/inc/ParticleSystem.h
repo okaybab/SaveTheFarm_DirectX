@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Color.h"
 #include "Rect.h"
+#include "Sprite.h"
 #include <random>
 
 namespace GOTOEngine
@@ -91,9 +92,20 @@ namespace GOTOEngine
         float m_spawnInterval;                       // 파티클 생성 주기
         int m_maxParticleCount;                      // 최대 파티클 수
         Rect m_particleCommonRect;                   // 공용 파티클 Rect
+        Sprite* m_particleCommonSprite;
         
         // 물리 설정
         Vector2 m_gravity;                           // 중력 벡터
+        float m_emissionDirection;                   // 부채꼴의 중심 방향 (라디안)
+        float m_emissionAngle;                       // 부채꼴의 각도 (라디안, 0 = 직선, π*2 = 원)
+        float m_minSpeed;                            // 최소 방출 속도
+        float m_maxSpeed;                            // 최대 방출 속도
+
+        // 파티클 랜덤 범위 설정
+        float m_minAngularVelocity;                  // 최소 각속도 (라디안/초)
+        float m_maxAngularVelocity;                  // 최대 각속도 (라디안/초)
+        float m_minScale;                            // 최소 스케일
+        float m_maxScale;                            // 최대 스케일
         
         // 스폰 타이머
         float m_spawnTimer;
@@ -123,6 +135,9 @@ namespace GOTOEngine
         // 사라짐 효과 적용
         void ApplyFadeEffect(Particle& particle);
         void Render(Matrix3x3& viewMatrix) override;
+
+        // 부채꼴 방출 속도 계산
+        Vector2 CalculateEmissionVelocity();
 
 	public:
         ParticleSystem();
@@ -165,6 +180,109 @@ namespace GOTOEngine
 
         void SetSpawnInterval(float interval) { m_spawnInterval = interval; }
         float GetSpawnInterval() const { return m_spawnInterval; }
+
+        // 속도 범위 설정
+        void SetSpeedRange(float min, float max)
+        {
+            m_minSpeed = min;
+            m_maxSpeed = max;
+        }
+
+        void SetMinSpeed(float speed) { m_minSpeed = speed; }
+        void SetMaxSpeed(float speed) { m_maxSpeed = speed; }
+        float GetMinSpeed() const { return m_minSpeed; }
+        float GetMaxSpeed() const { return m_maxSpeed; }
+
+        // 각속도 범위 설정
+        void SetAngularVelocityRange(float minAngular, float maxAngular)
+        {
+            m_minAngularVelocity = minAngular;
+            m_maxAngularVelocity = maxAngular;
+        }
+
+        void SetAngularVelocityRangeDegrees(float minDegrees, float maxDegrees)
+        {
+            m_minAngularVelocity = minDegrees * Mathf::Deg2Rad;
+            m_maxAngularVelocity = maxDegrees * Mathf::Deg2Rad;
+        }
+
+        void SetMinAngularVelocity(float angularVel) { m_minAngularVelocity = angularVel; }
+        void SetMaxAngularVelocity(float angularVel) { m_maxAngularVelocity = angularVel; }
+        void SetMinAngularVelocityDegrees(float angularVelDegree) { m_minAngularVelocity = angularVelDegree * Mathf::Deg2Rad; }
+        void SetMaxAngularVelocityDegrees(float angularVelDegree) { m_maxAngularVelocity = angularVelDegree * Mathf::Deg2Rad; }
+        float GetMinAngularVelocity() const { return m_minAngularVelocity; }
+        float GetMaxAngularVelocity() const { return m_maxAngularVelocity; }
+        float GetMinAngularVelocityDegrees() const { return m_minAngularVelocity * Mathf::Rad2Deg; }
+        float GetMaxAngularVelocityDegrees() const { return m_maxAngularVelocity * Mathf::Rad2Deg; }
+
+
+        // 방출 방향 설정 함수들
+        void SetEmissionDirection(float angleRadians)
+        {
+            m_emissionDirection = angleRadians;
+        }
+
+        void SetEmissionDirectionDegrees(float angleDegrees)
+        {
+            m_emissionDirection = angleDegrees * Mathf::Deg2Rad;
+        }
+
+        float GetEmissionDirection() const { return m_emissionDirection; }
+        float GetEmissionDirectionDegrees() const { return m_emissionDirection * Mathf::Rad2Deg; }
+
+        // 부채꼴 각도 설정 (0 = 직선, π*2 = 원)
+        void SetEmissionAngle(float angleRadians)
+        {
+            // 0 ~ 2π 범위로 제한
+            m_emissionAngle = Mathf::Max(0.0f, Mathf::Min(2.0f * Mathf::PI, angleRadians));
+        }
+
+        void SetEmissionAngleDegrees(float angleDegrees)
+        {
+            float radians = angleDegrees * Mathf::Deg2Rad;
+            SetEmissionAngle(radians);
+        }
+
+        void SetCommonSprite(Sprite* sprite)
+        {
+            if (m_particleCommonSprite != sprite)
+            {
+                if (sprite)
+                    sprite->IncreaseRefCount();
+                if (m_particleCommonSprite)
+                    m_particleCommonSprite->DecreaseRefCount();
+            }
+            m_particleCommonSprite = sprite;
+        }
+
+        void SetCommonSprite(Sprite* sprite, Rect srcRect)
+        {
+            SetCommonSprite(sprite);
+            if (m_particleCommonSprite)
+            {
+                m_particleCommonSprite->SetRect(srcRect);
+            }
+        }
+
+        void SetSprite(const std::wstring filePath)
+        {
+            SetCommonSprite(Resource::Load<Sprite>(filePath));
+        }
+
+        void SetSprite(const std::wstring filePath, Rect srcRect)
+        {
+            SetCommonSprite(Resource::Load<Sprite>(filePath));
+            if (m_particleCommonSprite)
+            {
+                m_particleCommonSprite->SetRect(srcRect);
+            }
+        }
+
+        Sprite* GetCommonSprite() { return m_particleCommonSprite; }
+
+        float GetEmissionAngle() const { return m_emissionAngle; }
+        float GetEmissionAngleDegrees() const { return m_emissionAngle * Mathf::Rad2Deg; }
+
 
         void SetMaxParticleCount(int count)
         {

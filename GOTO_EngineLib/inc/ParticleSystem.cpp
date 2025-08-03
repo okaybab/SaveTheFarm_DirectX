@@ -4,6 +4,23 @@
 #include "TimeManager.h"
 #include "IRenderAPI.h"
 
+GOTOEngine::ParticleSystem::ParticleSystem()
+    : m_particleLifeTime(2.0f), m_fadeOutTime(1.0f), m_fadeMode(ParticleFadeMode::Fade),
+    m_particlesPerSpawn(1), m_spawnInterval(0.1f), m_maxParticleCount(25), m_particleCommonRect({ 0.0f,0.0f,1.0f,1.0f }),
+    m_minSpeed(50.0f), m_maxSpeed(150.0f),
+    m_minScale(0.5f), m_maxScale(1.5f),
+    m_minAngularVelocity(-3.14159f), m_maxAngularVelocity(3.14159f), // -180° ~ +180°
+    m_emissionDirection(3.14159f * 0.5f), m_emissionAngle(3.14159f), // 기본: 위쪽 반원
+    m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false),
+    gen(rd()), dis(0.0f, 1.0f)
+{
+    // 파티클 풀 초기화 (기본 25개)
+    m_particlePool.resize(m_maxParticleCount);
+    m_activeParticles.reserve(m_maxParticleCount);
+
+    RenderManager::Get()->RegisterParticleSystem(this);
+}
+
 GOTOEngine::ParticleSystem::~ParticleSystem()
 {
     RenderManager::Get()->UnRegisterParticleSystem(this);
@@ -55,17 +72,12 @@ void GOTOEngine::ParticleSystem::SpawnSingleParticle()
     spawnPos.y += offsetY;
 
     // 랜덤 속도
-    float angle = dis(gen) * 2.0f * 3.14159f;
-    float speed = 50.0f + dis(gen) * 100.0f;
-    Vector2 velocity(
-        cos(angle) * speed,
-        sin(angle) * speed - 50.0f  // 약간 위쪽으로 편향
-    );
+    Vector2 velocity = CalculateEmissionVelocity();
 
-    // 랜덤 각속도
-    float angularVel = (dis(gen) - 0.5f) * 6.28f;
+    // 각속도 범위 내에서 랜덤 선택
+    float angularVel = m_minAngularVelocity + dis(gen) * (m_maxAngularVelocity - m_minAngularVelocity);
 
-    // 랜덤 색상
+    // 기본 색상
     Color color(
         255,
         255,
@@ -77,8 +89,8 @@ void GOTOEngine::ParticleSystem::SpawnSingleParticle()
         //255
     );
 
-    // 랜덤 스케일
-    float scale = 0.5f + dis(gen) * 1.0f;
+    // 스케일 범위 내에서 랜덤 선택
+    float scale = m_minScale + dis(gen) * (m_maxScale - m_minScale);
     Vector2 particleScale(scale, scale);
 
     // 파티클 초기화 (생명주기 = 활성 시간 + 사라지는 시간)
@@ -244,15 +256,20 @@ void GOTOEngine::ParticleSystem::Render(Matrix3x3& viewMatrix)
     }
 }
 
-GOTOEngine::ParticleSystem::ParticleSystem()
-    : m_particleLifeTime(2.0f), m_fadeOutTime(1.0f), m_fadeMode(ParticleFadeMode::Fade),
-    m_particlesPerSpawn(1), m_spawnInterval(0.1f), m_maxParticleCount(25), m_particleCommonRect({0.0f,0.0f,1.0f,1.0f}),
-    m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false),
-    gen(rd()), dis(0.0f, 1.0f)
+GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity()
 {
-    // 파티클 풀 초기화 (기본 25개)
-    m_particlePool.resize(m_maxParticleCount);
-    m_activeParticles.reserve(m_maxParticleCount);
+    float speed = m_minSpeed + dis(gen) * (m_maxSpeed - m_minSpeed);
 
-    RenderManager::Get()->RegisterParticleSystem(this);
+    // 부채꼴 각도 범위 내에서 랜덤한 방향 선택
+    float halfAngle = m_emissionAngle * 0.5f;
+    float randomAngle = m_emissionDirection + (dis(gen) - 0.5f) * m_emissionAngle;
+
+    // 각도를 제한 (부채꼴 범위 내)
+    randomAngle = Mathf::PI - Mathf::Max(m_emissionDirection - halfAngle,
+        Mathf::Min(m_emissionDirection + halfAngle, randomAngle));
+
+    return Vector2(
+        cos(randomAngle) * speed,
+        sin(randomAngle) * speed
+    );
 }

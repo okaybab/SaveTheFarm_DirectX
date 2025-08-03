@@ -260,17 +260,17 @@ namespace GOTOEngine
         switch (axis)
         {
         case GamepadAxis::LeftStickX:
-            return static_cast<float>(gamepad.sThumbLX) / 32767.0f;//std::abs(gamepad.sThumbLX) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLX) / 32767.0f;
+            return NormalizeAxisWithRaw(gamepad.sThumbLX);
         case GamepadAxis::LeftStickY:
-            return static_cast<float>(gamepad.sThumbLY) / 32767.0f;// std::abs(gamepad.sThumbLY) < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE ? 0.0f : static_cast<float>(gamepad.sThumbLY) / 32767.0f;
+            return NormalizeAxisWithRaw(gamepad.sThumbLY);
         case GamepadAxis::RightStickX:
-            return gamepad.sThumbRX;
+            return NormalizeAxisWithRaw(gamepad.sThumbRX);
         case GamepadAxis::RightStickY:
-            return gamepad.sThumbRY;
+            return NormalizeAxisWithRaw(gamepad.sThumbRY);
         case GamepadAxis::LeftTrigger:
-            return gamepad.bLeftTrigger;
+            return NormalizeTriggerWithRaw(gamepad.bLeftTrigger);
         case GamepadAxis::RightTrigger:
-            return gamepad.bRightTrigger;
+            return NormalizeTriggerWithRaw(gamepad.bRightTrigger);
         default:
             return 0.0f;
         }
@@ -346,6 +346,15 @@ namespace GOTOEngine
         return (value < 0 ? -norm : norm);
     }
 
+    float XInputGamepadDevice::NormalizeAxisWithRaw(SHORT value) const
+    {
+        const float max = 32767.0f;
+
+        // 부호 보존
+        float norm = (std::abs(value)) / (max);
+        return (value < 0 ? -norm : norm);
+    }
+
     float XInputGamepadDevice::NormalizeTrigger(BYTE value) const
     {
         const BYTE deadzone = XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
@@ -353,6 +362,11 @@ namespace GOTOEngine
             return 0.0f;
 
         return static_cast<float>(value - deadzone) / (255.0f - deadzone);
+    }
+
+    float XInputGamepadDevice::NormalizeTriggerWithRaw(BYTE value) const
+    {
+        return static_cast<float>(value) / (255.0f);
     }
 
     float XInputGamepadDevice::GetDPadX(const XINPUT_GAMEPAD& gamepad) const
