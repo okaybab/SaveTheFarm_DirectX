@@ -18,9 +18,25 @@ void GOTOEngine::GamepadRumbleManager::Awake()
 	}
 }
 
-void GOTOEngine::GamepadRumbleManager::Play(int padID, const RumbleAnimationClip& rumbleClip, float weight)
+int GOTOEngine::GamepadRumbleManager::Play(int padID, const RumbleAnimationClip& rumbleClip, float weight)
 {
-	m_activeRumbles.emplace_back(ActiveRumble{ padID,rumbleClip,weight });
+    int currentRumbleID = m_nextRumbleID++;
+	m_activeRumbles.emplace_back(ActiveRumble{ currentRumbleID, padID,rumbleClip,weight });
+
+    return currentRumbleID;
+}
+
+void GOTOEngine::GamepadRumbleManager::Stop(int rumbleID)
+{
+    // rumbleID와 일치하는 ActiveRumble을 찾아 제거
+    auto it = std::remove_if(m_activeRumbles.begin(), m_activeRumbles.end(),
+        [rumbleID](const ActiveRumble& active) {
+            return active.rumbleID == rumbleID;
+        });
+
+    if (it != m_activeRumbles.end()) {
+        m_activeRumbles.erase(it, m_activeRumbles.end());
+    }
 }
 
 void GOTOEngine::GamepadRumbleManager::ClearFinishedClips()
@@ -63,9 +79,9 @@ void GOTOEngine::GamepadRumbleManager::Update()
         float currentLeft = active.clip.leftMotorCurve.Evaluate(clampedTime);
 
         // 4. 가중치를 곱해 최종 값에 더하기
-        finalRightMotor[active.id] += Mathf::Clamp01(currentRight) * currentWeight;
-        finalLeftMotor[active.id] += Mathf::Clamp01(currentLeft) * currentWeight;
-        totalWeight[active.id] += currentWeight;
+        finalRightMotor[active.padID] += Mathf::Clamp01(currentRight) * currentWeight;
+        finalLeftMotor[active.padID] += Mathf::Clamp01(currentLeft) * currentWeight;
+        totalWeight[active.padID] += currentWeight;
     }
 
     ClearFinishedClips();
