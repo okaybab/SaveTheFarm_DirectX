@@ -91,7 +91,6 @@ namespace GOTOEngine
         int m_particlesPerSpawn;                     // 한번에 등장할 파티클 수
         float m_spawnInterval;                       // 파티클 생성 주기
         int m_maxParticleCount;                      // 최대 파티클 수
-        Rect m_particleCommonRect;                   // 공용 파티클 Rect
         Sprite* m_particleCommonSprite;
         
         // 물리 설정
@@ -136,11 +135,16 @@ namespace GOTOEngine
         void ApplyFadeEffect(Particle& particle);
         void Render(Matrix3x3& viewMatrix) override;
 
+        void RenderWithRect(Matrix3x3& viewMatrix);
+        void RenderWithSprite(Matrix3x3& viewMatrix);
+
         // 부채꼴 방출 속도 계산
         Vector2 CalculateEmissionVelocity();
 
 	public:
         ParticleSystem();
+
+        void Dispose() override { if (IsValidObject(m_particleCommonSprite) && !m_particleCommonSprite->IsDestroyed()) { m_particleCommonSprite->DecreaseRefCount(); m_particleCommonSprite = nullptr; } }
 
         // 파티클 시스템 재생 시작
         void Play()
@@ -192,6 +196,11 @@ namespace GOTOEngine
         void SetMaxSpeed(float speed) { m_maxSpeed = speed; }
         float GetMinSpeed() const { return m_minSpeed; }
         float GetMaxSpeed() const { return m_maxSpeed; }
+
+        void SetMinScale(float scale) { m_minScale = scale; }
+        void SetMaxScale(float scale) { m_maxScale = scale; }
+        float GetMinScale() const { return m_minScale; }
+        float GetMaxScale() const { return m_maxScale; }
 
         // 각속도 범위 설정
         void SetAngularVelocityRange(float minAngular, float maxAngular)
@@ -291,9 +300,6 @@ namespace GOTOEngine
             m_activeParticles.reserve(count);
         }
         int GetMaxParticleCount() const { return m_maxParticleCount; }
-
-        const Rect& GetParticleCommonRect() const { return m_particleCommonRect; }
-        void  SetParticleCommonRect(const Rect& rect) { m_particleCommonRect = rect; }
 
         void SetGravity(const Vector2& g) { m_gravity = g; }
         Vector2 GetGravity() const { return m_gravity; }

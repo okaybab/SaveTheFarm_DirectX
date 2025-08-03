@@ -71,14 +71,12 @@ bool D2DRenderAPI::Initialize(IWindow* window)
 
 	m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_solidColorBrush);
 
-	m_pGpuResourcesMap = new std::unordered_map<std::wstring, ComPtr<ID2D1Bitmap1>>();
-
+	m_d2dContext->CreateSpriteBatch(m_spriteBatch.GetAddressOf());
 	return true;
 }
 
 void D2DRenderAPI::Release()
 {
-	delete m_pGpuResourcesMap;
 	if (m_defaultFont)
 		delete m_defaultFont;
 
@@ -90,7 +88,6 @@ void D2DRenderAPI::Release()
 	m_renderTarget = nullptr;
 	m_d2dFactory = nullptr;
 	m_solidColorBrush = nullptr;
-	m_pGpuResourcesMap = nullptr;
 }
 
 void D2DRenderAPI::ChangeBufferSize(int newWidth, int newHeight)
@@ -145,7 +142,7 @@ void D2DRenderAPI::Clear()
 	m_d2dContext->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 }
 
-void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Matrix3x3& mat, const Rect& destRect, const Rect& sourceRect, TextureFiltering filter, bool useScreenPos)
+void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Matrix3x3& mat, const Rect& destRect, const Rect& sourceRect, Color color, TextureFiltering filter, bool useScreenPos)
 {
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
@@ -224,7 +221,7 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 	m_d2dContext->DrawBitmap(
 		d2dBitmap,
 		&dstRect,
-		1.0f, // 불투명도
+		static_cast<float>(color.A / 255), // 불투명도
 		mode,
 		&srcRect
 	);
@@ -335,6 +332,82 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 	else {
 		m_d2dContext->DrawRectangle(dstRect, m_solidColorBrush.Get());
 	}
+}
+
+void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter, bool useScreenPos)
+{
+	m_d2dContext->SetTransform(D2D1::IdentityMatrix());
+
+	D2D1_ANTIALIAS_MODE originalAntialiasMode = m_d2dContext->GetAntialiasMode();
+	m_d2dContext->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+	m_spriteBatch->Clear();
+
+	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
+
+	std::vector<D2D1_RECT_F> d2dDestRects(count);
+	std::vector<D2D1_RECT_U> d2dSrcRects(count);
+	std::vector<D2D1_COLOR_F> d2dColors(count);
+	std::vector<D2D1_MATRIX_3X2_F> d2dTransforms(count);
+
+	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
+	float screenHeight = static_cast<float>(m_window->GetHeight());
+
+	for (size_t i = 0; i < count; ++i)
+	{
+		d2dTransforms[i] = ConvertToD2DMatrix(mats[i]);
+
+		if (useScreenPos)
+		{
+			d2dDestRects[i] = D2D1::RectF(
+				destRect.x,
+				(screenHeight - destRect.y - destRect.height),
+				(destRect.x + destRect.width),
+				(screenHeight - destRect.y)
+			);
+		}
+		else
+		{
+			d2dDestRects[i] = D2D1::RectF(
+				0,
+				0,
+				destRect.width,
+				destRect.height
+			);
+		}
+
+
+		d2dSrcRects[i] = D2D1::RectU(
+			(UINT32)sourceRect.x,
+			(UINT32)d2dDestY,
+			(UINT32)(sourceRect.x + sourceRect.width),
+			(UINT32)(d2dDestY + sourceRect.height)
+		);
+
+		d2dColors[i] = D2D1::ColorF(static_cast<float>(colors[i].R / 255.0f), static_cast<float>(colors[i].G / 255.0f), static_cast<float>(colors[i].B / 255.0f), static_cast<float>(colors[i].A / 255.0f));
+
+	}
+
+	m_spriteBatch->AddSprites(count, d2dDestRects.data(), d2dSrcRects.data(), d2dColors.data(), d2dTransforms.data());
+	D2D1_BITMAP_INTERPOLATION_MODE mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
+
+	switch (filter)
+	{
+	case TextureFiltering::Nearest:
+		mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;
+		break;
+	case TextureFiltering::Linear:
+		mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
+		break;
+	}
+
+	m_d2dContext->DrawSpriteBatch(
+		m_spriteBatch.Get(),
+		0, count,
+		d2dBitmap,
+		mode,
+		D2D1_SPRITE_OPTIONS_NONE);
+
+	m_d2dContext->SetAntialiasMode(originalAntialiasMode);
 }
 
 void D2DRenderAPI::SetViewport(Rect rect)

@@ -33,9 +33,10 @@ namespace GOTOEngine
 		Sprite* m_sprite;
 		bool m_flipX;
 		bool m_flipY;
+		Color m_color;
 		void Render(Matrix3x3& viewMatrix) override;
 	public:
-		SpriteRenderer(): m_sprite(nullptr), m_flipX(false), m_flipY(false) {}
+		SpriteRenderer(): m_sprite(nullptr), m_flipX(false), m_flipY(false), m_color({255,255,255,255}) {}
 		void SetSprite(Sprite* sprite);
 		void SetSprite(Sprite* sprite, Rect srcRect);
 
@@ -46,6 +47,9 @@ namespace GOTOEngine
 		bool GetFlipY() const { return m_flipY; }
 		void SetFlipX(bool value) { m_flipX = value; }
 		void SetFlipY(bool value) { m_flipY = value; }
+
+		void SetColor(const Color& color) { m_color = color; }
+		const Color& GetColor() const { return m_color; }
 
 		void Dispose() override { if (IsValidObject(m_sprite) && !m_sprite->IsDestroyed()) { m_sprite->DecreaseRefCount(); m_sprite = nullptr; } }
 		Sprite* GetSprite() { return m_sprite; } //참조 카운트 명시적으로 설정하기

@@ -40,7 +40,7 @@ void GOTOEngine::SpriteRenderer::Render(Matrix3x3& matrix)
             break;
         }
 
-        renderAPI->DrawBitmap(bitmap, transform, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, filter, false);
+        renderAPI->DrawBitmap(bitmap, transform, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, m_color, filter, false);
     }
 }
 

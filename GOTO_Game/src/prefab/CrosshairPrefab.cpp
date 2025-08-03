@@ -29,9 +29,11 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
 	auto particleSys = GO->AddComponent<ParticleSystem>();
 	particleSys->SetRenderLayer((1 << (id + 1)));
-	particleSys->SetParticleCommonRect({ 0,0,24.0f,24.0f });
+	particleSys->SetRenderOrder(2);
 	particleSys->SetFadeOutTime(0.3f);
-	particleSys->SetFadeMode(ParticleFadeMode::Shrink);
+	if(id == 0)
+		particleSys->SetFadeMode(ParticleFadeMode::Shrink);
+	particleSys->SetSprite(L"../Resources/Mushroom.png");
 	particleSys->Play();
 
 	return GO;

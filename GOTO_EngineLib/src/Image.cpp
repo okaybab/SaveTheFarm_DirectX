@@ -33,7 +33,7 @@ void GOTOEngine::Image::Render()
             filter = TextureFiltering::Linear;
             break;
         }
-        renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(),filter, true);
+        renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(),m_color,filter, true);
     }
 }
 

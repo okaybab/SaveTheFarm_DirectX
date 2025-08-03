@@ -3,15 +3,17 @@
 #include "Transform.h"
 #include "TimeManager.h"
 #include "IRenderAPI.h"
+#include "Sprite.h"
+#include "Texture2D.h"
 
 GOTOEngine::ParticleSystem::ParticleSystem()
     : m_particleLifeTime(2.0f), m_fadeOutTime(1.0f), m_fadeMode(ParticleFadeMode::Fade),
-    m_particlesPerSpawn(1), m_spawnInterval(0.1f), m_maxParticleCount(25), m_particleCommonRect({ 0.0f,0.0f,1.0f,1.0f }),
+    m_particlesPerSpawn(1), m_spawnInterval(0.1f), m_maxParticleCount(25),
     m_minSpeed(50.0f), m_maxSpeed(150.0f),
     m_minScale(0.5f), m_maxScale(1.5f),
     m_minAngularVelocity(-3.14159f), m_maxAngularVelocity(3.14159f), // -180° ~ +180°
     m_emissionDirection(3.14159f * 0.5f), m_emissionAngle(3.14159f), // 기본: 위쪽 반원
-    m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false),
+    m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false), m_particleCommonSprite(nullptr),
     gen(rd()), dis(0.0f, 1.0f)
 {
     // 파티클 풀 초기화 (기본 25개)
@@ -221,6 +223,19 @@ void GOTOEngine::ParticleSystem::Render(Matrix3x3& viewMatrix)
 {
     if (!GetEnabled() || m_activeParticles.empty()) return;
 
+    if (IsValidObject(m_particleCommonSprite)
+        && !m_particleCommonSprite->IsDestroyed())
+    {
+        RenderWithSprite(viewMatrix);
+    }
+    else
+    {
+        RenderWithRect(viewMatrix);
+    }
+}
+
+void GOTOEngine::ParticleSystem::RenderWithRect(Matrix3x3& viewMatrix)
+{
     auto renderAPI = GetRenderAPIFromManager();
     if (!renderAPI) return;
 
@@ -231,7 +246,7 @@ void GOTOEngine::ParticleSystem::Render(Matrix3x3& viewMatrix)
         if (!particle->IsAlive()) continue;
 
         //피벗 이동
-        auto transform = Matrix3x3::Translate(m_particleCommonRect.width * -0.5f, m_particleCommonRect.width * -0.5f);
+        auto transform = Matrix3x3::Translate(-0.5f, -0.5f);
 
         //유니티 좌표계 플립
         transform = Matrix3x3::Scale(1.0f, -1.0f) * transform;
@@ -247,13 +262,63 @@ void GOTOEngine::ParticleSystem::Render(Matrix3x3& viewMatrix)
         transform = viewMatrix * transform;
 
         renderAPI->DrawRect(
-            m_particleCommonRect,
+            {0,0,1,1},
             true,               // 채워진 사각형
             transform,
             particle->color,
             false               // useScreenPos = false
         );
     }
+}
+
+void GOTOEngine::ParticleSystem::RenderWithSprite(Matrix3x3& viewMatrix)
+{
+    auto renderAPI = GetRenderAPIFromManager();
+    if (!renderAPI) return;
+
+    auto bitmap = m_particleCommonSprite->m_texture->GetBitmap();
+
+    auto spriteRect = m_particleCommonSprite->GetRect();
+
+    std::vector<Matrix3x3> mats;
+    std::vector<Color> colors;
+
+    TextureFiltering filter = TextureFiltering::Nearest;
+    switch (m_particleCommonSprite->m_texture->GetRenderMode())
+    {
+    case TextureRenderMode::Point:
+        filter = TextureFiltering::Nearest;
+        break;
+    case TextureRenderMode::Bilinear:
+        filter = TextureFiltering::Linear;
+        break;
+    }
+
+    for (const auto* particle : m_activeParticles)
+    {
+        if (!particle->IsAlive()) continue;
+
+        //피벗 이동
+        auto transform = Matrix3x3::Translate(spriteRect.width * -m_particleCommonSprite->GetPivotX(), spriteRect.height * m_particleCommonSprite->GetPivotY() - spriteRect.height);
+
+        //유니티 좌표계 플립
+        transform = Matrix3x3::Scale(1.0f, -1.0f) * transform;
+
+        ////TRS 세팅
+        transform = Matrix3x3::TRS(
+            particle->position,
+            particle->rotation, // degree를 radian으로 변환
+            particle->scale
+        ) * transform;
+
+        ////유니티 좌표계 매트릭스 적용
+        transform = viewMatrix * transform;
+
+        mats.emplace_back(transform);
+        colors.emplace_back(particle->color);
+    }
+
+    renderAPI->DrawSpriteBatch(bitmap, m_activeParticles.size(), mats, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, colors, filter, false);
 }
 
 GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity()
