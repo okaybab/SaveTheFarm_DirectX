@@ -39,6 +39,17 @@ namespace GOTOEngine
         void DrawString(const wchar_t* string, const Rect& rect, const IRenderFont* font, size_t size, const IRenderFontStyle& fontStyle, Color color, const Matrix3x3& mat, int hAlignment, int vAlignment, bool useScreenPos) override;
         void DrawRect(const Rect& rect, bool fill, const Matrix3x3& mat, Color color, bool useScreenPos) override;
         void DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter, bool useScreenPos) override;
+        void DrawRadialFillBitmap(
+            const IRenderBitmap* bitmap,
+            const Matrix3x3& mat,
+            const Rect& destRect,
+            const Rect& sourceRect,
+            float fillAmount,
+            float startAngle,
+            bool clockwise,
+            Color color,
+            TextureFiltering filter,
+            bool useScreenPos) override;
 
         void SetViewport(Rect rect) override;
         void ResetViewport() override;

@@ -28,7 +28,7 @@ namespace GOTOEngine
 
 	class SpriteRenderer : public Renderer
 	{
-	private:
+	protected:
 		friend class RenderManager;
 		Sprite* m_sprite;
 		bool m_flipX;

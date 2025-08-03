@@ -9,6 +9,7 @@ namespace GOTOEngine
 	{
 	private:
 		friend class SpriteRenderer;
+		friend class RadialSpriteRenderer;
 		friend class ParticleSystem;
 		friend class ResourceManager;
 		Texture2D* m_texture;

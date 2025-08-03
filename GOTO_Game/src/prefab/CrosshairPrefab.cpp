@@ -5,6 +5,7 @@
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
+#include <RadialSpriteRenderer.h>
 #include <Collider2D.h>
 #include <ParticleSystem.h>
 

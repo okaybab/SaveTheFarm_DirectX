@@ -543,6 +543,170 @@ IRenderFont* GOTOEngine::D2DRenderAPI::CreateRenderFontFromFilePath(std::wstring
 	return d2dFont;
 }
 
+void D2DRenderAPI::DrawRadialFillBitmap(
+	const IRenderBitmap* bitmap,
+	const Matrix3x3& mat,
+	const Rect& destRect,
+	const Rect& sourceRect,
+	float fillAmount,
+	float startAngle,
+	bool clockwise,
+	Color color,
+	TextureFiltering filter,
+	bool useScreenPos)
+{
+	if (!bitmap || fillAmount <= 0.0f) return;
+
+	// fillAmount를 0~1로 클램프
+	fillAmount = max(0.0f, min(1.0f, fillAmount));
+
+	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
+	auto d2dTransform = ConvertToD2DMatrix(mat);
+	float screenHeight = static_cast<float>(m_window->GetHeight());
+
+	// 원형 중심점과 반지름 계산
+	float centerX = destRect.width * 0.5f;
+	float centerY = destRect.height * 0.5f;
+	float radius = min(destRect.width, destRect.height) * 0.5f;
+
+	// 각도를 라디안으로 변환 (startAngle은 도 단위, 0 = 위쪽)
+	float startRad = (startAngle - 90.0f) * (M_PI / 180.0f);
+	float sweepAngle = 360.0f * fillAmount;
+	if (!clockwise) sweepAngle = -sweepAngle;
+	float endRad = startRad + (sweepAngle * M_PI / 180.0f);
+
+	// 기하학적 경로 생성
+	ComPtr<ID2D1PathGeometry> pathGeometry;
+	ComPtr<ID2D1GeometrySink> geometrySink;
+
+	HRESULT hr = m_d2dFactory->CreatePathGeometry(&pathGeometry);
+	if (FAILED(hr)) return;
+
+	hr = pathGeometry->Open(&geometrySink);
+	if (FAILED(hr)) return;
+
+	if (fillAmount >= 1.0f)
+	{
+		// 완전한 원
+		D2D1_POINT_2F startPoint = {
+			centerX + radius * cosf(startRad),
+			centerY + radius * sinf(startRad)
+		};
+
+		geometrySink->BeginFigure(startPoint, D2D1_FIGURE_BEGIN_FILLED);
+
+		D2D1_ARC_SEGMENT arc = {
+			startPoint,
+			D2D1::SizeF(radius, radius),
+			0.0f,
+			D2D1_SWEEP_DIRECTION_CLOCKWISE,
+			D2D1_ARC_SIZE_LARGE
+		};
+		geometrySink->AddArc(&arc);
+		geometrySink->EndFigure(D2D1_FIGURE_END_CLOSED);
+	}
+	else
+	{
+		// 부채꼴
+		D2D1_POINT_2F startPoint = {
+			centerX + radius * cosf(startRad),
+			centerY + radius * sinf(startRad)
+		};
+
+		D2D1_POINT_2F endPoint = {
+			centerX + radius * cosf(endRad),
+			centerY + radius * sinf(endRad)
+		};
+
+		geometrySink->BeginFigure(D2D1::Point2F(centerX, centerY), D2D1_FIGURE_BEGIN_FILLED);
+		geometrySink->AddLine(startPoint);
+
+		float sweepAngleAbs = abs(sweepAngle * M_PI / 180.0f);
+		D2D1_ARC_SEGMENT arc = {
+			endPoint,
+			D2D1::SizeF(radius, radius),
+			0.0f,
+			clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE,
+			(sweepAngleAbs > M_PI) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL
+		};
+		geometrySink->AddArc(&arc);
+		geometrySink->AddLine(D2D1::Point2F(centerX, centerY));
+		geometrySink->EndFigure(D2D1_FIGURE_END_CLOSED);
+	}
+
+	hr = geometrySink->Close();
+	if (FAILED(hr)) return;
+
+	// Layer를 사용하여 클리핑 마스크 적용
+	ComPtr<ID2D1Layer> layer;
+	hr = m_d2dContext->CreateLayer(&layer);
+	if (FAILED(hr)) return;
+
+	// 목적지 사각형 설정
+	D2D1_RECT_F dstRect;
+	if (useScreenPos)
+	{
+		dstRect = D2D1::RectF(
+			destRect.x,
+			(screenHeight - destRect.y - destRect.height),
+			(destRect.x + destRect.width),
+			(screenHeight - destRect.y)
+		);
+	}
+	else
+	{
+		dstRect = D2D1::RectF(0, 0, destRect.width, destRect.height);
+	}
+
+	// 소스 사각형 설정
+	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
+	D2D1_RECT_F srcRect = D2D1::RectF(
+		sourceRect.x,
+		d2dDestY,
+		sourceRect.x + sourceRect.width,
+		d2dDestY + sourceRect.height
+	);
+
+	// 필터링 모드 설정
+	D2D1_BITMAP_INTERPOLATION_MODE mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
+	switch (filter)
+	{
+	case TextureFiltering::Nearest:
+		mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;
+		break;
+	case TextureFiltering::Linear:
+		mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
+		break;
+	}
+
+	// 변환 행렬 적용 및 레이어로 클리핑하여 그리기
+	m_d2dContext->SetTransform(d2dTransform);
+
+	m_d2dContext->PushLayer(
+		D2D1::LayerParameters(
+			D2D1::InfiniteRect(),
+			pathGeometry.Get(),
+			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+			D2D1::IdentityMatrix(),
+			static_cast<float>(color.A) / 255.0f,
+			nullptr,
+			D2D1_LAYER_OPTIONS_NONE
+		),
+		layer.Get()
+	);
+
+	// 이미지 그리기
+	m_d2dContext->DrawBitmap(
+		d2dBitmap,
+		&dstRect,
+		static_cast<float>(color.A) / 255.0f,
+		mode,
+		&srcRect
+	);
+
+	m_d2dContext->PopLayer();
+}
+
 IRenderFont* GOTOEngine::D2DRenderAPI::CreateRenderFontFromOS(std::wstring fontName)
 {
 	IDWriteFactory* dwriteFactory = DWriteHelper::GetFactory();
