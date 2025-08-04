@@ -3,6 +3,7 @@
 #include "CameraShaker.h"
 #include "BaseEnemyObject.h"
 #include "EnemySpawner.h"
+#include "SoundManager.h"
 
 using namespace GOTOEngine;
 
@@ -195,6 +196,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			else if (p1count >= 7) {
 				GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
 			}
+			SoundManager::instance->PlaySFX("Bomb");
 		}
 		else {
 			//P2의 동물리스트 내부 객체 카운트
@@ -225,6 +227,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			else if (p2count >= 7) {
 				GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
 			}
+			SoundManager::instance->PlaySFX("Bomb");
 		}
 		break;
 	case ItemType::Icebomb:
@@ -244,7 +247,7 @@ void ItemManager::UseItem(int player, ItemType item)
 				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
-
+			SoundManager::instance->PlaySFX("IceBomb");
 			p1IceTimer = timelimit;
 		}
 		else {
@@ -264,17 +267,19 @@ void ItemManager::UseItem(int player, ItemType item)
 				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
-
+			SoundManager::instance->PlaySFX("IceBomb");
 			p2IceTimer = timelimit;
 		}
 		break;
 	case ItemType::Ticket:
 		if (player == 1) {
 			GameManager::instance->P1Bonus = 2;
+			SoundManager::instance->PlaySFX("GoldenTicket");
 			p1TicketTimer = timelimit;
 		}
 		else {
 			GameManager::instance->P2Bonus = 2;
+			SoundManager::instance->PlaySFX("GoldenTicket");
 			p2TicketTimer = timelimit;
 		}
 		break;
