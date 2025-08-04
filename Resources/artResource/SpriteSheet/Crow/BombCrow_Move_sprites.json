@@ -1,11 +1,11 @@
 {
-    "texture": "BomCrow_Move.png",
+    "texture": "BombCrow_Move.png",
     "textureWidth": 4170,
     "textureHeight": 2644,
     "textureRenderMode": "Bilinear",
     "sprites": [
         {
-            "name": "BomCrow_Move_0",
+            "name": "BombCrow_Move_0",
             "x": 137.0,
             "y": 1992.0,
             "width": 615.0,
@@ -14,7 +14,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_1",
+            "name": "BombCrow_Move_1",
             "x": 973.0,
             "y": 1996.0,
             "width": 659.0,
@@ -23,7 +23,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_2",
+            "name": "BombCrow_Move_2",
             "x": 1732.0,
             "y": 1999.0,
             "width": 761.0,
@@ -32,7 +32,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_3",
+            "name": "BombCrow_Move_3",
             "x": 2508.0,
             "y": 2003.0,
             "width": 825.0,
@@ -41,7 +41,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_4",
+            "name": "BombCrow_Move_4",
             "x": 3346.0,
             "y": 2008.0,
             "width": 820.0,
@@ -50,7 +50,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_5",
+            "name": "BombCrow_Move_5",
             "x": 105.0,
             "y": 1351.0,
             "width": 695.0,
@@ -59,7 +59,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_6",
+            "name": "BombCrow_Move_6",
             "x": 981.0,
             "y": 1356.0,
             "width": 586.0,
@@ -68,7 +68,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_7",
+            "name": "BombCrow_Move_7",
             "x": 1817.0,
             "y": 1359.0,
             "width": 556.0,
@@ -77,7 +77,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_8",
+            "name": "BombCrow_Move_8",
             "x": 2653.0,
             "y": 1359.0,
             "width": 594.0,
@@ -86,7 +86,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_9",
+            "name": "BombCrow_Move_9",
             "x": 3422.0,
             "y": 1360.0,
             "width": 727.0,
@@ -95,7 +95,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_10",
+            "name": "BombCrow_Move_10",
             "x": 0.0,
             "y": 701.0,
             "width": 832.0,
@@ -104,7 +104,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_11",
+            "name": "BombCrow_Move_11",
             "x": 866.0,
             "y": 695.0,
             "width": 791.0,
@@ -113,7 +113,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_12",
+            "name": "BombCrow_Move_12",
             "x": 1819.0,
             "y": 691.0,
             "width": 616.0,
@@ -122,7 +122,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_13",
+            "name": "BombCrow_Move_13",
             "x": 2655.0,
             "y": 688.0,
             "width": 551.0,
@@ -131,7 +131,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_14",
+            "name": "BombCrow_Move_14",
             "x": 3486.0,
             "y": 688.0,
             "width": 556.0,
@@ -140,7 +140,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_15",
+            "name": "BombCrow_Move_15",
             "x": 147.0,
             "y": 26.0,
             "width": 614.0,
@@ -149,7 +149,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_16",
+            "name": "BombCrow_Move_16",
             "x": 896.0,
             "y": 25.0,
             "width": 759.0,
@@ -158,7 +158,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_17",
+            "name": "BombCrow_Move_17",
             "x": 1680.0,
             "y": 25.0,
             "width": 819.0,
@@ -167,7 +167,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_18",
+            "name": "BombCrow_Move_18",
             "x": 2560.0,
             "y": 21.0,
             "width": 765.0,
@@ -176,7 +176,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "BomCrow_Move_19",
+            "name": "BombCrow_Move_19",
             "x": 3475.0,
             "y": 15.0,
             "width": 658.0,
