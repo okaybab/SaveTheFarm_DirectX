@@ -13,24 +13,27 @@ void SoundManager::Awake() {
 		Destroy(GetGameObject());
 	}
 	//경로 지정 및 리스트에 추가
-	sfxClips["Bomb"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Bomb_sound.wav");
-	sfxClips["Bomb"]->IncreaseRefCount();
-	sfxClips["Button"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Button_sound.wav");
-	sfxClips["Button"]->IncreaseRefCount();
-	sfxClips["Getitem"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Getitem_sound.wav");
-	sfxClips["Getitem"]->IncreaseRefCount();
-	sfxClips["GoldenTicket"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/GoldenTicket_sound.wav");
-	sfxClips["GoldenTicket"]->IncreaseRefCount();
-	sfxClips["Hit"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Hit_sound.wav");
-	sfxClips["Hit"]->IncreaseRefCount();
-	sfxClips["IceBomb"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/IceBomb_sound.mp3");
-	sfxClips["IceBomb"]->IncreaseRefCount();
-	sfxClips["Shot1P"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Shot1P_sound.wav");
-	sfxClips["Shot1P"]->IncreaseRefCount();
-	sfxClips["Shot2P"] = Resource::Load<AudioClip>(L"../Resources/Sound/Sound effect/Shot2P_sound.wav");
-	sfxClips["Shot2P"]->IncreaseRefCount();
-	sfxSource->SetLoop(false);
-	sfxSource->SetVolume(sfxVolume);
+	std::vector<std::pair<std::string, std::wstring>> sfxList = {
+		{"Bomb", L"../Resources/Sound/Sound effect/Bomb_sound.wav"},
+		{"Button", L"../Resources/Sound/Sound effect/Button_sound.wav"},
+		{"Getitem", L"../Resources/Sound/Sound effect/Getitem_sound.wav"},
+		{"GoldenTicket", L"../Resources/Sound/Sound effect/GoldenTicket_sound.wav"},
+		{"Hit", L"../Resources/Sound/Sound effect/Hit_sound.wav"},
+		{"IceBomb", L"../Resources/Sound/Sound effect/IceBomb_sound.mp3"},
+		{"Shot1P", L"../Resources/Sound/Sound effect/Shot1P_sound.wav"},
+		{"Shot2P", L"../Resources/Sound/Sound effect/Shot2P_sound.wav"}
+	};
+
+	for (const auto& [key, path] : sfxList) {
+		auto clip = Resource::Load<AudioClip>(path.c_str());
+		clip->IncreaseRefCount();
+		sfxClips[key] = clip;
+
+		AudioSource* source = new AudioSource;
+		source->SetLoop(false);
+		source->SetVolume(sfxVolume);
+		sfxSources[key] = source;
+	}
 	bgmSource->SetLoop(true);
 	bgmSource->SetVolume(bgmVolume);
 }
@@ -56,7 +59,9 @@ float SoundManager::GetbgmVolume() {
 
 void SoundManager::SetSFXVolume(float volume) {
 	sfxVolume = volume;
-	sfxSource->SetVolume(sfxVolume);
+	for (auto& [key, source] : sfxSources) {
+		source->SetVolume(sfxVolume);
+	}
 }
 void SoundManager::SetBGMVolume(float volume) {
 	bgmVolume = volume;
@@ -64,10 +69,11 @@ void SoundManager::SetBGMVolume(float volume) {
 }
 
 void SoundManager::PlaySFX(const std::string& key) {
-	auto it = sfxClips.find(key);
-	if (it != sfxClips.end()) {
-		sfxSource->SetClip(it->second);
-		sfxSource->Play();
+	auto clipIt = sfxClips.find(key);
+	auto sourceIt = sfxSources.find(key);
+	if (clipIt != sfxClips.end() && sourceIt != sfxSources.end()) {
+		sourceIt->second->SetClip(clipIt->second);
+		sourceIt->second->Play();
 	}
 };
 
