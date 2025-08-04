@@ -14,14 +14,14 @@ namespace GOTOEngine
     class MoveParabolic : public BaseMovement
     {
     private:
-        float m_height = 50.0f;     // 포물선의 높이각도
+        float m_height = 50.0f;         // 포물선의 높이각도
         float m_maxX;
         float m_minX;
 
         // PATH 일 때, 이전 프레임 위치 기억변수
         Vector2 m_startPos;
         Vector2 m_endPos;
-        float m_progress = 0.0f;     // 포물선 진행도 (0.0 ~ 1.0)
+        float m_progress = 0.0f;        // 포물선 진행도 (0.0 ~ 1.0)
 
         bool m_flipXY;
 
@@ -33,6 +33,16 @@ namespace GOTOEngine
         {
             m_maxX = _max;
             m_minX = _min;
+        }
+        void Initialize(int moveFlag, Vector2 initialPos) override
+        {
+            __super::Initialize(moveFlag, initialPos);
+
+            if (m_role == E_Move_Role::PATH)
+            {
+                m_startPos = Vector2(m_minX * m_flipDirection, initialPos.y);
+                m_endPos = Vector2(m_maxX * m_flipDirection, initialPos.y);
+            }
         }
         void Awake() override
         {
@@ -48,14 +58,6 @@ namespace GOTOEngine
             else // 1000 or 1011
             {
                 m_role = E_Move_Role::PATH;
-            }
-
-            if (m_role == E_Move_Role::PATH)
-            {
-                Vector2 curPos = GetGameObject()->GetTransform()->GetPosition();
-                //std::cout << "curpPos Y ::" << curPos.y << std::endl;
-                m_startPos = Vector2(m_minX * m_flipDirection, curPos.y);
-                m_endPos = Vector2(m_maxX * m_flipDirection, curPos.y);
             }
 
             m_moveSpeed = 2.0f;

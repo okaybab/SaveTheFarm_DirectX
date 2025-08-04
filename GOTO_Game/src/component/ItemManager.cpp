@@ -3,6 +3,7 @@
 #include "CameraShaker.h"
 #include "BaseEnemyObject.h"
 #include "EnemySpawner.h"
+#include "SoundManager.h"
 
 using namespace GOTOEngine;
 
@@ -21,8 +22,20 @@ void ItemManager::Awake() {
 	auto canvas = GameObject::Find(L"Canvas");
 	// 이미지 간격 및 기본 위치 설정
 	float spacing = 100.0f;
-	Vector2 p1StartPos = { Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.2f };
-	Vector2 p2StartPos = { Screen::GetWidth() * 0.55f, Screen::GetHeight() * 0.2f };
+	Vector2 p1StartPos = { Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.06f };
+	Vector2 p2StartPos = { Screen::GetWidth() * 0.55f, Screen::GetHeight() * 0.06f };
+	auto p1itembar = new GameObject;
+	p1itembar->GetTransform()->SetParent(canvas->GetTransform());
+	itembar1 = p1itembar->AddComponent<Image>();
+	itembar1->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.02f, Screen::GetHeight() * 0.05f });
+	itembar1->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.1f });
+	itembar1->SetSprite(L"../Resources/artResource/UI/Ingame/아이템 창 UI.png");
+	auto p2itembar = new GameObject;
+	p2itembar->GetTransform()->SetParent(canvas->GetTransform());
+	itembar2 = p2itembar->AddComponent<Image>();
+	itembar2->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.52f, Screen::GetHeight() * 0.05f });
+	itembar2->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.1f });
+	itembar2->SetSprite(L"../Resources/artResource/UI/Ingame/아이템 창 UI.png");
 
 	for (int i = 0; i < 7; ++i)
 	{
@@ -195,6 +208,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			else if (p1count >= 7) {
 				GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
 			}
+			SoundManager::instance->PlaySFX("Bomb");
 		}
 		else {
 			//P2의 동물리스트 내부 객체 카운트
@@ -225,6 +239,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			else if (p2count >= 7) {
 				GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
 			}
+			SoundManager::instance->PlaySFX("Bomb");
 		}
 		break;
 	case ItemType::Icebomb:
@@ -244,7 +259,7 @@ void ItemManager::UseItem(int player, ItemType item)
 				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
-
+			SoundManager::instance->PlaySFX("IceBomb");
 			p1IceTimer = timelimit;
 		}
 		else {
@@ -264,17 +279,19 @@ void ItemManager::UseItem(int player, ItemType item)
 				Destroy(iceeffect, 5.0f);
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 			}
-
+			SoundManager::instance->PlaySFX("IceBomb");
 			p2IceTimer = timelimit;
 		}
 		break;
 	case ItemType::Ticket:
 		if (player == 1) {
 			GameManager::instance->P1Bonus = 2;
+			SoundManager::instance->PlaySFX("GoldenTicket");
 			p1TicketTimer = timelimit;
 		}
 		else {
 			GameManager::instance->P2Bonus = 2;
+			SoundManager::instance->PlaySFX("GoldenTicket");
 			p2TicketTimer = timelimit;
 		}
 		break;

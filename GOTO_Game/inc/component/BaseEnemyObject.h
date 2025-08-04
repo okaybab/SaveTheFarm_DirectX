@@ -71,7 +71,6 @@ namespace GOTOEngine
 		
 	public:
 		virtual ~BaseEnemyObject() = default;
-
 		virtual void Awake() {}
 		void Update()
 		{
@@ -150,7 +149,7 @@ namespace GOTOEngine
 
 			for (auto comp : m_movementComponents)
 			{
-				comp->Initialize(m_moveFlag);
+				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition());
 			}
 
 		}
@@ -163,7 +162,6 @@ namespace GOTOEngine
 			GetTransform()->SetPosition({ randomX, randomY });
 			// OFFSET 경로의 기준선
 			m_currentPathPosition = { randomX, randomY };
-			//std::cout << "SetPos Y ::" << m_currentPathPosition.y << std::endl;
 		}
 		void SetFlipXSprite()
 		{
