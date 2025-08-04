@@ -88,70 +88,70 @@ void GOTOEngine::EnhancedCrosshairFire::Awake()
     "keyframes": [
         {
             "time": 0.0,
-            "value": 0.45,
-            "in_tangent": -0.7006375000000012,
-            "out_tangent": -0.7006375000000012,
+            "value": 0.08,
+            "in_tangent": 0.014131470776337807,
+            "out_tangent": 0.014131470776337807,
             "tangent_mode": 1
         },
         {
-            "time": 0.69,
-            "value": 0.025,
+            "time": 0.67,
+            "value": 0.0125,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 1.155,
-            "value": 0.0225,
-            "in_tangent": 0.0,
-            "out_tangent": 0.0,
+            "time": 1.125,
+            "value": 0.0075,
+            "in_tangent": -0.025,
+            "out_tangent": -0.025,
             "tangent_mode": 1
         },
         {
-            "time": 1.2577950000000002,
-            "value": 0.21628750000000002,
+            "time": 1.265,
+            "value": 0.0525,
             "in_tangent": 0,
             "out_tangent": 0,
             "tangent_mode": 1
         },
         {
-            "time": 1.365,
-            "value": 0.0275,
+            "time": 1.385,
+            "value": 0.0075,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 1.947253,
-            "value": 0.025,
-            "in_tangent": 0.0,
-            "out_tangent": 0.0,
+            "time": 1.945,
+            "value": 0.0075,
+            "in_tangent": -0.0,
+            "out_tangent": -0.0,
             "tangent_mode": 1
         },
         {
-            "time": 2.0497400000000003,
-            "value": 0.44921250000000007,
+            "time": 2.05,
+            "value": 0.0825,
             "in_tangent": 0,
             "out_tangent": 0,
             "tangent_mode": 1
         },
         {
-            "time": 2.1595475,
-            "value": 0.025,
+            "time": 2.155,
+            "value": 0.0025,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 3.0,
-            "value": 0.025,
+            "time": 3.03,
+            "value": -0.0025,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
             "time": 5.0,
-            "value": 0.35,
+            "value": 0.1,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
@@ -314,63 +314,70 @@ void GOTOEngine::EnhancedCrosshairFire::Awake()
     "keyframes": [
         {
             "time": 0.0,
-            "value": 0.35,
+            "value": 0.08,
+            "in_tangent": 0.014131470776337807,
+            "out_tangent": 0.014131470776337807,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.67,
+            "value": 0.0125,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 0.44,
-            "value": 0.3275,
+            "time": 1.125,
+            "value": 0.0075,
+            "in_tangent": -0.025,
+            "out_tangent": -0.025,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.265,
+            "value": 0.0525,
             "in_tangent": 0,
             "out_tangent": 0,
             "tangent_mode": 1
         },
         {
-            "time": 0.58,
-            "value": 0.5675,
-            "in_tangent": 0,
-            "out_tangent": 0,
-            "tangent_mode": 1
-        },
-        {
-            "time": 0.71,
-            "value": 0.3125,
-            "in_tangent": 0,
-            "out_tangent": 0,
-            "tangent_mode": 1
-        },
-        {
-            "time": 1.21,
-            "value": 0.2925,
+            "time": 1.385,
+            "value": 0.0075,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 1.31,
-            "value": 0.3525,
+            "time": 1.945,
+            "value": 0.0075,
+            "in_tangent": -0.0,
+            "out_tangent": -0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.05,
+            "value": 0.0825,
             "in_tangent": 0,
             "out_tangent": 0,
             "tangent_mode": 1
         },
         {
-            "time": 1.415,
-            "value": 0.1075,
-            "in_tangent": 0,
-            "out_tangent": 0,
+            "time": 2.155,
+            "value": 0.0025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 1.5,
-            "value": 0.2975,
-            "in_tangent": 0,
-            "out_tangent": 0,
+            "time": 3.03,
+            "value": -0.0025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
             "tangent_mode": 1
         },
         {
-            "time": 2.0,
-            "value": 0.35,
+            "time": 5.0,
+            "value": 0.1,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
             "tangent_mode": 1
