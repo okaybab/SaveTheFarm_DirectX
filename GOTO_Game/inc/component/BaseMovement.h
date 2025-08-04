@@ -41,17 +41,22 @@ namespace GOTOEngine
         float m_minBounds = 0.0f;   // 최소 경계
         float m_maxBounds = 0.0f;   // 최대 경계
 
+        Vector2 m_initializePos;
+
     public:
     BaseMovement()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
-   
         virtual void Awake() {}
         virtual void OnDestroy() {}
 
-        void Initialize(int moveFlag) { m_flag = moveFlag; }
+        virtual void Initialize(int moveFlag, Vector2 initialPos)
+        { 
+            m_flag = moveFlag; 
+            m_initializePos = initialPos; 
+        }
 
         // Get
         int GetDirection() const { return m_flipDirection; }

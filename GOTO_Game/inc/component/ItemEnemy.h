@@ -92,7 +92,6 @@ namespace GOTOEngine
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
 			SetMovementComponents(0.15f, 0.4f);
-			//Vector2 curPos = GetGameObject()->GetTransform()->GetPosition();
 		}
 
 		void OnBulletDie() override
