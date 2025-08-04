@@ -23,13 +23,19 @@ void GameManager::Awake(){
 	auto p1scitem = new GameObject;
 	auto p2scitem = new GameObject;
 	auto timeitem = new GameObject;
+	auto p1winitem = new GameObject;
+	auto p2winitem = new GameObject;
 	P1sctext = p1scitem->AddComponent<Text>();
 	P2sctext = p2scitem->AddComponent<Text>();
 	Timetext = timeitem->AddComponent<Text>();
+	P1wintext = p1winitem->AddComponent<Text>();
+	P2wintext = p2winitem->AddComponent<Text>();
 
 	p1scitem->GetTransform()->SetParent(canvas->GetTransform());
 	p2scitem->GetTransform()->SetParent(canvas->GetTransform());
 	timeitem->GetTransform()->SetParent(canvas->GetTransform());
+	p1winitem->GetTransform()->SetParent(canvas->GetTransform());
+	p2winitem->GetTransform()->SetParent(canvas->GetTransform());
 
 	P1sctext->GetRectTransform()->SetAnchoredPosition({
 			Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.8f });
@@ -37,19 +43,29 @@ void GameManager::Awake(){
 			Screen::GetWidth() * 0.8f, Screen::GetHeight() * 0.8f });
 	Timetext->GetRectTransform()->SetAnchoredPosition({
 			Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.8f });
+	P1wintext->GetRectTransform()->SetAnchoredPosition({
+			Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.5f });
+	P2wintext->GetRectTransform()->SetAnchoredPosition({
+			Screen::GetWidth() * 0.8f, Screen::GetHeight() * 0.5f });
 
 	P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+	P1wintext->SetFont(L"../Resources/Maplestory Light.ttf");
+	P2wintext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P1sctext->SetColor({ 255,0,0,255 });
 	P2sctext->SetColor({ 255,0,0,255 });
 	Timetext->SetColor({ 255,0,0,255 });
+	P1wintext->SetColor({ 255,0,0,255 });
+	P2wintext->SetColor({ 255,0,0,255 });
 	Tutorial = new GameObject;
 	Tutorial->AddComponent<TutorialImage>();
 
 	srand(time(NULL));
 	p1itemchange = rand() % 4 + 1;
 	p2itemchange = rand() % 4 + 1;
+	P1wintext->text = std::wstring(L"");
+	P2wintext->text = std::wstring(L"");
 }
 
 void GOTOEngine::GameManager::Start()
@@ -174,7 +190,7 @@ void GameManager::Update() {
 					//p2 황금새
 					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 2);
 				}
-				ItemTiming[3] == -1.0f;
+				ItemTiming[3] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[4]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
@@ -216,15 +232,27 @@ void GameManager::Update() {
 			}
 			if (GameTimer <= 0.0f) {
 				GameTimer = 0.0f;
-				if (P1Score > P2Score) {
-					winner = 1;
-				}
-				else if (P1Score < P2Score) {
-					winner = 2;
-				}
-				else {
-					winner = 0;
-				}
+			}
+		}
+		else if (GameTimer == 0.0f) {
+			endingTimer -= TIME_GET_DELTATIME();
+			if (P1Score > P2Score) {
+				winner = 1;
+				P1wintext->text = std::wstring(L"Win");
+				P2wintext->text = std::wstring(L"Lose");
+			}
+			else if (P1Score < P2Score) {
+				winner = 2;
+				P2wintext->text = std::wstring(L"Win");
+				P1wintext->text = std::wstring(L"Lose");
+			}
+			else {
+				winner = 0;
+				P1wintext->text = std::wstring(L"Deuce");
+				P2wintext->text = std::wstring(L"Deuce");
+			}
+			if (endingTimer <= 0.0f) {
+				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}
 		P1sctext->text = std::to_wstring(P1Score);
