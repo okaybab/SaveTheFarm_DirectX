@@ -19,17 +19,40 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 {
 	auto GO = new GameObject(L"Player");
 	GO->AddComponent<CrosshairMove>()->id = id;
-	GO->AddComponent<CrosshairFire>()->id = id;
-	GO->AddComponent<CrosshairCollide>()->id = id;
+	auto crosshairFire = GO->AddComponent<CrosshairFire>();
+	crosshairFire->id = id;
+	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
+	crosshairCollide->id = id;
 	GO->layer = (1 << (id + 1)) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
 
-	auto spriteRenderer = GO->AddComponent<SpriteRenderer>();
+	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
+	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair.png" : L"../Resources/Demo/Crosshair2.png");
 	spriteRenderer->SetRenderOrder(1000 - id); // 커서가 항상 위에 보이도록 설정
 
     spriteRenderer->SetRenderLayer((1 << (id + 1)));
+	SpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(), false);
+
+	auto physAnimation = SpriteRendererGO->AddComponent<ButtonAnimation>();
+	physAnimation->scaleDamping = 16.0f;
+	physAnimation->strength = 220.0f;
+
+	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyTorque(400.0f); });
+	//crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.36f); });
+	crosshairCollide->spriteRenderer = spriteRenderer;
 
 	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+
+	auto GageGO = new GameObject(L"Croshair Gage");
+	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
+	radialRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair_gage.png" : L"../Resources/Demo/Crosshair_gage2.png");
+	radialRenderer->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+	radialRenderer->SetRenderLayer((1 << (id + 1)));
+	crosshairFire->gageSprite = radialRenderer;
+
+	GageGO->GetTransform()->SetParent(GO->GetTransform(), false);
+
+	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
 
 	return GO;
 }
@@ -42,7 +65,7 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	crosshairFire->id = id;
 	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
 	crosshairCollide->id = id;
-	GO->layer = (1 << (id + 1)) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
+	GO->layer = (1 << (id + 1)) | (1 << 0); // 레이어 설정: 1 << 1 - Player 1, 1 << 2 - Player 2 // 1 << 0 - 공통
 
 	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
 	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();

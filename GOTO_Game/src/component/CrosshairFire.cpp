@@ -5,6 +5,11 @@ int GOTOEngine::CrosshairFire::s_crosshairCount = 0;
 
 void GOTOEngine::CrosshairFire::Awake()
 {
+    if (IsValidObject(gageSprite))
+    {
+        gageSprite->SetFillAmount(0.0f);
+    }
+
 	m_collider = GetComponent<CrosshairCollide>();
 
 	if (!s_pfireRumbleClip)
@@ -137,11 +142,33 @@ void GOTOEngine::CrosshairFire::Update()
 	TriggerPressedCheckReset();
 	TriggerPressedCheck();
 
+    auto lastfireCoolDown = m_fireCooldown;
+
 	m_fireCooldown -= TIME_GET_DELTATIME();
 	m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
 
-	if (m_fireCooldown > 0.0f)
-		return;
+   
+
+    if (m_fireCooldown > 0.0f)
+    {
+        if (IsValidObject(gageSprite))
+        {
+            gageSprite->SetFillAmount((fireRate - m_fireCooldown) / fireRate);
+        }
+        return;
+    }
+    else
+    {
+        if (lastfireCoolDown > 0.0f)
+            onCharge.Invoke(id);
+
+        if (IsValidObject(gageSprite))
+        {
+            gageSprite->SetFillAmount(0.0f);
+        }
+    }
+
+    
 
 	//입력 감지: 플레이어 ID별 키 또는 버튼 입력
 	bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||

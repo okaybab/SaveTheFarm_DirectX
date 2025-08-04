@@ -6,6 +6,7 @@
 #include "IAttackAble.h"
 #include "GamepadRumbleManager.h"
 #include "RumbleAnimationClip.h"
+#include <RadialSpriteRenderer.h>
 
 namespace GOTOEngine
 {
@@ -33,6 +34,9 @@ namespace GOTOEngine
 		float fireRate = 0.5f; // 발사 간격
 		int id = 0;
 		Delegate<void,int> onFire;
+		Delegate<void,int> onCharge;
+
+		RadialSpriteRenderer* gageSprite;
 
 		void Awake();
 
