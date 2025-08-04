@@ -299,6 +299,7 @@ void ItemManager::UseItem(int player, ItemType item)
 }
 
 void ItemManager::AddItem(int player, ItemType item) {
+	SoundManager::instance->PlaySFX("Getitem");
 	if (player == 1) {
 		if (p1Items.size() < 7) {
 			p1Items.push_back(item);

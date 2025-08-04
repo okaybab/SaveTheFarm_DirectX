@@ -29,11 +29,17 @@ void SoundManager::Awake() {
 		clip->IncreaseRefCount();
 		sfxClips[key] = clip;
 
-		AudioSource* source = new AudioSource;
+		auto sfxSourceitem = new GameObject;
+		sfxSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+		AudioSource* source;
+		source = sfxSourceitem->AddComponent<AudioSource>();
 		source->SetLoop(false);
 		source->SetVolume(sfxVolume);
 		sfxSources[key] = source;
 	}
+	auto bgmSourceitem = new GameObject;
+	bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+	bgmSource = bgmSourceitem->AddComponent<AudioSource>();
 	bgmSource->SetLoop(true);
 	bgmSource->SetVolume(bgmVolume);
 }
@@ -72,6 +78,7 @@ void SoundManager::PlaySFX(const std::string& key) {
 	auto clipIt = sfxClips.find(key);
 	auto sourceIt = sfxSources.find(key);
 	if (clipIt != sfxClips.end() && sourceIt != sfxSources.end()) {
+		sourceIt->second->Stop();
 		sourceIt->second->SetClip(clipIt->second);
 		sourceIt->second->Play();
 	}
@@ -80,6 +87,7 @@ void SoundManager::PlaySFX(const std::string& key) {
 void SoundManager::PlayBGM(const std::string& key) {
 	auto it = bgmClips.find(key);
 	if (it != bgmClips.end()) {
+		bgmSource->Stop();
 		bgmSource->SetClip(it->second);
 		bgmSource->Play();
 	}
