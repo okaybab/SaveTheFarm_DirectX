@@ -2,6 +2,7 @@
 #include "CrosshairCollide.h"
 #include "CrosshairMove.h"
 #include "CrosshairFire.h"
+#include "ButtonAnimation.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -37,17 +38,29 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 {
 	auto GO = new GameObject(L"Player");
 	GO->AddComponent<CrosshairMove>()->id = id;
-	//GO->AddComponent<CrosshairFire>()->id = id;
 	auto crosshairFire = GO->AddComponent<EnhancedCrosshairFire>();
 	crosshairFire->id = id;
-	GO->AddComponent<CrosshairCollide>()->id = id;
+	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
+	crosshairCollide->id = id;
 	GO->layer = (1 << (id + 1)) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
 
-	auto spriteRenderer = GO->AddComponent<SpriteRenderer>();
+	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
+	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair.png" : L"../Resources/Demo/Crosshair2.png");
 	spriteRenderer->SetRenderOrder(1000 - id); // 커서가 항상 위에 보이도록 설정
 
 	spriteRenderer->SetRenderLayer((1 << (id + 1)));
+	SpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	
+	auto physAnimation = SpriteRendererGO->AddComponent<ButtonAnimation>();
+	physAnimation->scaleDamping = 16.0f;
+	physAnimation->strength = 220.0f;
+
+	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyTorque(80.0f * Mathf::Max(1.25f,crosshairFire->GetCurrentStrength())); });
+	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(0.56f * Mathf::Max(1.25f,crosshairFire->GetCurrentStrength())); });
+	crosshairCollide->spriteRenderer = spriteRenderer;
+
+	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
 
 	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
 
@@ -67,7 +80,10 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	//particleSys->SetFadeMode(ParticleFadeMode::Shrink);
 	particleSys->SetSprite(L"../Resources/Demo/drops.png");
 	particleSys->SetMinAngularVelocityDegrees(0.0f);
-	particleSys->SetMaxAngularVelocityDegrees(0.0f);
+	particleSys->SetMaxAngularVelocityDegrees(35.0f);
+	particleSys->SetSpawnInterval(0.65f);
+	particleSys->SetParticlesPerSpawn(2);
+	particleSys->SetGravity({ 0.0f,-450.0f });
 
 	crosshairFire->dropParticleSys = particleSys;
 

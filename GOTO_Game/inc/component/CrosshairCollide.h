@@ -17,8 +17,6 @@ namespace GOTOEngine
 		Collider2D* m_collider = nullptr;
 		std::vector<GameObject*> m_collideObjs;
 
-		SpriteRenderer* m_spriteRenderer = nullptr;
-
 		Sprite* m_crosshair1Sprite = nullptr;
 		Sprite* m_crosshairEmpty1Sprite = nullptr;
 		Sprite* m_crosshair2Sprite = nullptr;
@@ -32,6 +30,9 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
 
+
+		SpriteRenderer* spriteRenderer = nullptr;
+
 		const std::vector<GameObject*>& GetCollideObjects() const { return m_collideObjs; }
 
 		int id = 0;
@@ -39,7 +40,7 @@ namespace GOTOEngine
 		void Awake()
 		{
 			m_collider = GetComponent<Collider2D>();
-			m_spriteRenderer = GetComponent<SpriteRenderer>();
+	
 			m_crosshair1Sprite = Resource::Load<Sprite>(L"../Resources/Demo/Crosshair.png");
 			m_crosshair1Sprite->IncreaseRefCount();
 			m_crosshair2Sprite = Resource::Load<Sprite>(L"../Resources/Demo/Crosshair2.png");
@@ -48,6 +49,9 @@ namespace GOTOEngine
 			m_crosshairEmpty1Sprite->IncreaseRefCount();
 			m_crosshairEmpty2Sprite = Resource::Load<Sprite>(L"../Resources/Demo/Crosshair_empty2.png");
 			m_crosshairEmpty2Sprite->IncreaseRefCount();
+
+			if(!spriteRenderer)
+				spriteRenderer = GetComponent<SpriteRenderer>();
 		}
 
 		void OnDestroy()
@@ -93,12 +97,12 @@ namespace GOTOEngine
 
 			if (m_collideObjs.size() != 0)
 			{
-				m_spriteRenderer->SetSprite(
+				spriteRenderer->SetSprite(
 					id == 0 ? m_crosshair1Sprite : m_crosshair2Sprite);
 			}
 			else
 			{
-				m_spriteRenderer->SetSprite(
+				spriteRenderer->SetSprite(
 					id == 0 ? m_crosshairEmpty1Sprite : m_crosshairEmpty2Sprite);
 			}
 		}

@@ -15,14 +15,14 @@
             "tangent_mode": 1
         },
         {
-            "time": 0.28,
-            "value": 0.4775,
+            "time": 0.275,
+            "value": 0.6875,
             "in_tangent": -0.35,
             "out_tangent": -0.35,
             "tangent_mode": 1
         },
         {
-            "time": 0.34,
+            "time": 0.43,
             "value": 0.0,
             "in_tangent": 0.0,
             "out_tangent": 0.0,
