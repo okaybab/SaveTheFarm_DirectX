@@ -72,6 +72,7 @@ void SoundManager::PlaySFX(const std::string& key) {
 	auto clipIt = sfxClips.find(key);
 	auto sourceIt = sfxSources.find(key);
 	if (clipIt != sfxClips.end() && sourceIt != sfxSources.end()) {
+		sourceIt->second->Stop();
 		sourceIt->second->SetClip(clipIt->second);
 		sourceIt->second->Play();
 	}
@@ -80,6 +81,7 @@ void SoundManager::PlaySFX(const std::string& key) {
 void SoundManager::PlayBGM(const std::string& key) {
 	auto it = bgmClips.find(key);
 	if (it != bgmClips.end()) {
+		bgmSource->Stop();
 		bgmSource->SetClip(it->second);
 		bgmSource->Play();
 	}
