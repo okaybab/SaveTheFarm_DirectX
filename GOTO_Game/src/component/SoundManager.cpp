@@ -29,11 +29,17 @@ void SoundManager::Awake() {
 		clip->IncreaseRefCount();
 		sfxClips[key] = clip;
 
-		AudioSource* source = new AudioSource;
+		auto sfxSourceitem = new GameObject;
+		sfxSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+		AudioSource* source;
+		source = sfxSourceitem->AddComponent<AudioSource>();
 		source->SetLoop(false);
 		source->SetVolume(sfxVolume);
 		sfxSources[key] = source;
 	}
+	auto bgmSourceitem = new GameObject;
+	bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+	bgmSource = bgmSourceitem->AddComponent<AudioSource>();
 	bgmSource->SetLoop(true);
 	bgmSource->SetVolume(bgmVolume);
 }
