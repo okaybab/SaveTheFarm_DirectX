@@ -113,6 +113,8 @@ void GOTOEngine::GameManager::Start()
 void GameManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+
+	EnemySpawner = nullptr;
 }
 
 void GameManager::Update() {
@@ -289,6 +291,8 @@ void GameManager::Update() {
 				P2wintext->text = std::wstring(L"Deuce");
 			}
 			if (endingTimer <= 0.0f) {
+				EnemySpawner->Setp1EnemyAllDestroy();
+				EnemySpawner->Setp2EnemyAllDestroy();
 				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}

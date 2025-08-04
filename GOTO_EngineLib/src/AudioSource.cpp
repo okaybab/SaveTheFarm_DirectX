@@ -118,9 +118,10 @@ void AudioSource::InitializeSound()
 	CleanupSound();
 
 	ma_result result = m_clip->CreateSound(&m_sound, AudioManager::Get()->GetEngine());
-
+	
 	if (result == MA_SUCCESS)
 	{
+		ma_sound_seek_to_pcm_frame(&m_sound, 0);
 		m_soundInitialized = true;
 		ApplySettings();
 
@@ -170,6 +171,8 @@ void AudioSource::Play()
 	if (m_soundInitialized)
 	{
 		ma_result result = ma_sound_start(&m_sound);
+		ma_sound_seek_to_pcm_frame(&m_sound,0);
+		
 		if (result == MA_SUCCESS)
 		{
 			m_isPlaying = true;

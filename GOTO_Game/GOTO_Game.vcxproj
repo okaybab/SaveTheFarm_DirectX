@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\scene\SampleScene.cpp" />
+    <ClCompile Include="src\component\GameManager2.cpp" />
     <ClCompile Include="src\component\EnhancedCrosshairFire.cpp" />
     <ClCompile Include="src\component\CrosshairFire.cpp" />
     <ClCompile Include="src\component\GamepadRumbleManager.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="src\component\TutorialImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\GameManager2.h" />
     <ClInclude Include="inc\component\ButtonAnimation.h" />
     <ClInclude Include="inc\component\EnhancedCrosshairFire.h" />
     <ClInclude Include="inc\component\GamepadRumbleManager.h" />

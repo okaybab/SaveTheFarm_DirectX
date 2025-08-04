@@ -31,7 +31,7 @@ namespace GOTOEngine
 		std::unordered_map<std::string, AudioClip*> sfxClips;
 		std::unordered_map<std::string, AudioClip*> bgmClips;
 		std::unordered_map<std::string, AudioSource*> sfxSources;
-		AudioSource* bgmSource = new AudioSource;
+		AudioSource* bgmSource;
 	};
 }
 
