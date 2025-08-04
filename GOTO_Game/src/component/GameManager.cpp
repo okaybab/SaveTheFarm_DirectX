@@ -20,42 +20,79 @@ void GameManager::Awake(){
 		Destroy(GetGameObject());
 	}
 	auto canvas = GameObject::Find(L"Canvas");
-	auto p1scitem = new GameObject;
-	auto p2scitem = new GameObject;
+	auto scboarditem= new GameObject;
+	scoreboard = scboarditem->AddComponent<Image>();
+	scboarditem->GetTransform()->SetParent(canvas->GetTransform());
+	scoreboard->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.9f });
+	scoreboard->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.1f });
+	scoreboard->SetSprite(L"../Resources/artResource/UI/Ingame/스코어보드, 타이머 배경.png");
+	auto timeritem = new GameObject;
+	timerscreen = timeritem->AddComponent<Image>();
+	timeritem->GetTransform()->SetParent(canvas->GetTransform());
+	timerscreen->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.47f, Screen::GetHeight() * 0.9f });
+	timerscreen->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.06f, Screen::GetHeight() * 0.1f });
+	timerscreen->SetSprite(L"../Resources/artResource/UI/Ingame/타이머 텍스트 올라가는 부분.png");
+	auto p1item = new GameObject;
+	p1score = p1item->AddComponent<Image>();
+	p1item->GetTransform()->SetParent(canvas->GetTransform());
+	p1score->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.31f, Screen::GetHeight() * 0.9f });
+	p1score->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.06f, Screen::GetHeight() * 0.1f });
+	p1score->SetSprite(L"../Resources/artResource/UI/Ingame/플레이어 스코어 텍스트 올라가는 부분.png");
+	auto p2item = new GameObject;
+	p2score = p2item->AddComponent<Image>();
+	p2item->GetTransform()->SetParent(canvas->GetTransform());
+	p2score->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.63f, Screen::GetHeight() * 0.9f });
+	p2score->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.06f, Screen::GetHeight() * 0.1f });
+	p2score->SetSprite(L"../Resources/artResource/UI/Ingame/플레이어 스코어 텍스트 올라가는 부분.png");
+
+	auto p1sctextitem = new GameObject;
+	auto p2sctextitem = new GameObject;
 	auto timeitem = new GameObject;
 	auto p1winitem = new GameObject;
 	auto p2winitem = new GameObject;
-	P1sctext = p1scitem->AddComponent<Text>();
-	P2sctext = p2scitem->AddComponent<Text>();
+	P1sctext = p1sctextitem->AddComponent<Text>();
+	P2sctext = p2sctextitem->AddComponent<Text>();
 	Timetext = timeitem->AddComponent<Text>();
 	P1wintext = p1winitem->AddComponent<Text>();
 	P2wintext = p2winitem->AddComponent<Text>();
 
-	p1scitem->GetTransform()->SetParent(canvas->GetTransform());
-	p2scitem->GetTransform()->SetParent(canvas->GetTransform());
+	p1sctextitem->GetTransform()->SetParent(canvas->GetTransform());
+	p2sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 	timeitem->GetTransform()->SetParent(canvas->GetTransform());
 	p1winitem->GetTransform()->SetParent(canvas->GetTransform());
 	p2winitem->GetTransform()->SetParent(canvas->GetTransform());
 
+	P1sctext->horizontalAlign = TextHoriAlign::Center;
+	P2sctext->horizontalAlign = TextHoriAlign::Center;
+	Timetext->horizontalAlign = TextHoriAlign::Center;
+
 	P1sctext->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.8f });
+			Screen::GetWidth() * 0.315f, Screen::GetHeight() * 0.88f });
 	P2sctext->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.8f, Screen::GetHeight() * 0.8f });
+			Screen::GetWidth() * 0.635f, Screen::GetHeight() * 0.88f });
 	Timetext->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.8f });
+			Screen::GetWidth() * 0.475f, Screen::GetHeight() * 0.88f });
 	P1wintext->GetRectTransform()->SetAnchoredPosition({
 			Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.5f });
 	P2wintext->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.8f, Screen::GetHeight() * 0.5f });
+			Screen::GetWidth() * 0.7f, Screen::GetHeight() * 0.5f });
+
+	P1sctext->size = 43;
+	P2sctext->size = 43;
+	Timetext->size = 43;
+	P1wintext->size = 100;
+	P1wintext->GetRectTransform()->SetSizeDelta({ 600, 120 });
+	P2wintext->size = 100;
+	P2wintext->GetRectTransform()->SetSizeDelta({ 600, 120 });
 
 	P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 	Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P1wintext->SetFont(L"../Resources/Maplestory Light.ttf");
 	P2wintext->SetFont(L"../Resources/Maplestory Light.ttf");
-	P1sctext->SetColor({ 255,0,0,255 });
-	P2sctext->SetColor({ 255,0,0,255 });
-	Timetext->SetColor({ 255,0,0,255 });
+	P1sctext->SetColor({ 0,0,0,255 });
+	P2sctext->SetColor({ 0,0,0,255 });
+	Timetext->SetColor({ 0,0,0,255 });
 	P1wintext->SetColor({ 255,0,0,255 });
 	P2wintext->SetColor({ 255,0,0,255 });
 	Tutorial = new GameObject;
@@ -257,7 +294,10 @@ void GameManager::Update() {
 		}
 		P1sctext->text = std::to_wstring(P1Score);
 		P2sctext->text = std::to_wstring(P2Score);
-		Timetext->text = std::to_wstring(static_cast<int>(floor(GameTimer)));
+		totalSeconds = static_cast<int>(floor(GameTimer));
+		minutes = totalSeconds / 60;
+		seconds = totalSeconds % 60;
+		Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
 	}
 	else {
 		if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
@@ -273,5 +313,3 @@ void GameManager::Update() {
 		}
 	}
 }
-
-int GOTOEngine::GameManager::winner = 0;

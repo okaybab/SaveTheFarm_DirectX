@@ -7,6 +7,7 @@
 #include <Text.h>
 #include "RectTransform.h"
 #include "Screen.h"
+#include "Image.h"
 
 namespace GOTOEngine
 {
@@ -20,6 +21,10 @@ namespace GOTOEngine
 		float GimmickTiming = 120.0f;
 		float ItemTiming[6] = { 100.0f, 80.0f, 60.0f, 40.0f, 20.0f, 10.0f };
 
+		Image* scoreboard;
+		Image* timerscreen;
+		Image* p1score;
+		Image* p2score;
 		Text* P1sctext;
 		Text* P2sctext;
 		Text* Timetext;
@@ -28,6 +33,10 @@ namespace GOTOEngine
 
 		int p1itemchange;
 		int p2itemchange;
+
+		int totalSeconds;
+		int minutes;
+		int seconds;
 
 		GameObject* Tutorial;
 		EnemySpawner* EnemySpawner;
@@ -44,7 +53,7 @@ namespace GOTOEngine
 		int P2Score = 0;
 		int P1Bonus = 1;
 		int P2Bonus = 1;
-		static int winner;
+		int winner;
 		float GameTimer = 120.0f;
 		float endingTimer = 3.0f;
 		static GameManager* instance;

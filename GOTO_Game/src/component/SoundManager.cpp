@@ -38,6 +38,12 @@ void SoundManager::Awake() {
 void SoundManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	for (auto sfxClip : sfxClips) {
+		sfxClip.second->DecreaseRefCount();
+	}
+	for (auto bgmClip : bgmClips) {
+		bgmClip.second->DecreaseRefCount();
+	}
 }
 
 float SoundManager::GetsfxVolume() {

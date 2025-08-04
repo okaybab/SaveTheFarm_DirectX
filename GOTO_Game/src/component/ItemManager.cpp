@@ -22,8 +22,20 @@ void ItemManager::Awake() {
 	auto canvas = GameObject::Find(L"Canvas");
 	// 이미지 간격 및 기본 위치 설정
 	float spacing = 100.0f;
-	Vector2 p1StartPos = { Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.2f };
-	Vector2 p2StartPos = { Screen::GetWidth() * 0.55f, Screen::GetHeight() * 0.2f };
+	Vector2 p1StartPos = { Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.06f };
+	Vector2 p2StartPos = { Screen::GetWidth() * 0.55f, Screen::GetHeight() * 0.06f };
+	auto p1itembar = new GameObject;
+	p1itembar->GetTransform()->SetParent(canvas->GetTransform());
+	itembar1 = p1itembar->AddComponent<Image>();
+	itembar1->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.02f, Screen::GetHeight() * 0.05f });
+	itembar1->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.1f });
+	itembar1->SetSprite(L"../Resources/artResource/UI/Ingame/아이템 창 UI.png");
+	auto p2itembar = new GameObject;
+	p2itembar->GetTransform()->SetParent(canvas->GetTransform());
+	itembar2 = p2itembar->AddComponent<Image>();
+	itembar2->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.52f, Screen::GetHeight() * 0.05f });
+	itembar2->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.1f });
+	itembar2->SetSprite(L"../Resources/artResource/UI/Ingame/아이템 창 UI.png");
 
 	for (int i = 0; i < 7; ++i)
 	{
