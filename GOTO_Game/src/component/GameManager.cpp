@@ -176,7 +176,7 @@ void GameManager::Update() {
 				}
 				ItemTiming[3] == -1.0f;
 			}
-			if (GameTimer == ItemTiming[4]) {
+			if (GameTimer <= ItemTiming[4]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 얼음새
 					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
@@ -195,7 +195,7 @@ void GameManager::Update() {
 				}
 				ItemTiming[4] = -1.0f;
 			}
-			if (GameTimer == ItemTiming[5]) {
+			if (GameTimer <= ItemTiming[5]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 폭탄새
 					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);

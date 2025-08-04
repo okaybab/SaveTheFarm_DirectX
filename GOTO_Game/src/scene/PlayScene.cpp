@@ -13,6 +13,7 @@
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
 #include "EnemySpawner.h"
+#include "SoundManager.h"
 
 void PlayScene::Initialize()
 {
@@ -67,4 +68,6 @@ void PlayScene::Initialize()
 	gimmickManager->AddComponent<GimmickManager>();
 	auto spawner = new GameObject(L"enemySpawner");
 	spawner->AddComponent<EnemySpawner>();
+	auto soundManager = new GameObject(L"사운드매니저");
+	soundManager->AddComponent<SoundManager>();
 }
