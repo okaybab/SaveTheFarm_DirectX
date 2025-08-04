@@ -101,9 +101,9 @@ void GimmickManager::Update() {
 void GimmickManager::GimmickOn(int player, int gimmick) {
 	switch (gimmick)
 	{
-	case 1:
+	case 1:   //반전술식
 		if (player == 1) {
-			CrosshairMove::reverseInput2 = true;
+			CrosshairMove::reverseInput2 = true;  
 			p1gimmick1Timer = timelimit;
 		}
 		else {

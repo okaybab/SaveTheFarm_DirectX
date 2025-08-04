@@ -26,7 +26,7 @@ bool GOTOEngine::Renderer::GetEnabled()
 void GOTOEngine::Renderer::SetEnabled(bool enabled)
 {
 	auto lastValue = m_enabled;
-	m_enabled = true;
+	m_enabled = enabled;
 
 	//렌더러에 보낼 메시지 혹은 마킹
 }

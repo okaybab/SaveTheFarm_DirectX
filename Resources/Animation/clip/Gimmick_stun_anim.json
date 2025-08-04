@@ -1,25 +1,25 @@
 {
-    "clipName": "Gimmick_stun",
-    "loop": true,
-    "texturePath": "Assets/Gimmick1_effect_spritesheet.png",
-    "duration": 0.3333333432674408,
-    "frames": [
-        {
-            "sprite": "Gimmick1_effect_spritesheet_0",
-            "time": 0.0
-        },
-        {
-            "sprite": "Gimmick1_effect_spritesheet_1",
-            "time": 0.0833333358168602
-        },
-        {
-            "sprite": "Gimmick1_effect_spritesheet_2",
-            "time": 0.1666666716337204
-        },
-        {
-            "sprite": "Gimmick1_effect_spritesheet_3",
-            "time": 0.25
-        }
-    ],
-    "events": []
+  "clipName": "Gimmick_stun",
+  "loop": true,
+  "texturePath": "../Resources/artResource/SpriteSheet/Gimmick/Gimmick1_effect_spritesheet.png",
+  "duration": 0.3333333432674408,
+  "frames": [
+    {
+      "sprite": "Gimmick1_effect_spritesheet_0",
+      "time": 0.0
+    },
+    {
+      "sprite": "Gimmick1_effect_spritesheet_1",
+      "time": 0.0833333358168602
+    },
+    {
+      "sprite": "Gimmick1_effect_spritesheet_2",
+      "time": 0.1666666716337204
+    },
+    {
+      "sprite": "Gimmick1_effect_spritesheet_3",
+      "time": 0.25
+    }
+  ],
+  "events": []
 }

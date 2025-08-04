@@ -3,7 +3,7 @@
 
 void GOTOEngine::Animator::OnAnimationUpdate()
 {
-	if (m_runtimeController)
+	if (m_runtimeController && IsActiveAndEnabled())
 	{
 		m_runtimeController->Update(TIME_GET_DELTATIME());
 

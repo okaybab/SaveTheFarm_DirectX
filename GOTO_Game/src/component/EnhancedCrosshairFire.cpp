@@ -483,8 +483,6 @@ void GOTOEngine::EnhancedCrosshairFire::Update()
             float x = Mathf::PerlinNoise(m_noiseSeed, TIME_GET_TOTALTIME() * 15.0f) * 2.0f - 1.0f;
             float y = Mathf::PerlinNoise(m_noiseSeed + 100.0f, TIME_GET_TOTALTIME() * 15.0f) * 2.0f - 1.0f;
 
-
-
             Vector2 moveVec = { x,y };
             moveVec = moveVec.Normalized() * Mathf::Min(2.0f,(m_fireGage - 2.9f) / 2.0f) * 320.0f;
 

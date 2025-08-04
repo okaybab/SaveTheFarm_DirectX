@@ -11,6 +11,7 @@
 #include <ParticleSystem.h>
 #include <EnhancedCrosshairFire.h>
 #include <TextRenderer.h>
+#include <Animator.h>
 
 
 using namespace GOTOEngine;
@@ -18,7 +19,23 @@ using namespace GOTOEngine;
 GameObject* CrosshairPrefab::CreateCrosshair(int id)
 {
 	auto GO = new GameObject(L"Player");
-	GO->AddComponent<CrosshairMove>()->id = id;
+	auto crosshairMove = GO->AddComponent<CrosshairMove>();
+	crosshairMove->id = id;
+
+	auto GimmickAnimatorGO = new GameObject(L"Gimmick Animation");
+	auto gimmickSprite = GimmickAnimatorGO->AddComponent<SpriteRenderer>();
+	gimmickSprite->SetRenderLayer((1 << (id + 1)));
+	gimmickSprite->SetRenderOrder(1000 + id + 2);
+	GimmickAnimatorGO->AddComponent<Animator>()->SetAnimatorController(L"../Resources/Animation/controller/Gimmick1_effect_AnimController.json");
+	crosshairMove->gimmickAnimator = GimmickAnimatorGO->GetComponent<Animator>();
+	crosshairMove->gimmickAnimator->SetEnabled(false);
+	crosshairMove->gimmickAnimSprite = gimmickSprite;
+	crosshairMove->gimmickAnimSprite->SetEnabled(false);
+	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.18f,0.18f });
+	GimmickAnimatorGO->GetTransform()->SetLocalPosition({ 0.0f,26.0f });
+
+	GimmickAnimatorGO->GetTransform()->SetParent(GO->GetTransform());
+
 	auto crosshairFire = GO->AddComponent<CrosshairFire>();
 	crosshairFire->id = id;
 	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
@@ -60,7 +77,23 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 {
 	auto GO = new GameObject(L"Player");
-	GO->AddComponent<CrosshairMove>()->id = id;
+	auto crosshairMove = GO->AddComponent<CrosshairMove>();
+	crosshairMove->id = id;
+
+	auto GimmickAnimatorGO = new GameObject(L"Gimmick Animation");
+	auto gimmickSprite = GimmickAnimatorGO->AddComponent<SpriteRenderer>();
+	gimmickSprite->SetRenderLayer((1 << (id + 1)));
+	gimmickSprite->SetRenderOrder(1000 + id + 2);
+	GimmickAnimatorGO->AddComponent<Animator>()->SetAnimatorController(L"../Resources/Animation/controller/Gimmick1_effect_AnimController.json");
+	crosshairMove->gimmickAnimator = GimmickAnimatorGO->GetComponent<Animator>();
+	crosshairMove->gimmickAnimator->SetEnabled(false);
+	crosshairMove->gimmickAnimSprite = gimmickSprite;
+	crosshairMove->gimmickAnimSprite->SetEnabled(false);
+	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.18f,0.18f });
+	GimmickAnimatorGO->GetTransform()->SetLocalPosition({ 0.0f,26.0f });
+
+	GimmickAnimatorGO->GetTransform()->SetParent(GO->GetTransform());
+
 	auto crosshairFire = GO->AddComponent<EnhancedCrosshairFire>();
 	crosshairFire->id = id;
 	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
