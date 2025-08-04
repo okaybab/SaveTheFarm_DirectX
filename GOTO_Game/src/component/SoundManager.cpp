@@ -7,50 +7,53 @@ void SoundManager::Awake() {
 	if (!instance)
 	{
 		instance = this;
+		//경로 지정 및 리스트에 추가
+		std::vector<std::pair<std::string, std::wstring>> sfxList = {
+			{"Bomb", L"../Resources/Sound/Sound effect/Bomb_sound.wav"},
+			{"Button", L"../Resources/Sound/Sound effect/Button_sound.wav"},
+			{"Getitem", L"../Resources/Sound/Sound effect/Getitem_sound.wav"},
+			{"GoldenTicket", L"../Resources/Sound/Sound effect/GoldenTicket_sound.wav"},
+			{"Hit", L"../Resources/Sound/Sound effect/Hit_sound.wav"},
+			{"IceBomb", L"../Resources/Sound/Sound effect/IceBomb_sound.mp3"},
+			{"Shot1P", L"../Resources/Sound/Sound effect/Shot1P_sound.wav"},
+			{"Shot2P", L"../Resources/Sound/Sound effect/Shot2P_sound.wav"}
+		};
+
+		for (const auto& [key, path] : sfxList) {
+			auto clip = Resource::Load<AudioClip>(path.c_str());
+			clip->IncreaseRefCount();
+			sfxClips[key] = clip;
+
+			auto sfxSourceitem = new GameObject;
+			sfxSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+			AudioSource* source;
+			source = sfxSourceitem->AddComponent<AudioSource>();
+			source->SetLoop(false);
+			source->SetVolume(sfxVolume);
+			sfxSources[key] = source;
+		}
+		auto bgmSourceitem = new GameObject;
+		bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
+		bgmSource = bgmSourceitem->AddComponent<AudioSource>();
+		bgmSource->SetLoop(true);
+		bgmSource->SetVolume(bgmVolume);
+
+		DontDestroyOnLoad(GetGameObject());
 	}
 	else
 	{
 		Destroy(GetGameObject());
 	}
-	//경로 지정 및 리스트에 추가
-	std::vector<std::pair<std::string, std::wstring>> sfxList = {
-		{"Bomb", L"../Resources/Sound/Sound effect/Bomb_sound.wav"},
-		{"Button", L"../Resources/Sound/Sound effect/Button_sound.wav"},
-		{"Getitem", L"../Resources/Sound/Sound effect/Getitem_sound.wav"},
-		{"GoldenTicket", L"../Resources/Sound/Sound effect/GoldenTicket_sound.wav"},
-		{"Hit", L"../Resources/Sound/Sound effect/Hit_sound.wav"},
-		{"IceBomb", L"../Resources/Sound/Sound effect/IceBomb_sound.mp3"},
-		{"Shot1P", L"../Resources/Sound/Sound effect/Shot1P_sound.wav"},
-		{"Shot2P", L"../Resources/Sound/Sound effect/Shot2P_sound.wav"}
-	};
-
-	for (const auto& [key, path] : sfxList) {
-		auto clip = Resource::Load<AudioClip>(path.c_str());
-		clip->IncreaseRefCount();
-		sfxClips[key] = clip;
-
-		auto sfxSourceitem = new GameObject;
-		sfxSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
-		AudioSource* source;
-		source = sfxSourceitem->AddComponent<AudioSource>();
-		source->SetLoop(false);
-		source->SetVolume(sfxVolume);
-		sfxSources[key] = source;
-	}
-	auto bgmSourceitem = new GameObject;
-	bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
-	bgmSource = bgmSourceitem->AddComponent<AudioSource>();
-	bgmSource->SetLoop(true);
-	bgmSource->SetVolume(bgmVolume);
+	
 }
 
 void SoundManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
-	for (auto sfxClip : sfxClips) {
+	for (auto& sfxClip : sfxClips) {
 		sfxClip.second->DecreaseRefCount();
 	}
-	for (auto bgmClip : bgmClips) {
+	for (auto& bgmClip : bgmClips) {
 		bgmClip.second->DecreaseRefCount();
 	}
 }

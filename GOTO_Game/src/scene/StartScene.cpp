@@ -28,7 +28,8 @@ void StartScene::Initialize()
 
 	StartMenuPrefab::CreateStartMenu();
 
+
 	auto soundManager = new GameObject(L"사운드매니저");
+
 	soundManager->AddComponent<SoundManager>();
-	Object::DontDestroyOnLoad(soundManager);
 }

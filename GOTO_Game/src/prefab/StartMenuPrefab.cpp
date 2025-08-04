@@ -22,8 +22,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	//===== Start 버튼 =====
 
 	auto startButtonGO = new GameObject(L"StartButton");
+	startButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->startButton = startButtonGO->GetTransform();
-	startMenu->startButton->SetPosition({ 0.0f, -150.0f });
+	startMenu->startButton->SetLocalPosition({ 0.0f, -150.0f });
 	startButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
 	auto startButtonAnimation = startButtonGO->AddComponent<ButtonAnimation>();
 	
@@ -59,8 +60,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	//===== Option 버튼 =====
 
 	auto optionsButtonGO = new GameObject(L"OptionsButton");
+	optionsButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->optionsButton = optionsButtonGO->GetTransform();
-	startMenu->optionsButton->SetPosition({ 0.0f, -300.0f });
+	startMenu->optionsButton->SetLocalPosition({ 0.0f, -300.0f });
 	optionsButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
 	auto optionsButtonAnimation = optionsButtonGO->AddComponent<ButtonAnimation>();
 
@@ -94,8 +96,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	//===== Exit 버튼 =====
 
 	auto exitButtonGO = new GameObject(L"ExitButton");
+	exitButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->exitButton = exitButtonGO->GetTransform();
-	startMenu->exitButton->SetPosition({ 0.0f, -450.0f });
+	startMenu->exitButton->SetLocalPosition({ 0.0f, -450.0f });
 	exitButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/MenuButton.png");
 	auto exitButtonAnimation = exitButtonGO->AddComponent<ButtonAnimation>();
 

@@ -34,7 +34,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		static TutorialImage* instance;
+		//static TutorialImage* instance;
 		void Awake();
 		void Update();
 		void OnDestroy();

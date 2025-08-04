@@ -197,5 +197,16 @@ void GOTOEngine::CrosshairFire::Update()
 	}
 
 	onFire.Invoke(id);
+    if (m_shaker)
+        m_shaker->ShakeCamera(24, 55, 8);
+#ifdef _DEBUG
 	std::cout << "Crosshair Fire! : " << id << std::endl;
+#endif
+}
+
+void GOTOEngine::CrosshairFire::OnSceneLoaded()
+{
+    auto camGO = id == 0 ? GameObject::Find(L"p1Cam") : GameObject::Find(L"p2Cam");
+    if(camGO)
+        m_shaker = camGO->GetComponent<CameraShaker>();
 }

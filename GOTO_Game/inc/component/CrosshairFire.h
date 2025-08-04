@@ -7,6 +7,7 @@
 #include "GamepadRumbleManager.h"
 #include "RumbleAnimationClip.h"
 #include <RadialSpriteRenderer.h>
+#include "CameraShaker.h"
 
 namespace GOTOEngine
 {
@@ -19,6 +20,8 @@ namespace GOTOEngine
 		bool m_RightTriggerCheckTrigger;
 		bool m_RightTriggerPressed;
 
+		CameraShaker* m_shaker = nullptr;
+
 		static RumbleAnimationClip* s_pfireRumbleClip;
 		static int s_crosshairCount;
 	public:
@@ -28,6 +31,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
+        REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
@@ -49,5 +53,7 @@ namespace GOTOEngine
 		void TriggerPressedCheckReset();
 
 		void Update();
+
+		void OnSceneLoaded();
 	};
 }
