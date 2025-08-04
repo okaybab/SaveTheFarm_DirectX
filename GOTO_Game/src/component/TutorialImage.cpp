@@ -1,4 +1,5 @@
 ﻿#include "TutorialImage.h"
+#include "SoundManager.h"
 
 using namespace GOTOEngine;
 TutorialImage* TutorialImage::instance = nullptr;
@@ -60,6 +61,7 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) || 
 			rightTriggerPressed[0] || 
 			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 2;
 		}
 		break;
@@ -68,11 +70,13 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) || 
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 1;
 		}
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
 			rightTriggerPressed[0] ||
 			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 3;
 		}
 		break;
@@ -81,11 +85,13 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 2;
 		}
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
 			rightTriggerPressed[0] ||
 			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 4;
 		}
 		break;
@@ -94,11 +100,13 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 3;
 		}
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
 			rightTriggerPressed[0] ||
 			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 5;
 		}
 		break;
@@ -107,16 +115,19 @@ void TutorialImage::Update() {
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
 			explainnum = 4;
 		}
 		break;
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
 		INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonWest)) {
+		SoundManager::instance->PlaySFX("Button");
 		p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_1.png");
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
 		INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
+		SoundManager::instance->PlaySFX("Button");
 		p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_2.png");
 	}
 }
