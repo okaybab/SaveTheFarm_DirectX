@@ -30,6 +30,8 @@ namespace GOTOEngine
 		float bgmVolume = 1.0f;
 		std::unordered_map<std::string, AudioClip*> sfxClips;
 		std::unordered_map<std::string, AudioClip*> bgmClips;
+		AudioSource* sfxSource = new AudioSource;
+		AudioSource* bgmSource = new AudioSource;
 	};
 }
 
