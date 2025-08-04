@@ -3,6 +3,7 @@
 #include "StartMenuPrefab.h"
 #include <Camera.h>
 #include "GamepadRumbleManager.h"
+#include "SoundManager.h"
 
 void StartScene::Initialize()
 {
@@ -11,8 +12,8 @@ void StartScene::Initialize()
 
 	if (!GameObject::Find(L"Player1") && !GameObject::Find(L"Player2"))
 	{
-		auto CrossHair1GO = CrosshairPrefab::CreateCrosshair(0);
-		auto CrossHair2GO = CrosshairPrefab::CreateCrosshair(1);
+		auto CrossHair1GO = CrosshairPrefab::CreateEnhancedCrosshair(0);
+		auto CrossHair2GO = CrosshairPrefab::CreateEnhancedCrosshair(1);
 
 		CrossHair1GO->name = L"Player1";
 		CrossHair2GO->name = L"Player2";
@@ -26,4 +27,8 @@ void StartScene::Initialize()
 	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
 
 	StartMenuPrefab::CreateStartMenu();
+
+	auto soundManager = new GameObject(L"사운드매니저");
+	soundManager->AddComponent<SoundManager>();
+	Object::DontDestroyOnLoad(soundManager);
 }

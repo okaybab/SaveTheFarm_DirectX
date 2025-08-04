@@ -68,6 +68,4 @@ void PlayScene::Initialize()
 	gimmickManager->AddComponent<GimmickManager>();
 	auto spawner = new GameObject(L"enemySpawner");
 	spawner->AddComponent<EnemySpawner>();
-	auto soundManager = new GameObject(L"사운드매니저");
-	soundManager->AddComponent<SoundManager>();
 }
