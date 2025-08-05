@@ -34,19 +34,20 @@ namespace GOTOEngine
 
 			m_enemyType = E_EnemyType::move;
 			m_isMoveLoop = true;
-			m_destroyTime = 8.0f;
 
 			switch (m_moveEnemyType)
 			{
 			case mole:
 				m_moveFlag = 0b0000;
 				GetGameObject()->name = L"두더지";
+				m_disPoneTime = 8.0f;
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
 				SetRandomYPosition(-0.4f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			case crow_1:
 				m_moveFlag = 0b0001;
+				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
 				SetRandomYPosition(0.15f, 0.4f);
@@ -54,6 +55,7 @@ namespace GOTOEngine
 				break;
 			case crow_2:
 				m_moveFlag = 0b0010;
+				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
 				SetRandomYPosition(0.15f, 0.4f);
@@ -78,7 +80,7 @@ namespace GOTOEngine
 
 			// 죽는 애니메이션 필요
 
-			Destroy(GetGameObject(), 2.0f);
+			Destroy(GetGameObject(), 0.5f);
 		}
 	};
 }

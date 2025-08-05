@@ -53,13 +53,12 @@ namespace GOTOEngine
 
 			m_enemyType = E_EnemyType::itemspawn;
 			m_isMoveLoop = true;
-			m_destroyTime = 8.0f;
-
 			
 			switch (m_itemEnemyType)
 			{
 			case iceCrow:
 				m_moveFlag = 0b1000;
+				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
@@ -67,6 +66,7 @@ namespace GOTOEngine
 				break;
 			case bombCrow:
 				m_moveFlag = 0b1000;
+				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BombCrow.png");
@@ -74,6 +74,7 @@ namespace GOTOEngine
 				break;
 			case goldCrow:
 				m_moveFlag = 0b0010;
+				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/GoldCrow.png");
@@ -99,7 +100,7 @@ namespace GOTOEngine
 
 			// 죽는 애니메이션 필요
 
-			Destroy(GetGameObject(), 2.0f);
+			Destroy(GetGameObject(), 0.5f);
 		}
 	};
 }
