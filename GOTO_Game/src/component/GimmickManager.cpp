@@ -49,6 +49,8 @@ void GimmickManager::Awake()
 void GimmickManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	CrosshairMove::reverseInput1 = false;
+	CrosshairMove::reverseInput2 = false;
 }
 
 void GimmickManager::Update() {

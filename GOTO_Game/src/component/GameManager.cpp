@@ -276,6 +276,11 @@ void GameManager::Update() {
 			}
 		}
 		else if (GameTimer == 0.0f) {
+			setactive = false;
+		}
+	}
+	else {
+		if(GameTimer == 0.0f){
 			endingTimer -= TIME_GET_DELTATIME();
 			if (P1Score > P2Score) {
 				winner = 1;
@@ -298,24 +303,24 @@ void GameManager::Update() {
 				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}
-		P1sctext->text = std::to_wstring(P1Score);
-		P2sctext->text = std::to_wstring(P2Score);
-		totalSeconds = static_cast<int>(floor(GameTimer));
-		minutes = totalSeconds / 60;
-		seconds = totalSeconds % 60;
-		Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
-	}
-	else {
-		if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
-			INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonWest)) {
-			p1active = true;
-		}
-		if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
-			INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
-			p2active = true;
-		}
-		if (p1active && p2active) {
-			setactive = true;
+		else {
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
+				INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonWest)) {
+				p1active = true;
+			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
+				INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
+				p2active = true;
+			}
+			if (p1active && p2active) {
+				setactive = true;
+			}
 		}
 	}
+	P1sctext->text = std::to_wstring(P1Score);
+	P2sctext->text = std::to_wstring(P2Score);
+	totalSeconds = static_cast<int>(floor(GameTimer));
+	minutes = totalSeconds / 60;
+	seconds = totalSeconds % 60;
+	Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
 }
