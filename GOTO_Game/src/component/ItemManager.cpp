@@ -4,6 +4,7 @@
 #include "BaseEnemyObject.h"
 #include "EnemySpawner.h"
 #include "SoundManager.h"
+#include <AnimationCurve.h>
 
 using namespace GOTOEngine;
 
@@ -50,6 +51,45 @@ void ItemManager::Awake() {
 				p2StartPos.x + spacing * i, p2StartPos.y });
 			p2itemImage[i]->GetRectTransform()->SetSizeDelta({ 90.0f, 90.0f });
 		}
+		itemanimation = new AnimationCurve({ R"({
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 0.0035049389948139213,
+            "in_tangent": 0,
+            "out_tangent": 1,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.25,
+            "value": 0.07,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.5,
+            "value": -0.07,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 0
+        },
+        {
+            "time": 0.75,
+            "value": 0.07,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.0,
+            "value": 0.0,
+            "in_tangent": 1.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+})" });
 	}
 	else
 	{
@@ -61,6 +101,7 @@ void ItemManager::Awake() {
 void ItemManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	delete(itemanimation);
 }
 
 void ItemManager::Update(){
@@ -172,6 +213,50 @@ void ItemManager::Update(){
 		}
 		else {
 			p2itemImage[i]->SetSprite(nullptr);
+		}
+	}
+	if (p1Items.empty()) {
+		p1AniTimer = 10.0f;
+		for (int i = 0; i < 7; ++i) {
+			p1itemImage[i]->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.05f + 100.0f * i, Screen::GetHeight() * 0.06f });
+		}
+	}
+	if (!p1Items.empty() && p1AniTimer > 0.0f) {
+		p1AniTimer -= TIME_GET_DELTATIME();
+		if (p1AniTimer <= 0.0f) {
+			p1AniTimer = 0.0f;
+		}
+	}
+	if (p1AniTimer == 0.0f) {
+		for (int i = 0; i < 7; ++i) {
+			p1AniTime[i] += TIME_GET_DELTATIME();
+			if (p1AniTime[i] > 1.0f) {
+				p1AniTime[i] = 0.0f;
+			}
+			float animValue = itemanimation->Evaluate(p1AniTime[i]);
+			p1itemImage[i]->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.05f+100.0f*i+animValue*100.0f, Screen::GetHeight() * 0.06f});
+		}
+	}
+	if (p2Items.empty()) {
+		p2AniTimer = 10.0f;
+		for (int i = 0; i < 7; ++i) {
+			p2itemImage[i]->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.55f + 100.0f * i, Screen::GetHeight() * 0.06f });
+		}
+	}
+	if (!p2Items.empty() && p2AniTimer > 0.0f) {
+		p2AniTimer -= TIME_GET_DELTATIME();
+		if (p2AniTimer <= 0.0f) {
+			p2AniTimer = 0.0f;
+		}
+	}
+	if (p2AniTimer == 0.0f) {
+		for (int i = 0; i < 7; ++i) {
+			p2AniTime[i] += TIME_GET_DELTATIME();
+			if (p2AniTime[i] > 1.0f) {
+				p2AniTime[i] = 0.0f;
+			}
+			float animValue = itemanimation->Evaluate(p2AniTime[i]);
+			p2itemImage[i]->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.55f + 100.0f * i + animValue * 100.0f, Screen::GetHeight() * 0.06f });
 		}
 	}
 }
