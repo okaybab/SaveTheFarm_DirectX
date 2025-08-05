@@ -154,7 +154,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 }
 
 // 설정대로 스폰
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, size_t enemy, int player)
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType, int player)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 
@@ -162,15 +162,15 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, size_t enemy, 
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(static_cast<E_Move_Enemy_Type>(enemy));
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(static_cast<E_Move_Enemy_Type>(detailType));
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(static_cast<E_Gimmick_Enemy_Type>(enemy));
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(static_cast<E_Gimmick_Enemy_Type>(detailType));
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(static_cast<E_Item_Enemy_Type>(enemy));
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(static_cast<E_Item_Enemy_Type>(detailType));
 		break;
 	default:
 		break;
@@ -189,15 +189,20 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, size_t enemy, 
 	}
 }
 
-bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)
+void GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy, bool _isPlayerAttack)
 {  
    if (_layer == 1)  
    {  
-       auto it = std::find(m_p1Enemy.begin(), m_p1Enemy.end(), enemy);  
+	   auto it = std::find(m_p1Enemy.begin(), m_p1Enemy.end(), enemy);
        if (it != m_p1Enemy.end())  
-       {  
-           m_p1Enemy.erase(it);  
-           return true;  
+       {
+		   m_p1Enemy.erase(it);
+		   if (_isPlayerAttack)
+		   {
+			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
+			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
+			   CreateEnemy(enemyType, detailType, 2);
+		   }
        }  
    }  
    else if (_layer == 2)  
@@ -205,12 +210,15 @@ bool GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy)
        auto it = std::find(m_p2Enemy.begin(), m_p2Enemy.end(), enemy);  
        if (it != m_p2Enemy.end())  
        {  
-           m_p2Enemy.erase(it);  
-           return true;  
+		   m_p2Enemy.erase(it);
+		   if (_isPlayerAttack)
+		   {
+			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
+			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
+			   CreateEnemy(enemyType, detailType, 1);
+		   }
        }  
    }  
-
-   return false;  
 }
 
 void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()

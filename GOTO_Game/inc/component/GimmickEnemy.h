@@ -93,12 +93,13 @@ namespace GOTOEngine
 			SetMovementComponents();
 		}
 
+		int GetType() override { return static_cast<int>(m_gimmickEnemyType); }
+
 		void OnBulletDie() override
 		{
 			__super::OnBulletDie();
 
 			// 죽는 애니메이션 필요
-
 			Destroy(GetGameObject(), 0.5f);
 		}
 	};

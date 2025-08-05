@@ -2,6 +2,7 @@
 #include <CrosshairMove.h>
 #include "EnemySpawner.h"
 #include <time.h>
+#include "GameManager.h"
 
 using namespace GOTOEngine;
 
@@ -83,57 +84,59 @@ void GimmickManager::Update() {
 };
 
 void GimmickManager::GimmickOn(int player, int gimmick) {
-	switch (gimmick)
-	{
-	case 1:   //반전술식
-		if (player == 1) {
-			CrosshairMove::reverseInput2 = true;  
-			p1gimmick1Timer = timelimit;
-		}
-		else {
-			CrosshairMove::reverseInput1 = true;
-			p2gimmick1Timer = timelimit;
-		}
-		break;
-	case 2:
-		if (player == 1) {
-			int i = rand() % 3 + 1;
-			switch (i) {
-			case 1:
-				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
-				break;
-			case 2:
-				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
-				break;
-			case 3:
-				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
-				break;
-			}
-			p1gimmick2Timer = timelimit;
-		}
-		else {
-			int i = rand() % 3 + 1;
-			switch (i) {
-			case 1:
-				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
-				break;
-			case 2:
-				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
-				break;
-			case 3:
-				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
-				break;
-			}
-			p2gimmick2Timer = timelimit;
-		}
-		break;
-	case 3:
-		player = player == 1 ? 2 : 1;
-		for (int i = 0; i < 3; i++)
+	if (GameManager::instance->setactive) {
+		switch (gimmick)
 		{
-			// moveEnemy
-			EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player);
+		case 1:   //반전술식
+			if (player == 1) {
+				CrosshairMove::reverseInput2 = true;
+				p1gimmick1Timer = timelimit;
+			}
+			else {
+				CrosshairMove::reverseInput1 = true;
+				p2gimmick1Timer = timelimit;
+			}
+			break;
+		case 2:
+			if (player == 1) {
+				int i = rand() % 3 + 1;
+				switch (i) {
+				case 1:
+					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+					break;
+				case 2:
+					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+					break;
+				case 3:
+					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+					break;
+				}
+				p1gimmick2Timer = timelimit;
+			}
+			else {
+				int i = rand() % 3 + 1;
+				switch (i) {
+				case 1:
+					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+					break;
+				case 2:
+					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+					break;
+				case 3:
+					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+					break;
+				}
+				p2gimmick2Timer = timelimit;
+			}
+			break;
+		case 3:
+			player = player == 1 ? 2 : 1;
+			for (int i = 0; i < 3; i++)
+			{
+				// moveEnemy
+				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player);
+			}
+			break;
 		}
-		break;
 	}
 };

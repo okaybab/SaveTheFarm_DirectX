@@ -87,6 +87,7 @@ namespace GOTOEngine
 			{
 				// 디스폰
 				m_isDeathByDispone = true;
+				EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
 				Destroy(GetGameObject(), 1.0f);
 				return;
 			}
@@ -131,6 +132,7 @@ namespace GOTOEngine
 
 		// Get
 		bool IsEnemyDie() { return m_isDie; }
+		virtual int GetType() { return static_cast<int>(m_enemyType); }
 
 		// Set
 		void SetMovementComponents(float _minY = 0.0f, float _maxY = 0.5f)
@@ -195,8 +197,6 @@ namespace GOTOEngine
 		}
 
 		// 이벤트
-		virtual void OnEnemyPlay() {}
-
 		virtual void TakeDamage(float damage)
 		{
 			if (m_isDie) return;
@@ -206,7 +206,8 @@ namespace GOTOEngine
 		virtual void OnBulletDie()
 		{
 			m_isDie = true;
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), m_enemyType == E_EnemyType::move);
 
 			if (m_layer == 1)
 			{
@@ -217,6 +218,5 @@ namespace GOTOEngine
 				GameManager::instance->P2Score += GameManager::instance->P2Bonus;
 			}
 		}
-
 	};
 }

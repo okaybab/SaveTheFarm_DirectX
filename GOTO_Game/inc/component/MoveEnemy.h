@@ -26,7 +26,6 @@ namespace GOTOEngine
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
-
 		}
 		void Awake()
 		{
@@ -74,12 +73,13 @@ namespace GOTOEngine
 			SetMovementComponents(0.15f, 0.4f);
 		}
 
+		int GetType() { return static_cast<int>(m_moveEnemyType); }
+		
 		void OnBulletDie() override
 		{
 			__super::OnBulletDie();
 
 			// 죽는 애니메이션 필요
-
 			Destroy(GetGameObject(), 0.5f);
 		}
 	};
