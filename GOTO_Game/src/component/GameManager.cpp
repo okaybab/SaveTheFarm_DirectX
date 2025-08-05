@@ -271,7 +271,7 @@ void GameManager::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
-			if (GameTimer <= 0.0f) {
+			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
 		}
