@@ -119,6 +119,12 @@
     <ClCompile Include="src\component\GamepadRumbleManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
+    <ClCompile Include="src\component\FadeInOutFXManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\scene\PlayScene.h">
@@ -275,6 +281,9 @@
       <Filter>헤더 파일\씬</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\FadeInOutFXManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

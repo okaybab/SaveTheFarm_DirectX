@@ -4,10 +4,16 @@
 #include "CrosshairInteractButton.h"
 #include <SpriteRenderer.h>
 #include <Engine.h>
+
+#include "FadeInOutFXManager.h"
+
 namespace GOTOEngine
 {
 	class StartMenu : public ScriptBehaviour
 	{
+	private:
+		bool m_selectStart;
+		bool m_selectExit;
 	public:
     StartMenu()
     {
@@ -27,6 +33,18 @@ namespace GOTOEngine
 
 		void Update()
 		{
+			//기다려야 하는 버튼을 누른경우
+			if (m_selectStart || m_selectExit)
+			{
+				if (m_selectStart && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
+					SCENE_CHANGE_SCENE(L"PlayScene");
+
+				if (m_selectExit && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
+					ENGINE_QUIT();
+
+				return;
+			}
+
 			//매 프레임 마다 스타트 메뉴 확인
 			CrosshairInteractButton* currentP1InteractButtons = nullptr;
 			CrosshairInteractButton* currentP2InteractButtons = nullptr;
@@ -116,7 +134,8 @@ namespace GOTOEngine
 				if (currentP1InteractButtons->parentButton == startButton)
 				{
 					// 게임 시작 로직
-					SCENE_CHANGE_SCENE(L"PlayScene");
+					m_selectStart = true;
+					FadeInOutFXManager::instance->FadeOut();
 				}
 				else if (currentP1InteractButtons->parentButton == optionsButton)
 				{
@@ -126,7 +145,8 @@ namespace GOTOEngine
 				else if (currentP1InteractButtons->parentButton == exitButton)
 				{
 					// 게임 종료 로직
-					ENGINE_QUIT();
+					m_selectExit = true;
+					FadeInOutFXManager::instance->FadeOut();
 				}
 
 				menuIsValidInteract = true;

@@ -1,9 +1,11 @@
 #include "StartScene.h"
 #include "CrosshairPrefab.h"
 #include "StartMenuPrefab.h"
+#include "FadeInOutFXManagerPrefab.h"
 #include <Camera.h>
 #include "GamepadRumbleManager.h"
 #include "SoundManager.h"
+#include "FadeInOutFXManager.h"
 
 void StartScene::Initialize()
 {
@@ -12,8 +14,8 @@ void StartScene::Initialize()
 
 	if (!GameObject::Find(L"Player1") && !GameObject::Find(L"Player2"))
 	{
-		auto CrossHair1GO = CrosshairPrefab::CreateCrosshair(0);
-		auto CrossHair2GO = CrosshairPrefab::CreateCrosshair(1);
+		auto CrossHair1GO = CrosshairPrefab::CreateEnhancedCrosshair(0);
+		auto CrossHair2GO = CrosshairPrefab::CreateEnhancedCrosshair(1);
 
 		CrossHair1GO->name = L"Player1";
 		CrossHair2GO->name = L"Player2";
@@ -28,8 +30,13 @@ void StartScene::Initialize()
 
 	StartMenuPrefab::CreateStartMenu();
 
+	FadeInOutFXManagerPrefab::CreateFadeInOutFXPrefab();
+
+	if (FadeInOutFXManager::instance)
+		FadeInOutFXManager::instance->FadeIn();
 
 	auto soundManager = new GameObject(L"사운드매니저");
 
 	soundManager->AddComponent<SoundManager>();
+
 }

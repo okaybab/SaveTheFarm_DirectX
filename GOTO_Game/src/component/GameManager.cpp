@@ -5,6 +5,8 @@
 #include "BaseEnemyObject.h"
 #include "ItemEnemy.h"
 
+#include "FadeInOutFXManager.h"
+
 #include <time.h>
 
 using namespace GOTOEngine;
@@ -110,6 +112,7 @@ void GameManager::Awake(){
 void GOTOEngine::GameManager::Start()
 {
 	EnemySpawner = EnemySpawner::instance;
+	FadeInOutFXManager::instance->FadeIn();
 }
 
 void GameManager::OnDestroy() {

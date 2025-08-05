@@ -48,10 +48,25 @@ void GOTOEngine::Image::Render()
             else
                 renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
             break;
-        case ImageType::FilledRect:
-            renderAPI->DrawRect({ currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y },  true, {}, m_color, true);
-            break;
         }        
+    }
+    else if (m_type == ImageType::FilledRect)
+    {
+        auto renderAPI = GetRenderAPIFromManager();
+
+        auto screenSize = Screen::GetSize();
+        auto canvasSize = m_canvas->GetCanvasSize();
+
+        auto rectTransform = GetRectTransform();
+
+        auto sizeDelta = rectTransform->GetSizeDelta();
+        auto sizePivotX = GetRectTransform()->GetPivot().x * sizeDelta.x;
+        auto sizePivotY = GetRectTransform()->GetPivot().y * sizeDelta.y;
+        auto sizeFactorX = canvasSize.x / screenSize.x;
+        auto sizeFactorY = canvasSize.y / screenSize.y;
+        auto currentPos = rectTransform->GetAnchoredPosition();
+
+        renderAPI->DrawRect({ currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, true, {}, m_color, true);
     }
 }
 

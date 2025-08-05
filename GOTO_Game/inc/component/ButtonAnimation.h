@@ -59,7 +59,7 @@ namespace GOTOEngine
 
 		void Update()
 		{
-			float dt = TIME_GET_DELTATIME();
+			float dt = Mathf::Min(TIME_GET_FIXED_DELTATIME(), TIME_GET_DELTATIME());
 
 			// 스프링 힘 계산 (후크 법칙)
 			float torque = -torqueStrength * m_angle - damping * m_angularVelocity;

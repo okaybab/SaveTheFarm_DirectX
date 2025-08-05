@@ -3,8 +3,31 @@
 
 namespace GOTOEngine
 {
-	class FadeOutFXManager : public ScriptBehaviour
+	class Image;
+	class FadeInOutFXManager : public ScriptBehaviour
 	{
-		
+	private:
+		bool m_enableScreen = false;
+		float m_fadingTimer = 0.0f;
+	public:
+    FadeInOutFXManager()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
+
+		static FadeInOutFXManager* instance;
+
+		Image* blackScreen = nullptr;
+
+		float fadingTime = 0.65f;
+
+		void FadeIn();
+		void FadeOut();
+
+		bool IsPerfectlyFadeOut();
+
+		void Awake();
+		void Update();
 	};
 }

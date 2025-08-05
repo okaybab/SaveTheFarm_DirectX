@@ -358,7 +358,9 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 	m_d2dContext->SetTransform(d2dTransform);
-	m_solidColorBrush->SetColor(D2D1::ColorF(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f));
+	m_solidColorBrush->SetColor(D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f));
+
+	auto col = D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f);
 
 	D2D1_RECT_F dstRect;
 
