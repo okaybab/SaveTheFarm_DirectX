@@ -47,8 +47,9 @@ namespace GOTOEngine
            return (it != m_animControllers.end()) ? it->second : nullptr;  
         }
 		// Set
-		bool SetDeleteEnemy(int _layer, GameObject* enemy);
+		void SetDeleteEnemy(int _layer, GameObject* enemy, bool _isPlayerAttack = false);
 
+		//bool CreateEnemy()
 		void CreateEnemy(E_EnemyType enemyType, int player);
 		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
 

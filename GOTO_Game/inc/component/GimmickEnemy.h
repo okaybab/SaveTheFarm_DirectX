@@ -98,7 +98,6 @@ namespace GOTOEngine
 			__super::OnBulletDie();
 
 			// 죽는 애니메이션 필요
-
 			Destroy(GetGameObject(), 0.5f);
 		}
 	};
