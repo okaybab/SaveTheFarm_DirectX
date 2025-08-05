@@ -20,6 +20,10 @@ namespace GOTOEngine
 		E_Move_Enemy_Type m_moveEnemyType;
 
 	public:
+		void Dispose() override
+		{
+			__super::Dispose();
+		}
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);

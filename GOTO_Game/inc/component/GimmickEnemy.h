@@ -25,6 +25,8 @@ namespace GOTOEngine
 	public:
 		void Dispose() override
 		{
+			__super::Dispose();
+
 			if (m_isDelayByDispone)
 			{
 				if (m_layer == 1)
@@ -36,10 +38,11 @@ namespace GOTOEngine
 					GameManager::instance->P2Score -= 1;
 				}
 			}
-
-			// 기믹 호출 GimmickManager::GimmickOn()
-			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
-
+			else
+			{
+				// 기믹 호출 GimmickManager::GimmickOn()
+				GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
+			}
 		}
 		void Initialize(std::any param) override
 		{
@@ -101,12 +104,3 @@ namespace GOTOEngine
 		}
 	};
 }
-
-/*
-std::random_device rd;
-std::mt19937 gen(rd());
-std::uniform_real_distribution<float> distWidth(-0.25f, 0.25f);
-std::uniform_real_distribution<float> distHeight(0.0f, 0.5f);
-baseObject->GetTransform()->SetPosition({ Screen::GetWidth() * distWidth(gen), Screen::GetHeight() * distHeight(gen) });
-
-*/

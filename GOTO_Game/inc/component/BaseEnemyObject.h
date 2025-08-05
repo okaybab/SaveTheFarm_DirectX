@@ -71,7 +71,11 @@ namespace GOTOEngine
 		
 	public:
 		virtual ~BaseEnemyObject() = default;
-		virtual void Awake() {}
+		virtual void Dispose() { if (!GameManager::instance->setactive) return; }
+		virtual void Awake() 
+		{
+		
+		}
 		void Update()
 		{
 			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
@@ -105,9 +109,13 @@ namespace GOTOEngine
 			GetGameObject()->GetTransform()->SetPosition(newPos);
 
 		}
+		virtual void OnEnable() 
+		{
+		}
+		virtual void OnDisable() 
+		{
 
-		void OnEnable() {}
-		void OnDisable() {}
+		}
 		virtual void OnDestroy() {}
 		
 		virtual void Initialize(std::any param) = 0;
@@ -203,6 +211,3 @@ namespace GOTOEngine
 
 	};
 }
-
-// enemy move size
-//Screen::GetWidth() * 0.5f, Screen::GetHeight()});
