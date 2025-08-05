@@ -165,6 +165,7 @@
     <ClInclude Include="inc\miniaudio\miniaudio.h" />
     <ClInclude Include="inc\PhysicsManager.h" />
     <ClInclude Include="inc\RadialSpriteRenderer.h" />
+    <ClInclude Include="inc\RectRenderer.h" />
     <ClInclude Include="inc\RectTransform.h" />
     <ClInclude Include="inc\Resource.h" />
     <ClInclude Include="inc\BBox.h" />
@@ -225,7 +226,8 @@
     <ClInclude Include="inc\ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="inc\ParticleSystem.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\RectRenderer.cpp" />
     <ClCompile Include="src\RadialSpriteRenderer.cpp" />
     <ClCompile Include="src\Graphic.cpp" />
     <ClCompile Include="src\Image.cpp" />

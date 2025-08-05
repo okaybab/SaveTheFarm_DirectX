@@ -9,6 +9,7 @@ namespace GOTOEngine
 	{
 		Simple = 0,
 		RadialFill,
+		FilledRect
 	};
 	class Image : public Graphic
 	{

@@ -52,6 +52,7 @@ namespace GOTOEngine
 
 		void OnSceneLoaded()
 		{
+			m_cam2 = nullptr;
 			if (id == 1)
 			{
 				auto p2camGO = GameObject::Find(L"p2Cam");

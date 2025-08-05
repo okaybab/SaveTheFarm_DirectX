@@ -171,6 +171,7 @@
     <ClCompile Include="src\component\TutorialImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\FadeInOutFXManager.h" />
     <ClInclude Include="inc\component\GameManager2.h" />
     <ClInclude Include="inc\component\ButtonAnimation.h" />
     <ClInclude Include="inc\component\EnhancedCrosshairFire.h" />

@@ -48,8 +48,10 @@ void GOTOEngine::Image::Render()
             else
                 renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
             break;
-        }
-        
+        case ImageType::FilledRect:
+            renderAPI->DrawRect({ currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y },  true, {}, m_color, true);
+            break;
+        }        
     }
 }
 
