@@ -91,8 +91,8 @@ void GameManager::Awake(){
 		Timetext->SetColor({ 0,0,0,255 });
 		P1wintext->SetColor({ 255,0,0,255 });
 		P2wintext->SetColor({ 255,0,0,255 });
-		Tutorial = new GameObject;
-		Tutorial->AddComponent<TutorialImage>();
+		auto TutorialObject = new GameObject;
+		Tutorial = TutorialObject->AddComponent<TutorialImage>();
 
 		srand(time(NULL));
 		p1itemchange = rand() % 4 + 1;
@@ -123,7 +123,7 @@ void GameManager::Update() {
 	if (setactive) {
 		if(IsValidObject(Tutorial))
 		{
-			Destroy(Tutorial);
+			Destroy(Tutorial->GetGameObject());
 			Tutorial = nullptr;
 		}
 		if (GameTimer > 0.0f) {
@@ -304,15 +304,18 @@ void GameManager::Update() {
 			}
 		}
 		else {
-			if (INPUT_GET_KEYDOWN(KeyCode::Z) ||
-				INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonWest)) {
-				p1active = true;
+			if (Tutorial)
+			{
+				p1active = Tutorial->GetButton1Timer() >= Tutorial->GetMaxButtonTimer();
+				p2active = Tutorial->GetButton2Timer() >= Tutorial->GetMaxButtonTimer();
 			}
-			if (INPUT_GET_KEYDOWN(KeyCode::M) ||
-				INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
-				p2active = true;
+
+			if (p1active && p2active && tutorialCheckTime == 0.0f) {
+				tutorialCheckTime = TIME_GET_TOTALTIME() + 0.45f;
 			}
-			if (p1active && p2active) {
+
+			if (tutorialCheckTime != 0.0f && tutorialCheckTime < TIME_GET_TOTALTIME())
+			{
 				setactive = true;
 			}
 		}

@@ -612,9 +612,7 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 {
 	if (!bitmap || fillAmount <= 0.0f) return;
 
-	// fillAmount를 0~1로 클램프
 	fillAmount = max(0.0f, min(1.0f, fillAmount));
-
 	if (fillAmount >= 1.0f)
 	{
 		DrawBitmap(bitmap, mat, destRect, sourceRect, color, filter, useScreenPos);
@@ -625,12 +623,36 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
-	// 원형 중심점과 반지름 계산
-	float centerX = destRect.width * 0.5f;
-	float centerY = destRect.height * 0.5f;
-	float radius = min(destRect.width, destRect.height) * 0.5f;
+	// DrawRect와 동일한 방식으로 변환 행렬 적용
+	m_d2dContext->SetTransform(d2dTransform);
 
-	// 각도를 라디안으로 변환 (startAngle은 도 단위, 0 = 위쪽)
+	// 목적지 사각형 설정 (DrawRect와 동일한 로직)
+	D2D1_RECT_F dstRect;
+	if (useScreenPos)
+	{
+		dstRect = D2D1::RectF(
+			destRect.x,
+			(screenHeight - destRect.y - destRect.height),
+			(destRect.x + destRect.width),
+			(screenHeight - destRect.y)
+		);
+	}
+	else
+	{
+		dstRect = D2D1::RectF(
+			0,
+			0,
+			destRect.width,
+			destRect.height
+		);
+	}
+
+	// pathGeometry용 중심점과 반지름 계산 (dstRect 기준)
+	float centerX = (dstRect.left + dstRect.right) * 0.5f;
+	float centerY = (dstRect.top + dstRect.bottom) * 0.5f;
+	float radius = min(dstRect.right - dstRect.left, dstRect.bottom - dstRect.top) * 0.5f;
+
+	// 각도를 라디안으로 변환
 	float startRad = (startAngle - 90.0f) * (M_PI / 180.0f);
 	float sweepAngle = 360.0f * fillAmount;
 	if (!clockwise) sweepAngle = -sweepAngle;
@@ -639,19 +661,17 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	// 기하학적 경로 생성
 	ComPtr<ID2D1PathGeometry> pathGeometry;
 	ComPtr<ID2D1GeometrySink> geometrySink;
-
 	HRESULT hr = m_d2dFactory->CreatePathGeometry(&pathGeometry);
 	if (FAILED(hr)) return;
 
 	hr = pathGeometry->Open(&geometrySink);
 	if (FAILED(hr)) return;
 
-	// 부채꼴
+	// 부채꼴 생성 (dstRect 좌표계 기준)
 	D2D1_POINT_2F startPoint = {
 		centerX + radius * cosf(startRad),
 		centerY + radius * sinf(startRad)
 	};
-
 	D2D1_POINT_2F endPoint = {
 		centerX + radius * cosf(endRad),
 		centerY + radius * sinf(endRad)
@@ -675,34 +695,18 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	hr = geometrySink->Close();
 	if (FAILED(hr)) return;
 
-	// Layer를 사용하여 클리핑 마스크 적용
+	// Layer 생성
 	ComPtr<ID2D1Layer> layer;
 	hr = m_d2dContext->CreateLayer(&layer);
 	if (FAILED(hr)) return;
 
-	// 목적지 사각형 설정
-	D2D1_RECT_F dstRect;
-	if (useScreenPos)
-	{
-		dstRect = D2D1::RectF(
-			destRect.x,
-			(screenHeight - destRect.y - destRect.height),
-			(destRect.x + destRect.width),
-			(screenHeight - destRect.y)
-		);
-	}
-	else
-	{
-		dstRect = D2D1::RectF(0, 0, destRect.width, destRect.height);
-	}
-
-	// 소스 사각형 설정
-	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
+	// 소스 사각형 설정 (Unity → D2D 텍스처 좌표계 변환)
+	auto d2dSourceY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
 	D2D1_RECT_F srcRect = D2D1::RectF(
 		sourceRect.x,
-		d2dDestY,
+		d2dSourceY,
 		sourceRect.x + sourceRect.width,
-		d2dDestY + sourceRect.height
+		d2dSourceY + sourceRect.height
 	);
 
 	// 필터링 모드 설정
@@ -717,9 +721,7 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 		break;
 	}
 
-	// 변환 행렬 적용 및 레이어로 클리핑하여 그리기
-	m_d2dContext->SetTransform(d2dTransform);
-
+	// Layer로 클리핑하여 그리기
 	m_d2dContext->PushLayer(
 		D2D1::LayerParameters(
 			D2D1::InfiniteRect(),

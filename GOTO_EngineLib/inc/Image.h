@@ -1,6 +1,7 @@
 #pragma once
 #include "Graphic.h"
 #include "Sprite.h"
+#include "Mathf.h"
 
 namespace GOTOEngine
 {
@@ -36,7 +37,7 @@ namespace GOTOEngine
 		void SetImageType(ImageType type) { m_type = type; }
 		ImageType GetImageType() { return m_type; }
 
-		void SetFillAmount(float value) { m_fillAmount = Mathf::Max(0.0f, Mathf::Min(1.0f, m_fillAmount)); }
+		void SetFillAmount(float value) { m_fillAmount = value; }
 		const float& GetFillAmount() const { return m_fillAmount; }
 
 		Sprite* GetSprite() { return m_sprite; };

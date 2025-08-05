@@ -1,5 +1,6 @@
 ﻿#include "TutorialImage.h"
 #include "SoundManager.h"
+#include <AnimationCurve.h>
 
 using namespace GOTOEngine;
 //TutorialImage* TutorialImage::instance = nullptr;
@@ -13,6 +14,64 @@ void TutorialImage::Awake() {
 	{
 		Destroy(GetGameObject());
 	}*/
+
+	buttonClickedCurve = new AnimationCurve(R"({
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.075,
+            "value": 0.6275,
+            "in_tangent": -0.35789550789593677,
+            "out_tangent": -0.35789550789593677,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.155,
+            "value": 1.1775,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.215,
+            "value": 0.8775,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.275,
+            "value": 1.0925,
+            "in_tangent": -0.3499999999999993,
+            "out_tangent": -0.3499999999999993,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.355,
+            "value": 0.9975,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.93,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+})");
+
+
+	buttonSizeDelta = { 55.0f, 55.0f };
+
 	auto canvas = GameObject::Find(L"Canvas");
 	auto expobject = new GameObject;
 	Tutorialobject.push_back(expobject);
@@ -22,24 +81,48 @@ void TutorialImage::Awake() {
 		Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.2f });
 	explanation->GetRectTransform()->SetSizeDelta({ 
 		Screen::GetWidth() * 0.6f, Screen::GetHeight() * 0.6f });
+	auto p1bBackObject = new GameObject;
+	Tutorialobject.push_back(p1bBackObject);
+	p1bBackObject->GetTransform()->SetParent(canvas->GetTransform());
+	p1buttonBack = p1bBackObject->AddComponent<Image>();
+	p1buttonBack->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.25f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f)});
+	p1buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	auto p1bobject = new GameObject;
 	Tutorialobject.push_back(p1bobject);
 	p1bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p1button = p1bobject->AddComponent<Image>();
 	p1button->GetRectTransform()->SetAnchoredPosition({
 		Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.23f });
-	p1button->GetRectTransform()->SetSizeDelta({
-		Screen::GetWidth() * 0.021f, Screen::GetHeight() * 0.035f });
+	p1button->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
+	p1button->SetSortOrder(1);
+	auto p2bBackObject = new GameObject;
+	Tutorialobject.push_back(p2bBackObject);
+	p2bBackObject->GetTransform()->SetParent(canvas->GetTransform());
+	p2buttonBack = p2bBackObject->AddComponent<Image>();
+	p2buttonBack->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.72f + (55.0f * 0.5f), Screen::GetHeight() * 0.23f + (55.0f * 0.5f) });
+	p2buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	auto p2bobject = new GameObject;
 	Tutorialobject.push_back(p2bobject);
 	p2bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p2button = p2bobject->AddComponent<Image>();
 	p2button->GetRectTransform()->SetAnchoredPosition({
 		Screen::GetWidth() * 0.72f, Screen::GetHeight() * 0.23f });
-	p2button->GetRectTransform()->SetSizeDelta({
-		Screen::GetWidth() * 0.021f, Screen::GetHeight() * 0.035f });
+	p2button->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_basic.png");
 	p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_basic.png");
+	p2button->SetSortOrder(1);
+
+	p1buttonBack->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_1.png");
+	p2buttonBack->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_2.png");
+	p1buttonBack->SetImageType(ImageType::RadialFill);
+	p2buttonBack->SetImageType(ImageType::RadialFill);
+	p1buttonBack->SetClockwise(false);
+	p2buttonBack->SetClockwise(false);
+
+	p1buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+	p2buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
 }
 
 void TutorialImage::OnDestroy() {
@@ -47,6 +130,7 @@ void TutorialImage::OnDestroy() {
 		Destroy(obj);
 		obj = nullptr;
 	}
+	delete buttonClickedCurve;
 }
 
 void TutorialImage::Update() {
@@ -118,16 +202,59 @@ void TutorialImage::Update() {
 		}
 		break;
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Z) ||
-		INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonWest)) {
-		SoundManager::instance->PlaySFX("Button");
-		p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_1.png");
+
+	auto buttonMaxTimer = 1.25f;
+
+	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0,GamepadButton::ButtonWest);
+	auto p2ButtonPress = INPUT_GET_KEY(KeyCode::M) || INPUT_GET_GAMEPAD_BUTTON(1, GamepadButton::ButtonWest);
+
+	auto lastButton1Timer = button1Timer;
+	auto lastButton2Timer = button2Timer;
+
+	if (button1Timer < buttonMaxTimer && p1ButtonPress) {
+		button1Timer += TIME_GET_DELTATIME();
+		std::cout << button1Timer << std::endl;
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::M) ||
-		INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
-		SoundManager::instance->PlaySFX("Button");
-		p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_2.png");
+	else if (button1Timer < buttonMaxTimer && !p1ButtonPress)
+	{
+		button1Timer = 0.0f;
 	}
+	else if (button1Timer >= buttonMaxTimer)
+	{
+		button1Timer = buttonMaxTimer;
+		button1AnimTimer += TIME_GET_DELTATIME();
+	}
+	
+	if (p1button->GetEnabled() && button1Timer == buttonMaxTimer)
+	{
+		SoundManager::instance->PlaySFX("Button");
+		p1button->SetEnabled(false);
+	}
+
+	if (button2Timer < buttonMaxTimer && p2ButtonPress) {
+		button2Timer += TIME_GET_DELTATIME();
+	}
+	else if (button2Timer < buttonMaxTimer && !p2ButtonPress)
+	{
+		button2Timer = 0.0f;
+	}
+	else if (button2Timer >= buttonMaxTimer)
+	{
+		button2Timer = buttonMaxTimer;
+		button2AnimTimer += TIME_GET_DELTATIME();
+	}
+
+	if (p2button->GetEnabled() && button2Timer == buttonMaxTimer)
+	{
+		SoundManager::instance->PlaySFX("Button");
+		p2button->SetEnabled(false);
+	}
+
+	p1buttonBack->SetFillAmount((button1Timer / buttonMaxTimer));
+	p2buttonBack->SetFillAmount((button2Timer / buttonMaxTimer));
+
+	p1buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta * buttonClickedCurve->Evaluate(button1AnimTimer));
+	p2buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta * buttonClickedCurve->Evaluate(button2AnimTimer));
 }
 
 void TutorialImage::TriggerPressedCheck()  {
