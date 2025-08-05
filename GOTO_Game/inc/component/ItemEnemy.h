@@ -60,7 +60,7 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case bombCrow:
@@ -68,7 +68,7 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BombCrow.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case goldCrow:
@@ -76,7 +76,7 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/GoldCrow.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			}
@@ -84,7 +84,7 @@ namespace GOTOEngine
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
-			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
@@ -98,6 +98,8 @@ namespace GOTOEngine
 		void OnBulletDie() override
 		{
 			__super::OnBulletDie();
+			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
+			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
 			// 죽는 애니메이션 필요
 			Destroy(GetGameObject(), 0.5f);

@@ -1,6 +1,8 @@
 ﻿#include "EnemySpawner.h"
 #include "Screen.h"
 
+#include "GameManager.h"
+
 // enemy
 #include "BaseEnemyObject.h"
 #include "MoveEnemy.h"
@@ -44,6 +46,25 @@ void GOTOEngine::EnemySpawner::Awake()
 			m_animControllers[key] = animControl;
 		}
 
+		std::vector<std::pair<std::wstring, std::wstring>> spriteList = {
+			{L"두더지", L"../Resources/artResource/Sprint/Mole_die.png"},
+			{L"까마귀", L"../Resources/artResource/Sprint/Crow_die.png"},
+
+			{L"토끼", L"../Resources/artResource/Sprint/Rabbit_die.png"},
+			{L"다람쥐", L"../Resources/artResource/Sprint/Squirrel_die.png"},
+			{L"도둑두더지", L"../Resources/artResource/Sprint/ThiefMole_die.png"},
+			
+			{L"얼음새", L"../Resources/artResource/Sprint/IceCrow_die.png"},
+			{L"폭탄새", L"../Resources/artResource/Sprint/BomCrow_die.png"},
+			{L"황금새", L"../Resources/artResource/Sprint/GoldCrow_die.png"},
+		};
+		for (const auto& [key, path] : spriteList)
+		{
+			auto sprite = Resource::Load<Sprite>(path.c_str());
+			sprite->IncreaseRefCount();
+			m_sprites[key] = sprite;
+		}
+
 		DontDestroyOnLoad(GetGameObject());
 	}
 	else
@@ -57,6 +78,9 @@ void GOTOEngine::EnemySpawner::OnDestroy()
 	if (instance == this)
 		instance = nullptr;
 	for (auto& it : m_animControllers) {
+		it.second->DecreaseRefCount();
+	}
+	for (auto& it : m_sprites) {
 		it.second->DecreaseRefCount();
 	}
 }
@@ -91,6 +115,8 @@ void GOTOEngine::EnemySpawner::Update()
 // 플레이어에 타입 랜덤 생성
 void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 {
+	if (GameManager::instance == nullptr) return;
+
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 
 	/*// 설정대로 스폰 (디버그 용)
@@ -156,6 +182,8 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 // 설정대로 스폰
 void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType, int player)
 {
+	if (GameManager::instance == nullptr) return;
+
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 
 	switch (enemyType)
