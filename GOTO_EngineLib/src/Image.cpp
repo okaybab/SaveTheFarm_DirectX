@@ -33,7 +33,20 @@ void GOTOEngine::Image::Render()
             filter = TextureFiltering::Linear;
             break;
         }
-        renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(),m_color,filter, true);
+
+        switch (m_type)
+        {
+        case ImageType::Simple:
+            renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+            break;
+        case ImageType::RadialFill:
+            if(m_fillAmount < 1.0f)
+                renderAPI->DrawRadialFillBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_fillAmount,m_startAngle,m_clockwise,m_color, filter, true);
+            else
+                renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+            break;
+        }
+        
     }
 }
 
