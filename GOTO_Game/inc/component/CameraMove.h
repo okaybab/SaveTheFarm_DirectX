@@ -19,7 +19,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		float moveSpeed = 245.0f;
+		float moveSpeed = 620.0f;
 		float maxMoveLength = 420;
 		int id;
 
@@ -38,11 +38,11 @@ namespace GOTOEngine
 
 			if (id == 0)
 			{
-				hInput = (INPUT_GET_KEY(KeyCode::A) ? 1.0f : 0.0f) + (INPUT_GET_KEY(KeyCode::S) ? -1.0f : 0.0f);
+				hInput = (INPUT_GET_KEY(KeyCode::S) ? 1.0f : 0.0f) + (INPUT_GET_KEY(KeyCode::A) ? -1.0f : 0.0f);
 			}
 			else
 			{
-				hInput = (INPUT_GET_KEY(KeyCode::Period) ? 1.0f : 0.0f) + (INPUT_GET_KEY(KeyCode::Slash) ? -1.0f : 0.0f);
+				hInput = (INPUT_GET_KEY(KeyCode::Slash) ? 1.0f : 0.0f) + (INPUT_GET_KEY(KeyCode::Period) ? -1.0f : 0.0f);
 			}
 
 
@@ -54,7 +54,7 @@ namespace GOTOEngine
 
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, 0.0f }, 1.0f);
 
-			m_moveVec = Vector2::Lerp(m_moveVec, moveInput * moveSpeed * m_sizefactor, 12.0f * TIME_GET_DELTATIME());
+			m_moveVec = Vector2::Lerp(m_moveVec, moveInput * moveSpeed * m_sizefactor, 6.5f * TIME_GET_DELTATIME());
 
 			GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition() + (m_moveVec * TIME_GET_DELTATIME()));
 			
