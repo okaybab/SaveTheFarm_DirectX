@@ -22,6 +22,18 @@ namespace GOTOEngine
 		void Dispose() override
 		{
 			__super::Dispose();
+
+			if (m_isDeathByDispone)
+			{
+				if (m_layer == 1)
+				{
+					GameManager::instance->P1Score -= 1;
+				}
+				else if (m_layer == 2)
+				{
+					GameManager::instance->P2Score -= 1;
+				}
+			}
 		}
 		void Initialize(std::any param) override
 		{
