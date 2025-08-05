@@ -175,7 +175,6 @@
     <ClInclude Include="inc\component\ButtonAnimation.h" />
     <ClInclude Include="inc\component\EnhancedCrosshairFire.h" />
     <ClInclude Include="inc\component\GamepadRumbleManager.h" />
-    <ClInclude Include="inc\component\ObjectPool.h" />
     <ClInclude Include="inc\component\SliderSprite.h" />
     <ClInclude Include="inc\component\GimmickManager.h" />
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
