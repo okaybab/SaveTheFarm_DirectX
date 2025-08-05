@@ -2,7 +2,7 @@
 #include <ScriptBehaviour.h>
 #include <InputManager.h>
 #include <GameObject.h>
-#include "ObjectPool.h"
+#include <Animator.h>
 
 #include <vector>
 #include <random>
@@ -12,8 +12,6 @@
 namespace GOTOEngine
 {	
 	enum E_EnemyType;
-
-
 	class EnemySpawner : public ScriptBehaviour
 	{
 	public:
@@ -23,7 +21,6 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-
 		static EnemySpawner* instance;
 		static std::mt19937 m_gen;
 		static std::mutex m_genMutex;
@@ -31,7 +28,7 @@ namespace GOTOEngine
 		std::vector<GameObject*> m_p1Enemy;
 		std::vector<GameObject*> m_p2Enemy;
 
-
+		std::unordered_map<std::wstring, AnimatorController*> m_animControllers;
 
 	public:
 		virtual ~EnemySpawner() = default;
@@ -40,20 +37,24 @@ namespace GOTOEngine
 		void Update();
 		void OnDestroy();
 
-		void CreateEnemy(E_EnemyType enemyType, int player);
-		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
-
+		// Get
+		static float GenerateRandom(float min, float max);
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
-		// Get
-		static float GenerateRandom(float min, float max);
-
+        AnimatorController* GetAnimation(std::wstring& name) {  
+           auto it = m_animControllers.find(name);  
+           return (it != m_animControllers.end()) ? it->second : nullptr;  
+        }
 		// Set
 		bool SetDeleteEnemy(int _layer, GameObject* enemy);
 
+		void CreateEnemy(E_EnemyType enemyType, int player);
+		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
+
 		void Setp1EnemyAllDestroy();
 		void Setp2EnemyAllDestroy();
+
 	};
 }
 

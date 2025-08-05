@@ -3,7 +3,6 @@
 
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
-#include <Animator.h>
 
 #include "ItemManager.h"
 
@@ -64,7 +63,6 @@ namespace GOTOEngine
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/IceCrow.png");
-				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"));
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case bombCrow:
@@ -72,7 +70,6 @@ namespace GOTOEngine
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/BombCrow.png");
-				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"));
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case goldCrow:
@@ -80,10 +77,10 @@ namespace GOTOEngine
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/GoldCrow.png");
-				AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"));
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			}
+			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
