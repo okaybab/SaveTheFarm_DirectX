@@ -8,10 +8,10 @@
 #include "ItemEnemy.h"
 
 // move
-#include "MoveLeftRight.h"
-#include "MoveUpDown.h"
-#include "MoveCircle.h"
-#include "MoveParabolic.h"
+#include "MovementLeftRight.h"
+#include "MovementUpDown.h"
+#include "MovementCircle.h"
+#include "MovementParabolic.h"
 
 using namespace GOTOEngine;
 
