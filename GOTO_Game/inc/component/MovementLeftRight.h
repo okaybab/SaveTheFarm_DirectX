@@ -11,7 +11,7 @@
 
 namespace GOTOEngine
 {
-    class MoveLeftRight : public BaseMovement
+    class MovementLeftRight : public BaseMovement
     {
     private:
         float m_distance = 1.0f;

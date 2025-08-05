@@ -9,7 +9,7 @@
 
 namespace GOTOEngine
 {
-    class MoveUpDown : public BaseMovement
+    class MovementUpDown : public BaseMovement
     {
     private:
         float m_distance = 5.0f;

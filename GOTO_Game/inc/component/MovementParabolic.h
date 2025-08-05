@@ -11,7 +11,7 @@
 
 namespace GOTOEngine
 {
-    class MoveParabolic : public BaseMovement
+    class MovementParabolic : public BaseMovement
     {
     private:
         float m_height = 50.0f;         // 포물선의 높이각도

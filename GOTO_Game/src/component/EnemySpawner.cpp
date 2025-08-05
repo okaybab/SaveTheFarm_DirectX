@@ -8,10 +8,10 @@
 #include "ItemEnemy.h"
 
 // move
-#include "MoveLeftRight.h"
-#include "MoveUpDown.h"
-#include "MoveCircle.h"
-#include "MoveParabolic.h"
+#include "MovementLeftRight.h"
+#include "MovementUpDown.h"
+#include "MovementCircle.h"
+#include "MovementParabolic.h"
 
 using namespace GOTOEngine;
 
@@ -24,10 +24,40 @@ void GOTOEngine::EnemySpawner::Awake()
 	if (!instance)
 	{
 		instance = this;
+		//경로 지정 및 리스트에 추가
+		std::vector<std::pair<std::wstring, std::wstring>> animList = {
+			{L"두더지", L"../Resources/Animation/controller/MoleAnimator_AnimController.json"},
+			{L"까마귀", L"../Resources/Animation/controller/CrowAnimator_AnimController.json"},
+
+			{L"토끼", L"../Resources/Animation/controller/RabbitAnimator_AnimController.json"},
+			{L"다람쥐", L"../Resources/Animation/controller/SquirrelAnimator_AnimController.json"},
+			{L"도둑두더지", L"../Resources/Animation/controller/ThiefMoleAnimator_AnimController.json"},
+
+			{L"얼음새", L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"},
+			{L"폭탄새", L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"},
+			{L"황금새", L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"}
+		};
+		for (const auto& [key, path] : animList)
+		{
+			auto animControl = Resource::Load<AnimatorController>(path.c_str());
+			animControl->IncreaseRefCount();
+			m_animControllers[key] = animControl;
+		}
+
+		DontDestroyOnLoad(GetGameObject());
 	}
 	else
 	{
 		Destroy(GetGameObject());
+	}
+
+}
+void GOTOEngine::EnemySpawner::OnDestroy()
+{
+	if (instance == this)
+		instance = nullptr;
+	for (auto& it : m_animControllers) {
+		it.second->DecreaseRefCount();
 	}
 }
 
@@ -58,13 +88,6 @@ void GOTOEngine::EnemySpawner::Update()
 		CreateEnemy(E_EnemyType::itemspawn, 2);
 	}
 }
-
-void GOTOEngine::EnemySpawner::OnDestroy()
-{
-	if (instance == this)
-		instance = nullptr;
-}
-
 // 플레이어에 타입 랜덤 생성
 void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 {
@@ -75,7 +98,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 	{
 	case move:
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(mole);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow_1);
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();

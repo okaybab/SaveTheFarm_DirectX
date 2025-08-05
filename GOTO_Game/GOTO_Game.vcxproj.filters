@@ -142,19 +142,19 @@
     <ClInclude Include="inc\IAttackAble.h">
       <Filter>헤더 파일\인터페이스</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\MoveCircle.h">
+    <ClInclude Include="inc\component\MovementCircle.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\MoveEnemy.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\MoveLeftRight.h">
+    <ClInclude Include="inc\component\MovementLeftRight.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\MoveParabolic.h">
+    <ClInclude Include="inc\component\MovementParabolic.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\MoveUpDown.h">
+    <ClInclude Include="inc\component\MovementUpDown.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\GimmickEnemy.h">
@@ -261,9 +261,6 @@
     </ClInclude>
     <ClInclude Include="inc\component\GameManager2.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\ObjectPool.h">
-      <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\EnhancedCrosshairFire.h">
       <Filter>헤더 파일\컴포넌트\조준점</Filter>

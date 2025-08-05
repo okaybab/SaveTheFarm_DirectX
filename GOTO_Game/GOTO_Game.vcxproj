@@ -175,7 +175,6 @@
     <ClInclude Include="inc\component\ButtonAnimation.h" />
     <ClInclude Include="inc\component\EnhancedCrosshairFire.h" />
     <ClInclude Include="inc\component\GamepadRumbleManager.h" />
-    <ClInclude Include="inc\component\ObjectPool.h" />
     <ClInclude Include="inc\component\SliderSprite.h" />
     <ClInclude Include="inc\component\GimmickManager.h" />
     <ClInclude Include="inc\component\BaseEnemyObject.h" />
@@ -191,11 +190,11 @@
     <ClInclude Include="inc\component\ItemManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
     <ClInclude Include="inc\component\MonsterAttack.h" />
-    <ClInclude Include="inc\component\MoveCircle.h" />
+    <ClInclude Include="inc\component\MovementCircle.h" />
     <ClInclude Include="inc\component\MoveEnemy.h" />
-    <ClInclude Include="inc\component\MoveLeftRight.h" />
-    <ClInclude Include="inc\component\MoveParabolic.h" />
-    <ClInclude Include="inc\component\MoveUpDown.h" />
+    <ClInclude Include="inc\component\MovementLeftRight.h" />
+    <ClInclude Include="inc\component\MovementParabolic.h" />
+    <ClInclude Include="inc\component\MovementUpDown.h" />
     <ClInclude Include="inc\component\MushroomCreator.h" />
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\PlayerController.h" />

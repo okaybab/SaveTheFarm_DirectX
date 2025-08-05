@@ -15,10 +15,10 @@
 
 // move
 #include "BaseMovement.h"
-#include "MoveLeftRight.h"
-#include "MoveUpDown.h"
-#include "MoveCircle.h"
-#include "MoveParabolic.h"
+#include "MovementLeftRight.h"
+#include "MovementUpDown.h"
+#include "MovementCircle.h"
+#include "MovementParabolic.h"
 
 namespace GOTOEngine
 {
@@ -133,7 +133,7 @@ namespace GOTOEngine
 			}
 			if ( m_moveFlag & MOVE_PARABOLIC ) // 0b1000
 			{
-				auto comp = AddComponent<MoveParabolic>();
+				auto comp = AddComponent<MovementParabolic>();
 				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
 				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
 			}
@@ -141,13 +141,13 @@ namespace GOTOEngine
 			{
 				if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
 				{
-					auto comp = AddComponent<MoveLeftRight>();
+					auto comp = AddComponent<MovementLeftRight>();
 					comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
 					comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
 				}
 				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 				{
-					auto comp = AddComponent<MoveUpDown>();
+					auto comp = AddComponent<MovementUpDown>();
 					comp->Initialize(Screen::GetHeight() * _minY, Screen::GetHeight() * _maxY);
 				}
 			}
