@@ -213,7 +213,6 @@ void TutorialImage::Update() {
 
 	if (button1Timer < buttonMaxTimer && p1ButtonPress) {
 		button1Timer += TIME_GET_DELTATIME();
-		std::cout << button1Timer << std::endl;
 	}
 	else if (button1Timer < buttonMaxTimer && !p1ButtonPress)
 	{
