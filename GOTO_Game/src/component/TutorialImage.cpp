@@ -118,12 +118,12 @@ void TutorialImage::Update() {
 		}
 		break;
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
+	if (INPUT_GET_KEYDOWN(KeyCode::Z) ||
 		INPUT_GET_GAMEPAD_BUTTONDOWN(0,GamepadButton::ButtonWest)) {
 		SoundManager::instance->PlaySFX("Button");
 		p1button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_1.png");
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
+	if (INPUT_GET_KEYDOWN(KeyCode::M) ||
 		INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
 		SoundManager::instance->PlaySFX("Button");
 		p2button->SetSprite(L"../Resources/artResource/UI/Tutorial/OKButton_2.png");

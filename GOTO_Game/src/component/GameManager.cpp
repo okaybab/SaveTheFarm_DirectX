@@ -271,7 +271,7 @@ void GameManager::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
-			if (GameTimer <= 0.0f) {
+			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
 		}
@@ -304,11 +304,11 @@ void GameManager::Update() {
 			}
 		}
 		else {
-			if (INPUT_GET_KEYDOWN(KeyCode::Alpha1) ||
+			if (INPUT_GET_KEYDOWN(KeyCode::Z) ||
 				INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonWest)) {
 				p1active = true;
 			}
-			if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) ||
+			if (INPUT_GET_KEYDOWN(KeyCode::M) ||
 				INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonWest)) {
 				p2active = true;
 			}

@@ -13,6 +13,7 @@
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "GimmickManager.h"
+#include "SoundManager.h"
 
 #include "StartMenuPrefab.h"
 #include "CameraShaker.h"
@@ -41,10 +42,18 @@ void testEnemyScene::Initialize()
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
 
-	//StartMenuPrefab::CreateStartMenu();
+	auto RumbleManagerGO = new GameObject(L"GamePadRumbleManager");
+	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
+
+	StartMenuPrefab::CreateStartMenu();
+
+
+	auto soundManager = new GameObject(L"사운드매니저");
+
+	soundManager->AddComponent<SoundManager>();
 	//*/
 
-	//*/ Play Scene
+	/*/ Play Scene
 	auto player1CamGO = Camera::CreateMainCamera();
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
 	player1Cam->name = L"플레이어1 카메라";

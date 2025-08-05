@@ -401,4 +401,5 @@ FodyWeavers.xsd
 
 *.bak
 .svn
-/Resources/artResource/Animation
+/Resources/artResource/Animation/
+
