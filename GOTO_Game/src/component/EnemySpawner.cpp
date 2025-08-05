@@ -59,12 +59,16 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 }
 
+void GOTOEngine::EnemySpawner::OnDestroy()
+{
+	if (instance == this)
+		instance = nullptr;
+}
+
 // 플레이어에 타입 랜덤 생성
 void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 {
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
-
-	//GameObject* baseObject = CreateEnemy(enemyType);
 
 	/*// 설정대로 스폰 (디버그 용)
 	switch(enemyType)
