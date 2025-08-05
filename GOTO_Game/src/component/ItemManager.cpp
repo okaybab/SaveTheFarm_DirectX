@@ -40,7 +40,7 @@ void ItemManager::Awake() {
 			p1itemImage[i] = p1item->AddComponent<Image>();
 			p1itemImage[i]->GetRectTransform()->SetAnchoredPosition({
 				p1StartPos.x + spacing * i, p1StartPos.y });
-			p1itemImage[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
+			p1itemImage[i]->GetRectTransform()->SetSizeDelta({ 90.0f, 90.0f });
 
 			// 플레이어 2 아이템 오브젝트 생성 및 설정
 			auto p2item = new GameObject;
@@ -48,7 +48,7 @@ void ItemManager::Awake() {
 			p2itemImage[i] = p2item->AddComponent<Image>();
 			p2itemImage[i]->GetRectTransform()->SetAnchoredPosition({
 				p2StartPos.x + spacing * i, p2StartPos.y });
-			p2itemImage[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
+			p2itemImage[i]->GetRectTransform()->SetSizeDelta({ 90.0f, 90.0f });
 		}
 	}
 	else
