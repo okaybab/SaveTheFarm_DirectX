@@ -29,6 +29,7 @@ namespace GOTOEngine
 		std::vector<GameObject*> m_p2Enemy;
 
 		std::unordered_map<std::wstring, AnimatorController*> m_animControllers;
+		std::unordered_map<std::wstring, Sprite*> m_sprites;
 
 	public:
 		virtual ~EnemySpawner() = default;
@@ -46,6 +47,11 @@ namespace GOTOEngine
            auto it = m_animControllers.find(name);  
            return (it != m_animControllers.end()) ? it->second : nullptr;  
         }
+		Sprite* GetSprite(std::wstring& name) {
+			auto it = m_sprites.find(name);
+			return (it != m_sprites.end()) ? it->second : nullptr;
+		}
+
 		// Set
 		void SetDeleteEnemy(int _layer, GameObject* enemy, bool _isPlayerAttack = false);
 

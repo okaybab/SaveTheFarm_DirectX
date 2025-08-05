@@ -40,7 +40,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0000;
 				GetGameObject()->name = L"두더지";
 				m_disPoneTime = 8.0f;
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Mole.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(-0.4f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
@@ -48,7 +48,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0001;
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
@@ -56,7 +56,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0010;
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
-				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Crow.png");
+				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
@@ -64,7 +64,7 @@ namespace GOTOEngine
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
 			
-			auto spriteRect = GetComponent<SpriteRenderer>()->GetSprite()->GetRect();
+			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
@@ -78,6 +78,8 @@ namespace GOTOEngine
 		void OnBulletDie() override
 		{
 			__super::OnBulletDie();
+			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
+			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
 			// 죽는 애니메이션 필요
 			Destroy(GetGameObject(), 0.5f);
