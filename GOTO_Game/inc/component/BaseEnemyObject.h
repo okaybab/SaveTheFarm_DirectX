@@ -144,7 +144,7 @@ namespace GOTOEngine
 			{
 				auto comp = AddComponent<MovementParabolic>();
 				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
+				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 			}
 			if(!(m_moveFlag & MOVE_PARABOLIC && m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)) // 1011 == 1000
 			{
@@ -152,7 +152,7 @@ namespace GOTOEngine
 				{
 					auto comp = AddComponent<MovementLeftRight>();
 					comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-					comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 				}
 				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 				{
