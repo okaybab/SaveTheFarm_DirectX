@@ -2,17 +2,17 @@
 #include "SoundManager.h"
 
 using namespace GOTOEngine;
-TutorialImage* TutorialImage::instance = nullptr;
+//TutorialImage* TutorialImage::instance = nullptr;
 
 void TutorialImage::Awake() {
-	if (!instance)
+	/*if (!instance)
 	{
 		instance = this;
 	}
 	else
 	{
 		Destroy(GetGameObject());
-	}
+	}*/
 	auto canvas = GameObject::Find(L"Canvas");
 	auto expobject = new GameObject;
 	Tutorialobject.push_back(expobject);
@@ -43,8 +43,6 @@ void TutorialImage::Awake() {
 }
 
 void TutorialImage::OnDestroy() {
-	if (instance == this)
-		instance = nullptr;
 	for (auto obj : Tutorialobject) {
 		Destroy(obj);
 		obj = nullptr;

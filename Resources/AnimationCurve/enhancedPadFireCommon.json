@@ -1,0 +1,74 @@
+{
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 0.45,
+            "in_tangent": -0.7006375000000012,
+            "out_tangent": -0.7006375000000012,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.69,
+            "value": 0.025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.155,
+            "value": 0.0225,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.2577950000000002,
+            "value": 0.21628750000000002,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.365,
+            "value": 0.0275,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.947253,
+            "value": 0.025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.0497400000000003,
+            "value": 0.44921250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.1595475,
+            "value": 0.025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 3.0,
+            "value": 0.025,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 5.0,
+            "value": 0.35,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}

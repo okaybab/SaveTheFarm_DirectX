@@ -6,6 +6,7 @@
 #include <RadialSpriteRenderer.h>
 #include <ParticleSystem.h>
 #include <TextRenderer.h>
+#include <Mathf.h>
 
 #include "IAttackAble.h"
 #include "GamepadRumbleManager.h"
@@ -26,11 +27,23 @@ namespace GOTOEngine
 		float m_fireGage = 0.0f;
 
 		bool m_startDrop = false;
+		bool m_charged = false;
 
 		int m_strCount = 0;
 
+		int m_rumbleAnimID = -1;
+		int m_holdingRumbleAnimID = -1;
+
+		float m_nextPlayHoldingRumbleTime = 0.0f;
+
+		Vector2 m_shakeMove;
+
 		static RumbleAnimationClip* s_pfireRumbleClip;
+		static RumbleAnimationClip* s_pholdRumbleClip;
+		static RumbleAnimationClip* s_pholdLoopRumbleClip;
 		static int s_crosshairCount;
+
+		int m_noiseSeed = 1294;
 	public:
     EnhancedCrosshairFire()
     {
@@ -45,9 +58,13 @@ namespace GOTOEngine
 		float fireGageUpRate = 1.25f;
 		int id = 0;
 		Delegate<void, int> onFire;
+		Delegate<void, int> onCharge;
 		RadialSpriteRenderer* gageSprite = nullptr;
 		ParticleSystem* dropParticleSys;
 		TextRenderer* strText;
+
+		int GetCurrentStrength() { return m_strCount; }
+
 		void Awake();
 
 		void OnEnable();

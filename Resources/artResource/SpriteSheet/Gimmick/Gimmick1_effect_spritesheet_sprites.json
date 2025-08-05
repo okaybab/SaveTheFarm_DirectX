@@ -1,0 +1,44 @@
+{
+    "texture": "Gimmick1_effect_spritesheet.png",
+    "textureWidth": 1200,
+    "textureHeight": 696,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Gimmick1_effect_spritesheet_0",
+            "x": 0.0,
+            "y": 348.0,
+            "width": 600.0,
+            "height": 348.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick1_effect_spritesheet_1",
+            "x": 600.0,
+            "y": 348.0,
+            "width": 600.0,
+            "height": 348.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick1_effect_spritesheet_2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 600.0,
+            "height": 348.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick1_effect_spritesheet_3",
+            "x": 600.0,
+            "y": 0.0,
+            "width": 600.0,
+            "height": 348.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

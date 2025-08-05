@@ -6,6 +6,8 @@
 #include "IAttackAble.h"
 #include "GamepadRumbleManager.h"
 #include "RumbleAnimationClip.h"
+#include <RadialSpriteRenderer.h>
+#include "CameraShaker.h"
 
 namespace GOTOEngine
 {
@@ -18,6 +20,8 @@ namespace GOTOEngine
 		bool m_RightTriggerCheckTrigger;
 		bool m_RightTriggerPressed;
 
+		CameraShaker* m_shaker = nullptr;
+
 		static RumbleAnimationClip* s_pfireRumbleClip;
 		static int s_crosshairCount;
 	public:
@@ -27,12 +31,16 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
+        REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
 		float fireRate = 0.5f; // 발사 간격
 		int id = 0;
 		Delegate<void,int> onFire;
+		Delegate<void,int> onCharge;
+
+		RadialSpriteRenderer* gageSprite;
 
 		void Awake();
 
@@ -45,5 +53,7 @@ namespace GOTOEngine
 		void TriggerPressedCheckReset();
 
 		void Update();
+
+		void OnSceneLoaded();
 	};
 }

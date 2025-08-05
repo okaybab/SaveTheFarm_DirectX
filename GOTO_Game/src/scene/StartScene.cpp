@@ -3,6 +3,7 @@
 #include "StartMenuPrefab.h"
 #include <Camera.h>
 #include "GamepadRumbleManager.h"
+#include "SoundManager.h"
 
 void StartScene::Initialize()
 {
@@ -26,4 +27,9 @@ void StartScene::Initialize()
 	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
 
 	StartMenuPrefab::CreateStartMenu();
+
+
+	auto soundManager = new GameObject(L"사운드매니저");
+
+	soundManager->AddComponent<SoundManager>();
 }

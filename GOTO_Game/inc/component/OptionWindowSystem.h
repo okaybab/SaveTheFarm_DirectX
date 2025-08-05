@@ -5,6 +5,8 @@
 #include <cstring>
 #include <SliderSprite.h>
 
+#include "SoundManager.h"
+
 namespace GOTOEngine
 {
 	class OptionWindowSystem : public ScriptBehaviour
@@ -89,9 +91,22 @@ namespace GOTOEngine
 			m_cachedPlayer1 = GameObject::Find(L"Player1");
 			m_cachedPlayer2 = GameObject::Find(L"Player2");
 
-            for (auto& v : sliderTargetValue)
+            for (int i = 0; i < 4; i++)
             {
-                v = 0.5f;
+                switch(i)
+                {
+                //배경음
+                case 0:
+                    sliderTargetValue[i] = SoundManager::instance->GetbgmVolume();
+                    break;
+
+                //효과음
+                case 1:
+                    sliderTargetValue[i] = SoundManager::instance->GetsfxVolume();
+                    break;
+                default:
+                    sliderTargetValue[i] = 0.5f;
+                }
             }
 		}
 
@@ -281,6 +296,19 @@ namespace GOTOEngine
             {
                 if(IsValidObject(sliderSprites[i]))
                     sliderSprites[i]->SetValue(Mathf::Lerp(sliderSprites[i]->GetValue(), sliderTargetValue[i], TIME_GET_DELTATIME() * 15.0f));
+            }
+
+            switch (m_focusIndex)
+            {
+            //배경음
+            case 0:
+                SoundManager::instance->SetBGMVolume(sliderTargetValue[m_focusIndex]);
+                break;
+
+            //효과음
+            case 1:
+                SoundManager::instance->SetSFXVolume(sliderTargetValue[m_focusIndex]);
+                break;
             }
         }
 

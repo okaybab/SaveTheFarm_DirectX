@@ -105,12 +105,18 @@
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
     <ClCompile Include="src\component\GamepadRumbleManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\EnhancedCrosshairFire.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\component\CrosshairFire.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\EnhancedCrosshairFire.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\SampleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GameManager2.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
   </ItemGroup>
@@ -253,13 +259,19 @@
     <ClInclude Include="inc\component\ButtonAnimation.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\EnhancedCrosshairFire.h">
-      <Filter>헤더 파일\컴포넌트\조준점</Filter>
+    <ClInclude Include="inc\component\GamepadRumbleManager.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\struct\RumbleAnimationClip.h">
-      <Filter>헤더 파일\컴포넌트\조준점</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\GamepadRumbleManager.h">
+    <ClInclude Include="inc\component\EnhancedCrosshairFire.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\scene\SampleScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\GameManager2.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
   </ItemGroup>

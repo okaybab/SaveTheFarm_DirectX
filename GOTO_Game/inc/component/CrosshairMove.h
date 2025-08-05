@@ -4,6 +4,8 @@
 #include <Transform.h>
 #include <TimeManager.h>
 #include <Camera.h>
+#include <Animator.h>
+
 #include "CrosshairCollide.h"
 
 namespace GOTOEngine
@@ -14,6 +16,7 @@ namespace GOTOEngine
 		CrosshairCollide* m_collider = nullptr; // Collider2D 컴포넌트
 		const float slowSpeedFactor = 0.6f; // 슬로우 모드 속도 감소 비율
 		Vector2 m_vel = { 0,0 };
+		
 	public:
     CrosshairMove()
     {
@@ -30,6 +33,9 @@ namespace GOTOEngine
 
 		static bool reverseInput1;
 		static bool reverseInput2;
+		
+		Animator* gimmickAnimator;
+		SpriteRenderer* gimmickAnimSprite;
 
 		void Awake()
 		{
@@ -69,12 +75,38 @@ namespace GOTOEngine
 			{
 				hInput = -hInput;
 				vInput = -vInput;
+				if(!gimmickAnimSprite->GetEnabled())
+				{
+					gimmickAnimSprite->SetEnabled(true);
+					gimmickAnimator->SetEnabled(true);
+				}
+			}
+			else if(id == 0)
+			{
+				if (gimmickAnimSprite->GetEnabled())
+				{
+					gimmickAnimSprite->SetEnabled(false);
+					gimmickAnimator->SetEnabled(false);
+				}
 			}
 
 			if (id == 1 && reverseInput2)
 			{
 				hInput = -hInput;
 				vInput = -vInput;
+				if (!gimmickAnimSprite->GetEnabled())
+				{
+					gimmickAnimSprite->SetEnabled(true);
+					gimmickAnimator->SetEnabled(true);
+				}
+			}
+			else if(id == 1)
+			{
+				if (gimmickAnimSprite->GetEnabled())
+				{
+					gimmickAnimSprite->SetEnabled(false);
+					gimmickAnimator->SetEnabled(false);
+				}
 			}
 
 			auto currentSpeedFactor = 1.0f;
@@ -95,6 +127,9 @@ namespace GOTOEngine
 			auto currentPos = GetTransform()->GetPosition();
 
 			GetTransform()->SetPosition({ Mathf::Clamp(currentPos.x,posMin.x,posMax.x), Mathf::Clamp(currentPos.y,posMin.y,posMax.y) });
+
+			if (INPUT_GET_KEYDOWN(KeyCode::U))
+				SCENE_CHANGE_SCENE(L"StartScene");
 		}
 	};
 }

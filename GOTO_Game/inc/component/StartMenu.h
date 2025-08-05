@@ -4,7 +4,6 @@
 #include "CrosshairInteractButton.h"
 #include <SpriteRenderer.h>
 #include <Engine.h>
-
 namespace GOTOEngine
 {
 	class StartMenu : public ScriptBehaviour

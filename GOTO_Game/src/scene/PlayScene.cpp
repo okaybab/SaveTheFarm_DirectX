@@ -24,16 +24,6 @@ void PlayScene::Initialize()
 	player1Cam->SetRenderLayer(1 << 1);
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
-	if (Object::IsValidObject(player1CrosshairGO))
-	{
-		auto crosshairFire = player1CrosshairGO->GetComponent<CrosshairFire>();
-			if(Object::IsValidObject(crosshairFire))
-				crosshairFire->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
-
-		auto enhancedCrosshairFire = player1CrosshairGO->GetComponent<EnhancedCrosshairFire>();
-		if (Object::IsValidObject(enhancedCrosshairFire))
-			enhancedCrosshairFire->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
-	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
@@ -42,16 +32,6 @@ void PlayScene::Initialize()
 	player2Cam->SetRenderLayer(1 << 2);
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
-	if (Object::IsValidObject(player2CrosshairGO))
-	{
-		auto crosshairFire = player2CrosshairGO->GetComponent<CrosshairFire>();
-		if (Object::IsValidObject(crosshairFire))
-			crosshairFire->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
-
-		auto enhancedCrosshairFire = player2CrosshairGO->GetComponent<EnhancedCrosshairFire>();
-		if (Object::IsValidObject(enhancedCrosshairFire))
-			enhancedCrosshairFire->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
-	}
 
 	auto BackgroundGO = new GameObject(L"Background");	
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
@@ -68,6 +48,4 @@ void PlayScene::Initialize()
 	gimmickManager->AddComponent<GimmickManager>();
 	auto spawner = new GameObject(L"enemySpawner");
 	spawner->AddComponent<EnemySpawner>();
-	auto soundManager = new GameObject(L"사운드매니저");
-	soundManager->AddComponent<SoundManager>();
 }
