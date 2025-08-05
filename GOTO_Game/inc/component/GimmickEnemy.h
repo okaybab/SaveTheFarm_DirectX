@@ -26,7 +26,7 @@ namespace GOTOEngine
 		{
 			__super::Dispose();
 
-			if (m_isDelayByDispone)
+			if (m_isDeathByDispone)
 			{
 				if (m_layer == 1)
 				{

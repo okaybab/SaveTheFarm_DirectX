@@ -53,7 +53,7 @@ namespace GOTOEngine
 
 		// 상태 값
 		bool m_isDie = false;
-		bool m_isDelayByDispone = false;
+		bool m_isDeathByDispone = false;
 		bool m_isFrozen = false;
 
 		// player layer
