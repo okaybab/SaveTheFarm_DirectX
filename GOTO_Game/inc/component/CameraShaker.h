@@ -26,7 +26,7 @@ namespace GOTOEngine
 				m_shakeAmount * (Mathf::PerlinNoise(m_noiseSeed + 2, TIME_GET_TOTALTIME() * m_shakeSpeed) * 2 - 1) };
 			m_shakeTrauma = Mathf::Lerp(m_shakeTrauma, 0, m_shakeRecovery * TIME_GET_DELTATIME());
 
-			GetTransform()->SetPosition(m_shakePos * m_shakeTrauma);
+			GetTransform()->SetLocalPosition(m_shakePos * m_shakeTrauma);
 		}
 
 		void ShakeCamera(float speed, float amount, float recovery)

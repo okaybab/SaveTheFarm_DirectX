@@ -66,6 +66,6 @@ namespace GOTOEngine
 #define TIME_GET_FIXED_DELTATIME GOTOEngine::TimeManager::Get()->GetFixedDeltaTime 
 #define TIME_GET_UNSCALED_DELTATIME GOTOEngine::TimeManager::Get()->GetUnscaledDeltaTime
 #define TIME_GET_UNSCALED_TOTALTIME GOTOEngine::TimeManager::Get()->GetUnscaledTime
-#define TIME_GET_TIMESCALE GOTOEngine::TimeManager::Get()->SetTimeScale
-#define TIME_SET_TIMESCALE GOTOEngine::TimeManager::Get()->GetTimeScale
+#define TIME_GET_TIMESCALE GOTOEngine::TimeManager::Get()->GetTimeScale
+#define TIME_SET_TIMESCALE GOTOEngine::TimeManager::Get()->SetTimeScale
 #define TIME_GET_FRAMECOUNT GOTOEngine::TimeManager::Get()->GetFrameCount

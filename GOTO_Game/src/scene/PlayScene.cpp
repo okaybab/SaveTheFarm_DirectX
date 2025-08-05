@@ -14,10 +14,16 @@
 #include "CrosshairFire.h"
 #include "EnemySpawner.h"
 #include "SoundManager.h"
+#include "CameraMove.h"
 
 void PlayScene::Initialize()
 {
 	auto player1CamGO = Camera::CreateMainCamera();
+
+	auto player1CamMoverGO = new GameObject(L"카메라 핸들러");
+	player1CamMoverGO->AddComponent<CameraMove>()->id = 0;
+	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
+
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
 	player1Cam->GetGameObject()->name = L"p1Cam";
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
@@ -26,6 +32,11 @@ void PlayScene::Initialize()
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 
 	auto player2CamGO = Camera::CreateSubCamera();
+
+	auto player2CamMoverGO = new GameObject(L"카메라 핸들러2");
+	player2CamMoverGO->AddComponent<CameraMove>()->id = 1;
+	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
+
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
 	player2Cam->GetGameObject()->name = L"p2Cam";
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });

@@ -75,12 +75,12 @@ void GimmickManager::Update() {
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
 		GimmickOn(2, 1);
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::A)) {
-		GimmickOn(1, 2);
-	}
-	if (INPUT_GET_KEYDOWN(KeyCode::L)) {
-		GimmickOn(2, 2);
-	}
+	//if (INPUT_GET_KEYDOWN(KeyCode::A)) {
+	//	GimmickOn(1, 2);
+	//}
+	//if (INPUT_GET_KEYDOWN(KeyCode::L)) {
+	//	GimmickOn(2, 2);
+	//}
 };
 
 void GimmickManager::GimmickOn(int player, int gimmick) {
