@@ -12,6 +12,7 @@
 namespace GOTOEngine
 {
 	class EnemySpawner;
+	class TutorialImage;
 	class GameManager : public ScriptBehaviour
 	{
 	private:
@@ -38,7 +39,8 @@ namespace GOTOEngine
 		int minutes;
 		int seconds;
 
-		GameObject* Tutorial;
+		float tutorialCheckTime = 0.0f;
+		TutorialImage* Tutorial;
 		EnemySpawner* EnemySpawner;
 
 	public:

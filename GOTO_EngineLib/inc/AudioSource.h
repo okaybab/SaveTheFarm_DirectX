@@ -66,6 +66,7 @@ namespace GOTOEngine
 		AudioSource();
 
 		void Play();
+		void PlayOneShot(); 
 		void Stop();
 		void Pause();
 		void Resume();

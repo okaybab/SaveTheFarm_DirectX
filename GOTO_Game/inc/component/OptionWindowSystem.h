@@ -43,6 +43,8 @@ namespace GOTOEngine
         Transform* focusUITransform = nullptr;
         float openAnimScale = 1.0f;
 
+        SpriteRenderer* baseWindowSprite = nullptr;
+
         std::array<SliderSprite*, 4> sliderSprites;
         std::array<float, 4> sliderTargetValue;
 
@@ -215,6 +217,7 @@ namespace GOTOEngine
                 openAnimScale = animValue;
                 // 윈도우 크기 조정
                 baseWindow->SetLocalScale({ animValue, animValue });
+                baseWindowSprite->SetColor({ 255,255,255,(static_cast<uint8_t>(255.0f * m_animationTime)) });
                 // ESC 키로 창 닫기
                 if (InputManager::Get()->GetKeyDown(KeyCode::Escape)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonEast)
