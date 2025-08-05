@@ -166,6 +166,29 @@ namespace GOTOEngine
         m_keyCodeMap[KeyCode::LeftArrow] = VK_LEFT;
         m_keyCodeMap[KeyCode::RightArrow] = VK_RIGHT;
 
+        m_keyCodeMap[KeyCode::Comma] = VK_OEM_COMMA;
+        m_keyCodeMap[KeyCode::Period] = VK_OEM_PERIOD;
+        m_keyCodeMap[KeyCode::Slash] = VK_OEM_2;
+        m_keyCodeMap[KeyCode::Semicolon] = VK_OEM_1;
+        m_keyCodeMap[KeyCode::Quote] = VK_OEM_7;
+        m_keyCodeMap[KeyCode::LeftBracket] = VK_OEM_4;
+        m_keyCodeMap[KeyCode::RightBracket] = VK_OEM_6;
+        m_keyCodeMap[KeyCode::Minus] = VK_OEM_MINUS;
+        m_keyCodeMap[KeyCode::Equals] = VK_OEM_PLUS;
+
+        m_keyCodeMap[KeyCode::F1] = VK_F1;
+        m_keyCodeMap[KeyCode::F2] = VK_F2;
+        m_keyCodeMap[KeyCode::F3] = VK_F3;
+        m_keyCodeMap[KeyCode::F4] = VK_F4;
+        m_keyCodeMap[KeyCode::F5] = VK_F5;
+        m_keyCodeMap[KeyCode::F6] = VK_F6;
+        m_keyCodeMap[KeyCode::F7] = VK_F7;
+        m_keyCodeMap[KeyCode::F8] = VK_F8;
+        m_keyCodeMap[KeyCode::F9] = VK_F9;
+        m_keyCodeMap[KeyCode::F10] = VK_F10;
+        m_keyCodeMap[KeyCode::F11] = VK_F11;
+        m_keyCodeMap[KeyCode::F12] = VK_F12;
+
         m_keyCodeMap[KeyCode::MouseLeft] = VK_LBUTTON;
         m_keyCodeMap[KeyCode::MouseRight] = VK_RBUTTON;
         m_keyCodeMap[KeyCode::MouseMiddle] = VK_MBUTTON;
