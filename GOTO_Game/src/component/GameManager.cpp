@@ -282,6 +282,8 @@ void GameManager::Update() {
 	else {
 		if(GameTimer == 0.0f){
 			endingTimer -= TIME_GET_DELTATIME();
+			EnemySpawner->Setp1EnemyAllDestroy();
+			EnemySpawner->Setp2EnemyAllDestroy();
 			if (P1Score > P2Score) {
 				winner = 1;
 				P1wintext->text = std::wstring(L"Win");
@@ -298,8 +300,7 @@ void GameManager::Update() {
 				P2wintext->text = std::wstring(L"Deuce");
 			}
 			if (endingTimer <= 0.0f) {
-				EnemySpawner->Setp1EnemyAllDestroy();
-				EnemySpawner->Setp2EnemyAllDestroy();
+
 				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}

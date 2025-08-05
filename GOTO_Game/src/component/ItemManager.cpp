@@ -267,143 +267,147 @@ void ItemManager::Update(){
 
 void ItemManager::UseItem(int player, ItemType item)
 {
-	switch (item) {
-	case ItemType::Bomb:
-		if (player == 1) {
-			//P1의 동물리스트 내부 객체 카운트
-			//P1의 동물리스트 내부 객체 전부 삭제
-			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+	if (GameManager::instance->setactive) {
+		switch (item) {
+		case ItemType::Bomb:
+			if (player == 1) {
+				//P1의 동물리스트 내부 객체 카운트
+				//P1의 동물리스트 내부 객체 전부 삭제
+				auto& enemies = *EnemySpawner::instance->Getp1Enemy();
 
-			p1count = enemies.size();
-			for (auto enemy : enemies) {
-				auto bombeffect = new GameObject;
-				bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-				bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
-				bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1<<1);
-				bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
-				Destroy(bombeffect, 0.583f);
-			}
-			EnemySpawner::instance->Setp1EnemyAllDestroy();
+				p1count = enemies.size();
+				for (auto enemy : enemies) {
+					auto bombeffect = new GameObject;
+					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
+					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
+					bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+					Destroy(bombeffect, 0.583f);
+				}
+				EnemySpawner::instance->Setp1EnemyAllDestroy();
 
-			auto p1cam = GameObject::Find(L"p1Cam");
-			if (IsValidObject(p1cam))
-				p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
+				auto p1cam = GameObject::Find(L"p1Cam");
+				if (IsValidObject(p1cam))
+					p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
 
-			if (p1count >= 1 && p1count <= 3) {
-				GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
+				if (p1count >= 1 && p1count <= 3) {
+					GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
+				}
+				else if (p1count >= 4 && p1count <= 6) {
+					GameManager::instance->P1Score += 5 * GameManager::instance->P1Bonus;
+				}
+				else if (p1count >= 7) {
+					GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
+				}
+				SoundManager::instance->PlaySFX("Bomb");
 			}
-			else if (p1count >= 4 && p1count <= 6) {
-				GameManager::instance->P1Score += 5 * GameManager::instance->P1Bonus;
+			else {
+				//P2의 동물리스트 내부 객체 카운트
+				//P2의 동물리스트 내부 객체 전부 삭제
+				auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+
+				p2count = enemies.size();
+				for (auto enemy : enemies) {
+					auto bombeffect = new GameObject;
+					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
+					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
+					bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+					Destroy(bombeffect, 0.583f);
+				}
+				EnemySpawner::instance->Setp2EnemyAllDestroy();
+
+				auto p2cam = GameObject::Find(L"p2Cam");
+				if (IsValidObject(p2cam))
+					p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
+
+				if (p2count >= 1 && p2count <= 3) {
+					GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
+				}
+				else if (p2count >= 4 && p2count <= 6) {
+					GameManager::instance->P2Score += 5 * GameManager::instance->P2Bonus;
+				}
+				else if (p2count >= 7) {
+					GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
+				}
+				SoundManager::instance->PlaySFX("Bomb");
 			}
-			else if (p1count >= 7) {
-				GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
+			break;
+		case ItemType::Icebomb:
+			if (player == 1) {
+				//P1의 동물리스트 내부 객체 전부 이동 정지
+				//P1의 동물리스트 내부 객체 전부 디스폰 시간 정지
+				auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+
+				for (auto* enemy : enemies)
+				{
+					if (!IsValidObject(enemy) || enemy->IsDestroyed())
+						continue;
+					auto iceeffect = new GameObject;
+					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
+					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+					Destroy(iceeffect, 5.0f);
+					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+				}
+				SoundManager::instance->PlaySFX("IceBomb");
+				p1IceTimer = timelimit;
 			}
-			SoundManager::instance->PlaySFX("Bomb");
+			else {
+				//P2의 동물리스트 내부 객체 전부 이동 정지
+				//P2의 동물리스트 내부 객체 전부 디스폰 시간 정지
+
+				auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+
+				for (auto* enemy : enemies)
+				{
+					if (!IsValidObject(enemy) || enemy->IsDestroyed())
+						continue;
+
+					auto iceeffect = new GameObject;
+					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
+					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
+					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+					Destroy(iceeffect, 5.0f);
+					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+				}
+				SoundManager::instance->PlaySFX("IceBomb");
+				p2IceTimer = timelimit;
+			}
+			break;
+		case ItemType::Ticket:
+			if (player == 1) {
+				GameManager::instance->P1Bonus = 2;
+				SoundManager::instance->PlaySFX("GoldenTicket");
+				p1TicketTimer = timelimit;
+			}
+			else {
+				GameManager::instance->P2Bonus = 2;
+				SoundManager::instance->PlaySFX("GoldenTicket");
+				p2TicketTimer = timelimit;
+			}
+			break;
 		}
-		else {
-			//P2의 동물리스트 내부 객체 카운트
-			//P2의 동물리스트 내부 객체 전부 삭제
-			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
-
-			p2count = enemies.size();
-			for (auto enemy : enemies) {
-				auto bombeffect = new GameObject;
-				bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-				bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
-				bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
-				bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
-				Destroy(bombeffect, 0.583f);
-			}
-			EnemySpawner::instance->Setp2EnemyAllDestroy();
-
-			auto p2cam = GameObject::Find(L"p2Cam");
-			if (IsValidObject(p2cam))
-				p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
-
-			if (p2count >= 1 && p2count <= 3) {
-				GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
-			}
-			else if (p2count >= 4 && p2count <= 6) {
-				GameManager::instance->P2Score += 5 * GameManager::instance->P2Bonus;
-			}
-			else if (p2count >= 7) {
-				GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
-			}
-			SoundManager::instance->PlaySFX("Bomb");
-		}
-		break;
-	case ItemType::Icebomb:
-		if (player == 1) {
-			//P1의 동물리스트 내부 객체 전부 이동 정지
-			//P1의 동물리스트 내부 객체 전부 디스폰 시간 정지
-			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
-
-			for (auto* enemy : enemies)
-			{
-				if (!IsValidObject(enemy) || enemy->IsDestroyed())
-					continue;
-				auto iceeffect = new GameObject;
-				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
-				iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
-				iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
-				iceeffect->GetTransform()->SetParent(enemy->GetTransform());
-				Destroy(iceeffect, 5.0f);
-				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
-			}
-			SoundManager::instance->PlaySFX("IceBomb");
-			p1IceTimer = timelimit;
-		}
-		else {
-			//P2의 동물리스트 내부 객체 전부 이동 정지
-			//P2의 동물리스트 내부 객체 전부 디스폰 시간 정지
-
-			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
-
-			for (auto* enemy : enemies)
-			{
-				if (!IsValidObject(enemy) || enemy->IsDestroyed())
-					continue;
-
-				auto iceeffect = new GameObject;
-				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
-				iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
-				iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
-				iceeffect->GetTransform()->SetParent(enemy->GetTransform());
-				Destroy(iceeffect, 5.0f);
-				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
-			}
-			SoundManager::instance->PlaySFX("IceBomb");
-			p2IceTimer = timelimit;
-		}
-		break;
-	case ItemType::Ticket:
-		if (player == 1) {
-			GameManager::instance->P1Bonus = 2;
-			SoundManager::instance->PlaySFX("GoldenTicket");
-			p1TicketTimer = timelimit;
-		}
-		else {
-			GameManager::instance->P2Bonus = 2;
-			SoundManager::instance->PlaySFX("GoldenTicket");
-			p2TicketTimer = timelimit;
-		}
-		break;
 	}
 }
 
 void ItemManager::AddItem(int player, ItemType item) {
-	if (player == 1) {
-		if (p1Items.size() < 7) {
-			SoundManager::instance->PlaySFX("Getitem");
-			p1Items.push_back(item);
+	if (GameManager::instance->setactive) {
+		if (player == 1) {
+			if (p1Items.size() < 7) {
+				SoundManager::instance->PlaySFX("Getitem");
+				p1Items.push_back(item);
+			}
 		}
-	}
-	else {
-		if (p2Items.size() < 7) {
-			SoundManager::instance->PlaySFX("Getitem");
-			p2Items.push_back(item);
+		else {
+			if (p2Items.size() < 7) {
+				SoundManager::instance->PlaySFX("Getitem");
+				p2Items.push_back(item);
+			}
 		}
 	}
 }
