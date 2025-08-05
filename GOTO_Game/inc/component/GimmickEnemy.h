@@ -26,7 +26,7 @@ namespace GOTOEngine
 		{
 			__super::Dispose();
 
-			if (m_isDelayByDispone)
+			if (m_isDeathByDispone)
 			{
 				if (m_layer == 1)
 				{
@@ -53,12 +53,12 @@ namespace GOTOEngine
 
 			m_enemyType = E_EnemyType::gimmick;
 			m_isMoveLoop = true;
-			m_destroyTime = 8.0f;
 
 			switch (m_gimmickEnemyType)
 			{
 			case rabbit:
 				m_moveFlag = 0b1001;
+				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"토끼";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Rabit.png");
 				SetRandomYPosition(-0.4f, -0.1f);
@@ -66,6 +66,7 @@ namespace GOTOEngine
 				break;
 			case squirrel:
 				m_moveFlag = 0b1001;
+				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"다람쥐";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/Squirrel.png");
 				SetRandomYPosition(-0.4f, -0.1f);
@@ -73,6 +74,7 @@ namespace GOTOEngine
 				break;
 			case thiefmole:
 				m_moveFlag = 0b0001;
+				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"도둑두더지";
 				AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Sprint/ThiefMole.png");
 				SetRandomYPosition(-0.4f, -0.1f);
@@ -97,7 +99,7 @@ namespace GOTOEngine
 
 			// 죽는 애니메이션 필요
 
-			Destroy(GetGameObject(), 2.0f);
+			Destroy(GetGameObject(), 0.5f);
 		}
 	};
 }

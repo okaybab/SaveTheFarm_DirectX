@@ -48,12 +48,12 @@ namespace GOTOEngine
 		float m_enemyHp = 1.0f;
 		float m_DieScore = 1.0f;
 
-		// 스폰확률
-		float m_destroyTime = 8.0f;
+		// 디스폰 시간
+		float m_disPoneTime = 8.0f;
 
 		// 상태 값
 		bool m_isDie = false;
-		bool m_isDelayByDispone = false;
+		bool m_isDeathByDispone = false;
 		bool m_isFrozen = false;
 
 		// player layer
@@ -72,18 +72,24 @@ namespace GOTOEngine
 	public:
 		virtual ~BaseEnemyObject() = default;
 		virtual void Dispose() { if (!GameManager::instance->setactive) return; }
-		virtual void Awake() 
-		{
-		
-		}
+		virtual void Awake() {}
 		void Update()
 		{
-			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
+			if (m_isDeathByDispone || m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{
 				return;
 			}
 
 			float deltaTime = TimeManager::Get()->GetDeltaTime();
+			m_disPoneTime -= deltaTime;
+
+			if (m_disPoneTime <= 0.0f)
+			{
+				// 디스폰
+				m_isDeathByDispone = true;
+				Destroy(GetGameObject(), 1.0f);
+				return;
+			}
 
 			// 이번 프레임의 '중심축' 이동량
 			Vector2 pathDisplacement = Vector2::Zero();
@@ -116,7 +122,10 @@ namespace GOTOEngine
 		{
 
 		}
-		virtual void OnDestroy() {}
+		virtual void OnDestroy() 
+		{
+			m_isDeathByDispone = true;
+		}
 		
 		virtual void Initialize(std::any param) = 0;
 
@@ -135,7 +144,7 @@ namespace GOTOEngine
 			{
 				auto comp = AddComponent<MovementParabolic>();
 				comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-				comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
+				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 			}
 			if(!(m_moveFlag & MOVE_PARABOLIC && m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)) // 1011 == 1000
 			{
@@ -143,7 +152,7 @@ namespace GOTOEngine
 				{
 					auto comp = AddComponent<MovementLeftRight>();
 					comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
-					comp->Initialize(Screen::GetWidth() * -0.25f, Screen::GetWidth() * 0.25f);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 				}
 				if (m_moveFlag & MOVE_UP_DOWN) // 0b0010
 				{
