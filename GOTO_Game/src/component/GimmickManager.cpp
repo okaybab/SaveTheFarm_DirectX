@@ -1,6 +1,7 @@
 ﻿#include "GimmickManager.h"
 #include <CrosshairMove.h>
 #include "EnemySpawner.h"
+#include <time.h>
 
 using namespace GOTOEngine;
 
@@ -16,35 +17,20 @@ void GimmickManager::Awake()
 	{
 		Destroy(GetGameObject());
 	}
-	for (int i = 0; i < 5; ++i)
-	{
-		auto canvas = GameObject::Find(L"Canvas");
-		auto p1gimmick2 = new GameObject;
-		p1gimmick2->GetTransform()->SetParent(canvas->GetTransform());
-		p1gimmick2Image[i] = p1gimmick2->AddComponent<Image>();
-		p1gimmick2Image[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
-
-		auto p2gimmick2 = new GameObject;
-		p2gimmick2->GetTransform()->SetParent(canvas->GetTransform());
-		p2gimmick2Image[i] = p2gimmick2->AddComponent<Image>();
-		p2gimmick2Image[i]->GetRectTransform()->SetSizeDelta({ 100.0f, 100.0f });
-	}
-	p1gimmick2Image[0]->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.2f });
-	p1gimmick2Image[1]->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.2f });
-	p1gimmick2Image[2]->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.4f });
-	p1gimmick2Image[3]->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.7f });
-	p1gimmick2Image[4]->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.7f });
-
-	for (int i = 0; i < 5; ++i) {
-		p2gimmick2Image[i]->GetRectTransform()->SetAnchoredPosition({
-			Screen::GetWidth() * 0.5f + p1gimmick2Image[i]->GetRectTransform()->GetAnchoredPosition().x,
-			p1gimmick2Image[i]->GetRectTransform()->GetAnchoredPosition().y });
-	}
+	auto canvas = GameObject::Find(L"Canvas");
+	auto p1gimmick2 = new GameObject;
+	p1gimmick2->GetTransform()->SetParent(canvas->GetTransform());
+	p1gimmick2Image = p1gimmick2->AddComponent<Image>();
+	p1gimmick2Image->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.5f, Screen::GetHeight()});
+	p1gimmick2Image->GetRectTransform()->SetAnchoredPosition({
+		0, 0});
+	auto p2gimmick2 = new GameObject;
+	p2gimmick2->GetTransform()->SetParent(canvas->GetTransform());
+	p2gimmick2Image = p2gimmick2->AddComponent<Image>();
+	p2gimmick2Image->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.5f, Screen::GetHeight()});
+	p2gimmick2Image->GetRectTransform()->SetAnchoredPosition({
+		Screen::GetWidth() * 0.5f, 0});
+	srand(time(NULL));
 }
 void GimmickManager::OnDestroy() {
 	if (instance == this)
@@ -72,18 +58,14 @@ void GimmickManager::Update() {
 		p1gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p1gimmick2Timer <= 0.0f) {
 			p1gimmick2Timer = 0.0f;
-			for (int i = 0; i < 5; ++i) {
-				p2gimmick2Image[i]->SetSprite(nullptr);
-			}
+			p2gimmick2Image->SetSprite(nullptr);
 		}
 	}
 	if (p2gimmick2Timer > 0.0f) {
 		p2gimmick2Timer -= TIME_GET_DELTATIME();
 		if (p2gimmick2Timer <= 0.0f) {
 			p2gimmick2Timer = 0.0f;
-			for (int i = 0; i < 5; ++i) {
-				p1gimmick2Image[i]->SetSprite(nullptr);
-			}
+			p1gimmick2Image->SetSprite(nullptr);
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
@@ -115,14 +97,32 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 		break;
 	case 2:
 		if (player == 1) {
-			for (int i = 0; i < 5; ++i) {
-				p2gimmick2Image[i]->SetSprite(L"../Resources/Mushroom.png");
+			int i = rand() % 3 + 1;
+			switch (i) {
+			case 1:
+				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+				break;
+			case 2:
+				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+				break;
+			case 3:
+				p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+				break;
 			}
 			p1gimmick2Timer = timelimit;
 		}
 		else {
-			for (int i = 0; i < 5; ++i) {
-				p1gimmick2Image[i]->SetSprite(L"../Resources/Mushroom.png");
+			int i = rand() % 3 + 1;
+			switch (i) {
+			case 1:
+				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+				break;
+			case 2:
+				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+				break;
+			case 3:
+				p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+				break;
 			}
 			p2gimmick2Timer = timelimit;
 		}
