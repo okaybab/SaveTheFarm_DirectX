@@ -19,8 +19,8 @@ namespace GOTOEngine
 		float p1gimmick2Timer = 0.0f;
 		float p2gimmick2Timer = 0.0f;
 		const float timelimit = 3.0f;
-		Image* p1gimmick2Image[5];
-		Image* p2gimmick2Image[5];
+		Image* p1gimmick2Image;
+		Image* p2gimmick2Image;
 	public:
     GimmickManager()
     {
