@@ -47,9 +47,6 @@ namespace GOTOEngine
 				vInput = (INPUT_GET_KEY(KeyCode::W) ? 1.0f : 0.0f) + (INPUT_GET_KEY(KeyCode::S) ? -1.0f : 0.0f);
 			}
 
-			if (INPUT_GET_KEYDOWN(KeyCode::F))
-				SCENE_CHANGE_SCENE(L"SampleScene");
-
 			GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition() + (Vector2{ hInput, vInput }.Normalized() * moveSpeed * m_sizefactor * TIME_GET_DELTATIME()));
 		}
 	};

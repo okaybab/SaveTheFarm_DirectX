@@ -185,6 +185,31 @@ void AudioSource::Play()
 	}
 }
 
+void AudioSource::PlayOneShot()
+{
+	if (!m_clip || !AudioManager::Get()->IsInitialized())
+		return;
+
+	// 임시 사운드 객체 생성하여 한 번만 재생
+	ma_sound tempSound;
+	ma_result result = m_clip->CreateSound(&tempSound, AudioManager::Get()->GetEngine());
+
+	if (result == MA_SUCCESS)
+	{
+		// 볼륨과 피치만 적용 (루프나 공간 오디오는 적용하지 않음)
+		ma_sound_set_volume(&tempSound, m_volume);
+		ma_sound_set_pitch(&tempSound, m_pitch);
+		ma_sound_set_looping(&tempSound, MA_FALSE);  // 원샷은 항상 루프 없음
+
+		// 즉시 재생하고 자동으로 정리됨
+		ma_sound_start(&tempSound);
+
+#ifdef _DEBUG
+		std::cout << "AudioSource one-shot played." << std::endl;
+#endif
+	}
+}
+
 void AudioSource::Stop()
 {
 	if (m_soundInitialized && m_isPlaying)

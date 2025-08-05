@@ -146,12 +146,9 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 {
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
-
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
-
 	D2D1_RECT_F dstRect;
-
 	if (useScreenPos)
 	{
 		dstRect = D2D1::RectF(
@@ -172,7 +169,6 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 	}
 
 	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
-
 	D2D1_RECT_F srcRect = D2D1::RectF(
 		sourceRect.x,
 		d2dDestY,
@@ -181,50 +177,109 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 	);
 
 	D2D1_BITMAP_INTERPOLATION_MODE mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
-
 	switch (filter)
 	{
 	case TextureFiltering::Nearest:
 		mode = D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR;
-		break;	
+		break;
 	case TextureFiltering::Linear:
 		mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
 		break;
 	}
 
-	//// 1. Blur Effect 생성
-	//Microsoft::WRL::ComPtr<ID2D1Effect> blurEffect;
-	//m_d2dContext->CreateEffect(CLSID_D2D1GaussianBlur, &blurEffect);
-	//blurEffect->SetInput(0, d2dBitmap);
-	//blurEffect->SetValue(D2D1_GAUSSIANBLUR_PROP_STANDARD_DEVIATION, 3.0f);
-
-	//// 2. Optional: 색상 변경
-	//Microsoft::WRL::ComPtr<ID2D1Effect> colorEffect;
-	//m_d2dContext->CreateEffect(CLSID_D2D1ColorMatrix, &colorEffect);
-	//colorEffect->SetInputEffect(0, blurEffect.Get());
-
-	//D2D1_COLOR_F outlineColor = D2D1::ColorF(D2D1::ColorF::Black);
-	//D2D1_MATRIX_5X4_F colorMatrix = {
-	//	0, 0, 0, 0,  // R
-	//	0, 0, 0, 0,  // G
-	//	0, 0, 0, 0,  // B
-	//	0, 0, 0, 1,  // A
-	//	outlineColor.r, outlineColor.g, outlineColor.b, 0 // 색상 대체
-	//};
-	//colorEffect->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, colorMatrix);
-
-	
-
 	m_d2dContext->SetTransform(d2dTransform);
-	// 3. Draw: Blur된 외곽선 먼저
-	//m_d2dContext->DrawImage(colorEffect.Get());
-	m_d2dContext->DrawBitmap(
-		d2dBitmap,
-		&dstRect,
-		static_cast<float>(color.A / 255), // 불투명도
-		mode,
-		&srcRect
-	);
+
+	// 색상 변경이 필요한지 확인 (RGB가 모두 255가 아니거나 알파가 255가 아닌 경우)
+	//bool needColorEffect = (color.R != 255 || color.G != 255 || color.B != 255 || color.A != 255);
+
+	//if (needColorEffect)
+	//{
+	//	// Color Matrix Effect 사용
+	//	ID2D1Effect* pColorMatrixEffect = nullptr;
+	//	HRESULT hr = m_d2dContext->CreateEffect(CLSID_D2D1ColorMatrix, &pColorMatrixEffect);
+
+	//	if (SUCCEEDED(hr))
+	//	{
+	//		// 색상 매트릭스 설정
+	//		float rTint = static_cast<float>(color.R) / 255.0f;
+	//		float gTint = static_cast<float>(color.G) / 255.0f;
+	//		float bTint = static_cast<float>(color.B) / 255.0f;
+	//		float alpha = static_cast<float>(color.A) / 255.0f;
+
+	//		D2D1_MATRIX_5X4_F colorMatrix = {
+	//			rTint, 0, 0, 0,        // R 채널
+	//			0, gTint, 0, 0,        // G 채널
+	//			0, 0, bTint, 0,        // B 채널
+	//			0, 0, 0, alpha,        // A 채널
+	//			0, 0, 0, 0             // 오프셋
+	//		};
+
+	//		pColorMatrixEffect->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, colorMatrix);
+	//		pColorMatrixEffect->SetInput(0, d2dBitmap);
+
+	//		ID2D1Image* pOutputImage = nullptr;
+	//		pColorMatrixEffect->GetOutput(&pOutputImage);
+
+	//		if (pOutputImage)
+	//		{
+	//			// DrawImage는 픽셀 좌표를 직접 사용 (UV 변환 불필요)
+	//			// 하지만 스케일링을 위해서는 transform을 사용해야 함
+
+	//			if (useScreenPos)
+	//			{
+	//				// 스케일 계산
+	//				float scaleX = (dstRect.right - dstRect.left) / (srcRect.right - srcRect.left);
+	//				float scaleY = (dstRect.bottom - dstRect.top) / (srcRect.bottom - srcRect.top);
+
+	//				// 새로운 transform 계산 (기존 transform * 스케일 + 위치)
+	//				D2D1_MATRIX_3X2_F scaleTransform = D2D1::Matrix3x2F::Scale(scaleX, scaleY);
+	//				D2D1_MATRIX_3X2_F translateTransform = D2D1::Matrix3x2F::Translation(
+	//					dstRect.left - srcRect.left * scaleX,
+	//					dstRect.top - srcRect.top * scaleY
+	//				);
+
+	//				D2D1_MATRIX_3X2_F finalTransform = scaleTransform * translateTransform * d2dTransform;
+	//				m_d2dContext->SetTransform(finalTransform);
+	//			}
+	//			
+	//			// DrawImage에서는 srcRect를 픽셀 좌표로 직접 사용
+	//			m_d2dContext->DrawImage(
+	//				pOutputImage,
+	//				D2D1::Point2F(srcRect.left, srcRect.top), // 소스 위치
+	//				srcRect,                                   // 소스 사각형 (픽셀 좌표)
+	//				D2D1_INTERPOLATION_MODE_LINEAR
+	//			);
+
+	//			pOutputImage->Release();
+	//		}
+
+	//		pColorMatrixEffect->Release();
+	//	}
+	//	else
+	//	{
+	//		// Effect 생성 실패시 기본 DrawBitmap 사용 (색상 틴트 없이)
+	//		m_d2dContext->DrawBitmap(
+	//			d2dBitmap,
+	//			&dstRect,
+	//			(static_cast<float>(color.A) / 255.0f),
+	//			mode,
+	//			&srcRect
+	//		);
+	//	}
+	//}
+	//else
+	{
+		// 색상 변경이 필요없는 경우 기존 방식 사용
+		m_d2dContext->DrawBitmap(
+			d2dBitmap,
+			&dstRect,
+			(static_cast<float>(color.A) / 255.0f),
+			mode,
+			&srcRect
+		);
+	}
+
+	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void D2DRenderAPI::DrawString(const wchar_t* string, const Rect& rect, const IRenderFont* font, size_t size, const IRenderFontStyle& fontStyle, Color color, const Matrix3x3& mat, int hAlignment, int vAlignment, bool useScreenPos)

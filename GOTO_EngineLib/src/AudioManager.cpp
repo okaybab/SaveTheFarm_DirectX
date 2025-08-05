@@ -10,6 +10,12 @@ using namespace GOTOEngine;
 
 void AudioManager::StartUp()
 {
+	// 오디오 끊김 방지를 위한 설정
+	ma_engine_config config = ma_engine_config_init();
+
+	config.periodSizeInFrames = 512;      // 버퍼 크기 조정
+	config.periodSizeInMilliseconds = 0;  // 프레임 기준 사용
+
 	ma_result result = ma_engine_init(NULL, &m_audioEngine);
 	m_isInitialized = (result == MA_SUCCESS);
 	m_mainListener = nullptr;

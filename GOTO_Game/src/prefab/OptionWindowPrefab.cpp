@@ -27,6 +27,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	baseWindow->GetTransform()->SetLocalScale({ 0.0f, 0.0f });
 
 	optionWindowSystem->baseWindow = baseWindow->GetTransform();
+	optionWindowSystem->baseWindowSprite = baseWindowSprite;
 
 	// 亲格甸
 	//---- 亲格 可记

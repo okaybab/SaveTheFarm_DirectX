@@ -17,6 +17,7 @@ namespace GOTOEngine
     EnemySpawner()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
@@ -33,6 +34,7 @@ namespace GOTOEngine
 
 		void Awake();
 		void Update();
+		void OnDestroy();
 
 		void CreateEnemy(E_EnemyType enemyType, int player);
 		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
