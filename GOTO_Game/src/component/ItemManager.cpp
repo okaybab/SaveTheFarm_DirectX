@@ -160,6 +160,8 @@ void ItemManager::Update(){
 			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
 			for (auto* enemy : enemies)
 			{
+				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					continue;
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
 			}
 		}
@@ -172,6 +174,8 @@ void ItemManager::Update(){
 			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
 			for (auto* enemy : enemies)
 			{
+				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					continue;
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
 			}
 		
@@ -336,6 +340,8 @@ void ItemManager::UseItem(int player, ItemType item)
 
 			for (auto* enemy : enemies)
 			{
+				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					continue;
 				auto iceeffect = new GameObject;
 				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
@@ -356,6 +362,9 @@ void ItemManager::UseItem(int player, ItemType item)
 
 			for (auto* enemy : enemies)
 			{
+				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					continue;
+
 				auto iceeffect = new GameObject;
 				iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 				iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
