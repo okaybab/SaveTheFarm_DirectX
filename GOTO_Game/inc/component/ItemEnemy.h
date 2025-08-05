@@ -22,9 +22,10 @@ namespace GOTOEngine
 		ItemType m_itemType;
 
 	public:
-		void Dispose() override
+		void Dispose()
 		{
-			__super::Dispose();
+
+			if (!GameManager::instance->setactive) return;
 
 			if (m_isDeathByDispone)
 			{

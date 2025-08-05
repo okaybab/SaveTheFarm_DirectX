@@ -71,7 +71,6 @@ namespace GOTOEngine
 		
 	public:
 		virtual ~BaseEnemyObject() = default;
-		virtual void Dispose() { if (!GameManager::instance->setactive) return; }
 		virtual void Awake() {}
 		void Update()
 		{
@@ -199,7 +198,7 @@ namespace GOTOEngine
 		// 이벤트
 		virtual void TakeDamage(float damage)
 		{
-			if (m_isDie) return;
+			if (m_isDie || m_isDeathByDispone) return;
 			m_enemyHp -= damage;
 			if (m_enemyHp <= 0) OnBulletDie();
 		}

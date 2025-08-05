@@ -19,9 +19,12 @@ namespace GOTOEngine
 		E_Move_Enemy_Type m_moveEnemyType;
 
 	public:
-		void Dispose() override
+		void Dispose()
 		{
-			__super::Dispose();
+			if (!GameManager::instance->setactive) return;
+
+			auto info = this;
+			auto test = m_layer;
 
 			if (m_isDeathByDispone)
 			{
@@ -61,6 +64,7 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				AddComponent<SpriteRenderer>();
+
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
