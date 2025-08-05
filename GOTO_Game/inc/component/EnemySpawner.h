@@ -51,7 +51,7 @@ namespace GOTOEngine
 
 		//bool CreateEnemy()
 		void CreateEnemy(E_EnemyType enemyType, int player);
-		void CreateEnemy(E_EnemyType enemyType, size_t enemy, int player);
+		void CreateEnemy(E_EnemyType enemyType, int detailType, int player);
 
 		void Setp1EnemyAllDestroy();
 		void Setp2EnemyAllDestroy();

@@ -42,7 +42,6 @@ namespace GOTOEngine
 				ItemManager::instance->AddItem(m_layer, m_itemType);
 			}
 		}
-
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Item_Enemy_Type)) m_itemEnemyType = std::any_cast<E_Item_Enemy_Type>(param);
@@ -93,6 +92,8 @@ namespace GOTOEngine
 
 			SetMovementComponents(0.15f, 0.4f);
 		}
+
+		int GetType() { return static_cast<int>(m_itemEnemyType); }
 
 		void OnBulletDie() override
 		{

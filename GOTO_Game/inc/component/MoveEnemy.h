@@ -73,6 +73,8 @@ namespace GOTOEngine
 			SetMovementComponents(0.15f, 0.4f);
 		}
 
+		int GetType() { return static_cast<int>(m_moveEnemyType); }
+		
 		void OnBulletDie() override
 		{
 			__super::OnBulletDie();
