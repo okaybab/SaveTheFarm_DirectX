@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <TimeManager.h>
 #include <InputManager.h>
@@ -13,7 +13,10 @@
 namespace GOTOEngine
 {
 	enum class ItemType {
-		Bomb = 0, Icebomb, Ticket
+		Bomb = 0, 
+		Icebomb, 
+		Ticket,
+		Item_Count
 	};
 	class AnimationCurve;
 	class ItemManager : public ScriptBehaviour
@@ -57,6 +60,6 @@ namespace GOTOEngine
 		void Update();
 		void OnDestroy();
 		void UseItem(int player, ItemType item);
-		void AddItem(int player, ItemType item);
+		void AddItem(std::uint32_t player, ItemType item);
 	};
 }

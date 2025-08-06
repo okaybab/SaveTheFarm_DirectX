@@ -57,7 +57,7 @@ namespace GOTOEngine
 		bool m_isFrozen = false;
 
 		// player layer
-		int m_layer = 1;
+		std::uint32_t m_layer = 1;
 
 	public:
     BaseEnemyObject()
@@ -190,9 +190,9 @@ namespace GOTOEngine
 		{
 			m_isFrozen = _frozen;
 		}
-		void SetEnemyLayer(int _layer = 1)
+		void SetEnemyLayer(std::uint32_t _player = 1 << 1)
 		{
-			m_layer = _layer;
+			m_layer = _player;
 		}
 
 		// 이벤트
@@ -200,19 +200,19 @@ namespace GOTOEngine
 		{
 			if (m_isDie || m_isDeathByDispone) return;
 			m_enemyHp -= damage;
-			if (m_enemyHp <= 0) OnBulletDie();
+			if (m_enemyHp <= 0) OnBulletDie(1 << 1);
 		}
-		virtual void OnBulletDie()
+		virtual void OnBulletDie(std::uint32_t player)
 		{
 			m_isDie = true;
 			
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), m_enemyType == E_EnemyType::move);
 
-			if (m_layer == 1)
+			if (m_layer & 1 << 1)
 			{
 				GameManager::instance->PointChange(1, 1);
 			}
-			else if (m_layer == 2)
+			else if (m_layer & 1 << 2)
 			{
 				GameManager::instance->PointChange(2, 1);
 			}

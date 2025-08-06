@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <TimeManager.h>
 #include <RenderManager.h>
@@ -35,6 +35,6 @@ namespace GOTOEngine
 		void Awake();
 		void Update();
 		void OnDestroy();
-		void GimmickOn(int player, int gimmick);
+		void GimmickOn(std::uint32_t player, int gimmick);
 	};
 }

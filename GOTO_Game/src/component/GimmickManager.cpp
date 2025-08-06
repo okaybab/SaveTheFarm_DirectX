@@ -82,10 +82,10 @@ void GimmickManager::Update() {
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
-		GimmickOn(1, 1);
+		GimmickOn(1 << 1, 1);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
-		GimmickOn(2, 1);
+		GimmickOn(1 << 2, 1);
 	}
 	//if (INPUT_GET_KEYDOWN(KeyCode::A)) {
 	//	GimmickOn(1, 2);
@@ -95,12 +95,12 @@ void GimmickManager::Update() {
 	//}
 };
 
-void GimmickManager::GimmickOn(int player, int gimmick) {
+void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
 	if (GameManager::instance->setactive) {
 		switch (gimmick)
 		{
 		case 1:   //반전술식
-			if (player == 1) {
+			if (player & 1 << 1) {
 				CrosshairMove::reverseInput2 = true;
 				p1gimmick1Timer = timelimit;
 			}
@@ -110,7 +110,7 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 			}
 			break;
 		case 2:
-			if (player == 1) {
+			if (player & 1 << 1) {
 				int i = rand() % 3 + 1;
 				switch (i) {
 				case 1:
@@ -142,7 +142,7 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 			}
 			break;
 		case 3:
-			player = player == 1 ? 2 : 1;
+			player = player & 1 << 1 ? 1 << 2 : 1 << 1;
 			for (int i = 0; i < 3; i++)
 			{
 				// moveEnemy

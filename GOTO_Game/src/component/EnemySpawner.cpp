@@ -91,31 +91,31 @@ void GOTOEngine::EnemySpawner::Update()
 {
 	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
 	{
-		CreateEnemy(E_EnemyType::move, 1);
+		CreateEnemy(E_EnemyType::move, 1 << 1);
 	}
 	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 생성 (GimmickEnemy)
 	{
-		CreateEnemy(E_EnemyType::gimmick, 1);
+		CreateEnemy(E_EnemyType::gimmick, 1 << 1);
 	}
 	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 생성 (ItemEnemy)
 	{
-		CreateEnemy(E_EnemyType::itemspawn, 1);
+		CreateEnemy(E_EnemyType::itemspawn, 1 << 1);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 생성 (MoveEnemy)
 	{
-		CreateEnemy(E_EnemyType::move, 2);
+		CreateEnemy(E_EnemyType::move, 1 << 2);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성 (GimmickEnemy)
 	{
-		CreateEnemy(E_EnemyType::gimmick, 2);
+		CreateEnemy(E_EnemyType::gimmick, 1 << 2);
 	}
 	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
 	{
-		CreateEnemy(E_EnemyType::itemspawn, 2);
+		CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
 	}
 }
 // 플레이어에 타입 랜덤 생성
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t player)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -169,20 +169,20 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 	//*/
 
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
-	newEnemyObject->layer = 1 << player;
+	newEnemyObject->layer = player;
 
-	if (player == 1)
+	if (player & 1 << 1)
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	else if (player == 2)
+	if (player & 1 << 2)
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
 }
 
 // 설정대로 스폰
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType, int player)
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -207,21 +207,21 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType
 	}
 
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
-	newEnemyObject->layer = 1 << player;
+	newEnemyObject->layer = player;
 
-	if (player == 1)
+	if (player & 1 << 1)
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	else if (player == 2)
+	if (player & 1 << 2)
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
 }
 
-void GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy, bool _isPlayerAttack)
+void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack)
 {  
-   if (_layer == 1)  
+   if (player & 1 << 1)
    {  
 	   auto it = std::find(m_p1Enemy.begin(), m_p1Enemy.end(), enemy);
        if (it != m_p1Enemy.end())  
@@ -231,11 +231,11 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy, boo
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, 2);
+			   CreateEnemy(enemyType, detailType, 1 << 2);
 		   }
        }  
    }  
-   else if (_layer == 2)  
+   if (player & 1 << 2)
    {  
        auto it = std::find(m_p2Enemy.begin(), m_p2Enemy.end(), enemy);  
        if (it != m_p2Enemy.end())  
@@ -245,7 +245,7 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(int _layer, GameObject* enemy, boo
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, 1);
+			   CreateEnemy(enemyType, detailType, 1 << 1);
 		   }
        }  
    }  
@@ -255,9 +255,13 @@ void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
 {
 	for (auto& enemy : m_p1Enemy)
 	{
-		if (enemy)
+		if (IsValidObject(enemy))
 		{
 			GameObject::Destroy(enemy);
+			enemy = nullptr;
+		}
+		else
+		{
 			enemy = nullptr;
 		}
 	}
@@ -267,20 +271,36 @@ void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
 {
 	for (auto& enemy : m_p2Enemy)
 	{
-		if (enemy)
+		if (IsValidObject(enemy))
 		{
 			GameObject::Destroy(enemy);
+			enemy = nullptr;
+		}
+		else
+		{
 			enemy = nullptr;
 		}
 	}
 	m_p2Enemy.clear();
 }
 
-float GOTOEngine::EnemySpawner::GenerateRandom(float min, float max)
+template <typename T>
+float GOTOEngine::EnemySpawner::GenerateRandom(T min, T max)
 {
 	// 스레드 안전하게 난수 생성
 	std::lock_guard<std::mutex> lock(m_genMutex);
-	std::uniform_real_distribution<float> dist(min, max);
 
-	return dist(m_gen);
+	// C++17의 if constexpr: 컴파일 타임에 T의 타입을 확인합니다.
+	if constexpr (std::is_integral_v<T>)
+	{
+		// 1. 만약 T가 int, long, short 등 정수 타입이라면...
+		std::uniform_int_distribution<T> dist(min, max);
+		return dist(m_gen);
+	}
+	else if constexpr (std::is_floating_point_v<T>)
+	{
+		// 2. 만약 T가 float, double 등 실수 타입이라면...
+		std::uniform_real_distribution<T> dist(min, max);
+		return dist(m_gen);
+	}
 }

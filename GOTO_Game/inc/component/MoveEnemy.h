@@ -27,11 +27,11 @@ namespace GOTOEngine
 
 			if (m_isDeathByDispone)
 			{
-				if (m_layer == 1)
+				if (m_layer & 1 << 1)
 				{
 					GameManager::instance->PointChange(1, -1);
 				}
-				else if (m_layer == 2)
+				else if (m_layer & 1 << 2)
 				{
 					GameManager::instance->PointChange(2, -1);
 				}
@@ -75,7 +75,7 @@ namespace GOTOEngine
 			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			sprite->SetRenderLayer((1 << m_layer));
+			sprite->SetRenderLayer(m_layer);
 			
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
@@ -89,9 +89,9 @@ namespace GOTOEngine
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
 		
-		void OnBulletDie() override
+		void OnBulletDie(std::uint32_t player) override
 		{
-			__super::OnBulletDie();
+			__super::OnBulletDie(player);
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 

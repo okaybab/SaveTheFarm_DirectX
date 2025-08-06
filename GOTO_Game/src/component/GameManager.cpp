@@ -134,155 +134,155 @@ void GameManager::Update() {
 			//*/ 디버깅용 주석
 			if (NormalTiming - GameTimer >= 5.0f) {
 				//일반 몬스터 랜덤 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::move, 1);
-				EnemySpawner->CreateEnemy(E_EnemyType::move, 2);
+				EnemySpawner->CreateEnemy(E_EnemyType::move, 1 << 1);
+				EnemySpawner->CreateEnemy(E_EnemyType::move, 1 << 2);
 				NormalTiming -= 5.0f;
 			}
 			if (GimmickTiming - GameTimer >= 15.0f) {
 				//기믹 몬스터 랜덤 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 1);
-				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 2);
+				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
+				EnemySpawner->CreateEnemy(E_EnemyType::gimmick, 1 << 2);
 				GimmickTiming -= 15.0f;
 			}
 			
 			if (GameTimer <= ItemTiming[0]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 1);
 				}
 				else if (p1itemchange == 2 || p1itemchange == 3) {
 					//p1 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				if (p2itemchange == 1 || p2itemchange == 4) {
 					//p2 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 2);
 				}
 				else if (p2itemchange == 2 || p2itemchange == 3) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				ItemTiming[0] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[1]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 폭탄새
-				    EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+				    EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				else if (p1itemchange == 2) {
 					//p1 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 1);
 				}
 				else if (p1itemchange == 3) {
 					//p1 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 1);
 				}
 				if (p2itemchange == 1 || p2itemchange == 4) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				else if (p2itemchange == 2) {
 					//p2 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 2);
 				}
 				else if (p2itemchange == 3) {
 					//p2 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 2);
 				}
 				ItemTiming[1] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[2]) {
 				if (p1itemchange == 1) {
 					//p1 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 1);
 				}
 				else if (p1itemchange == 2 || p1itemchange == 4) {
 					//p1 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				else if (p1itemchange == 3) {
 					//p1 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 1);
 				}
 				if (p2itemchange == 1) {
 					//p2 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 2);
 				}
 				else if (p2itemchange == 2 || p2itemchange == 4) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				else if (p2itemchange == 3) {
 					//p2 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 2);
 				}
 				ItemTiming[2] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[3]) {
 				if (p1itemchange == 1 || p1itemchange == 3) {
 					//p1 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				else if (p1itemchange == 2 || p1itemchange == 4) {
 					//p1 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 1);
 				}
 				if (p2itemchange == 1 || p2itemchange == 3) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				else if (p2itemchange == 2 || p2itemchange == 4) {
 					//p2 황금새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 2, 1 << 2);
 				}
 				ItemTiming[3] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[4]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 1);
 				}
 				else if (p1itemchange == 2 || p1itemchange == 3) {
 					//p1 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				if (p2itemchange == 1 || p2itemchange == 4) {
 					//p2 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 2);
 				}
 				else if (p2itemchange == 2 || p2itemchange == 3) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				ItemTiming[4] = -1.0f;
 			}
 			if (GameTimer <= ItemTiming[5]) {
 				if (p1itemchange == 1 || p1itemchange == 4) {
 					//p1 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 1);
 				}
 				else if (p1itemchange == 2 || p1itemchange == 3) {
 					//p1 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 1);
 				}
 				if (p2itemchange == 1 || p2itemchange == 4) {
 					//p2 폭탄새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 1, 1 << 2);
 				}
 				else if (p2itemchange == 2 || p2itemchange == 3) {
 					//p2 얼음새
-					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 2);
+					EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 0, 1 << 2);
 				}
 				ItemTiming[5] = -1.0f;
 			}
 			if (GameTimer <= GoldTiming[0]) {
 				//황금두더지 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, 1);
+				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
 				GoldTiming[0] = -1.0f;
 			}
 			if (GameTimer <= GoldTiming[1]) {
 				//황금두더지 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, 2);
+				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
 				GoldTiming[1] = -1.0f;
 			}
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {

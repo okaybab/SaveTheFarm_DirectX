@@ -143,22 +143,22 @@ void ItemManager::Update(){
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha3)) {
-		AddItem(1, ItemType::Bomb);
+		AddItem(1 << 1, ItemType::Bomb);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha4)) {
-		AddItem(1, ItemType::Icebomb);
+		AddItem(1 << 1, ItemType::Icebomb);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha5)) {
-		AddItem(1, ItemType::Ticket);
+		AddItem(1 << 1, ItemType::Ticket);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha6)) {
-		AddItem(2, ItemType::Bomb);
+		AddItem(1 << 2, ItemType::Bomb);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha7)) {
-		AddItem(2, ItemType::Icebomb);
+		AddItem(1 << 2, ItemType::Icebomb);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha8)) {
-		AddItem(2, ItemType::Ticket);
+		AddItem(1 << 2, ItemType::Ticket);
 	}
 	if (p1TicketTimer > 0.0f) {
 		p1TicketTimer -= TIME_GET_DELTATIME();
@@ -417,9 +417,9 @@ void ItemManager::UseItem(int player, ItemType item)
 	}
 }
 
-void ItemManager::AddItem(int player, ItemType item) {
+void ItemManager::AddItem(std::uint32_t player, ItemType item) {
 	if (GameManager::instance->setactive) {
-		if (player == 1) {
+		if (player & 1 << 1) {
 			if (p1Items.size() < 7) {
 				SoundManager::instance->PlaySFX("Getitem");
 				p1Items.push_back(item);

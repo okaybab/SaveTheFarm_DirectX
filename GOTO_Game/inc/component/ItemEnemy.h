@@ -28,13 +28,18 @@ namespace GOTOEngine
 		{
 			if (!GameManager::instance->setactive) return;
 
+			if (m_itemEnemyType == E_Item_Enemy_Type::goldMole)
+			{
+				return;
+			}
+
 			if (m_isDeathByDispone)
 			{
-				if (m_layer == 1)
+				if (m_layer & 1 << 1)
 				{
 					GameManager::instance->PointChange(1, -1);
 				}
-				else if (m_layer == 2)
+				else if (m_layer & 1 << 2)
 				{
 					GameManager::instance->PointChange(2, -1);
 				}
@@ -92,7 +97,7 @@ namespace GOTOEngine
 			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			sprite->SetRenderLayer((1 << m_layer));
+			sprite->SetRenderLayer(m_layer);
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
@@ -105,9 +110,9 @@ namespace GOTOEngine
 
 		int GetType() { return static_cast<int>(m_itemEnemyType); }
 
-		void OnBulletDie() override
+		void OnBulletDie(std::uint32_t player) override
 		{
-			__super::OnBulletDie();
+			__super::OnBulletDie(player);
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
@@ -117,6 +122,12 @@ namespace GOTOEngine
 			fader->FadeOut(0.5f, [this]() {
 				Destroy(GetGameObject());
 			});
+
+			if (m_layer & 0b0110) // 황금두더지
+			{
+				// EnemySpawner::GenerateRandom(0, ItemType::Item_Count)
+				ItemManager::instance->UseItem(1, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count))));
+			}
 		}
 	};
 }
