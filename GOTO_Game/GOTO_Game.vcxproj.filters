@@ -86,6 +86,24 @@
     <ClCompile Include="src\scene\SampleScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
+    <ClCompile Include="src\component\GamepadRumbleManager.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\FadeInOutFXManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ItemManager2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GimmickManager2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\TutorialImage2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+	</ClCompile> 
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
       <Filter>소스 파일\프리팹</Filter>
     </ClCompile>
@@ -244,12 +262,21 @@
     <ClInclude Include="inc\scene\SampleScene.h">
       <Filter>헤더 파일\씬</Filter>
     </ClInclude>
-    <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h">
-      <Filter>헤더 파일\프리팹</Filter>
-    </ClInclude>
     <ClInclude Include="inc\component\FadeInOutFXManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\ItemManager2.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\GimmickManager2.h">
+      <Filter>헤더 파일\컴포넌트\매니저</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\TutorialImage2.h">
+      <Filter>헤더 파일\컴포넌트\UI</Filter>
+	</ClInclude>
     <ClInclude Include="inc\component\FadeComponent.h">
       <Filter>헤더 파일\컴포넌트\etc</Filter>
     </ClInclude>
