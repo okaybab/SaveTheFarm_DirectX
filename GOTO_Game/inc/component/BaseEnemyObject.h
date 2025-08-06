@@ -206,16 +206,10 @@ namespace GOTOEngine
 		{
 			m_isDie = true;
 			
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), m_enemyType == E_EnemyType::move);
+			
 
-			if (m_layer & 1 << 1)
-			{
-				GameManager::instance->PointChange(1, 1);
-			}
-			else if (m_layer & 1 << 2)
-			{
-				GameManager::instance->PointChange(2, 1);
-			}
+			GameManager::instance->PointChange(attackerID + 1, 1);
+
 		}
 	};
 }

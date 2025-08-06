@@ -99,6 +99,7 @@ namespace GOTOEngine
 			fader->Initialize();
 
 			fader->FadeOut(0.5f, [this]() {
+				EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), m_enemyType == E_EnemyType::move);
 				Destroy(GetGameObject());
 			});
 
