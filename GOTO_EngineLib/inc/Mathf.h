@@ -21,10 +21,11 @@ namespace GOTOEngine
 		static float Clamp01(float value);
 		static float Max(float a, float b);
 		static float Min(float a, float b);
-
+		static float Atan2(float x, float y);
 	private:
 		static std::array<int, 512> p;
 		static void InitializePermutation();
+
 
 		static float Fade(float t);
 		static float LerpInternal(float a, float b, float t);

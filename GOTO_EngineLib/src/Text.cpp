@@ -78,6 +78,6 @@ void GOTOEngine::Text::Render()
     auto currentPos = rectTransform->GetAnchoredPosition();
 
 
-    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x,sizeDelta.y }, IsValidObject(m_font) ? m_font->GetFont() : nullptr , size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, {},static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
+    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, IsValidObject(m_font) ? m_font->GetFont() : nullptr , size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, {},static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
 }
 

@@ -7,6 +7,7 @@
 #include "CrosshairPrefab.h"
 #include "EnhancedCrosshairFire.h"
 
+#include "DirIndicatorController.h"
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "GimmickManager.h"
@@ -18,6 +19,7 @@
 
 void PlayScene::Initialize()
 {
+	//플레이어1 카메라
 	auto player1CamGO = Camera::CreateMainCamera();
 
 	auto player1CamMoverGO = new GameObject(L"카메라 핸들러");
@@ -31,6 +33,13 @@ void PlayScene::Initialize()
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 
+	auto p1CamEnemyIndicator = new GameObject(L"p1 enemy indicator");
+	auto p1IndicatorController = p1CamEnemyIndicator->AddComponent<DirIndicatorController>();
+	p1IndicatorController->cam = player1Cam;
+	p1IndicatorController->id = 0;
+
+
+	//플레이어2 카메라
 	auto player2CamGO = Camera::CreateSubCamera();
 
 	auto player2CamMoverGO = new GameObject(L"카메라 핸들러2");
@@ -44,11 +53,18 @@ void PlayScene::Initialize()
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
 
+	auto p2CamEnemyIndicator = new GameObject(L"p2 enemy indicator");
+	auto p2IndicatorController = p2CamEnemyIndicator->AddComponent<DirIndicatorController>();
+	p2IndicatorController->cam = player2Cam;
+	p2IndicatorController->id = 1;
+
+	//배경 이미지
 	auto BackgroundGO = new GameObject(L"Background");	
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
 	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f});
 
+	//메인 캔버스
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
 	auto itemManager = new GameObject(L"아이템매니저");

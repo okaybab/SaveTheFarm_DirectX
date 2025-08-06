@@ -11,6 +11,7 @@ GOTOEngine::GameObject* GOTOEngine::FadeInOutFXManagerPrefab::CreateFadeInOutFXP
 
 
     auto canvas = GO->AddComponent<Canvas>();
+    canvas->SetSortOrder(2500);
 
     auto manager = GO->AddComponent<FadeInOutFXManager>();
 

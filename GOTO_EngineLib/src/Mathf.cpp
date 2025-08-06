@@ -107,6 +107,11 @@ void Mathf::InitializePermutation()
 	permutationInitialized = true;
 }
 
+float GOTOEngine::Mathf::Atan2(float x, float y)
+{
+	return std::atan2(x, y);
+}
+
 float Mathf::Fade(float t)
 {
 	return t * t * t * (t * (t * 6 - 15) + 10);
