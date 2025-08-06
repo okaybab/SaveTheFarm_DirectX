@@ -95,27 +95,65 @@ void GameManager2::Update() {
 			else if ((GameTimer <= 180.0f && GameTimer > 140.0f) || (GameTimer <= 120.0f && GameTimer > 80.0f) || (GameTimer <= 60.0f && GameTimer > 20.0f)) {
 				warningon = false;
 			}
+			for (int i = 0; i < 3; ++i) {
+				if (GameTimer <= waveTiming[i]) {
+					wave = i + 1;
+					waveTiming[i] = -1.0f;
+				}
+			}
 			if (NormalTiming - GameTimer >= 2.0f) {
 				if (!warningon) {
-					//일반몬스터 생성
+					if (wave == 1) {
+						//1번 웨이브 일반몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 일반몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 일반몬스터
+					}
 				}
 				NormalTiming -= 2.0f;
 			}
 			if (GimmickTiming - GameTimer >= 6.0f) {
 				if (!warningon) {
-					//기믹몬스터 생성
+					if (wave == 1) {
+						//1번 웨이브 기믹몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 기믹몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 기믹몬스터
+					}
 				}
 				GimmickTiming -= 6.0f;
 			}
 			if (NormalWarningTiming - GameTimer >= 1.0f) {
 				if (warningon) {
-					//일반몬스터 생성
+					if (wave == 1) {
+						//1번 웨이브 일반몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 일반몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 일반몬스터
+					}
 				}
 				NormalWarningTiming -= 1.0f;
 			}
 			if (GimmickWarningTiming - GameTimer >= 3.0f) {
 				if (warningon) {
-					//기믹몬스터 생성
+					if (wave == 1) {
+						//1번 웨이브 기믹몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 기믹몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 기믹몬스터
+					}
 				}
 				GimmickWarningTiming -= 3.0f;
 			}
@@ -185,7 +223,7 @@ void GameManager2::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
-			if ((GameTimer <= 142.0f && GameTimer > 140.0f) || (GameTimer <= 82.0f && GameTimer > 80.0f) || (GameTimer <= 22.0f && GameTimer > 0.0f)) {
+			if ((GameTimer <= 142.0f && GameTimer > 140.0f) || (GameTimer <= 82.0f && GameTimer > 80.0f) || (GameTimer <= 22.0f && GameTimer > 20.0f)) {
 				warningImage->SetSprite(warningsprite);
 				warningAniTime += TIME_GET_DELTATIME();
 				if (warningAniTime > 1.0f) {
