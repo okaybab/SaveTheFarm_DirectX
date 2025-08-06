@@ -85,7 +85,9 @@ namespace GOTOEngine
 
 		void Update()
 		{
-			sliderBarRenderer->GetTransform()->SetLocalScale({ m_value,1.0f });
+			auto barSprite = sliderBarRenderer->GetSprite();
+			auto barTexRect = barSprite->GetTexture()->GetRect();
+			barSprite->SetRect({ 0,0,barTexRect.width * m_value,barTexRect.height });
 			sliderHandleRenderer->GetTransform()->SetLocalPosition({ sliderWidth * m_value, 0.0f });
 		}
 	};
