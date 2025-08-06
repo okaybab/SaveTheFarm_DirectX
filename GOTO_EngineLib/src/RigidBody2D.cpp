@@ -35,8 +35,13 @@ GOTOEngine::Vector2 GOTOEngine::RigidBody2D::GetPosition()
 void GOTOEngine::RigidBody2D::SetPosition(Vector2 pos)
 {
 	if (GetWrapperBody() && GetWrapperBody()->m_pBody)
+	{
 		m_wrapperBody->GetBody()->position = { pos.x, pos.y };
+		if (m_wrapperBody->GetBody()->invMass != 0.0f)
+			GetTransform()->SetPosition(pos);
+	}
 }
+
 
 float GOTOEngine::RigidBody2D::GetRotation()
 {
@@ -49,9 +54,12 @@ float GOTOEngine::RigidBody2D::GetRotation()
 void GOTOEngine::RigidBody2D::SetRotation(float rot)
 {
 	if (GetWrapperBody() && GetWrapperBody()->m_pBody)
+	{
 		m_wrapperBody->GetBody()->rotation = rot * Mathf::Deg2Rad;
+		if (m_wrapperBody->GetBody()->invMass != 0.0f)
+			GetTransform()->SetRotation(rot);
+	}
 }
-
 float GOTOEngine::RigidBody2D::GetMass()
 {
 	if (GetWrapperBody() && GetWrapperBody()->m_pBody)
