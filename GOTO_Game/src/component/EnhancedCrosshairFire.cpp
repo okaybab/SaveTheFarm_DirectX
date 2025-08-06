@@ -1,4 +1,5 @@
 #include "EnhancedCrosshairFire.h"
+#include "CameraShaker.h"
 
 GOTOEngine::RumbleAnimationClip* GOTOEngine::EnhancedCrosshairFire::s_pfireRumbleClip = nullptr;
 GOTOEngine::RumbleAnimationClip* GOTOEngine::EnhancedCrosshairFire::s_pholdRumbleClip = nullptr;
@@ -521,7 +522,7 @@ void GOTOEngine::EnhancedCrosshairFire::Update()
 					bool isHit = false;
 					if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
 					{
-						attackable->TakeDamage(1);
+						attackable->TakeDamage(id,1);
 						isHit = true;
 					}
 
@@ -576,4 +577,11 @@ void GOTOEngine::EnhancedCrosshairFire::Update()
 	{
 		gageSprite->SetFillAmount(m_fireGage);
 	}
+}
+
+void GOTOEngine::EnhancedCrosshairFire::OnSceneLoaded()
+{
+    auto camGO = id == 0 ? GameObject::Find(L"p1Cam") : GameObject::Find(L"p2Cam");
+    if (camGO)
+        m_shaker = camGO->GetComponent<CameraShaker>();
 }

@@ -7,6 +7,6 @@ namespace GOTOEngine
 	public:
 		virtual ~IAttackAble() = default;
 		// 공격을 받았을 때 호출되는 함수
-		virtual void TakeDamage(float damage) = 0;
+		virtual void TakeDamage(int attackerID, float damage) = 0;
 	};
 }
