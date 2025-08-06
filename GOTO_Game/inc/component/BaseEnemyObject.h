@@ -210,11 +210,11 @@ namespace GOTOEngine
 
 			if (m_layer == 1)
 			{
-				GameManager::instance->P1Score += GameManager::instance->P1Bonus;
+				GameManager::instance->PointChange(1, 1);
 			}
 			else if (m_layer == 2)
 			{
-				GameManager::instance->P2Score += GameManager::instance->P2Bonus;
+				GameManager::instance->PointChange(2, 1);
 			}
 		}
 	};

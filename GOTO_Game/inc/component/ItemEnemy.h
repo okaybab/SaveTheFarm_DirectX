@@ -5,6 +5,7 @@
 #include <Collider2D.h>
 
 #include "ItemManager.h"
+#include "FadeComponent.h"
 
 namespace GOTOEngine
 {
@@ -31,11 +32,11 @@ namespace GOTOEngine
 			{
 				if (m_layer == 1)
 				{
-					GameManager::instance->P1Score -= 1;
+					GameManager::instance->PointChange(1, -1);
 				}
 				else if (m_layer == 2)
 				{
-					GameManager::instance->P2Score -= 1;
+					GameManager::instance->PointChange(2, -1);
 				}
 			}
 			else
@@ -61,7 +62,6 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
-				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case bombCrow:
@@ -69,7 +69,6 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
-				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			case goldCrow:
@@ -77,12 +76,14 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
-				AddComponent<SpriteRenderer>();
 				SetRandomYPosition(0.15f, 0.4f);
 				break;
 			}
+			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
+			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			GetComponent<SpriteRenderer>()->SetRenderLayer((1 << m_layer));
+			sprite->SetRenderLayer((1 << m_layer));
+
 			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
@@ -102,8 +103,12 @@ namespace GOTOEngine
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
-			// 죽는 애니메이션 필요
-			Destroy(GetGameObject(), 0.5f);
+			auto fader = GetGameObject()->GetComponent<FadeComponent>();
+			fader->Initialize();
+
+			fader->FadeOut(0.5f, [this]() {
+				Destroy(GetGameObject());
+			});
 		}
 	};
 }

@@ -15,9 +15,12 @@
 #include "GimmickManager.h"
 #include "SoundManager.h"
 
-#include "StartMenuPrefab.h"
+#include "FadeInOutFXManagerPrefab.h"
+#include "FadeInOutFXManager.h"
+
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
+#include "CameraMove.h"
 
 using namespace std;
 
@@ -45,7 +48,11 @@ void testEnemyScene::Initialize()
 	auto RumbleManagerGO = new GameObject(L"GamePadRumbleManager");
 	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
 
-	StartMenuPrefab::CreateStartMenu();
+	//StartMenuPrefab::CreateStartMenu();
+
+	FadeInOutFXManagerPrefab::CreateFadeInOutFXPrefab();
+	if (FadeInOutFXManager::instance)
+		FadeInOutFXManager::instance->FadeIn();
 
 
 	auto soundManager = new GameObject(L"사운드매니저");
@@ -53,35 +60,37 @@ void testEnemyScene::Initialize()
 	soundManager->AddComponent<SoundManager>();
 	//*/
 
-	/*/ Play Scene
+	//*/ Play Scene
 	auto player1CamGO = Camera::CreateMainCamera();
+
+	auto player1CamMoverGO = new GameObject(L"카메라 핸들러");
+	player1CamMoverGO->AddComponent<CameraMove>()->id = 0;
+	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
+
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
-	player1Cam->name = L"플레이어1 카메라";
+	player1Cam->GetGameObject()->name = L"p1Cam";
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
 	player1Cam->SetRenderLayer(1 << 1);
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
-	if (Object::IsValidObject(player1CrosshairGO))
-	{
-		player1CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player1CamShaker](int id) { player1CamShaker->ShakeCamera(24, 55, 8); });
-	}
 
 	auto player2CamGO = Camera::CreateSubCamera();
+
+	auto player2CamMoverGO = new GameObject(L"카메라 핸들러2");
+	player2CamMoverGO->AddComponent<CameraMove>()->id = 1;
+	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
+
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
-	player2Cam->name = L"플레이어2 카메라";
+	player2Cam->GetGameObject()->name = L"p2Cam";
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 2);
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
-	if (Object::IsValidObject(player2CrosshairGO))
-	{
-		player2CrosshairGO->GetComponent<CrosshairFire>()->onFire.Add([player2CamShaker](int id) { player2CamShaker->ShakeCamera(24, 55, 8); });
-	}
 
-	//auto BackgroundGO = new GameObject(L"Background");
-	//auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
-	//BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
-	//BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f });
+	auto BackgroundGO = new GameObject(L"Background");
+	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
+	BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
+	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f });
 
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();

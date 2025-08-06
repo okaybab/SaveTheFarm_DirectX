@@ -11,27 +11,22 @@
 
 namespace GOTOEngine
 {
-	class GimmickManager : public ScriptBehaviour
+	class GimmickManager2 : public ScriptBehaviour
 	{
 	private:
 		float p1gimmick1Timer = 0.0f;
 		float p2gimmick1Timer = 0.0f;
 		float p1gimmick2Timer = 0.0f;
 		float p2gimmick2Timer = 0.0f;
-		const float timelimit = 3.0f;
-		Image* p1gimmick2Image;
-		Image* p2gimmick2Image;
-		Sprite* gimmick2effect1;
-		Sprite* gimmick2effect2;
-		Sprite* gimmick2effect3;
+		const float timelimit = 10.0f;
 	public:
-    GimmickManager()
+    GimmickManager2()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		static GimmickManager* instance;
+		static GimmickManager2* instance;
 		void Awake();
 		void Update();
 		void OnDestroy();

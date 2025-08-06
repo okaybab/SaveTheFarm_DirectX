@@ -274,6 +274,14 @@ void GameManager::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
+			if (GameTimer <= GoldTiming[0]) {
+				//황금두더지 생성
+				GoldTiming[0] = -1.0f;
+			}
+			if (GameTimer <= GoldTiming[1]) {
+				//황금두더지 생성
+				GoldTiming[1] = -1.0f;
+			}
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
@@ -319,11 +327,16 @@ void GameManager::Update() {
 			if (p1active && p2active && tutorialCheckTime == 0.0f) {
 				tutorialCheckTime = TIME_GET_TOTALTIME() + 0.45f;
 			}
-
 			if (tutorialCheckTime != 0.0f && tutorialCheckTime < TIME_GET_TOTALTIME())
 			{
 				setactive = true;
 			}
+			//*/ 디버깅용 스페이스 바
+			if (INPUT_GET_KEYDOWN(KeyCode::Space))
+			{
+				setactive = true;
+			}
+			//*/
 		}
 	}
 	P1sctext->text = std::to_wstring(P1Score);
@@ -335,10 +348,20 @@ void GameManager::Update() {
 }
 
 void GameManager::PointChange(int player, int point) {
-	if (player == 1) {
-		P1Score += point * P1Bonus;
+	if (point > 0) {
+		if (player == 1) {
+			P1Score += point * P1Bonus;
+		}
+		else if (player == 2) {
+			P2Score += point * P2Bonus;
+		}
 	}
-	else if (player == 2) {
-		P2Score += point * P2Bonus;
+	else {
+		if (player == 1) {
+			P1Score += point;
+		}
+		else if (player == 2) {
+			P2Score += point;
+		}
 	}
 }

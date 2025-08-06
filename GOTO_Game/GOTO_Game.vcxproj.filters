@@ -48,16 +48,19 @@
     <Filter Include="헤더 파일\인터페이스">
       <UniqueIdentifier>{91c85e8e-973e-449c-91d8-a4603b49ffef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\컴포넌트\매니저">
+      <UniqueIdentifier>{f49aeb16-e740-45bc-9255-f6398d58be4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\컴포넌트\조준점">
+      <UniqueIdentifier>{c445cf06-70da-44bf-8c6d-644b86a4b908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\컴포넌트\UI">
+      <UniqueIdentifier>{85b5664b-4fa5-490c-b047-cd70795c1717}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameApp.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\MonsterAttack.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\PlayerHealth.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\PlayScene.cpp">
       <Filter>소스 파일\씬</Filter>
@@ -77,41 +80,8 @@
     <ClCompile Include="src\scene\StartScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\GameManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\ItemManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\EnemySpawner.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\GimmickManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\SoundManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\TutorialImage.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\CrosshairMove.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
     <ClCompile Include="src\prefab\OptionWindowPrefab.cpp">
       <Filter>소스 파일\프리팹</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\StartMenu.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\GameManager2.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\CrosshairFire.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\EnhancedCrosshairFire.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\SampleScene.cpp">
       <Filter>소스 파일\씬</Filter>
@@ -133,6 +103,54 @@
     </ClCompile>
     <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp">
       <Filter>소스 파일</Filter>
+	</ClCompile>
+    <ClCompile Include="src\component\ItemManager2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GimmickManager2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\TutorialImage2.cpp">
+      <Filter>소스 파일\컴포넌트</Filter>
+	</ClCompile> 
+    <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
+      <Filter>소스 파일\프리팹</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\EnemySpawner.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GameManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GameManager2.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\FadeInOutFXManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ItemManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GimmickManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\EnhancedCrosshairFire.cpp">
+      <Filter>소스 파일\컴포넌트\조준점</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\SoundManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GamepadRumbleManager.cpp">
+      <Filter>소스 파일\컴포넌트\조준점</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\CrosshairFire.cpp">
+      <Filter>소스 파일\컴포넌트\조준점</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\CrosshairMove.cpp">
+      <Filter>소스 파일\컴포넌트\조준점</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\TutorialImage.cpp">
+      <Filter>소스 파일\컴포넌트\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,9 +171,6 @@
     </ClInclude>
     <ClInclude Include="inc\scene\StartScene.h">
       <Filter>헤더 파일\씬</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\IAttackAble.h">
-      <Filter>헤더 파일\인터페이스</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\MovementCircle.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
@@ -223,44 +238,11 @@
     <ClInclude Include="inc\component\MemoryUsageGUI.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\MonsterAttack.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\MushroomCreator.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerController.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerFSMController.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerGUI.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerHealth.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerMove.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\PlayerRotate.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\RenderInfoDraw.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\TestComponent.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
     <ClInclude Include="inc\component\SoundManager.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\TutorialImage.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\ICollideAble.h">
-      <Filter>헤더 파일\인터페이스</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\SliderSprite.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
@@ -303,6 +285,24 @@
     </ClInclude>
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h">
       <Filter>헤더 파일</Filter>
+	</ClInclude>
+    <ClInclude Include="inc\component\ItemManager2.h">
+      <Filter>헤더 파일\컴포넌트\매니저</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\GimmickManager2.h">
+      <Filter>헤더 파일\컴포넌트\매니저</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\TutorialImage2.h">
+      <Filter>헤더 파일\컴포넌트\UI</Filter>
+	</ClInclude>
+    <ClInclude Include="inc\component\FadeComponent.h">
+      <Filter>헤더 파일\컴포넌트\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\interface\IAttackAble.h">
+      <Filter>헤더 파일\인터페이스</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\interface\ICollideAble.h">
+      <Filter>헤더 파일\인터페이스</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

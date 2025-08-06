@@ -13,19 +13,18 @@
 namespace GOTOEngine
 {
 	enum class ItemType {
-		Bomb = 0, Icebomb, Ticket
+		Bomb = 0, Icebomb, Mushroom
 	};
 	class AnimationCurve;
-	class ItemManager : public ScriptBehaviour
+	class ItemManager2 : public ScriptBehaviour
 	{
 	private:
 		std::vector<ItemType> p1Items;
 		std::vector<ItemType> p2Items;
-		float p1TicketTimer = 0.0f;
-		float p2TicketTimer = 0.0f;
 		float p1IceTimer = 0.0f;
 		float p2IceTimer = 0.0f;
-		const float timelimit = 5.0f;
+		float p1MushroomTimer = 0.0f;
+		float p2MushroomTimer = 0.0f;
 		Image* itembar1;
 		Image* itembar2;
 		Image* p1itemImage[7];
@@ -33,7 +32,7 @@ namespace GOTOEngine
 
 		Sprite* bombItemSprite;
 		Sprite* icebombItemSprite;
-		Sprite* ticketItemSprite;
+		Sprite* mushroomItemSprite;
 		Sprite* iced;
 		AnimatorController* bombanimator;
 
@@ -43,13 +42,13 @@ namespace GOTOEngine
 		float p2AniTime[7]{ 0.0f, 0.13f, 0.25f, 0.38f, 0.52f, 0.65f, 0.83f };
 		AnimationCurve* itemanimation;
 	public:
-    ItemManager()
+    ItemManager2()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		static ItemManager* instance;
+		static ItemManager2* instance;
 
 		void Awake();
 		int p1count = 0;

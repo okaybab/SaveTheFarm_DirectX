@@ -12,7 +12,7 @@
 namespace GOTOEngine
 {
 	class AnimationCurve;
-	class TutorialImage : public ScriptBehaviour
+	class TutorialImage2 : public ScriptBehaviour
 	{
 	private:
 		Image* explanation;
@@ -50,7 +50,7 @@ namespace GOTOEngine
 		void TriggerPressedCheckReset();
 
 	public:
-    TutorialImage()
+    TutorialImage2()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);

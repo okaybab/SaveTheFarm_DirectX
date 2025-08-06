@@ -11,6 +11,8 @@
 
 namespace GOTOEngine
 {
+	class AnimationCurve;
+	class TutorialImage2;
 	class GameManager2 : public ScriptBehaviour
 	{
 	private:
@@ -18,10 +20,26 @@ namespace GOTOEngine
 		bool p2active = false;
 
 		Text* Timetext;
+		Image* warningImage;
+		Sprite* warningsprite;
 
 		int totalSeconds;
 		int minutes;
 		int seconds;
+		AnimationCurve* warninganimation;
+		float warningAniTime = 0.0f;
+
+		int itemchange;
+		float NormalTiming = 122.0f;
+		float GimmickTiming = 120.0f;
+		float NormalWarningTiming = 120.0f;
+		float GimmickWarningTiming = 120.0f;
+		float ItemTiming[6] = { 150.0f, 130.0f, 90.0f, 70.0f, 30.0f, 10.0f };
+
+		bool warningon = false;
+
+		float tutorialCheckTime = 0.0f;
+		TutorialImage2* Tutorial;
 
 	public:
     GameManager2()
@@ -32,7 +50,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		int winner;
-		float GameTimer = 120.0f;
+		float GameTimer = 180.0f;
 		float CropGauge = 100.0f;
 		float endingTimer = 3.0f;
 		static GameManager2* instance;

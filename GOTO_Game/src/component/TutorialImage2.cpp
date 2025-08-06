@@ -1,11 +1,11 @@
-﻿#include "TutorialImage.h"
+#include "TutorialImage2.h"
 #include "SoundManager.h"
 #include <AnimationCurve.h>
 
 using namespace GOTOEngine;
 //TutorialImage* TutorialImage::instance = nullptr;
 
-void TutorialImage::Awake() {
+void TutorialImage2::Awake() {
 	/*if (!instance)
 	{
 		instance = this;
@@ -79,14 +79,14 @@ void TutorialImage::Awake() {
 	explanation = expobject->AddComponent<Image>();
 	explanation->GetRectTransform()->SetAnchoredPosition({
 		Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.2f });
-	explanation->GetRectTransform()->SetSizeDelta({ 
+	explanation->GetRectTransform()->SetSizeDelta({
 		Screen::GetWidth() * 0.6f, Screen::GetHeight() * 0.6f });
 	auto p1bBackObject = new GameObject;
 	Tutorialobject.push_back(p1bBackObject);
 	p1bBackObject->GetTransform()->SetParent(canvas->GetTransform());
 	p1buttonBack = p1bBackObject->AddComponent<Image>();
 	p1buttonBack->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.25f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f)});
+		Screen::GetWidth() * 0.25f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f) });
 	p1buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	auto p1bobject = new GameObject;
 	Tutorialobject.push_back(p1bobject);
@@ -136,7 +136,7 @@ void TutorialImage::Awake() {
 	tutorial5->IncreaseRefCount();
 }
 
-void TutorialImage::OnDestroy() {
+void TutorialImage2::OnDestroy() {
 	for (auto obj : Tutorialobject) {
 		Destroy(obj);
 		obj = nullptr;
@@ -154,15 +154,15 @@ void TutorialImage::OnDestroy() {
 		tutorial5->DecreaseRefCount();
 }
 
-void TutorialImage::Update() {
+void TutorialImage2::Update() {
 	TriggerPressedCheckReset();
 	TriggerPressedCheck();
 
 	switch (explainnum) {
 	case 1:
 		explanation->SetSprite(tutorial1);
-		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) || 
-			rightTriggerPressed[0] || 
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
 			rightTriggerPressed[1]) {
 			SoundManager::instance->PlaySFX("Button");
 			explainnum = 2;
@@ -170,7 +170,7 @@ void TutorialImage::Update() {
 		break;
 	case 2:
 		explanation->SetSprite(tutorial2);
-		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) || 
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
 			SoundManager::instance->PlaySFX("Button");
@@ -226,7 +226,7 @@ void TutorialImage::Update() {
 
 	auto buttonMaxTimer = 1.25f;
 
-	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0,GamepadButton::ButtonWest);
+	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0, GamepadButton::ButtonWest);
 	auto p2ButtonPress = INPUT_GET_KEY(KeyCode::M) || INPUT_GET_GAMEPAD_BUTTON(1, GamepadButton::ButtonWest);
 
 	auto lastButton1Timer = button1Timer;
@@ -244,7 +244,7 @@ void TutorialImage::Update() {
 		button1Timer = buttonMaxTimer;
 		button1AnimTimer += TIME_GET_DELTATIME();
 	}
-	
+
 	if (p1button->GetEnabled() && button1Timer == buttonMaxTimer)
 	{
 		SoundManager::instance->PlaySFX("Button");
@@ -277,7 +277,7 @@ void TutorialImage::Update() {
 	p2buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta * buttonClickedCurve->Evaluate(button2AnimTimer));
 }
 
-void TutorialImage::TriggerPressedCheck()  {
+void TutorialImage2::TriggerPressedCheck() {
 	for (int i = 0; i < 2; i++) {
 		auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::RightTrigger);
 		if (!rightTriggerCheckTrigger[i]) {
@@ -308,7 +308,7 @@ void TutorialImage::TriggerPressedCheck()  {
 }
 
 
-void TutorialImage::TriggerPressedCheckReset() {
+void TutorialImage2::TriggerPressedCheckReset() {
 	rightTriggerPressed[0] = false;
 	rightTriggerPressed[1] = false;
 	leftTriggerPressed[0] = false;

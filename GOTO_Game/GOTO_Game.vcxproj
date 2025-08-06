@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_Game\inc\struct;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc\prefab;$(SolutionDir)GOTO_Game\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_Game\inc\interface;$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\struct;$(SolutionDir)GOTO_Game\inc\prefab;$(SolutionDir)GOTO_Game\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_Game\inc\struct;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc;$(SolutionDir)GOTO_Game\inc\prefab;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GOTO_EngineLib\inc;$(SolutionDir)GOTO_EngineLib\inc\miniaudio;$(SolutionDir)GOTO_EngineLib\inc\box2d-lite;$(SolutionDir)GOTO_Game\inc\component;$(SolutionDir)GOTO_Game\inc\interface;$(SolutionDir)GOTO_Game\inc\scene;$(SolutionDir)GOTO_Game\inc\struct;$(SolutionDir)GOTO_Game\inc;$(SolutionDir)GOTO_Game\inc\prefab;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -149,6 +149,8 @@
     <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp" />
     <ClCompile Include="src\component\DirIndicatorController.cpp" />
     <ClCompile Include="src\component\DirIndicator.cpp" />
+    <ClCompile Include="src\component\GimmickManager2.cpp" />
+    <ClCompile Include="src\component\ItemManager2.cpp" />
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp" />
     <ClCompile Include="src\component\FadeInOutFXManager.cpp" />
     <ClCompile Include="src\scene\SampleScene.cpp" />
@@ -161,23 +163,23 @@
     <ClCompile Include="src\component\GimmickManager.cpp" />
     <ClCompile Include="src\component\CrosshairMove.cpp" />
     <ClCompile Include="src\component\EnemySpawner.cpp" />
-    <ClCompile Include="src\component\StartMenu.cpp" />
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
     <ClCompile Include="src\component\GameManager.cpp" />
     <ClCompile Include="src\scene\PlayScene.cpp" />
-    <ClCompile Include="src\component\MonsterAttack.cpp" />
-    <ClCompile Include="src\component\PlayerHealth.cpp" />
     <ClCompile Include="src\GameApp.cpp" />
     <ClCompile Include="src\scene\testEnemyScene.cpp" />
     <ClCompile Include="src\scene\TestItemScene.cpp" />
     <ClCompile Include="src\scene\StartScene.cpp" />
     <ClCompile Include="src\component\TutorialImage.cpp" />
+    <ClCompile Include="src\component\TutorialImage2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\DirIndicator.h" />
     <ClInclude Include="inc\component\DirIndicatorController.h" />
+    <ClInclude Include="inc\component\GimmickManager2.h" />
+    <ClInclude Include="inc\component\FadeComponent.h" />
     <ClInclude Include="inc\component\FadeInOutFXManager.h" />
     <ClInclude Include="inc\component\GameManager2.h" />
     <ClInclude Include="inc\component\ButtonAnimation.h" />
@@ -197,19 +199,12 @@
     <ClInclude Include="inc\component\ItemEnemy.h" />
     <ClInclude Include="inc\component\ItemManager.h" />
     <ClInclude Include="inc\component\MemoryUsageGUI.h" />
-    <ClInclude Include="inc\component\MonsterAttack.h" />
     <ClInclude Include="inc\component\MovementCircle.h" />
     <ClInclude Include="inc\component\MoveEnemy.h" />
     <ClInclude Include="inc\component\MovementLeftRight.h" />
     <ClInclude Include="inc\component\MovementParabolic.h" />
     <ClInclude Include="inc\component\MovementUpDown.h" />
-    <ClInclude Include="inc\component\MushroomCreator.h" />
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
-    <ClInclude Include="inc\component\PlayerController.h" />
-    <ClInclude Include="inc\component\PlayerHealth.h" />
-    <ClInclude Include="inc\component\PlayerMove.h" />
-    <ClInclude Include="inc\component\PlayerRotate.h" />
-    <ClInclude Include="inc\component\RenderInfoDraw.h" />
     <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\StartManager.h" />
     <ClInclude Include="inc\component\TestComponent.h" />
@@ -218,6 +213,8 @@
     <ClInclude Include="inc\IAttackAble.h" />
     <ClInclude Include="inc\ICollideAble.h" />
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
+    <ClInclude Include="inc\interface\IAttackAble.h" />
+    <ClInclude Include="inc\interface\ICollideAble.h" />
     <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h" />
     <ClInclude Include="inc\prefab\OptionWindowPrefab.h" />
     <ClInclude Include="inc\scene\SampleScene.h" />
@@ -232,6 +229,8 @@
     <ClInclude Include="inc\component\SoundManager.h" />
     <ClInclude Include="inc\component\TutorialImage.h" />
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
+    <ClInclude Include="inc\component\ItemManager2.h" />
+    <ClInclude Include="inc\component\TutorialImage2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
