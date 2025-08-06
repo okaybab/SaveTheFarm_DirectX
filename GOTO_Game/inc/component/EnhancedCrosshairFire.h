@@ -36,6 +36,8 @@ namespace GOTOEngine
 
 		float m_nextPlayHoldingRumbleTime = 0.0f;
 
+		CameraShaker* m_shaker = nullptr;
+
 		Vector2 m_shakeMove;
 
 		static RumbleAnimationClip* s_pfireRumbleClip;
@@ -76,5 +78,7 @@ namespace GOTOEngine
 		void TriggerPressedCheckReset();
 
 		void Update();
+
+		void OnSceneLoaded();
 	};
 }

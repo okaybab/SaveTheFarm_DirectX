@@ -38,5 +38,4 @@ void StartScene::Initialize()
 	auto soundManager = new GameObject(L"사운드매니저");
 
 	soundManager->AddComponent<SoundManager>();
-
 }

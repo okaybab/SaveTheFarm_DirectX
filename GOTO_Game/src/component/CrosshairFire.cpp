@@ -147,8 +147,6 @@ void GOTOEngine::CrosshairFire::Update()
 	m_fireCooldown -= TIME_GET_DELTATIME();
 	m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
 
-   
-
     if (m_fireCooldown > 0.0f)
     {
         if (IsValidObject(gageSprite))
@@ -191,7 +189,7 @@ void GOTOEngine::CrosshairFire::Update()
 		{
 			if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
 			{
-				attackable->TakeDamage(1);
+				attackable->TakeDamage(id,1);
 			}
 		}
 	}
