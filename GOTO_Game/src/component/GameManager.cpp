@@ -335,10 +335,20 @@ void GameManager::Update() {
 }
 
 void GameManager::PointChange(int player, int point) {
-	if (player == 1) {
-		P1Score += point * P1Bonus;
+	if (point > 0) {
+		if (player == 1) {
+			P1Score += point * P1Bonus;
+		}
+		else if (player == 2) {
+			P2Score += point * P2Bonus;
+		}
 	}
-	else if (player == 2) {
-		P2Score += point * P2Bonus;
+	else {
+		if (player == 1) {
+			P1Score += point;
+		}
+		else if (player == 2) {
+			P2Score += point;
+		}
 	}
 }
