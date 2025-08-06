@@ -272,7 +272,7 @@ namespace GOTOEngine
                 auto pos = Vector2::Lerp(
                     focusUITransform->GetLocalPosition(),
                     { 0.0f, targetPosY },
-                    TIME_GET_DELTATIME() * 10.0f);
+                    1.0f - std::exp(-10.0f * TIME_GET_DELTATIME()));
 
                 focusUITransform->SetLocalPosition(pos);
             }

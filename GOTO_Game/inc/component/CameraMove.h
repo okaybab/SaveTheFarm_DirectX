@@ -54,9 +54,6 @@ namespace GOTOEngine
 
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, 0.0f }, 1.0f) * moveSpeed * m_sizefactor;
 
-
-			float smoothness = std::pow(0.1f, TIME_GET_DELTATIME());
-
 			float lerpFactor = 1.0f - std::exp(-6.5f * TIME_GET_DELTATIME());
 
 			m_moveVec = Vector2::Lerp(m_moveVec, moveInput, lerpFactor);
