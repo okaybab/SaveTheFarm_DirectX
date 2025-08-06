@@ -131,6 +131,7 @@ void GameManager::Update() {
 		}
 		if (GameTimer > 0.0f) {
 			GameTimer -= TIME_GET_DELTATIME();
+			//*/ 디버깅용 주석
 			if (NormalTiming - GameTimer >= 5.0f) {
 				//일반 몬스터 랜덤 생성
 				EnemySpawner->CreateEnemy(E_EnemyType::move, 1);
@@ -276,15 +277,18 @@ void GameManager::Update() {
 			}
 			if (GameTimer <= GoldTiming[0]) {
 				//황금두더지 생성
+				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, 1);
 				GoldTiming[0] = -1.0f;
 			}
 			if (GameTimer <= GoldTiming[1]) {
 				//황금두더지 생성
+				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, 2);
 				GoldTiming[1] = -1.0f;
 			}
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
+			//*/
 		}
 		else if (GameTimer == 0.0f) {
 			setactive = false;

@@ -14,6 +14,7 @@ namespace GOTOEngine
 		iceCrow,	// 얼음새
 		bombCrow,	// 폭탄새
 		goldCrow,	// 황금새
+		goldMole,	// 황금 두더지
 		item_type_count
 	};
 
@@ -25,7 +26,6 @@ namespace GOTOEngine
 	public:
 		void Dispose()
 		{
-
 			if (!GameManager::instance->setactive) return;
 
 			if (m_isDeathByDispone)
@@ -63,6 +63,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				SetRandomYPosition(0.15f, 0.4f);
+				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case bombCrow:
 				m_moveFlag = 0b1000;
@@ -70,6 +71,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
 				SetRandomYPosition(0.15f, 0.4f);
+				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case goldCrow:
 				m_moveFlag = 0b0010;
@@ -77,14 +79,20 @@ namespace GOTOEngine
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
 				SetRandomYPosition(0.15f, 0.4f);
+				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				break;
+			case goldMole:
+				m_moveFlag = 0b0001;
+				m_disPoneTime = 10.0f;
+				GetGameObject()->name = L"황금두더지";
+				SetRandomYPosition(-0.4f, -0.1f);
+				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			}
 			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 			sprite->SetRenderLayer((1 << m_layer));
-
-			GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();

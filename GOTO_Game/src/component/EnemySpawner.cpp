@@ -37,7 +37,8 @@ void GOTOEngine::EnemySpawner::Awake()
 
 			{L"얼음새", L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"},
 			{L"폭탄새", L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"},
-			{L"황금새", L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"}
+			{L"황금새", L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"},
+			{L"황금두더지", L"../Resources/Animation/controller/GoldMoleAnimator_AnimController.json"}
 		};
 		for (const auto& [key, path] : animList)
 		{
@@ -57,6 +58,7 @@ void GOTOEngine::EnemySpawner::Awake()
 			{L"얼음새", L"../Resources/artResource/Sprint/IceCrow_die.png"},
 			{L"폭탄새", L"../Resources/artResource/Sprint/BomCrow_die.png"},
 			{L"황금새", L"../Resources/artResource/Sprint/GoldCrow_die.png"},
+			{L"황금두더지", L"../Resources/artResource/Sprint/GoldMole_die.png"},
 		};
 		for (const auto& [key, path] : spriteList)
 		{
@@ -132,7 +134,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(bombCrow);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldMole);
 		break;
 	default:
 		break;
@@ -158,7 +160,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int player)
 	break;
 	case itemspawn:
 	{
-		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count);
+		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count -1);
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
 	}
