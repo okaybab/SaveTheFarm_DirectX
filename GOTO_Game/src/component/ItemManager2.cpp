@@ -175,18 +175,10 @@ void ItemManager2::Update() {
 			//»çÀÌÁîº¹±¸
 		}
 	}
-	if (p1IceTimer > 0.0f) {
-		p1IceTimer -= TIME_GET_DELTATIME();
-		if (p1IceTimer <= 0.0f) {
-			p1IceTimer = 0.0f;
-			//ºù°áÇØÁ¦
-		}
-	}
-
-	if (p2IceTimer > 0.0f) {
-		p2IceTimer -= TIME_GET_DELTATIME();
-		if (p2IceTimer <= 0.0f) {
-			p2IceTimer = 0.0f;
+	if (IceTimer > 0.0f) {
+		IceTimer -= TIME_GET_DELTATIME();
+		if (IceTimer <= 0.0f) {
+			IceTimer = 0.0f;
 			//ºù°áÇØÁ¦
 		}
 	}
@@ -279,32 +271,13 @@ void ItemManager2::UseItem(int player, ItemType item)
 	if (GameManager2::instance->setactive) {
 		switch (item) {
 		case ItemType::Bomb:
-			if (player == 1) {
-				//Æø¹ß
-				auto p1cam = GameObject::Find(L"p1Cam");
-				if (IsValidObject(p1cam))
-					p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
-				SoundManager::instance->PlaySFX("Bomb");
-			}
-			else {
-				//Æø¹ß
-				auto p2cam = GameObject::Find(L"p2Cam");
-				if (IsValidObject(p2cam))
-					p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
-				SoundManager::instance->PlaySFX("Bomb");
-			}
+			//Æø¹ß
+			SoundManager::instance->PlaySFX("Bomb");
 			break;
 		case ItemType::Icebomb:
-			if (player == 1) {
-				//ºù°á
-				SoundManager::instance->PlaySFX("IceBomb");
-				p1IceTimer = 5.0f;
-			}
-			else {
-				//ºù°á
-				SoundManager::instance->PlaySFX("IceBomb");
-				p2IceTimer = 5.0f;
-			}
+			//ºù°á
+			SoundManager::instance->PlaySFX("IceBomb");
+			IceTimer = 5.0f;
 			break;
 		case ItemType::Mushroom:
 			if (player == 1) {

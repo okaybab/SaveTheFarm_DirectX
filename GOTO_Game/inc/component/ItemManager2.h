@@ -21,8 +21,7 @@ namespace GOTOEngine
 	private:
 		std::vector<ItemType> p1Items;
 		std::vector<ItemType> p2Items;
-		float p1IceTimer = 0.0f;
-		float p2IceTimer = 0.0f;
+		float IceTimer = 0.0f;
 		float p1MushroomTimer = 0.0f;
 		float p2MushroomTimer = 0.0f;
 		Image* itembar1;
