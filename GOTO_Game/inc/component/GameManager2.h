@@ -36,6 +36,9 @@ namespace GOTOEngine
 		float GimmickWarningTiming = 120.0f;
 		float ItemTiming[6] = { 150.0f, 130.0f, 90.0f, 70.0f, 30.0f, 10.0f };
 
+		int wave = 0;
+		float waveTiming[3] = { 180.0f, 120.0f, 60.0f };
+
 		bool warningon = false;
 
 		float tutorialCheckTime = 0.0f;
