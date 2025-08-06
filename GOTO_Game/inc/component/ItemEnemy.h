@@ -123,10 +123,10 @@ namespace GOTOEngine
 				Destroy(GetGameObject());
 			});
 
-			if (m_layer & 0b0110) // 황금두더지
+			if (m_layer == 0b0110) // 황금두더지
 			{
 				// EnemySpawner::GenerateRandom(0, ItemType::Item_Count)
-				ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count))));
+				ItemManager::instance->UseItem(attackerID+1, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
 			}
 		}
 	};

@@ -27,7 +27,7 @@ namespace GOTOEngine
 		Delegate<void> onExit;
 		Delegate<void> onInteract;
 
-		void TakeDamage(float dmg) override
+		void TakeDamage(int id,float dmg) override
 		{
 			isInteracted = true;
 			interactedTime = TIME_GET_TOTALTIME();

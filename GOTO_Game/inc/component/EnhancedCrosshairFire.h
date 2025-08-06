@@ -15,6 +15,7 @@
 
 namespace GOTOEngine
 {
+	class CameraShaker;
 	class EnhancedCrosshairFire : public ScriptBehaviour
 	{
 	private:
@@ -53,6 +54,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
+        REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
