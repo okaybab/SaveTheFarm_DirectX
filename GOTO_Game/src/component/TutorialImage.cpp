@@ -123,6 +123,17 @@ void TutorialImage::Awake() {
 
 	p1buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
 	p2buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+
+	tutorial1 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_1.png");
+	tutorial1->IncreaseRefCount();
+	tutorial2 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_2.png");
+	tutorial2->IncreaseRefCount();
+	tutorial3 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_3.png");
+	tutorial3->IncreaseRefCount();
+	tutorial4 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_4.png");
+	tutorial4->IncreaseRefCount();
+	tutorial5 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_5.png");
+	tutorial5->IncreaseRefCount();
 }
 
 void TutorialImage::OnDestroy() {
@@ -139,7 +150,7 @@ void TutorialImage::Update() {
 
 	switch (explainnum) {
 	case 1:
-		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_1.png");
+		explanation->SetSprite(tutorial1);
 		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) || 
 			rightTriggerPressed[0] || 
 			rightTriggerPressed[1]) {
@@ -148,7 +159,7 @@ void TutorialImage::Update() {
 		}
 		break;
 	case 2:
-		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_2.png");
+		explanation->SetSprite(tutorial2);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) || 
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
@@ -163,7 +174,7 @@ void TutorialImage::Update() {
 		}
 		break;
 	case 3:
-		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_3.png");
+		explanation->SetSprite(tutorial3);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
@@ -178,7 +189,7 @@ void TutorialImage::Update() {
 		}
 		break;
 	case 4:
-		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_4.png");
+		explanation->SetSprite(tutorial4);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {
@@ -193,7 +204,7 @@ void TutorialImage::Update() {
 		}
 		break;
 	case 5:
-		explanation->SetSprite(L"../Resources/artResource/UI/Tutorial/Tutorial_5.png");
+		explanation->SetSprite(tutorial5);
 		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
 			leftTriggerPressed[0] ||
 			leftTriggerPressed[1]) {

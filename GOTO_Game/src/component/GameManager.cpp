@@ -274,6 +274,14 @@ void GameManager::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
+			if (GameTimer <= GoldTiming[0]) {
+				//황금두더지 생성
+				GoldTiming[0] = -1.0f;
+			}
+			if (GameTimer <= GoldTiming[1]) {
+				//황금두더지 생성
+				GoldTiming[1] = -1.0f;
+			}
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}

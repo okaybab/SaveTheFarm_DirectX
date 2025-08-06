@@ -23,6 +23,12 @@ namespace GOTOEngine
 
 		AnimationCurve* buttonClickedCurve;
 
+		Sprite* tutorial1;
+		Sprite* tutorial2;
+		Sprite* tutorial3;
+		Sprite* tutorial4;
+		Sprite* tutorial5;
+
 		int explainnum = 1;
 		std::vector<GameObject*> Tutorialobject;
 		bool rightTriggerCheckTrigger[2];

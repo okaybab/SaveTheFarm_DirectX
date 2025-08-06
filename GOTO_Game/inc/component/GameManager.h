@@ -21,6 +21,7 @@ namespace GOTOEngine
 		float NormalTiming = 125.0f;
 		float GimmickTiming = 120.0f;
 		float ItemTiming[6] = { 100.0f, 80.0f, 60.0f, 40.0f, 20.0f, 10.0f };
+		float GoldTiming[2] = { 95.0f, 50.0f };
 
 		Image* scoreboard;
 		Image* timerscreen;

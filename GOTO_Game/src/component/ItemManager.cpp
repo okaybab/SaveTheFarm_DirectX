@@ -33,6 +33,17 @@ void ItemManager::Awake() {
 		itembar2->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.1f });
 		itembar2->SetSprite(L"../Resources/artResource/UI/Ingame/아이템 창 UI.png");
 
+		bombItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Bomb_item.png");
+		bombItemSprite->IncreaseRefCount();
+		icebombItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_item.png");
+		icebombItemSprite->IncreaseRefCount();
+		ticketItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Golden_ticket.png");
+		ticketItemSprite->IncreaseRefCount();
+		iced = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+		iced->IncreaseRefCount();
+		bombanimator = Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json");
+		bombanimator->IncreaseRefCount();
+
 		for (int i = 0; i < 7; ++i)
 		{
 			// 플레이어 1 아이템 오브젝트 생성 및 설정
@@ -102,6 +113,17 @@ void ItemManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
 	delete(itemanimation);
+
+	if (IsValidObject(bombItemSprite))
+		bombItemSprite->DecreaseRefCount();
+	if (IsValidObject(icebombItemSprite))
+		icebombItemSprite->DecreaseRefCount();
+	if (IsValidObject(ticketItemSprite))
+		ticketItemSprite->DecreaseRefCount();
+	if (IsValidObject(iced))
+		iced->DecreaseRefCount();
+	if (IsValidObject(bombanimator))
+		bombanimator->DecreaseRefCount();
 }
 
 void ItemManager::Update(){
@@ -186,13 +208,13 @@ void ItemManager::Update(){
 			ItemType item = p1Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item.png");
+				p1itemImage[i]->SetSprite(bombItemSprite);
 				break;
 			case ItemType::Icebomb:
-				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
+				p1itemImage[i]->SetSprite(icebombItemSprite);
 				break;
 			case ItemType::Ticket:
-				p1itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Golden_ticket.png");
+				p1itemImage[i]->SetSprite(ticketItemSprite);
 				break;
 			}
 		}
@@ -205,13 +227,13 @@ void ItemManager::Update(){
 			ItemType item = p2Items[i];
 			switch (item) {
 			case ItemType::Bomb:
-				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Bomb_item.png");
+				p2itemImage[i]->SetSprite(bombItemSprite);
 				break;
 			case ItemType::Icebomb:
-				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_item.png");
+				p2itemImage[i]->SetSprite(icebombItemSprite);
 				break;
 			case ItemType::Ticket:
-				p2itemImage[i]->SetSprite(L"../Resources/artResource/UI/Item/Golden_ticket.png");
+				p2itemImage[i]->SetSprite(ticketItemSprite);
 				break;
 			}
 		}
@@ -281,7 +303,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
-					bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
 				}
 				EnemySpawner::instance->Setp1EnemyAllDestroy();
@@ -312,7 +334,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
-					bombeffect->AddComponent<Animator>()->SetAnimatorController(Resource::Load<AnimatorController>(L"../Resources/Animation/controller/BombAnimator_AnimController.json"));
+					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
 				}
 				EnemySpawner::instance->Setp2EnemyAllDestroy();
@@ -347,7 +369,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
-					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
 					Destroy(iceeffect, 5.0f);
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
@@ -370,7 +392,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
-					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
 					Destroy(iceeffect, 5.0f);
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);

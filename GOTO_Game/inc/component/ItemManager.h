@@ -30,6 +30,13 @@ namespace GOTOEngine
 		Image* itembar2;
 		Image* p1itemImage[7];
 		Image* p2itemImage[7];
+
+		Sprite* bombItemSprite;
+		Sprite* icebombItemSprite;
+		Sprite* ticketItemSprite;
+		Sprite* iced;
+		AnimatorController* bombanimator;
+
 		float p1AniTimer = 10.0f;
 		float p2AniTimer = 10.0f;
 		float p1AniTime[7]{ 0.0f, 0.13f, 0.25f, 0.38f, 0.52f, 0.65f, 0.83f };

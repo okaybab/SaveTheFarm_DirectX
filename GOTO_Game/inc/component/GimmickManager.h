@@ -21,6 +21,9 @@ namespace GOTOEngine
 		const float timelimit = 3.0f;
 		Image* p1gimmick2Image;
 		Image* p2gimmick2Image;
+		Sprite* gimmick2effect1;
+		Sprite* gimmick2effect2;
+		Sprite* gimmick2effect3;
 	public:
     GimmickManager()
     {

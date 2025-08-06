@@ -32,12 +32,24 @@ void GimmickManager::Awake()
 	p2gimmick2Image->GetRectTransform()->SetAnchoredPosition({
 		Screen::GetWidth() * 0.5f, 0});
 	srand(time(NULL));
+	gimmick2effect1 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+	gimmick2effect1->IncreaseRefCount();
+	gimmick2effect2 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+	gimmick2effect2->IncreaseRefCount();
+	gimmick2effect3 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+	gimmick2effect3->IncreaseRefCount();
 }
 void GimmickManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
 	CrosshairMove::reverseInput1 = false;
 	CrosshairMove::reverseInput2 = false;
+	if (IsValidObject(gimmick2effect1))
+		gimmick2effect1->DecreaseRefCount();
+	if (IsValidObject(gimmick2effect2))
+		gimmick2effect2->DecreaseRefCount();
+	if (IsValidObject(gimmick2effect3))
+		gimmick2effect3->DecreaseRefCount();
 }
 
 void GimmickManager::Update() {
@@ -102,13 +114,13 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 				int i = rand() % 3 + 1;
 				switch (i) {
 				case 1:
-					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+					p2gimmick2Image->SetSprite(gimmick2effect1);
 					break;
 				case 2:
-					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+					p2gimmick2Image->SetSprite(gimmick2effect2);
 					break;
 				case 3:
-					p2gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+					p2gimmick2Image->SetSprite(gimmick2effect3);
 					break;
 				}
 				p1gimmick2Timer = timelimit;
@@ -117,13 +129,13 @@ void GimmickManager::GimmickOn(int player, int gimmick) {
 				int i = rand() % 3 + 1;
 				switch (i) {
 				case 1:
-					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect.png");
+					p1gimmick2Image->SetSprite(gimmick2effect1);
 					break;
 				case 2:
-					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect2.png");
+					p1gimmick2Image->SetSprite(gimmick2effect2);
 					break;
 				case 3:
-					p1gimmick2Image->SetSprite(L"../Resources/artResource/UI/Gimmick/Gimmick2_effect3.png");
+					p1gimmick2Image->SetSprite(gimmick2effect3);
 					break;
 				}
 				p2gimmick2Timer = timelimit;
