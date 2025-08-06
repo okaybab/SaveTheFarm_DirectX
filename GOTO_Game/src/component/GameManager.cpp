@@ -327,14 +327,16 @@ void GameManager::Update() {
 			if (p1active && p2active && tutorialCheckTime == 0.0f) {
 				tutorialCheckTime = TIME_GET_TOTALTIME() + 0.45f;
 			}
-
 			if (tutorialCheckTime != 0.0f && tutorialCheckTime < TIME_GET_TOTALTIME())
 			{
 				setactive = true;
 			}
-			if (INPUT_GET_KEYDOWN(KeyCode::Space)) {
+			//*/ 디버깅용 스페이스 바
+			if (INPUT_GET_KEYDOWN(KeyCode::Space))
+			{
 				setactive = true;
 			}
+			//*/
 		}
 	}
 	P1sctext->text = std::to_wstring(P1Score);
