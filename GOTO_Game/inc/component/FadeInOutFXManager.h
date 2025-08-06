@@ -20,7 +20,7 @@ namespace GOTOEngine
 
 		Image* blackScreen = nullptr;
 
-		float fadingTime = 0.65f;
+		float fadingTime = 0.45f;
 
 		void FadeIn();
 		void FadeOut();

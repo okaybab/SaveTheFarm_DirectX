@@ -7,6 +7,12 @@
 
 namespace GOTOEngine
 {
+    enum class EmissionShape
+    {
+        Rectangle,  // 사각형 안에서 무작위 위치로 방출
+        Cone,       // 특정 각도의 부채꼴 방향으로 방출
+    };
+
     // 파티클 사라짐 효과 모드
     enum class ParticleFadeMode
     {
@@ -88,6 +94,7 @@ namespace GOTOEngine
         float m_particleLifeTime;                    // 파티클 생명 시간 (활성 상태 유지 시간)
         float m_fadeOutTime;                         // 파티클 사라지는 시간
         ParticleFadeMode m_fadeMode;                 // 파티클 사라짐 효과
+        EmissionShape m_emissionShape;               // 파티클 방출 모양
         int m_particlesPerSpawn;                     // 한번에 등장할 파티클 수
         float m_spawnInterval;                       // 파티클 생성 주기
         int m_maxParticleCount;                      // 최대 파티클 수
@@ -97,6 +104,7 @@ namespace GOTOEngine
         Vector2 m_gravity;                           // 중력 벡터
         float m_emissionDirection;                   // 부채꼴의 중심 방향 (라디안)
         float m_emissionAngle;                       // 부채꼴의 각도 (라디안, 0 = 직선, π*2 = 원)
+        float m_emissionTangentLength;
         float m_minSpeed;                            // 최소 방출 속도
         float m_maxSpeed;                            // 최대 방출 속도
 
@@ -139,7 +147,8 @@ namespace GOTOEngine
         void RenderWithSprite(Matrix3x3& viewMatrix);
 
         // 부채꼴 방출 속도 계산
-        Vector2 CalculateEmissionVelocity();
+        Vector2 CalculateEmissionVelocity(const EmissionShape& shape);
+        Vector2 CalculateEmissionPosition(const EmissionShape& shape);
 
 	public:
         ParticleSystem();
@@ -178,6 +187,9 @@ namespace GOTOEngine
 
         void SetFadeMode(ParticleFadeMode mode) { m_fadeMode = mode; }
         ParticleFadeMode GetFadeMode() const { return m_fadeMode; }
+
+        void SetEmissionShape(EmissionShape shape) { m_emissionShape = shape; }
+        EmissionShape GetEmissionShape() { return m_emissionShape; }
 
         void SetParticlesPerSpawn(int count) { m_particlesPerSpawn = count; }
         int GetParticlesPerSpawn() const { return m_particlesPerSpawn; }
@@ -252,6 +264,11 @@ namespace GOTOEngine
             SetEmissionAngle(radians);
         }
 
+        void SetEmissionTangentLength(float length)
+        {
+            m_emissionTangentLength = length;
+        }
+
         void SetCommonSprite(Sprite* sprite)
         {
             if (m_particleCommonSprite != sprite)
@@ -292,6 +309,7 @@ namespace GOTOEngine
         float GetEmissionAngle() const { return m_emissionAngle; }
         float GetEmissionAngleDegrees() const { return m_emissionAngle * Mathf::Rad2Deg; }
 
+        float GetEmissionTangentLength() const { return m_emissionTangentLength; }
 
         void SetMaxParticleCount(int count)
         {

@@ -8,11 +8,13 @@
 
 GOTOEngine::ParticleSystem::ParticleSystem()
     : m_particleLifeTime(2.0f), m_fadeOutTime(1.0f), m_fadeMode(ParticleFadeMode::Fade),
+    m_emissionShape(EmissionShape::Cone),
     m_particlesPerSpawn(1), m_spawnInterval(0.1f), m_maxParticleCount(25),
     m_minSpeed(50.0f), m_maxSpeed(150.0f),
     m_minScale(0.5f), m_maxScale(1.5f),
     m_minAngularVelocity(-3.14159f), m_maxAngularVelocity(3.14159f), // -180° ~ +180°
     m_emissionDirection(3.14159f * 0.5f), m_emissionAngle(3.14159f), // 기본: 위쪽 반원
+    m_emissionTangentLength(1.0f),
     m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false), m_particleCommonSprite(nullptr),
     gen(rd()), dis(0.0f, 1.0f)
 {
@@ -64,17 +66,10 @@ void GOTOEngine::ParticleSystem::SpawnSingleParticle()
     if (!particle) return;
 
     // Transform 위치를 기준으로 파티클 생성
-    Transform* transform = GetGameObject()->GetTransform();
-    Vector2 spawnPos = transform ? transform->GetPosition() : Vector2(0, 0);
-
-    // 랜덤 오프셋 추가
-    float offsetX = (dis(gen) - 0.5f) * 20.0f;
-    float offsetY = (dis(gen) - 0.5f) * 20.0f;
-    spawnPos.x += offsetX;
-    spawnPos.y += offsetY;
+    Vector2 spawnPos = CalculateEmissionPosition(m_emissionShape);
 
     // 랜덤 속도
-    Vector2 velocity = CalculateEmissionVelocity();
+    Vector2 velocity = CalculateEmissionVelocity(m_emissionShape);
 
     // 각속도 범위 내에서 랜덤 선택
     float angularVel = m_minAngularVelocity + dis(gen) * (m_maxAngularVelocity - m_minAngularVelocity);
@@ -321,9 +316,17 @@ void GOTOEngine::ParticleSystem::RenderWithSprite(Matrix3x3& viewMatrix)
     renderAPI->DrawSpriteBatch(bitmap, m_activeParticles.size(), mats, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, colors, filter, false);
 }
 
-GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity()
+GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity(const EmissionShape& shape)
 {
     float speed = m_minSpeed + dis(gen) * (m_maxSpeed - m_minSpeed);
+
+    if (shape == EmissionShape::Rectangle)
+    {
+        return Vector2(
+            cos(Mathf::PI - m_emissionDirection) * speed,
+            sin(Mathf::PI - m_emissionDirection) * speed
+        );
+    }
 
     // 부채꼴 각도 범위 내에서 랜덤한 방향 선택
     float halfAngle = m_emissionAngle * 0.5f;
@@ -337,4 +340,30 @@ GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity()
         cos(randomAngle) * speed,
         sin(randomAngle) * speed
     );
+}
+
+GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionPosition(const EmissionShape& shape)
+{
+    Transform* transform = GetGameObject()->GetTransform();
+    Vector2 spawnPos = transform ? transform->GetPosition() : Vector2(0, 0);
+
+    if (shape == EmissionShape::Cone)
+    {
+        // 랜덤 오프셋 추가
+        float offsetX = (dis(gen) - 0.5f) * 20.0f;
+        float offsetY = (dis(gen) - 0.5f) * 20.0f;
+        spawnPos.x += offsetX;
+        spawnPos.y += offsetY;
+
+        return spawnPos;
+    }
+    
+    auto tangentDir = Vector2(
+        sin(Mathf::PI - m_emissionDirection),
+        -cos(Mathf::PI - m_emissionDirection)
+    );
+
+    spawnPos += tangentDir * (dis(gen) - 0.5f) * m_emissionTangentLength;
+    
+    return spawnPos;
 }
