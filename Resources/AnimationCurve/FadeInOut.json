@@ -1,0 +1,18 @@
+{
+    "keyframes": [
+        {
+            "time": 0,
+            "value": 0,
+            "in_tangent": 0.0375,
+            "out_tangent": 0.0375,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1,
+            "value": 1,
+            "in_tangent": 2.7906270802094815,
+            "out_tangent": 2.7906270802094815,
+            "tangent_mode": 1
+        }
+    ]
+}

@@ -67,7 +67,6 @@ namespace GOTOEngine
 			{
 				if (m_onComplete)
 				{
-					std::cout << "FadeComponent " << std::endl;
 					m_onComplete();
 				}
 				SetEnabled(false);

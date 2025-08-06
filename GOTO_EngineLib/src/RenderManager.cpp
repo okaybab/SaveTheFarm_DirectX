@@ -211,6 +211,9 @@ void GOTOEngine::RenderManager::Render()
 	if (m_needRenderOrderSort)
 		SortRenderer();
 
+	if (m_needCanvasOrderSort)
+		SortCanvas();
+
 	//파티클 시스템 업데이트
 	for (auto& particleSystem : m_particleSystems)
 	{

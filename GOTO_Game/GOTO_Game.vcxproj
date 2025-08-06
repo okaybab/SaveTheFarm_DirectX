@@ -146,6 +146,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp" />
+    <ClCompile Include="src\component\DirIndicatorController.cpp" />
+    <ClCompile Include="src\component\DirIndicator.cpp" />
     <ClCompile Include="src\component\GimmickManager2.cpp" />
     <ClCompile Include="src\component\ItemManager2.cpp" />
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp" />
@@ -173,6 +176,8 @@
     <ClCompile Include="src\component\TutorialImage2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\DirIndicator.h" />
+    <ClInclude Include="inc\component\DirIndicatorController.h" />
     <ClInclude Include="inc\component\GimmickManager2.h" />
     <ClInclude Include="inc\component\FadeComponent.h" />
     <ClInclude Include="inc\component\FadeInOutFXManager.h" />
@@ -202,6 +207,12 @@
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\StartManager.h" />
+    <ClInclude Include="inc\component\TestComponent.h" />
+    <ClInclude Include="inc\component\PlayerGUI.h" />
+    <ClInclude Include="inc\component\PlayerFSMController.h" />
+    <ClInclude Include="inc\IAttackAble.h" />
+    <ClInclude Include="inc\ICollideAble.h" />
+    <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
     <ClInclude Include="inc\interface\IAttackAble.h" />
     <ClInclude Include="inc\interface\ICollideAble.h" />
     <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h" />
