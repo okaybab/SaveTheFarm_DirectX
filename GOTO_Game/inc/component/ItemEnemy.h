@@ -31,11 +31,11 @@ namespace GOTOEngine
 			{
 				if (m_layer == 1)
 				{
-					GameManager::instance->P1Score -= 1;
+					GameManager::instance->PointChange(1, -1);
 				}
 				else if (m_layer == 2)
 				{
-					GameManager::instance->P2Score -= 1;
+					GameManager::instance->PointChange(2, -1);
 				}
 			}
 			else
