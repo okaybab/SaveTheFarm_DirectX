@@ -19,10 +19,10 @@ void GOTOEngine::Image::Render()
         auto rectTransform = GetRectTransform();
 
         auto sizeDelta = rectTransform->GetSizeDelta();
-        auto sizePivotX = GetRectTransform()->GetPivot().x * sizeDelta.x;
-        auto sizePivotY = GetRectTransform()->GetPivot().y * sizeDelta.y;
         auto sizeFactorX = canvasSize.x / screenSize.x;
         auto sizeFactorY = canvasSize.y / screenSize.y;
+        auto sizePivotX = GetRectTransform()->GetPivot().x * sizeDelta.x * sizeFactorX;
+        auto sizePivotY = GetRectTransform()->GetPivot().y * sizeDelta.y * sizeFactorY;
         auto currentPos = rectTransform->GetAnchoredPosition();
 
 
@@ -40,13 +40,13 @@ void GOTOEngine::Image::Render()
         switch (m_type)
         {
         case ImageType::Simple:
-            renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+            renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, m_sprite->GetRect(), m_color, filter, true);
             break;
         case ImageType::RadialFill:
             if(m_fillAmount < 1.0f)
-                renderAPI->DrawRadialFillBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_fillAmount, m_startAngle, m_clockwise, m_color, filter, true);
+                renderAPI->DrawRadialFillBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, m_sprite->GetRect(), m_fillAmount, m_startAngle, m_clockwise, m_color, filter, true);
             else
-                renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+                renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), {}, { currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, m_sprite->GetRect(), m_color, filter, true);
             break;
         }        
     }
@@ -60,13 +60,13 @@ void GOTOEngine::Image::Render()
         auto rectTransform = GetRectTransform();
 
         auto sizeDelta = rectTransform->GetSizeDelta();
-        auto sizePivotX = GetRectTransform()->GetPivot().x * sizeDelta.x;
-        auto sizePivotY = GetRectTransform()->GetPivot().y * sizeDelta.y;
         auto sizeFactorX = canvasSize.x / screenSize.x;
         auto sizeFactorY = canvasSize.y / screenSize.y;
+        auto sizePivotX = GetRectTransform()->GetPivot().x * sizeDelta.x * sizeFactorX;
+        auto sizePivotY = GetRectTransform()->GetPivot().y * sizeDelta.y * sizeFactorY;
         auto currentPos = rectTransform->GetAnchoredPosition();
 
-        renderAPI->DrawRect({ currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x,sizeDelta.y }, true, {}, m_color, true);
+        renderAPI->DrawRect({ currentPos.x * sizeFactorX - sizePivotX,currentPos.y * sizeFactorY - sizePivotY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, true, {}, m_color, true);
     }
 }
 

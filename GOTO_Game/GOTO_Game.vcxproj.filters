@@ -95,6 +95,15 @@
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\component\DirIndicator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\DirIndicatorController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp">
+      <Filter>소스 파일</Filter>
+	</ClCompile>
     <ClCompile Include="src\component\ItemManager2.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
@@ -268,6 +277,15 @@
     <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\DirIndicator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\DirIndicatorController.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\prefab\DirIndicatorPrefab.h">
+      <Filter>헤더 파일</Filter>
+	</ClInclude>
     <ClInclude Include="inc\component\ItemManager2.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
