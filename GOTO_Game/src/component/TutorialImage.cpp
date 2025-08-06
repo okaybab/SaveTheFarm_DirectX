@@ -142,6 +142,16 @@ void TutorialImage::OnDestroy() {
 		obj = nullptr;
 	}
 	delete buttonClickedCurve;
+	if (IsValidObject(tutorial1))
+		tutorial1->DecreaseRefCount();
+	if (IsValidObject(tutorial2))
+		tutorial2->DecreaseRefCount();
+	if (IsValidObject(tutorial3))
+		tutorial3->DecreaseRefCount();
+	if (IsValidObject(tutorial4))
+		tutorial4->DecreaseRefCount();
+	if (IsValidObject(tutorial5))
+		tutorial5->DecreaseRefCount();
 }
 
 void TutorialImage::Update() {
