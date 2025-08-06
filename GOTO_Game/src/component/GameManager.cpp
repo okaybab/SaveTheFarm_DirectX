@@ -303,8 +303,10 @@ void GameManager::Update() {
 				P2wintext->text = std::wstring(L"Deuce");
 			}
 			if (endingTimer <= 0.0f) {
-
-				SCENE_CHANGE_SCENE(L"StartScene");
+				FadeInOutFXManager::instance->FadeOut();
+				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
+					SCENE_CHANGE_SCENE(L"StartScene");
+				}
 			}
 		}
 		else {
@@ -330,4 +332,13 @@ void GameManager::Update() {
 	minutes = totalSeconds / 60;
 	seconds = totalSeconds % 60;
 	Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
+}
+
+void GameManager::PointChange(int player, int point) {
+	if (player == 1) {
+		P1Score += point * P1Bonus;
+	}
+	else if (player == 2) {
+		P2Score += point * P2Bonus;
+	}
 }

@@ -291,13 +291,13 @@ void ItemManager::UseItem(int player, ItemType item)
 					p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
 
 				if (p1count >= 1 && p1count <= 3) {
-					GameManager::instance->P1Score += 3 * GameManager::instance->P1Bonus;
+					GameManager::instance->PointChange(1, 3);
 				}
 				else if (p1count >= 4 && p1count <= 6) {
-					GameManager::instance->P1Score += 5 * GameManager::instance->P1Bonus;
+					GameManager::instance->PointChange(1, 5);
 				}
 				else if (p1count >= 7) {
-					GameManager::instance->P1Score += 7 * GameManager::instance->P1Bonus;
+					GameManager::instance->PointChange(1, 7);
 				}
 				SoundManager::instance->PlaySFX("Bomb");
 			}
@@ -322,13 +322,13 @@ void ItemManager::UseItem(int player, ItemType item)
 					p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
 
 				if (p2count >= 1 && p2count <= 3) {
-					GameManager::instance->P2Score += 3 * GameManager::instance->P2Bonus;
+					GameManager::instance->PointChange(2, 3);
 				}
 				else if (p2count >= 4 && p2count <= 6) {
-					GameManager::instance->P2Score += 5 * GameManager::instance->P2Bonus;
+					GameManager::instance->PointChange(2, 5);
 				}
 				else if (p2count >= 7) {
-					GameManager::instance->P2Score += 7 * GameManager::instance->P2Bonus;
+					GameManager::instance->PointChange(2, 7);
 				}
 				SoundManager::instance->PlaySFX("Bomb");
 			}

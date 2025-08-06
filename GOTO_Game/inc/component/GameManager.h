@@ -64,5 +64,6 @@ namespace GOTOEngine
 		void Start();
 		void Update();
 		void OnDestroy();
+		void PointChange(int player, int point);
 	};
 }
