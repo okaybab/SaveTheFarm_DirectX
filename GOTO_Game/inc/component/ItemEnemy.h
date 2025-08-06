@@ -110,9 +110,9 @@ namespace GOTOEngine
 
 		int GetType() { return static_cast<int>(m_itemEnemyType); }
 
-		void OnBulletDie(std::uint32_t player) override
+		void OnBulletDie(int attackerID) override
 		{
-			__super::OnBulletDie(player);
+			__super::OnBulletDie(attackerID);
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
@@ -126,7 +126,7 @@ namespace GOTOEngine
 			if (m_layer & 0b0110) // 황금두더지
 			{
 				// EnemySpawner::GenerateRandom(0, ItemType::Item_Count)
-				ItemManager::instance->UseItem(1, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count))));
+				ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count))));
 			}
 		}
 	};

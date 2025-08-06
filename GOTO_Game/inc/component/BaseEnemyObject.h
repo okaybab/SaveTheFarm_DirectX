@@ -196,13 +196,13 @@ namespace GOTOEngine
 		}
 
 		// 이벤트
-		virtual void TakeDamage(float damage)
+		virtual void TakeDamage(int attackerID, float damage)
 		{
 			if (m_isDie || m_isDeathByDispone) return;
 			m_enemyHp -= damage;
-			if (m_enemyHp <= 0) OnBulletDie(1 << 1);
+			if (m_enemyHp <= 0) OnBulletDie(attackerID);
 		}
-		virtual void OnBulletDie(std::uint32_t player)
+		virtual void OnBulletDie(int attackerID)
 		{
 			m_isDie = true;
 			

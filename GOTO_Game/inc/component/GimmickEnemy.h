@@ -95,9 +95,9 @@ namespace GOTOEngine
 
 		int GetType() override { return static_cast<int>(m_gimmickEnemyType); }
 
-		void OnBulletDie(std::uint32_t player) override
+		void OnBulletDie(int attackerID) override
 		{
-			__super::OnBulletDie(player);
+			__super::OnBulletDie(attackerID);
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
