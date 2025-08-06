@@ -111,6 +111,10 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
 	{
+		CreateEnemy(E_EnemyType::itemspawn, 1 << 2);
+	}
+	if (INPUT_GET_KEYUP(KeyCode::Z)) // 황금 두더지 생성
+	{
 		CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
 	}
 }
@@ -160,7 +164,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	break;
 	case itemspawn:
 	{
-		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % E_Item_Enemy_Type::item_type_count -1);
+		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % (E_Item_Enemy_Type::item_type_count -1));
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
 	}
