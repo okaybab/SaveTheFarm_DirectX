@@ -332,6 +332,9 @@ void GameManager::Update() {
 			{
 				setactive = true;
 			}
+			if (INPUT_GET_KEYDOWN(KeyCode::Space)) {
+				setactive = true;
+			}
 		}
 	}
 	P1sctext->text = std::to_wstring(P1Score);
