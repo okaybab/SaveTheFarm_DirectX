@@ -71,11 +71,11 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			break;
 		case 2:
 			if (player == 1) {
-				//p1연사모드
+				//p1샷건모드
 				p1gimmick2Timer = timelimit;
 			}
 			else {
-				//p2연사모드
+				//p2샷건모드
 				p2gimmick2Timer = timelimit;
 			}
 			break;
