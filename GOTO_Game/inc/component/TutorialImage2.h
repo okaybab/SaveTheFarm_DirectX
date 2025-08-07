@@ -28,6 +28,7 @@ namespace GOTOEngine
 		Sprite* tutorial3;
 		Sprite* tutorial4;
 		Sprite* tutorial5;
+		Sprite* tutorial6;
 
 		int explainnum = 1;
 		std::vector<GameObject*> Tutorialobject;
