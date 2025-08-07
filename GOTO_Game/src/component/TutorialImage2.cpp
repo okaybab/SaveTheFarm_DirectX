@@ -124,16 +124,18 @@ void TutorialImage2::Awake() {
 	p1buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
 	p2buttonBack->GetRectTransform()->SetPivot({ 0.5f,0.5f });
 
-	tutorial1 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_1.png");
+	tutorial1 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_1.png");
 	tutorial1->IncreaseRefCount();
-	tutorial2 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_2.png");
+	tutorial2 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_2.png");
 	tutorial2->IncreaseRefCount();
-	tutorial3 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_3.png");
+	tutorial3 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_3.png");
 	tutorial3->IncreaseRefCount();
-	tutorial4 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_4.png");
+	tutorial4 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_4.png");
 	tutorial4->IncreaseRefCount();
-	tutorial5 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_5.png");
+	tutorial5 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_5.png");
 	tutorial5->IncreaseRefCount();
+	tutorial6 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/DefenseTutorial_6.png");
+	tutorial6->IncreaseRefCount();
 }
 
 void TutorialImage2::OnDestroy() {
@@ -152,6 +154,8 @@ void TutorialImage2::OnDestroy() {
 		tutorial4->DecreaseRefCount();
 	if (IsValidObject(tutorial5))
 		tutorial5->DecreaseRefCount();
+	if (IsValidObject(tutorial6))
+		tutorial6->DecreaseRefCount();
 }
 
 void TutorialImage2::Update() {
@@ -220,6 +224,21 @@ void TutorialImage2::Update() {
 			leftTriggerPressed[1]) {
 			SoundManager::instance->PlaySFX("Button");
 			explainnum = 4;
+		}
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
+			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
+			explainnum = 6;
+		}
+		break;
+	case 6:
+		explanation->SetSprite(tutorial6);
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
+			explainnum = 5;
 		}
 		break;
 	}

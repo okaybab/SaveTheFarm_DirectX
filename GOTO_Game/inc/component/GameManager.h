@@ -30,8 +30,20 @@ namespace GOTOEngine
 		Text* P1sctext;
 		Text* P2sctext;
 		Text* Timetext;
-		Text* P1wintext;
-		Text* P2wintext;
+
+		Sprite* winpannel;
+		Sprite* losepannel;
+		Sprite* deucepannel;
+		Image* p1pannel;
+		Image* p2pannel;
+		Text* p1finalsctext;
+		Text* p2finalsctext;
+		Text* p1losttext;
+		Text* p2losttext;
+		Text* p1catchtext;
+		Text* p2catchtext;
+		Text* p1timetext;
+		Text* p2timetext;
 
 		int p1itemchange;
 		int p2itemchange;
@@ -56,9 +68,13 @@ namespace GOTOEngine
 		int P2Score = 0;
 		int P1Bonus = 1;
 		int P2Bonus = 1;
+		int P1Lost = 0;
+		int P2Lost = 0;
+		int P1Catch = 0;
+		int P2Catch = 0;
 		int winner;
 		float GameTimer = 120.0f;
-		float endingTimer = 3.0f;
+		float endingTimer = 5.0f;
 		static GameManager* instance;
 		bool setactive = false;
 		void Awake();

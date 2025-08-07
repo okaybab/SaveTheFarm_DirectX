@@ -46,19 +46,14 @@ void GameManager::Awake(){
 		auto p1sctextitem = new GameObject;
 		auto p2sctextitem = new GameObject;
 		auto timeitem = new GameObject;
-		auto p1winitem = new GameObject;
-		auto p2winitem = new GameObject;
+
 		P1sctext = p1sctextitem->AddComponent<Text>();
 		P2sctext = p2sctextitem->AddComponent<Text>();
 		Timetext = timeitem->AddComponent<Text>();
-		P1wintext = p1winitem->AddComponent<Text>();
-		P2wintext = p2winitem->AddComponent<Text>();
 
 		p1sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 		p2sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
-		p1winitem->GetTransform()->SetParent(canvas->GetTransform());
-		p2winitem->GetTransform()->SetParent(canvas->GetTransform());
 
 		P1sctext->horizontalAlign = TextHoriAlign::Center;
 		P2sctext->horizontalAlign = TextHoriAlign::Center;
@@ -70,37 +65,115 @@ void GameManager::Awake(){
 				Screen::GetWidth() * 0.635f, Screen::GetHeight() * 0.88f });
 		Timetext->GetRectTransform()->SetAnchoredPosition({
 				Screen::GetWidth() * 0.475f, Screen::GetHeight() * 0.88f });
-		P1wintext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.5f });
-		P2wintext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.7f, Screen::GetHeight() * 0.5f });
+
 
 		P1sctext->size = 43;
 		P2sctext->size = 43;
 		Timetext->size = 43;
-		P1wintext->size = 100;
-		P1wintext->GetRectTransform()->SetSizeDelta({ 600, 120 });
-		P2wintext->size = 100;
-		P2wintext->GetRectTransform()->SetSizeDelta({ 600, 120 });
 
 		P1sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 		P2sctext->SetFont(L"../Resources/Maplestory Light.ttf");
 		Timetext->SetFont(L"../Resources/Maplestory Light.ttf");
-		P1wintext->SetFont(L"../Resources/Maplestory Light.ttf");
-		P2wintext->SetFont(L"../Resources/Maplestory Light.ttf");
 		P1sctext->SetColor({ 0,0,0,255 });
 		P2sctext->SetColor({ 0,0,0,255 });
 		Timetext->SetColor({ 0,0,0,255 });
-		P1wintext->SetColor({ 255,0,0,255 });
-		P2wintext->SetColor({ 255,0,0,255 });
 		auto TutorialObject = new GameObject;
 		Tutorial = TutorialObject->AddComponent<TutorialImage>();
+
+		winpannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/경쟁 모드 게임 종료 UI/승리 UI.png");
+		winpannel->IncreaseRefCount();
+		losepannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/경쟁 모드 게임 종료 UI/패배 UI.png");
+		losepannel->IncreaseRefCount();
+		deucepannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/경쟁 모드 게임 종료 UI/무승부 UI.png");
+		deucepannel->IncreaseRefCount();
+		auto p1pannelobject = new GameObject;
+		p1pannel = p1pannelobject->AddComponent<Image>();
+		p1pannelobject->GetTransform()->SetParent(canvas->GetTransform());
+		p1pannel->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.2f });
+		p1pannel->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.7f });
+		p1pannel->SetSprite(nullptr);
+		auto p2pannelobject = new GameObject;
+		p2pannel = p2pannelobject->AddComponent<Image>();
+		p2pannelobject->GetTransform()->SetParent(canvas->GetTransform());
+		p2pannel->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.6f, Screen::GetHeight() * 0.2f });
+		p2pannel->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.7f });
+		p2pannel->SetSprite(nullptr);
+		auto p1final1 = new GameObject;
+		p1finalsctext = p1final1->AddComponent<Text>();
+		p1final1->GetTransform()->SetParent(canvas->GetTransform());
+		p1finalsctext->horizontalAlign = TextHoriAlign::Center;
+		p1finalsctext->size = 70;
+		p1finalsctext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p1finalsctext->SetColor({ 0,0,0,255 });
+		p1finalsctext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.36f });
+		auto p2final1 = new GameObject;
+		p2finalsctext = p2final1->AddComponent<Text>();
+		p2final1->GetTransform()->SetParent(canvas->GetTransform());
+		p2finalsctext->horizontalAlign = TextHoriAlign::Center;
+		p2finalsctext->size = 70;
+		p2finalsctext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p2finalsctext->SetColor({ 0,0,0,255 });
+		p2finalsctext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.36f });
+		auto p1final2 = new GameObject;
+		p1losttext = p1final2->AddComponent<Text>();
+		p1final2->GetTransform()->SetParent(canvas->GetTransform());
+		p1losttext->horizontalAlign = TextHoriAlign::Center;
+		p1losttext->size = 70;
+		p1losttext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p1losttext->SetColor({ 0,0,0,255 });
+		p1losttext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.505f });
+		auto p2final2 = new GameObject;
+		p2losttext = p2final2->AddComponent<Text>();
+		p2final2->GetTransform()->SetParent(canvas->GetTransform());
+		p2losttext->horizontalAlign = TextHoriAlign::Center;
+		p2losttext->size = 70;
+		p2losttext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p2losttext->SetColor({ 0,0,0,255 });
+		p2losttext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.505f });
+		auto p1final3 = new GameObject;
+		p1catchtext = p1final3->AddComponent<Text>();
+		p1final3->GetTransform()->SetParent(canvas->GetTransform());
+		p1catchtext->horizontalAlign = TextHoriAlign::Center;
+		p1catchtext->size = 70;
+		p1catchtext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p1catchtext->SetColor({ 0,0,0,255 });
+		p1catchtext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.65f });
+		auto p2final3 = new GameObject;
+		p2catchtext = p2final3->AddComponent<Text>();
+		p2final3->GetTransform()->SetParent(canvas->GetTransform());
+		p2catchtext->horizontalAlign = TextHoriAlign::Center;
+		p2catchtext->size = 70;
+		p2catchtext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p2catchtext->SetColor({ 0,0,0,255 });
+		p2catchtext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.65f });
+		auto p1final4 = new GameObject;
+		p1timetext = p1final4->AddComponent<Text>();
+		p1final4->GetTransform()->SetParent(canvas->GetTransform());
+		p1timetext->horizontalAlign = TextHoriAlign::Center;
+		p1timetext->size = 40;
+		p1timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p1timetext->SetColor({ 0,0,0,255 });
+		p1timetext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.13f, Screen::GetHeight() * 0.24f });
+		auto p2final4 = new GameObject;
+		p2timetext = p2final4->AddComponent<Text>();
+		p2final4->GetTransform()->SetParent(canvas->GetTransform());
+		p2timetext->horizontalAlign = TextHoriAlign::Center;
+		p2timetext->size = 40;
+		p2timetext->SetFont(L"../Resources/Maplestory Light.ttf");
+		p2timetext->SetColor({ 0,0,0,255 });
+		p2timetext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.63f, Screen::GetHeight() * 0.24f });
 
 		srand(time(NULL));
 		p1itemchange = rand() % 4 + 1;
 		p2itemchange = rand() % 4 + 1;
-		P1wintext->text = std::wstring(L"");
-		P2wintext->text = std::wstring(L"");
 	}
 	else
 	{
@@ -118,7 +191,12 @@ void GOTOEngine::GameManager::Start()
 void GameManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
-
+	if (IsValidObject(winpannel))
+		winpannel->DecreaseRefCount();
+	if (IsValidObject(losepannel))
+		losepannel->DecreaseRefCount();
+	if (IsValidObject(deucepannel))
+		deucepannel->DecreaseRefCount();
 	EnemySpawner = nullptr;
 }
 
@@ -300,22 +378,32 @@ void GameManager::Update() {
 			EnemySpawner->Setp1EnemyAllDestroy();
 			EnemySpawner->Setp2EnemyAllDestroy();
 			EnemySpawner->DestroyGoldMole();
+			p1finalsctext->text = std::to_wstring(P1Score);
+			p2finalsctext->text = std::to_wstring(P2Score);
+			p1losttext->text = std::to_wstring(P1Lost);
+			p2losttext->text = std::to_wstring(P2Lost);
+			p1catchtext->text = std::to_wstring(P1Catch);
+			p2catchtext->text = std::to_wstring(P2Catch);
+			p1timetext->text = std::to_wstring(static_cast<int>(endingTimer)+1);
+			p2timetext->text = std::to_wstring(static_cast<int>(endingTimer)+1);
 			if (P1Score > P2Score) {
 				winner = 1;
-				P1wintext->text = std::wstring(L"Win");
-				P2wintext->text = std::wstring(L"Lose");
+				p1pannel->SetSprite(winpannel);
+				p2pannel->SetSprite(losepannel);
 			}
 			else if (P1Score < P2Score) {
 				winner = 2;
-				P2wintext->text = std::wstring(L"Win");
-				P1wintext->text = std::wstring(L"Lose");
+				p2pannel->SetSprite(winpannel);
+				p1pannel->SetSprite(losepannel);
 			}
 			else {
 				winner = 0;
-				P1wintext->text = std::wstring(L"Deuce");
-				P2wintext->text = std::wstring(L"Deuce");
+				p1pannel->SetSprite(deucepannel);
+				p2pannel->SetSprite(deucepannel);
 			}
 			if (endingTimer <= 0.0f) {
+				p1timetext->text = std::to_wstring(0);
+				p2timetext->text = std::to_wstring(0);
 				FadeInOutFXManager::instance->FadeOut();
 				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
 					SCENE_CHANGE_SCENE(L"StartScene");

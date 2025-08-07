@@ -23,10 +23,12 @@ void GameManager2::Awake() {
 		auto warningitem = new GameObject;
 		warningitem->GetTransform()->SetParent(canvas->GetTransform());
 		warningImage = warningitem->AddComponent<Image>();
-		warningImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.3f });
-		warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.6f });
+		warningImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth()/2, Screen::GetHeight()/2 });
+		warningImage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
+		warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight()});
 		warningImage->SetSprite(nullptr);
-		warningsprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Warring/WARNNING_2.png");
+		warningsprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Warring/WARNING_2.png");
+		warningsprite->IncreaseRefCount();
 		warninganimation = new AnimationCurve({ R"({
      "keyframes": [
         {
@@ -81,6 +83,9 @@ void GOTOEngine::GameManager2::Start()
 void GameManager2::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	delete(warninganimation);
+	if (IsValidObject(warningsprite))
+		warningsprite->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
@@ -226,18 +231,18 @@ void GameManager2::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
-			if ((GameTimer <= 142.0f && GameTimer > 140.0f) || (GameTimer <= 82.0f && GameTimer > 80.0f) || (GameTimer <= 22.0f && GameTimer > 20.0f)) {
+			if ((GameTimer <= 180.0f && GameTimer > 140.0f) || (GameTimer <= 82.0f && GameTimer > 80.0f) || (GameTimer <= 22.0f && GameTimer > 20.0f)) {
 				warningImage->SetSprite(warningsprite);
 				warningAniTime += TIME_GET_DELTATIME();
 				if (warningAniTime > 1.0f) {
 					warningAniTime = 0.0f;
 				}
 				float animValue = warninganimation->Evaluate(warningAniTime);
-				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.5f + animValue * 100.0f, Screen::GetHeight() * 0.6f + animValue * 100.0f });
+				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() + animValue * 100.0f, Screen::GetHeight() + animValue * 100.0f });
 			}
 			else {
 				warningImage->SetSprite(nullptr);
-				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.6f});
+				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight()});
 			}
 			if (CropGauge == 0.0f) {
 				GameTimer = 0.0f;
