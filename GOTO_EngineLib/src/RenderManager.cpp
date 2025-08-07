@@ -97,7 +97,7 @@ void GOTOEngine::RenderManager::UnRegisterCamera(Camera* cam)
 void GOTOEngine::RenderManager::RegisterRenderer(Renderer* renderer)
 {
 	m_renderers.push_back(renderer);
-	SetRendererSortDirty();
+	//SetRendererSortDirty();
 }
 
 void GOTOEngine::RenderManager::UnRegisterRenderer(Renderer* renderer)
@@ -106,7 +106,7 @@ void GOTOEngine::RenderManager::UnRegisterRenderer(Renderer* renderer)
 		std::remove_if(m_renderers.begin(), m_renderers.end(),
 			[renderer](const auto& item) { return item == renderer; }),
 		m_renderers.end());
-	SetRendererSortDirty();
+	//SetRendererSortDirty();
 }
 
 void GOTOEngine::RenderManager::RegisterCanvas(Canvas* canvas)

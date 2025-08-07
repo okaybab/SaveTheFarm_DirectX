@@ -28,6 +28,7 @@ void StartScene::Initialize()
 
 	auto BG = new GameObject(L"BG");
 	BG->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/BG.png");
+	BG->GetComponent<SpriteRenderer>()->SetRenderOrder(-120000);
 
 	auto Title = new GameObject(L"Title");
 	Title->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Title/타이틀로고.png");

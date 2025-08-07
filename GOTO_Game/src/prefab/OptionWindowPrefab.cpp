@@ -8,6 +8,7 @@
 #include <GameObject.h>
 #include <Canvas.h>
 #include <SpriteRenderer.h>
+#include <TextRenderer.h>
 #include <Collider2D.h>
 
 using namespace GOTOEngine;
@@ -38,8 +39,20 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 
 	// 항목들
 	//---- 항목 옵션
-	auto gageYSpace = 100.0f;
-	auto gageYStartPos = 180.0f;
+	auto gageYSpace = 150.0f;
+	auto gageYStartPos = 240.0f;
+
+	auto optionTitleBarTextGO = new GameObject(L"titlebar text");
+	auto optionTitleBarText = optionTitleBarTextGO->AddComponent<TextRenderer>();
+	optionTitleBarText->SetRenderOrder(505);
+	optionTitleBarText->color = { 0,0,0,255 };
+	optionTitleBarText->size = 65;
+	optionTitleBarText->rect = { 0,0,450,300 };
+	optionTitleBarText->text = L"환경 설정";
+	optionTitleBarText->GetTransform()->SetParent(baseWindow->GetTransform());
+	optionTitleBarText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	optionTitleBarText->GetTransform()->SetLocalPosition({ 0.0f,505 });
+
 	
 	//---- 배경음
 	auto BGMGageSpriteGO = new GameObject(L"BG Gage");
@@ -54,7 +67,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	auto BGMGageBackGORenderer = BGMGageBackGO->AddComponent<SpriteRenderer>();
 	BGMGageSprite->backgroundRenderer = BGMGageBackGORenderer;
 
-	BGMGageSpriteGO->GetTransform()->SetLocalPosition({ -580.0f * 0.5f,gageYStartPos });
+	BGMGageSpriteGO->GetTransform()->SetLocalPosition({ -1587.0f * 0.32f * 0.3f,gageYStartPos });
 
 	auto BGMGageBarGO = new GameObject(L"BG Gage - GageBar");
 	BGMGageBarGO->GetTransform()->SetParent(BGMGageSpriteGO->GetTransform());
@@ -70,6 +83,18 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	BGMGageSprite->SetSliderBarTexture(gageBarTexture);
 	BGMGageSprite->SetSliderHandleTexture(gageHandleTexture);
 
+	auto BGMTextGO = new GameObject(L"BGM 텍스트");
+	auto BGMText = BGMTextGO->AddComponent<TextRenderer>();
+	BGMText->SetRenderOrder(505);
+	BGMText->color = { 0,0,0,255 };
+	BGMText->size = 65;
+    BGMText->rect = { 0,0,450,300 };
+	BGMText->text = L"배경음";
+	BGMTextGO->GetTransform()->SetParent(baseWindow->GetTransform());
+	BGMText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	BGMTextGO->GetTransform()->SetLocalPosition({ -285.0f,gageYStartPos });
+
+
 	//---- 효과음
 	auto SEGageSpriteGO = new GameObject(L"SE Gage");
 	SEGageSpriteGO->GetTransform()->SetLocalScale({ 0.32f,0.32f });
@@ -83,7 +108,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	auto SEGageBackGORenderer = SEGageBackGO->AddComponent<SpriteRenderer>();
 	SEGageSprite->backgroundRenderer = SEGageBackGORenderer;
 
-	SEGageSpriteGO->GetTransform()->SetLocalPosition({ -580.0f * 0.5f,gageYStartPos - gageYSpace });
+	SEGageSpriteGO->GetTransform()->SetLocalPosition({ -1587.0f * 0.32f * 0.3f,gageYStartPos - gageYSpace });
 
 	auto SEGageBarGO = new GameObject(L"SE Gage - GageBar");
 	SEGageBarGO->GetTransform()->SetParent(SEGageSpriteGO->GetTransform());
@@ -98,6 +123,17 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	SEGageSprite->SetBackgroundTexture(gageBGTexture);
 	SEGageSprite->SetSliderBarTexture(gageBarTexture);
 	SEGageSprite->SetSliderHandleTexture(gageHandleTexture);
+
+	auto SETextGO = new GameObject(L"SE 텍스트");
+	auto SEText = SETextGO->AddComponent<TextRenderer>();
+	SEText->SetRenderOrder(505);
+	SEText->color = { 0,0,0,255 };
+	SEText->size = 65;
+	SEText->rect = { 0,0,450,300 };
+	SEText->text = L"효과음";
+	SETextGO->GetTransform()->SetParent(baseWindow->GetTransform());
+	SEText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	SETextGO->GetTransform()->SetLocalPosition({ -285.0f,gageYStartPos - gageYSpace });
 	
 	//---- 1P 감도
 	auto P1SensGageSpriteGO = new GameObject(L"P1 Sensitivity Gage");
@@ -112,7 +148,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	auto P1SensGageBackGORenderer = P1SensGageBackGO->AddComponent<SpriteRenderer>();
 	P1SensGageSprite->backgroundRenderer = P1SensGageBackGORenderer;
 
-	P1SensGageSpriteGO->GetTransform()->SetLocalPosition({ -580.0f * 0.5f,gageYStartPos - gageYSpace * 2 });
+	P1SensGageSpriteGO->GetTransform()->SetLocalPosition({ -1587.0f * 0.32f * 0.3f,gageYStartPos - gageYSpace * 2 });
 
 	auto P1SensGageBarGO = new GameObject(L"P1 Sensitivity Gage - GageBar");
 	P1SensGageBarGO->GetTransform()->SetParent(P1SensGageSpriteGO->GetTransform());
@@ -127,6 +163,17 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P1SensGageSprite->SetBackgroundTexture(gageBGTexture);
 	P1SensGageSprite->SetSliderBarTexture(gageBarTexture);
 	P1SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
+
+	auto P1SensTextGO = new GameObject(L"SE 텍스트");
+	auto P1SensText = P1SensTextGO->AddComponent<TextRenderer>();
+	P1SensText->SetRenderOrder(505);
+	P1SensText->color = { 0,0,0,255 };
+	P1SensText->size = 65;
+	P1SensText->rect = { 0,0,450,300 };
+	P1SensText->text = L"1P 감도";
+	P1SensTextGO->GetTransform()->SetParent(baseWindow->GetTransform());
+	P1SensText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	P1SensTextGO->GetTransform()->SetLocalPosition({ -285.0f,gageYStartPos - gageYSpace * 2});
 	
 	//---- 2P 감도
 	auto P2SensGageSpriteGO = new GameObject(L"P2 Sensitivity Gage");
@@ -141,7 +188,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	auto P2SensGageBackGORenderer = P2SensGageBackGO->AddComponent<SpriteRenderer>();
 	P2SensGageSprite->backgroundRenderer = P2SensGageBackGORenderer;
 
-	P2SensGageSpriteGO->GetTransform()->SetLocalPosition({ -580.0f * 0.5f,gageYStartPos - gageYSpace * 3 });
+	P2SensGageSpriteGO->GetTransform()->SetLocalPosition({ -1587.0f * 0.32f * 0.3f,gageYStartPos - gageYSpace * 3 });
 
 	auto P2SensGageBarGO = new GameObject(L"P2 Sensitivity Gage - GageBar");
 	P2SensGageBarGO->GetTransform()->SetParent(P2SensGageSpriteGO->GetTransform());
@@ -156,6 +203,17 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P2SensGageSprite->SetBackgroundTexture(gageBGTexture);
 	P2SensGageSprite->SetSliderBarTexture(gageBarTexture);
 	P2SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
+
+	auto P2SensTextGO = new GameObject(L"SE 텍스트");
+	auto P2SensText = P2SensTextGO->AddComponent<TextRenderer>();
+	P2SensText->SetRenderOrder(505);
+	P2SensText->color = { 0,0,0,255 };
+	P2SensText->size = 65;
+	P2SensText->rect = { 0,0,450,300 };
+	P2SensText->text = L"1P 감도";
+	P2SensTextGO->GetTransform()->SetParent(baseWindow->GetTransform());
+	P2SensText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	P2SensTextGO->GetTransform()->SetLocalPosition({ -285.0f,gageYStartPos - gageYSpace * 3 });
 
 	// 포커스 UI
 	auto focusUI = new GameObject(L"FocusUI");
