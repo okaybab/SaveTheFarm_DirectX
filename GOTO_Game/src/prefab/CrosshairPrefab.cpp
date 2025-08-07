@@ -74,8 +74,12 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	auto GoldFXGO = new GameObject((id == 0 ? L"p1 Gold FX" : L"p2 Gold FX"));
 	auto GoldFX = GoldFXGO->AddComponent<ParticleSystem>();
 	GoldFX->SetMaxParticleCount(55);
-	GoldFX->SetSprite(L"../Resources/artResource/UI/Goldenticket_effect.png");
+	GoldFX->SetSprite(L"../Resources/artResource/UI/Item/Goldenticket_effect.png");
 	GoldFXGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	GoldFX->SetRenderLayer(1 << (id+1));
+	GoldFX->SetMinScale(0.05f);
+	GoldFX->SetMaxScale(0.2f);
+	GoldFX->SetRenderOrder(2000);
 
 	
 
