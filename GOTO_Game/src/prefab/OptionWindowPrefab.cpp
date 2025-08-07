@@ -31,6 +31,11 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	optionWindowSystem->baseWindow = baseWindow->GetTransform();
 	optionWindowSystem->baseWindowSprite = baseWindowSprite;
 
+	// 공용 리소스 (텍스쳐)
+	Texture2D* gageBGTexture = Resource::Load<Texture2D>(L"../Resources/artResource/UI/Setting/배경음 슬라이더.png");
+	Texture2D* gageBarTexture = Resource::Load<Texture2D>(L"../Resources/artResource/UI/Setting/감도 슬라이더.png");
+	Texture2D* gageHandleTexture = Resource::Load<Texture2D>(L"../Resources/artResource/UI/Setting/슬라이더 조절 표시기.png");
+
 	// 항목들
 	//---- 항목 옵션
 	auto gageYSpace = 100.0f;
@@ -38,6 +43,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	
 	//---- 배경음
 	auto BGMGageSpriteGO = new GameObject(L"BG Gage");
+	BGMGageSpriteGO->GetTransform()->SetLocalScale({ 0.32f,0.32f });
 	auto BGMGageSprite = BGMGageSpriteGO->AddComponent<SliderSprite>();
 	BGMGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
 
@@ -59,10 +65,14 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	BGMGageHandleGO->GetTransform()->SetParent(BGMGageSpriteGO->GetTransform());
 	auto BGMGageHandleGORenderer = BGMGageHandleGO->AddComponent<SpriteRenderer>();
 	BGMGageSprite->sliderHandleRenderer = BGMGageHandleGORenderer;
-	
+
+	BGMGageSprite->SetBackgroundTexture(gageBGTexture);
+	BGMGageSprite->SetSliderBarTexture(gageBarTexture);
+	BGMGageSprite->SetSliderHandleTexture(gageHandleTexture);
 
 	//---- 효과음
 	auto SEGageSpriteGO = new GameObject(L"SE Gage");
+	SEGageSpriteGO->GetTransform()->SetLocalScale({ 0.32f,0.32f });
 	auto SEGageSprite = SEGageSpriteGO->AddComponent<SliderSprite>();
 	SEGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
 
@@ -84,9 +94,14 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	SEGageHandleGO->GetTransform()->SetParent(SEGageSpriteGO->GetTransform());
 	auto SEGageHandleGORenderer = SEGageHandleGO->AddComponent<SpriteRenderer>();
 	SEGageSprite->sliderHandleRenderer = SEGageHandleGORenderer;
+
+	SEGageSprite->SetBackgroundTexture(gageBGTexture);
+	SEGageSprite->SetSliderBarTexture(gageBarTexture);
+	SEGageSprite->SetSliderHandleTexture(gageHandleTexture);
 	
 	//---- 1P 감도
 	auto P1SensGageSpriteGO = new GameObject(L"P1 Sensitivity Gage");
+	P1SensGageSpriteGO->GetTransform()->SetLocalScale({ 0.32f,0.32f });
 	auto P1SensGageSprite = P1SensGageSpriteGO->AddComponent<SliderSprite>();
 	P1SensGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
 
@@ -108,9 +123,14 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P1SensGageHandleGO->GetTransform()->SetParent(P1SensGageSpriteGO->GetTransform());
 	auto P1SensGageHandleGORenderer = P1SensGageHandleGO->AddComponent<SpriteRenderer>();
 	P1SensGageSprite->sliderHandleRenderer = P1SensGageHandleGORenderer;
+
+	P1SensGageSprite->SetBackgroundTexture(gageBGTexture);
+	P1SensGageSprite->SetSliderBarTexture(gageBarTexture);
+	P1SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
 	
 	//---- 2P 감도
 	auto P2SensGageSpriteGO = new GameObject(L"P2 Sensitivity Gage");
+	P2SensGageSpriteGO->GetTransform()->SetLocalScale({ 0.32f,0.32f });
 	auto P2SensGageSprite = P2SensGageSpriteGO->AddComponent<SliderSprite>();
 	P2SensGageSpriteGO->GetTransform()->SetParent(baseWindow->GetTransform());
 
@@ -132,6 +152,10 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P2SensGageHandleGO->GetTransform()->SetParent(P2SensGageSpriteGO->GetTransform());
 	auto P2SensGageHandleGORenderer = P2SensGageHandleGO->AddComponent<SpriteRenderer>();
 	P2SensGageSprite->sliderHandleRenderer = P2SensGageHandleGORenderer;
+
+	P2SensGageSprite->SetBackgroundTexture(gageBGTexture);
+	P2SensGageSprite->SetSliderBarTexture(gageBarTexture);
+	P2SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
 
 	// 포커스 UI
 	auto focusUI = new GameObject(L"FocusUI");

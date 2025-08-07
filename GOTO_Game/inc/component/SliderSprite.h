@@ -13,7 +13,9 @@ namespace GOTOEngine
 	private:
 		float m_value = 1.0f;
 	
-		Texture2D* m_backgroundTexture;
+		Texture2D* m_backgroundTexture = nullptr;
+		Texture2D* m_sliderBarTexture = nullptr;
+		Texture2D* m_sliderHandleTexture = nullptr;
 	public:
     SliderSprite()
     {
@@ -21,28 +23,63 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 
-		SpriteRenderer* backgroundRenderer;
-		SpriteRenderer* sliderBarRenderer;
-		SpriteRenderer* sliderHandleRenderer;
+		SpriteRenderer* backgroundRenderer = nullptr;
+		SpriteRenderer* sliderBarRenderer = nullptr;
+		SpriteRenderer* sliderHandleRenderer = nullptr;
 
 		int renderOrder = 504;
 		float sliderWidth;
 		float GetValue() { return m_value; }
 		void SetValue(float value) { m_value = Mathf::Clamp01(value); }
 
+		void SetBackgroundTexture(Texture2D* tex)
+		{
+			if (m_backgroundTexture != tex)
+			{
+				if (m_backgroundTexture)
+					m_backgroundTexture->DecreaseRefCount();
+				if (tex)
+					tex->IncreaseRefCount();
+				m_backgroundTexture = tex;
+			}
+		}
+
+		void SetSliderBarTexture(Texture2D* tex)
+		{
+			if (m_sliderBarTexture != tex)
+			{
+				if (m_sliderBarTexture)
+					m_sliderBarTexture->DecreaseRefCount();
+				if (tex)
+					tex->IncreaseRefCount();
+				m_sliderBarTexture = tex;
+			}
+		}
+
+		void SetSliderHandleTexture(Texture2D* tex)
+		{
+			if (m_sliderHandleTexture != tex)
+			{
+				if (m_sliderHandleTexture)
+					m_sliderHandleTexture->DecreaseRefCount();
+				if (tex)
+					tex->IncreaseRefCount();
+				m_sliderHandleTexture = tex;
+			}
+		}
+
 		void Awake()
 		{
-			
 			//백그라운드 스프라이트 설정
 			if (backgroundRenderer)
 			{
 				auto backgroundSprite = new Sprite();
-				backgroundSprite->SetTexture(L"../Resources/Demo/GageUI_Back.png");
+				backgroundSprite->SetTexture(m_backgroundTexture);
 				backgroundSprite->SetPivotX(0.0f);
 
-				if (backgroundSprite->GetTexture())
+				if (m_backgroundTexture)
 				{
-					backgroundSprite->SetRect(backgroundSprite->GetTexture()->GetRect());
+					backgroundSprite->SetRect(m_backgroundTexture->GetRect());
 					sliderWidth = backgroundSprite->GetRect().width;
 				}
 
@@ -54,11 +91,11 @@ namespace GOTOEngine
 			if (sliderBarRenderer)
 			{
 				auto sliderSprite = new Sprite();
-				sliderSprite->SetTexture(L"../Resources/Demo/GageUI_Front.png");
+				sliderSprite->SetTexture(m_sliderBarTexture);
 				sliderSprite->SetPivotX(0.0f);
 				if (sliderSprite->GetTexture())
 				{
-					sliderSprite->SetRect(sliderSprite->GetTexture()->GetRect());
+					sliderSprite->SetRect(m_sliderBarTexture->GetRect());
 				}
 
 				sliderBarRenderer->SetSprite(sliderSprite);
@@ -69,10 +106,10 @@ namespace GOTOEngine
 			if (sliderHandleRenderer)
 			{
 				auto handleSprite = new Sprite();
-				handleSprite->SetTexture(L"../Resources/Demo/GageUI_Handle.png");
+				handleSprite->SetTexture(m_sliderHandleTexture);
 				if (handleSprite->GetTexture())
 				{
-					handleSprite->SetRect(handleSprite->GetTexture()->GetRect());
+					handleSprite->SetRect(m_sliderHandleTexture->GetRect());
 				}
 
 				sliderHandleRenderer->SetSprite(handleSprite);
