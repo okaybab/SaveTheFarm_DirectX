@@ -30,10 +30,12 @@ namespace GOTOEngine
 				if (m_layer & 1 << 1)
 				{
 					GameManager::instance->PointChange(1, -1);
+					GameManager::instance->P1Lost++;
 				}
 				else if (m_layer & 1 << 2)
 				{
 					GameManager::instance->PointChange(2, -1);
+					GameManager::instance->P2Lost++;
 				}
 			}
 		}

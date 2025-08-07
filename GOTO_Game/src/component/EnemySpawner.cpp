@@ -126,7 +126,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 
-	/*// 설정대로 스폰 (디버그 용)
+	//*// 설정대로 스폰 (디버그 용)
 	switch(enemyType)
 	{
 	case move:
@@ -146,7 +146,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	}
 	//*/
 
-	//*// 랜덤 스폰
+	/*// 랜덤 스폰
 	switch (enemyType)
 	{
 	case move:
