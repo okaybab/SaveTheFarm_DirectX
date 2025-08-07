@@ -357,7 +357,7 @@ void ItemManager::UseItem(int player, ItemType item)
 				auto p1cam = GameObject::Find(L"p1Cam");
 				if (IsValidObject(p1cam))
 					p1cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
-
+				GameManager::instance->P1Catch += p1count;
 				if (p1count >= 1 && p1count <= 3) {
 					GameManager::instance->PointChange(1, 3);
 				}
@@ -388,7 +388,7 @@ void ItemManager::UseItem(int player, ItemType item)
 				auto p2cam = GameObject::Find(L"p2Cam");
 				if (IsValidObject(p2cam))
 					p2cam->GetComponent<CameraShaker>()->ShakeCamera(20, 30, 4);
-
+				GameManager::instance->P2Catch += p2count;
 				if (p2count >= 1 && p2count <= 3) {
 					GameManager::instance->PointChange(2, 3);
 				}
