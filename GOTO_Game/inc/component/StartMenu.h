@@ -42,9 +42,11 @@ namespace GOTOEngine
 				if (m_selectStart && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
 					SCENE_CHANGE_SCENE(L"PlayScene");
 
+				if (m_selectDeffense && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
+					SCENE_CHANGE_SCENE(L"DefenseScene");
+
 				if (m_selectExit && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
 					ENGINE_QUIT();
-
 				return;
 			}
 
@@ -128,8 +130,14 @@ namespace GOTOEngine
 				// 싱글 플레이어 모드 선택
 				if (currentP1InteractButtons->parentButton == startButton)
 				{
-					// 게임 시작 로직
+					// 경쟁 모드 시작 로직
 					m_selectStart = true;
+					FadeInOutFXManager::instance->FadeOut();
+				}
+				else if (currentP1InteractButtons->parentButton == defenseButton)
+				{
+					// 디펜스 모드 시작 로직
+					m_selectDeffense = true;
 					FadeInOutFXManager::instance->FadeOut();
 				}
 				else if (currentP1InteractButtons->parentButton == optionsButton)
@@ -143,7 +151,6 @@ namespace GOTOEngine
 					m_selectExit = true;
 					FadeInOutFXManager::instance->FadeOut();
 				}
-
 				menuIsValidInteract = true;
 			}
 			else if ((IsValidObject(currentP1InteractButtons) 

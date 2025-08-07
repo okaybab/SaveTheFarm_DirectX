@@ -12,8 +12,8 @@
 #include "PlayScene.h"
 #include "StartScene.h"
 #include "TestItemScene.h"
-#include "SampleScene.h"
 #include "testEnemyScene.h"
+#include "DefenseScene.h"
 
 void StartEngineLoop()
 {
@@ -23,8 +23,8 @@ void StartEngineLoop()
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");
 	SCENE_ADD_SCENE<TestItemScene>(L"TestItemScene");
 	SCENE_ADD_SCENE<testEnemyScene>(L"testEnemyScene");
-	SCENE_ADD_SCENE<SampleScene>(L"SampleScene");
 	SCENE_ADD_SCENE<StartScene>(L"StartScene");
+	SCENE_ADD_SCENE<DefenseScene>(L"DefenseScene");
 
 	//첫 씬으로 변환
 	SCENE_CHANGE_SCENE(L"StartScene");

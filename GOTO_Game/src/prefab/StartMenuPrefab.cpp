@@ -27,7 +27,6 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 
 	//===== Start 버튼 =====
 
-
 	auto startButtonGO = new GameObject(L"StartButton");
 	startButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->startButton = startButtonGO->GetTransform();
@@ -89,20 +88,81 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	startButtonP1ColGO->GetTransform()->SetParent(startButtonGO->GetTransform(), false);
 	startButtonP2ColGO->GetTransform()->SetParent(startButtonGO->GetTransform(), false);
 	
+	//===== Defense 버튼 =====
+
+	auto defenseButtonGO = new GameObject(L"StartButton");
+	defenseButtonGO->GetTransform()->SetParent(GO->GetTransform());
+	startMenu->defenseButton = defenseButtonGO->GetTransform();
+	startMenu->defenseButton->SetLocalPosition({ 0.0f, -180.0f });
+	defenseButtonGO->AddComponent<SpriteRenderer>()->SetSprite(defButtonSprite);
+	defenseButtonGO->GetTransform()->SetLocalScale({ 0.2f,0.2f });
+	auto defenseButtonAnimation = defenseButtonGO->AddComponent<ButtonAnimation>();
+	auto defenseButtonText = defenseButtonGO->AddComponent<TextRenderer>();
+	defenseButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	defenseButtonText->size = 156;
+	defenseButtonText->text = L"협동 모드";
+	defenseButtonText->rect = { 0,0,850,400 };
+
+	//버튼 콜라이더 추가
+	auto defenseButtonP1ColGO = new GameObject(L"StartButtonP1Col");
+	auto defenseButtonP1Col = defenseButtonP1ColGO->AddComponent<Collider2D>();
+	auto defenseButtonP2ColGO = new GameObject(L"StartButtonP2Col");
+	auto defenseButtonP2Col = defenseButtonP2ColGO->AddComponent<Collider2D>();
+
+	auto defenseInteractButtonP1 = defenseButtonP1ColGO->AddComponent<CrosshairInteractButton>();
+
+	//리소스 세팅
+	defenseInteractButtonP1->renderer = defenseButtonGO->GetComponent<SpriteRenderer>();
+	defenseInteractButtonP1->defButtonSprite = defButtonSprite;
+	defButtonSprite->IncreaseRefCount();
+	defenseInteractButtonP1->p1ClickButtonSprite = p1ClickSprite;
+	p1ClickSprite->IncreaseRefCount();
+	defenseInteractButtonP1->p2ClickButtonSprite = p2ClickSprite;
+	p2ClickSprite->IncreaseRefCount();
+
+	defenseInteractButtonP1->parentButton = defenseButtonGO->GetTransform();
+	defenseInteractButtonP1->onEnter.Add(defenseButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	defenseInteractButtonP1->onInteract.Add(defenseButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
+	startMenu->p1InteractButtons.push_back(defenseInteractButtonP1);
+
+	auto defenseInteractButtonP2 = defenseButtonP2ColGO->AddComponent<CrosshairInteractButton>();
+
+	//리소스 세팅
+	defenseInteractButtonP2->renderer = defenseButtonGO->GetComponent<SpriteRenderer>();
+	defenseInteractButtonP2->defButtonSprite = defButtonSprite;
+	defButtonSprite->IncreaseRefCount();
+	defenseInteractButtonP2->p1ClickButtonSprite = p1ClickSprite;
+	p1ClickSprite->IncreaseRefCount();
+	defenseInteractButtonP2->p2ClickButtonSprite = p2ClickSprite;
+	p2ClickSprite->IncreaseRefCount();
+
+	defenseInteractButtonP2->parentButton = defenseButtonGO->GetTransform();
+	defenseInteractButtonP2->onEnter.Add(defenseButtonAnimation, &ButtonAnimation::PlayRotateAnimation);
+	defenseInteractButtonP2->onInteract.Add(defenseButtonAnimation, &ButtonAnimation::PlayScaleAnimaiton);
+	startMenu->p2InteractButtons.push_back(defenseInteractButtonP2);
+
+	defenseButtonP1Col->SetSize({ spriteSize.width * defenseButtonGO->GetTransform()->GetLocalScale().x, spriteSize.height * defenseButtonGO->GetTransform()->GetLocalScale().y });
+	defenseButtonP2Col->SetSize({ spriteSize.width * defenseButtonGO->GetTransform()->GetLocalScale().x, spriteSize.height * defenseButtonGO->GetTransform()->GetLocalScale().y });
+
+	defenseButtonP1ColGO->layer = (1 << 1);
+	defenseButtonP2ColGO->layer = (1 << 2);
+
+	defenseButtonP1ColGO->GetTransform()->SetParent(defenseButtonGO->GetTransform(), false);
+	defenseButtonP2ColGO->GetTransform()->SetParent(defenseButtonGO->GetTransform(), false);
 
 	//===== Option 버튼 =====
 
 	auto optionsButtonGO = new GameObject(L"OptionsButton");
 	optionsButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->optionsButton = optionsButtonGO->GetTransform();
-	startMenu->optionsButton->SetLocalPosition({ 0.0f, -180.0f });
+	startMenu->optionsButton->SetLocalPosition({ 0.0f, -300.0f });
 	optionsButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Title/gui_02_plank_yellow.png");
 	optionsButtonGO->GetTransform()->SetLocalScale({ 0.2f,0.2f });
 	auto optionsButtonAnimation = optionsButtonGO->AddComponent<ButtonAnimation>();
 	auto optionButtonText = optionsButtonGO->AddComponent<TextRenderer>();
 	optionButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
 	optionButtonText->size = 156;
-	optionButtonText->text = L"설정";
+	optionButtonText->text = L"환경 설정";
 	optionButtonText->rect = { 0,0,850,400 };
 
 	//버튼 콜라이더 추가
@@ -157,7 +217,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto exitButtonGO = new GameObject(L"ExitButton");
 	exitButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->exitButton = exitButtonGO->GetTransform();
-	startMenu->exitButton->SetLocalPosition({ 0.0f, -300.0f });
+	startMenu->exitButton->SetLocalPosition({ 0.0f, -420.0f });
 	exitButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Title/gui_02_plank_yellow.png");
 	exitButtonGO->GetTransform()->SetLocalScale({ 0.2f,0.2f });
 	auto exitButtonAnimation = exitButtonGO->AddComponent<ButtonAnimation>();

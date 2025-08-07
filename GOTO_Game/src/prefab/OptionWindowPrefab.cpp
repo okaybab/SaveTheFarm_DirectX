@@ -21,10 +21,12 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	// 뒷 배경 창
 	auto baseWindow = new GameObject(L"BaseWindow");
 	auto baseWindowSprite = baseWindow->AddComponent<SpriteRenderer>();
-	baseWindowSprite->SetSprite(L"../Resources/Demo/OptionWindow.png");
+	baseWindowSprite->SetSprite(L"../Resources/artResource/UI/Setting/환경 설정 UI.png");
 	baseWindowSprite->SetRenderOrder(500);
 	baseWindow->GetTransform()->SetParent(GO->GetTransform(), false);
 	baseWindow->GetTransform()->SetLocalScale({ 0.0f, 0.0f });
+
+	optionWindowSystem->openAnimScale = 0.85f;
 
 	optionWindowSystem->baseWindow = baseWindow->GetTransform();
 	optionWindowSystem->baseWindowSprite = baseWindowSprite;

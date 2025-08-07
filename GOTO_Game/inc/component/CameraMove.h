@@ -21,6 +21,7 @@ namespace GOTOEngine
     }
 		float moveSpeed = 620.0f;
 		float maxMoveLength = 420;
+		float minMoveLength = -420;
 		int id;
 
 		void Awake()
@@ -62,7 +63,7 @@ namespace GOTOEngine
 			
 			auto currentPos = GetTransform()->GetLocalPosition();
 
-			GetTransform()->SetLocalPosition({ Mathf::Clamp(currentPos.x,-maxMoveLength,maxMoveLength), 0.0f });
+			GetTransform()->SetLocalPosition({ Mathf::Clamp(currentPos.x,minMoveLength,maxMoveLength), 0.0f });
 		}
 	};
 }

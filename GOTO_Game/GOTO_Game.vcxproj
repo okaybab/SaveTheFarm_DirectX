@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\scene\DefenseScene.cpp" />
     <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp" />
     <ClCompile Include="src\component\DirIndicatorController.cpp" />
     <ClCompile Include="src\component\DirIndicator.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="inc\interface\ICollideAble.h" />
     <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h" />
     <ClInclude Include="inc\prefab\OptionWindowPrefab.h" />
+    <ClInclude Include="inc\scene\DefenseScene.h" />
     <ClInclude Include="inc\scene\SampleScene.h" />
     <ClInclude Include="inc\scene\testEnemyScene.h" />
     <ClInclude Include="inc\scene\PlayScene.h" />

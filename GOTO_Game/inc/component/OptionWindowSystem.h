@@ -214,9 +214,8 @@ namespace GOTOEngine
                     m_animationTime = 1.0f;
                 // 애니메이션 값 계산
                 float animValue = m_openAnimation.Evaluate(m_animationTime);
-                openAnimScale = animValue;
                 // 윈도우 크기 조정
-                baseWindow->SetLocalScale({ animValue, animValue });
+                baseWindow->SetLocalScale({ openAnimScale * animValue,openAnimScale * animValue });
                 //baseWindowSprite->SetColor({ 255,255,255,(static_cast<uint8_t>(255.0f * m_animationTime)) });
                 // ESC 키로 창 닫기
                 if (InputManager::Get()->GetKeyDown(KeyCode::Escape)
