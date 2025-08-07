@@ -172,7 +172,6 @@ void GOTOEngine::CrosshairFire::Update()
 	//입력 감지: 플레이어 ID별 키 또는 버튼 입력
 	bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||
 		(id == 1 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) ||
-		INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonSouth) ||
 		m_RightTriggerPressed;
 
 	if (!firePressed || !IsValidObject(m_collider))

@@ -4,7 +4,10 @@
 #include <InputManager.h>
 #include <cstring>
 #include <SliderSprite.h>
+#include <Texture2D.h>
+#include <SpriteRenderer.h>
 
+#include "CrosshairMove.h"
 #include "SoundManager.h"
 
 namespace GOTOEngine
@@ -19,7 +22,12 @@ namespace GOTOEngine
 		GameObject* m_cachedPlayer1 = nullptr;
 		GameObject* m_cachedPlayer2 = nullptr;
 
+        CrosshairMove* m_cachedMove1 = nullptr;
+        CrosshairMove* m_cachedMove2 = nullptr;
+
 		int m_focusIndex = 0;
+
+        int m_maxButtonCount = 5;
 
         bool m_YpressedUpTrigger[2];
         bool m_YpressedDownTrigger[2];
@@ -30,6 +38,9 @@ namespace GOTOEngine
         bool m_YstickPressedDown[2];
         bool m_XstickPressedRight[2];
         bool m_XstickPressedLeft[2];
+
+        bool m_RightTriggerCheckTrigger[2];
+        bool m_RightTriggerPressed[2];
 
 	public:
     OptionWindowSystem()
@@ -48,7 +59,7 @@ namespace GOTOEngine
         std::array<SliderSprite*, 4> sliderSprites;
         std::array<float, 4> sliderTargetValue;
 
-        Transform* exitButton = nullptr;
+        SpriteRenderer* exitButtonSprite = nullptr;
 
 		void Awake()
 		{
@@ -95,6 +106,9 @@ namespace GOTOEngine
 			m_cachedPlayer1 = GameObject::Find(L"Player1");
 			m_cachedPlayer2 = GameObject::Find(L"Player2");
 
+            m_cachedMove1 = m_cachedPlayer1->GetComponent<CrosshairMove>();
+            m_cachedMove2 = m_cachedPlayer2->GetComponent<CrosshairMove>();
+
             for (int i = 0; i < 4; i++)
             {
                 switch(i)
@@ -137,7 +151,36 @@ namespace GOTOEngine
             std::memset(m_YpressedDownTrigger, false, sizeof(m_YpressedDownTrigger));
             std::memset(m_XpressedRightTrigger, false, sizeof(m_XpressedRightTrigger));
             std::memset(m_XpressedLeftTrigger, false, sizeof(m_XpressedLeftTrigger));
+            std::memset(m_XpressedLeftTrigger, false, sizeof(m_XpressedLeftTrigger));
+            std::memset(m_RightTriggerCheckTrigger, false, sizeof(m_RightTriggerCheckTrigger));
             StickPressedCheckReset();
+            TriggerPressedCheckReset();
+        }
+
+        void TriggerPressedCheck()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::RightTrigger);
+                if (!m_RightTriggerCheckTrigger[i])
+                {
+                    if (currentRightTrigger > 0.89f)
+                    {
+                        m_RightTriggerCheckTrigger[i] = true;
+                        m_RightTriggerPressed[i] = true;
+                        return;
+                    }
+                }
+                else if ((m_RightTriggerCheckTrigger[i] && currentRightTrigger < 0.2f))
+                {
+                    m_RightTriggerCheckTrigger[i] = false;
+                }
+            }
+        }
+
+        void TriggerPressedCheckReset()
+        {
+            std::memset(m_RightTriggerPressed, false, sizeof(m_RightTriggerPressed));
         }
 
         void StickPressedCheck()
@@ -250,8 +293,8 @@ namespace GOTOEngine
                     SoundManager::instance->PlaySFX("Button");
 
                     m_focusIndex++;
-                    if (m_focusIndex > 3) // 예시로 3개의 버튼이 있다고 가정
-                        m_focusIndex = 3;
+                    if (m_focusIndex > m_maxButtonCount - 1)
+                        m_focusIndex = m_maxButtonCount - 1;
 
                 }
                 if (InputManager::Get()->GetKeyDown(KeyCode::UpArrow)
@@ -268,11 +311,24 @@ namespace GOTOEngine
 
 
                 // 포커스 UI 위치 업데이트
-                auto focusSpace = 150.0f;
+                float targetPosY;
+                Vector2 targetScale;
 
-                auto startPosY = 255.0f;
+                if (m_focusIndex < m_maxButtonCount - 1)
+                {
+                    auto focusSpace = 150.0f;
+                    auto startPosY = 255.0f;
 
-                auto targetPosY = startPosY + focusSpace * -m_focusIndex;
+                    targetPosY = startPosY + focusSpace * -m_focusIndex;
+                    targetScale = { 1.0f,1.0f };
+                }
+                else
+                {
+                    targetPosY = exitButtonSprite->GetTransform()->GetPosition().y - 55.0f;
+                    targetScale = { 0.3f, 1.55f };
+                }
+
+                auto scale = Vector2::Lerp(focusUITransform->GetLocalScale(), targetScale, 1.0f - std::exp(-10.0f * TIME_GET_DELTATIME()));
 
                 auto pos = Vector2::Lerp(
                     focusUITransform->GetLocalPosition(),
@@ -280,11 +336,25 @@ namespace GOTOEngine
                     1.0f - std::exp(-10.0f * TIME_GET_DELTATIME()));
 
                 focusUITransform->SetLocalPosition(pos);
+                focusUITransform->SetLocalScale(scale);
             }
         }
 
         void SliderApply()
         {
+            if (m_focusIndex >= m_maxButtonCount - 1)
+            {
+                if (INPUT_GET_KEYDOWN(KeyCode::Enter)
+                    || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
+                    || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
+                    || m_RightTriggerPressed[0]
+                    || m_RightTriggerPressed[1])
+                {
+                    m_isOpen = false;
+                }
+                return;
+            }
+
             if (IsValidObject(sliderSprites[m_focusIndex]))
             {
                 if (INPUT_GET_KEYDOWN(KeyCode::LeftArrow)
@@ -323,11 +393,22 @@ namespace GOTOEngine
             case 1:
                 SoundManager::instance->SetSFXVolume(sliderTargetValue[m_focusIndex]);
                 break;
+
+            //1P 감도
+            case 2:
+                m_cachedMove1->moveSpeed = m_cachedMove1->defalutMoveSpeed * 2 * Mathf::Clamp(sliderTargetValue[m_focusIndex], 0.2, 1.0f);
+                break;
+            //2P 감도
+            case 3:
+                m_cachedMove2->moveSpeed = m_cachedMove2->defalutMoveSpeed * 2 * Mathf::Clamp(sliderTargetValue[m_focusIndex], 0.2, 1.0f);
+                break;
             }
         }
 
 		void Update()
 		{
+            TriggerPressedCheckReset();
+            TriggerPressedCheck();
             StickPressedCheckReset();
             StickPressedCheck();
             ApplyBaseWindowAnimation();

@@ -164,7 +164,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P1SensGageSprite->SetSliderBarTexture(gageBarTexture);
 	P1SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
 
-	auto P1SensTextGO = new GameObject(L"SE 텍스트");
+	auto P1SensTextGO = new GameObject(L"1P감도 텍스트");
 	auto P1SensText = P1SensTextGO->AddComponent<TextRenderer>();
 	P1SensText->SetRenderOrder(505);
 	P1SensText->color = { 0,0,0,255 };
@@ -204,25 +204,18 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	P2SensGageSprite->SetSliderBarTexture(gageBarTexture);
 	P2SensGageSprite->SetSliderHandleTexture(gageHandleTexture);
 
-	auto P2SensTextGO = new GameObject(L"SE 텍스트");
+	auto P2SensTextGO = new GameObject(L"2P감도 텍스트");
 	auto P2SensText = P2SensTextGO->AddComponent<TextRenderer>();
 	P2SensText->SetRenderOrder(505);
 	P2SensText->color = { 0,0,0,255 };
 	P2SensText->size = 65;
 	P2SensText->rect = { 0,0,450,300 };
-	P2SensText->text = L"1P 감도";
+	P2SensText->text = L"2P 감도";
 	P2SensTextGO->GetTransform()->SetParent(baseWindow->GetTransform());
 	P2SensText->SetFont(L"../Resources/Maplestory Bold.ttf");
 	P2SensTextGO->GetTransform()->SetLocalPosition({ -285.0f,gageYStartPos - gageYSpace * 3 });
 
-	// 포커스 UI
-	auto focusUI = new GameObject(L"FocusUI");
-	auto focusUISprite = focusUI->AddComponent<SpriteRenderer>();
-	focusUISprite->SetSprite(L"../Resources/Demo/FocusUI.png");
-	focusUISprite->SetRenderOrder(501);
-	focusUI->GetTransform()->SetParent(baseWindow->GetTransform(), false);
-
-	optionWindowSystem->focusUITransform = focusUI->GetTransform();
+	// 닫기 버튼
 
 	auto exitButtonGO = new GameObject(L"exit button");
 	auto exitButtonSprite = exitButtonGO->AddComponent<SpriteRenderer>();
@@ -232,6 +225,16 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	exitButtonGO->GetTransform()->SetLocalScale({ 0.15f,0.15f });
 	exitButtonGO->GetTransform()->SetLocalPosition({ 0.0f, gageYStartPos - gageYSpace * 4 - 20 });
 
+	optionWindowSystem->exitButtonSprite = exitButtonSprite;
+
+	// 포커스 UI
+	auto focusUI = new GameObject(L"FocusUI");
+	auto focusUISprite = focusUI->AddComponent<SpriteRenderer>();
+	focusUISprite->SetSprite(L"../Resources/Demo/FocusUI.png");
+	focusUISprite->SetRenderOrder(501);
+	focusUI->GetTransform()->SetParent(baseWindow->GetTransform(), false);
+
+	optionWindowSystem->focusUITransform = focusUI->GetTransform();
 
     return GO;
 }
