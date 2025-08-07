@@ -1,4 +1,4 @@
-#include "Animator.h"
+﻿#include "Animator.h"
 #include "TimeManager.h"
 
 void GOTOEngine::Animator::OnAnimationUpdate()
@@ -8,9 +8,21 @@ void GOTOEngine::Animator::OnAnimationUpdate()
 		m_runtimeController->Update(TIME_GET_DELTATIME());
 
 		if (IsValidObject(m_spriteRenderer) && !m_spriteRenderer->IsDestroyed())
+		{
 			m_spriteRenderer->SetSprite(m_runtimeController->GetCurrentSprite());
+			
+			if(m_runtimeController->GetCurrentStateIsAlpha())
+			{
+				float currentAlpha = m_runtimeController->GetInterpolatedAlpha();
+				Color newColor = m_spriteRenderer->GetColor();
+				newColor.A = currentAlpha;
+				m_spriteRenderer->SetColor(newColor);
+			}
+		}
 		else
+		{
 			m_spriteRenderer = GetComponent<SpriteRenderer>();
+		}
 	}
 }
 
