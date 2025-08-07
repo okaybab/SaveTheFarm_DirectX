@@ -2,11 +2,11 @@
     "controllerName": "Gimmick1_effect",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "Gimmick_stun",
+    "defaultState": "Gimmick1_effect",
     "states": [
         {
-            "name": "Gimmick_stun",
-            "motionName": "Gimmick_stun",
+            "name": "Gimmick1_effect",
+            "motionName": "Gimmick1_effect",
             "clipLength": 0.3333333432674408,
             "loop": true,
             "transitions": []
