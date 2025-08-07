@@ -95,16 +95,13 @@ namespace GOTOEngine
 
 		int GetType() override { return static_cast<int>(m_gimmickEnemyType); }
 
-		void OnBulletDie(int attackerID) override
+		void OnDie(int attackerID) override
 		{
-			__super::OnBulletDie(attackerID);
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
-
 			auto fader = GetGameObject()->GetComponent<FadeComponent>();
 			fader->Initialize();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
-
+			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
+			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 			fader->FadeOut(0.5f, [this]() {
 				Destroy(GetGameObject());
 			});

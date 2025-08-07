@@ -97,9 +97,8 @@ namespace GOTOEngine
 
 		int GetType() { return static_cast<int>(m_itemEnemyType); }
 
-		void OnBulletDie(int attackerID) override
+		void OnDie(int attackerID) override
 		{
-			__super::OnBulletDie(attackerID);
 			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
 			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
@@ -108,7 +107,7 @@ namespace GOTOEngine
 
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
 
-			fader->FadeOut(0.5f, [this]() {	
+			fader->FadeOut(0.5f, [this]() {
 				Destroy(GetGameObject());
 			});
 		}

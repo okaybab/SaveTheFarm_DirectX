@@ -92,27 +92,27 @@ void GOTOEngine::EnemySpawner::Update()
 {
 	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
 	{
-		CreateEnemy(E_EnemyType::move, 1 << 1);
+		CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
 	}
 	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 생성 (GimmickEnemy)
 	{
-		CreateEnemy(E_EnemyType::gimmick, 1 << 1);
+		CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
 	}
 	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 생성 (ItemEnemy)
 	{
-		CreateEnemy(E_EnemyType::itemspawn, 1 << 1);
+		CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 생성 (MoveEnemy)
 	{
-		CreateEnemy(E_EnemyType::move, 1 << 2);
+		CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성 (GimmickEnemy)
 	{
-		CreateEnemy(E_EnemyType::gimmick, 1 << 2);
+		CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
 	}
 	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
 	{
-		CreateEnemy(E_EnemyType::itemspawn, 1 << 2);
+		CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
 	}
 	if (INPUT_GET_KEYUP(KeyCode::Z)) // 황금 두더지 생성
 	{
@@ -176,11 +176,11 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
 	newEnemyObject->layer = player;
 
-	if (player & 1 << 1)
+	if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1))
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	else if (player & 1 << 2)
+	if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2))
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
@@ -214,11 +214,11 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);
 	newEnemyObject->layer = player;
 
-	if (player & 1 << 1)
+	if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1))
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	else if (player & 1 << 2)
+	if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2))
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
@@ -247,7 +247,7 @@ void GOTOEngine::EnemySpawner::CreateGoleMole()
 
 void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack)
 {  
-   if (player & 1 << 1)
+   if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1))
    {  
 	   auto it = std::find(m_p1Enemy.begin(), m_p1Enemy.end(), enemy);
        if (it != m_p1Enemy.end())  
@@ -257,11 +257,11 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* 
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, 1 << 2);
+			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
 		   }
        }  
    }  
-   if (player & 1 << 2)
+   if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2))
    {  
        auto it = std::find(m_p2Enemy.begin(), m_p2Enemy.end(), enemy);  
        if (it != m_p2Enemy.end())  
@@ -271,7 +271,7 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* 
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, 1 << 1);
+			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
 		   }
        }  
    }  
@@ -288,32 +288,22 @@ void GOTOEngine::EnemySpawner::DestroyGoldMole()
 
 void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
 {
-	for (auto& enemy : m_p1Enemy)
+	for (GameObject* enemy : m_p1Enemy)
 	{
-		if (enemy)
+		if (enemy != nullptr)
 		{
 			GameObject::Destroy(enemy);
-			enemy = nullptr;
-		}
-		else
-		{
-			enemy = nullptr;
 		}
 	}
 	m_p1Enemy.clear();
 }
 void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
 {
-	for (auto& enemy : m_p2Enemy)
+	for (GameObject* enemy : m_p2Enemy)
 	{
 		if (enemy)
 		{
 			GameObject::Destroy(enemy);
-			enemy = nullptr;
-		}
-		else
-		{
-			enemy = nullptr;
 		}
 	}
 	m_p2Enemy.clear();
