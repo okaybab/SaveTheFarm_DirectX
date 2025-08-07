@@ -1,0 +1,19 @@
+{
+    "clipName": "Crow_Escape",
+    "loop": true,
+    "texturePath": "Assets/Sprite/Crow_Die.png",
+    "duration": 1.0166666507720948,
+    "frames": [
+        {
+            "sprite": "Crow_Die_0",
+            "time": 0.0,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Crow_Die_0",
+            "time": 1.0,
+            "alpha": 0.0
+        }
+    ],
+    "events": []
+}

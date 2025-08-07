@@ -1,0 +1,17 @@
+{
+    "texture": "Crow_Escape.png",
+    "textureWidth": 630,
+    "textureHeight": 658,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Crow_Escape_0",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 630.0,
+            "height": 658.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
