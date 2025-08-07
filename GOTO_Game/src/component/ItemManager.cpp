@@ -101,6 +101,36 @@ void ItemManager::Awake() {
         }
     ]
 })" });
+		auto particleobject = new GameObject;
+		particleobject->GetTransform()->SetLocalPosition({ 0.0f,Screen::GetHeight()/2 });
+		itemparticle1 = particleobject->AddComponent<ParticleSystem>();
+		itemparticle1->SetMaxParticleCount(100);
+		itemparticle1->SetRenderLayer((1 << 1));
+		itemparticle1->SetFadeOutTime(2.0f);
+		itemparticle1->SetParticlesPerSpawn(3);
+		itemparticle1->SetEmissionTangentLength(Screen::GetWidth());
+		itemparticle1->SetGravity({ 0.0f,-300.0f });
+		itemparticle1->SetEmissionShape(EmissionShape::Rectangle);
+		itemparticle1->SetRenderOrder(2500);
+		itemparticle1->SetMinScale(0.005f);
+		itemparticle1->SetMaxScale(0.02f);
+		itemparticle1->SetSpawnInterval(0.2f);
+		itemparticle1->SetEmissionDirectionDegrees(270.0f);
+		itemparticle2 = particleobject->AddComponent<ParticleSystem>();
+		itemparticle2->SetMaxParticleCount(100);
+		itemparticle2->SetRenderLayer((1 << 2));
+		itemparticle2->SetFadeOutTime(2.0f);
+		itemparticle2->SetParticlesPerSpawn(3);
+		itemparticle2->SetEmissionTangentLength(Screen::GetWidth());
+		itemparticle2->SetGravity({ 0.0f,-300.0f });
+		itemparticle2->SetEmissionShape(EmissionShape::Rectangle);
+		itemparticle2->SetRenderOrder(2500);
+		itemparticle2->SetMinScale(0.005f);
+		itemparticle2->SetMaxScale(0.02f);
+		itemparticle2->SetSpawnInterval(0.2f);
+		itemparticle2->SetEmissionDirectionDegrees(270.0f);
+		snow = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_effect.png");
+		snow->IncreaseRefCount();
 	}
 	else
 	{
@@ -124,6 +154,8 @@ void ItemManager::OnDestroy() {
 		iced->DecreaseRefCount();
 	if (IsValidObject(bombanimator))
 		bombanimator->DecreaseRefCount();
+	if (IsValidObject(snow))
+		snow->DecreaseRefCount();
 }
 
 void ItemManager::Update(){
@@ -186,6 +218,8 @@ void ItemManager::Update(){
 					continue;
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
 			}
+			//itemparticle1->SetCommonSprite(nullptr);
+			itemparticle1->Stop();
 		}
 	}
 
@@ -200,7 +234,8 @@ void ItemManager::Update(){
 					continue;
 				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
 			}
-		
+			//itemparticle2->SetCommonSprite(nullptr);
+			itemparticle2->Stop();
 		}
 	}
 	for (int i = 0; i < 7; ++i) {
@@ -375,6 +410,8 @@ void ItemManager::UseItem(int player, ItemType item)
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 				}
 				SoundManager::instance->PlaySFX("IceBomb");
+				itemparticle1->SetCommonSprite(snow);
+				itemparticle1->Play();
 				p1IceTimer = timelimit;
 			}
 			else {
@@ -398,6 +435,8 @@ void ItemManager::UseItem(int player, ItemType item)
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 				}
 				SoundManager::instance->PlaySFX("IceBomb");
+				itemparticle2->SetCommonSprite(snow);
+				itemparticle2->Play();
 				p2IceTimer = timelimit;
 			}
 			break;
