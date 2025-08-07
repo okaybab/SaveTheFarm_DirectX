@@ -1,5 +1,7 @@
 #include "GameManager2.h"
 #include "TutorialImage2.h"
+
+#include "FadeInOutFXManager.h"
 #include <AnimationCurve.h>
 #include <time.h>
 
@@ -73,6 +75,7 @@ void GameManager2::Awake() {
 
 void GOTOEngine::GameManager2::Start()
 {
+	FadeInOutFXManager::instance->FadeIn();
 }
 
 void GameManager2::OnDestroy() {
@@ -257,7 +260,10 @@ void GameManager2::Update() {
 				winner = 0;
 			}
 			if (endingTimer <= 0.0f) {
-				SCENE_CHANGE_SCENE(L"StartScene");
+				FadeInOutFXManager::instance->FadeOut();
+				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
+					SCENE_CHANGE_SCENE(L"StartScene");
+				}
 			}
 		}
 		if (Tutorial)
@@ -282,5 +288,5 @@ void GameManager2::Update() {
 	totalSeconds = static_cast<int>(floor(GameTimer));
 	minutes = totalSeconds / 60;
 	seconds = totalSeconds % 60;
-	Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
+	//Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
 }

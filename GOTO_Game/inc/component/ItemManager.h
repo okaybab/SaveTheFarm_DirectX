@@ -49,6 +49,8 @@ namespace GOTOEngine
 
 		ParticleSystem* itemparticle1;
 		ParticleSystem* itemparticle2;
+		ParticleSystem* goldparticle1;
+		ParticleSystem* goldparticle2;
 		Sprite* snow;
 	public:
     ItemManager()
