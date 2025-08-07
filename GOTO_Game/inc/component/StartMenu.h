@@ -15,12 +15,14 @@ namespace GOTOEngine
 	private:
 		bool m_selectStart;
 		bool m_selectExit;
+		bool m_selectDeffense;
 	public:
     StartMenu()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* startButton;
+		Transform* defenseButton;
 		Transform* optionsButton;
 		Transform* exitButton;
 
@@ -35,7 +37,7 @@ namespace GOTOEngine
 		void Update()
 		{
 			//기다려야 하는 버튼을 누른경우
-			if (m_selectStart || m_selectExit)
+			if (m_selectStart || m_selectExit || m_selectDeffense)
 			{
 				if (m_selectStart && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
 					SCENE_CHANGE_SCENE(L"PlayScene");
