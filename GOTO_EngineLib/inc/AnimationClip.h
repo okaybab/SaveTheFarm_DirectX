@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Resource.h"
 #include "RenderManager.h"
 #include "Sprite.h"
@@ -12,12 +12,13 @@ namespace GOTOEngine
 		friend class AnimationClip;
 		Sprite* m_sprite;
 		float m_time;
+		float m_alpha;
 	public:
-		AnimationKeyframe(Sprite* sprite, float time) 
+		AnimationKeyframe(Sprite* sprite, float time, float alpha = 255.0f )
 			: m_sprite(sprite)
 			, m_time(time)
+			, m_alpha(alpha)
 		{
-
 		}
 
 		void Dispose() override
@@ -32,13 +33,14 @@ namespace GOTOEngine
 
 		const float& GetTime() { return m_time; }
 		Sprite* GetSprite() { return m_sprite; }
+		const float& GetAlpha() const { return m_alpha; }
 	};
 
 	
-	//======================= ½ºÇÁ¶óÀÌÆ® Å¬¸³ ===========================//
+	//======================= ìŠ¤í”„ë¼ì´íŠ¸ í´ë¦½ ===========================//
 	//
 	//
-	//    À¯ÀÇ »çÇ× - clip texture¿Í spriteSheet jsonÀÌ µ¿ÀÏÇÑ °æ·Î¿¡ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+	//    ìœ ì˜ ì‚¬í•­ - clip textureì™€ spriteSheet jsonì´ ë™ì¼í•œ ê²½ë¡œì— ìžˆì–´ì•¼ í•©ë‹ˆë‹¤.
 	//
 	//==================================================================//
 
@@ -51,12 +53,14 @@ namespace GOTOEngine
 		bool IsValidData() override { return m_keyframes.size() > 0; }
 		std::vector<AnimationKeyframe*> m_keyframes;
 		bool m_isLoop;
+		bool m_isAlpha;
 		float m_duration;
 		std::wstring m_texturePath;
 		std::wstring m_clipName;
 		void Dispose() override;
 	public:
 		const bool& IsLoop() const { return m_isLoop; }
+		const bool& IsAlpha() const { return m_isAlpha; }
 		const std::vector<AnimationKeyframe*>& GetKeyframes() const { return m_keyframes; }
 		const float& GetDuration() const { return m_duration; }
 		const std::wstring& GetClipName() const { return m_clipName; }

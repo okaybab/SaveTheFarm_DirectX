@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object.h"
 #include <unordered_map>
 #include "AnimatorController.h"
@@ -23,6 +23,7 @@ namespace GOTOEngine
 		bool CheckCondition(const AnimatorCondition& condition);
 		void Dispose() override;
 	public:
+
 		RuntimeAnimatorController(AnimatorController* controller);
 		void Update(float deltaTime);
 		void ForceChangeState(std::wstring stateName)
@@ -35,6 +36,7 @@ namespace GOTOEngine
 		}
 
 		Sprite* GetCurrentSprite();
+		const bool GetCurrentStateIsAlpha() { return m_currentState->GetIsAlpha(); }
 		const std::wstring& GetCurrentStateName() const 
 		{ 
 			return m_currentState->GetStateName();
@@ -49,7 +51,8 @@ namespace GOTOEngine
 		bool GetBool(std::wstring name) const { if (m_bools.find(name) != m_bools.end()) return m_bools.at(name); return false; }
 		int GetInt(std::wstring name) const { if (m_ints.find(name) != m_ints.end()) return m_ints.at(name); return 0; }
 		float GetFloat(std::wstring name) const { if (m_floats.find(name) != m_floats.end()) return m_floats.at(name); return 0.0f; }
-		
+		float GetInterpolatedAlpha() const;
+
 		void SetTrigger(std::wstring name) 
 		{ 
 			if (m_triggers.find(name) != m_triggers.end()) 

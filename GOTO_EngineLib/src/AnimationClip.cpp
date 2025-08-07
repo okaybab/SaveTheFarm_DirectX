@@ -1,4 +1,4 @@
-#include "AnimationClip.h"
+ï»¿#include "AnimationClip.h"
 #include <filesystem>
 #include <fstream>
 #include <json.hpp>
@@ -21,7 +21,7 @@ void GOTOEngine::AnimationClip::LoadFromFilePath(const std::wstring& filePath)
 		m_texturePath = STR_TO_WSTR(jFromFile["texturePath"]);
 		std::filesystem::path p(m_texturePath);
 
-		//½ºÇÁ¶óÀÌÆ® ½ÃÆ® ¸Ê
+		//ìŠ¤í”„ë¼ì´íŠ¸ ì‹œíŠ¸ ë§µ
 		std::unordered_map<std::string, Sprite*> spriteSheet;
 		auto spriteSheetPath = p.stem().wstring() + L"_sprites.json";
 		spriteSheetPath = p.parent_path().wstring() + L"/" + spriteSheetPath;
@@ -60,17 +60,18 @@ void GOTOEngine::AnimationClip::LoadFromFilePath(const std::wstring& filePath)
 
 		m_isLoop = jFromFile["loop"];
 		m_duration = jFromFile["duration"];
+		m_isAlpha = jFromFile.value("alpha", false);
 
-		//½ºÇÁ¶óÀÌÆ® ¿¬°á
+		//ìŠ¤í”„ë¼ì´íŠ¸ ì—°ê²°
 		for (auto keyframe : jFromFile["frames"])
 		{
 			if (spriteSheet.find(keyframe["sprite"]) == spriteSheet.end())
 			{
-				//¹ÌÈ®ÀÎ ½ºÇÁ¶óÀÌÆ®ÀÎ °æ¿ì »ı¼ºÁß´Ü ¹× ÀÏ°ıÆÄ±«
+				//ë¯¸í™•ì¸ ìŠ¤í”„ë¼ì´íŠ¸ì¸ ê²½ìš° ìƒì„±ì¤‘ë‹¨ ë° ì¼ê´„íŒŒê´´
 				for (auto spr : spriteSheet)
 				{
 #ifdef _DEBUG
-					std::wcout << L"ÀÏ°ıÆÄ±«" << std::endl;
+					std::wcout << L"ì¼ê´„íŒŒê´´" << std::endl;
 #endif
 
 
@@ -80,8 +81,9 @@ void GOTOEngine::AnimationClip::LoadFromFilePath(const std::wstring& filePath)
 				Dispose();
 				break;
 			}
-
-			m_keyframes.emplace_back(new AnimationKeyframe{ spriteSheet[keyframe["sprite"]],keyframe["time"] });
+			// json ì•ŒíŒŒ ê°’ì´ ìˆë‹¤ë©´ ê°€ì ¸ì˜¤ê³  ì—†ìœ¼ë©´ 1.0f
+			float alpha = keyframe.value("alpha", 1.0f) * 255.0f;
+			m_keyframes.emplace_back(new AnimationKeyframe{ spriteSheet[keyframe["sprite"]],keyframe["time"], alpha });
 			spriteSheet[keyframe["sprite"]]->IncreaseRefCount();
 		}
 	}

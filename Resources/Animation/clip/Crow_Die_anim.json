@@ -1,7 +1,8 @@
 {
     "clipName": "Crow_Die",
-    "loop": true,
-    "texturePath": "Assets/Sprite/Crow_Die.png",
+    "loop": false,
+	"alpha": true,
+    "texturePath": "../Resources/artResource/SpriteSheet/Crow/Crow_Die.png",
     "duration": 1.0166666507720948,
     "frames": [
         {
