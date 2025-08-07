@@ -28,7 +28,7 @@ namespace GOTOEngine
 
 		std::vector<GameObject*> m_p1Enemy;
 		std::vector<GameObject*> m_p2Enemy;
-		GameObject* m_GoldEnemy;
+		GameObject* m_goldMole;
 
 		std::unordered_map<std::wstring, AnimatorController*> m_animControllers;
 		std::unordered_map<std::wstring, Sprite*> m_sprites;
@@ -57,10 +57,13 @@ namespace GOTOEngine
 
 		// Set
 		void SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack = false);
+		void SetDeleteGoldMole() { m_goldMole = nullptr; }
+		void DestroyGoldMole();
 
 		//bool CreateEnemy()
 		void CreateEnemy(E_EnemyType enemyType, std::uint32_t player);
 		void CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player);
+		void CreateGoleMole();
 
 		void Setp1EnemyAllDestroy();
 		void Setp2EnemyAllDestroy();

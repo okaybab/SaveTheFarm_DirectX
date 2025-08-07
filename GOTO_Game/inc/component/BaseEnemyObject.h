@@ -26,7 +26,8 @@ namespace GOTOEngine
 	{
 		move,
 		gimmick,
-		itemspawn
+		itemspawn,
+		competition
 	};
 
 	class BaseEnemyObject : public ScriptBehaviour,
@@ -86,7 +87,14 @@ namespace GOTOEngine
 			{
 				// 디스폰
 				m_isDeathByDispone = true;
-				EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+				if (m_enemyType = E_EnemyType::competition)
+				{
+					EnemySpawner::instance->SetDeleteGoldMole();
+				}
+				else
+				{
+					EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+				}
 				Destroy(GetGameObject(), 1.0f);
 				return;
 			}
@@ -205,11 +213,8 @@ namespace GOTOEngine
 		virtual void OnBulletDie(int attackerID)
 		{
 			m_isDie = true;
-			
-			
 
 			GameManager::instance->PointChange(attackerID + 1, 1);
-
 		}
 	};
 }

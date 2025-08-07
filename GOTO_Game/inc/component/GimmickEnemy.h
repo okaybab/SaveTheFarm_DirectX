@@ -61,21 +61,21 @@ namespace GOTOEngine
 				m_moveFlag = 0b1001;
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"토끼";
-				SetRandomYPosition(-0.4f, -0.1f);
+				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			case squirrel:
 				m_moveFlag = 0b1001;
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"다람쥐";
-				SetRandomYPosition(-0.4f, -0.1f);
+				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
 			case thiefmole:
 				m_moveFlag = 0b0001;
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"도둑두더지";
-				SetRandomYPosition(-0.4f, -0.1f);
+				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			}
@@ -103,9 +103,9 @@ namespace GOTOEngine
 
 			auto fader = GetGameObject()->GetComponent<FadeComponent>();
 			fader->Initialize();
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
 
 			fader->FadeOut(0.5f, [this]() {
-				EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), m_enemyType == E_EnemyType::move);
 				Destroy(GetGameObject());
 			});
 		}

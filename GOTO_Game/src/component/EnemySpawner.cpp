@@ -8,6 +8,7 @@
 #include "MoveEnemy.h"
 #include "GimmickEnemy.h"
 #include "ItemEnemy.h"
+#include "CompetEnemy.h"
 
 // move
 #include "MovementLeftRight.h"
@@ -115,7 +116,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 	if (INPUT_GET_KEYUP(KeyCode::Z)) // 황금 두더지 생성
 	{
-		CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
+		CreateGoleMole();
 	}
 }
 // 플레이어에 타입 랜덤 생성
@@ -164,7 +165,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	break;
 	case itemspawn:
 	{
-		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % (E_Item_Enemy_Type::item_type_count -1));
+		auto randomType = static_cast<E_Item_Enemy_Type>(std::rand() % (E_Item_Enemy_Type::item_type_count));
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(randomType);
 	}
@@ -179,7 +180,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	if (player & 1 << 2)
+	else if (player & 1 << 2)
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
@@ -217,10 +218,31 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType
 	{
 		m_p1Enemy.push_back(newEnemyObject);
 	}
-	if (player & 1 << 2)
+	else if (player & 1 << 2)
 	{
 		m_p2Enemy.push_back(newEnemyObject);
 	}
+}
+
+void GOTOEngine::EnemySpawner::CreateGoleMole()
+{
+	if (GameManager::instance == nullptr) return;
+
+	if (m_goldMole)
+	{ 
+		GameObject::Destroy(m_goldMole); 
+		m_goldMole = nullptr;
+	}
+
+	GameObject* newEnemyObject = new GameObject(L"Enemy");
+
+	newEnemyObject->AddComponent<CompetEnemy>();
+	newEnemyObject->GetComponent<CompetEnemy>()->Initialize(goldMole);
+	
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 1) | (1 << 2));
+	newEnemyObject->layer = (1 << 1) | (1 << 2);
+	
+	m_goldMole = newEnemyObject;
 }
 
 void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack)
@@ -255,11 +277,20 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* 
    }  
 }
 
+void GOTOEngine::EnemySpawner::DestroyGoldMole()
+{
+	if (m_goldMole)
+	{
+		GameObject::Destroy(m_goldMole);
+		m_goldMole = nullptr;
+	}
+}
+
 void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
 {
 	for (auto& enemy : m_p1Enemy)
 	{
-		if (IsValidObject(enemy))
+		if (enemy)
 		{
 			GameObject::Destroy(enemy);
 			enemy = nullptr;
@@ -275,7 +306,7 @@ void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
 {
 	for (auto& enemy : m_p2Enemy)
 	{
-		if (IsValidObject(enemy))
+		if (enemy)
 		{
 			GameObject::Destroy(enemy);
 			enemy = nullptr;
