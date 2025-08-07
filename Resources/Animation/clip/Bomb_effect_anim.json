@@ -1,7 +1,7 @@
 {
   "clipName": "Bomb_effect",
   "loop": false,
-  "texturePath": "../Resources/artResource/UI/item/Bomb_effect_spritesheet.png",
+  "texturePath": "../Resources/artResource/SpriteSheet/Item/Bomb_effect_spritesheet.png",
   "duration": 0.5833333134651184,
   "frames": [
     {

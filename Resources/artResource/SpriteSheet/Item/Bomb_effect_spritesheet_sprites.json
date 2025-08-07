@@ -1,0 +1,71 @@
+{
+    "texture": "Bomb_effect_spritesheet.png",
+    "textureWidth": 1936,
+    "textureHeight": 2048,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Bomb_effect_spritesheet_0",
+            "x": 0.0,
+            "y": 1365.3333740234375,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_1",
+            "x": 645.3333740234375,
+            "y": 1365.3333740234375,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_2",
+            "x": 1290.666748046875,
+            "y": 1365.3333740234375,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_3",
+            "x": 0.0,
+            "y": 682.6666870117188,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_4",
+            "x": 645.3333740234375,
+            "y": 682.6666870117188,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_5",
+            "x": 1290.666748046875,
+            "y": 682.6666870117188,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bomb_effect_spritesheet_6",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 645.3333740234375,
+            "height": 682.6666870117188,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
