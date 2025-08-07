@@ -36,7 +36,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto startButtonAnimation = startButtonGO->AddComponent<ButtonAnimation>();
 	auto startButtonText = startButtonGO->AddComponent<TextRenderer>();
 	startButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	startButtonText->SetRenderOrder(1);
 	startButtonText->size = 156;
+	startButtonText->color = { 0,0,0,255 };
 	startButtonText->text = L"경쟁 모드";
 	startButtonText->rect = { 0,0,850,400 };
 	
@@ -99,7 +101,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto defenseButtonAnimation = defenseButtonGO->AddComponent<ButtonAnimation>();
 	auto defenseButtonText = defenseButtonGO->AddComponent<TextRenderer>();
 	defenseButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	defenseButtonText->SetRenderOrder(1);
 	defenseButtonText->size = 156;
+	defenseButtonText->color = { 0,0,0,255 };
 	defenseButtonText->text = L"협동 모드";
 	defenseButtonText->rect = { 0,0,850,400 };
 
@@ -161,7 +165,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto optionsButtonAnimation = optionsButtonGO->AddComponent<ButtonAnimation>();
 	auto optionButtonText = optionsButtonGO->AddComponent<TextRenderer>();
 	optionButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	optionButtonText->SetRenderOrder(1);
 	optionButtonText->size = 156;
+	optionButtonText->color = { 0,0,0,255 };
 	optionButtonText->text = L"환경 설정";
 	optionButtonText->rect = { 0,0,850,400 };
 
@@ -223,7 +229,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto exitButtonAnimation = exitButtonGO->AddComponent<ButtonAnimation>();
 	auto exitButtonText = exitButtonGO->AddComponent<TextRenderer>();
 	exitButtonText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	exitButtonText->SetRenderOrder(1);
 	exitButtonText->size = 156;
+	exitButtonText->color = { 0,0,0,255 };
 	exitButtonText->text = L"종료";
 	exitButtonText->rect = { 0,0,850,400 };
 
