@@ -2,24 +2,24 @@
     "controllerName": "CrowAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "Crow_Move",
+    "defaultState": "Move",
     "states": [
         {
-            "name": "Crow_Move",
+            "name": "Move",
             "motionName": "Crow_Move",
             "clipLength": 1.6666667461395264,
             "loop": true,
             "transitions": []
         },
         {
-            "name": "Crow_Die",
+            "name": "Die",
             "motionName": "Crow_Die",
             "clipLength": 1.0166666507720948,
             "loop": false,
             "transitions": []
         },
         {
-            "name": "Crow_Escape",
+            "name": "Escape",
             "motionName": "Crow_Escape",
             "clipLength": 1.0166666507720948,
             "loop": false,

@@ -93,16 +93,20 @@ namespace GOTOEngine
 
 		void OnDie(int attackerID) override
 		{
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
+			auto comp = GetGameObject()->GetComponent<Animator>()->GetAnimatorController();
+			std::wcout << comp->GetCurrentStateName() << std::endl;
+			comp->ForceChangeState(L"Die");
+			Destroy(GetGameObject(), 3.0f);
+			//GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
+			//GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
 
-			auto fader = GetGameObject()->GetComponent<FadeComponent>();
-			fader->Initialize();
+			//auto fader = GetGameObject()->GetComponent<FadeComponent>();
+			//fader->Initialize();
 
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
-			fader->FadeOut(0.5f, [this]() {
+			//EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
+			/*fader->FadeOut(0.5f, [this]() {
 				Destroy(GetGameObject());
-			});
+			})*/;
 		}
 	};
 }
