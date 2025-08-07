@@ -137,15 +137,9 @@ void ItemManager::Awake() {
 		auto goldobject1 = GameObject::Find(L"p1 Gold FX");
 		auto goldobject2 = GameObject::Find(L"p2 Gold FX");
 		goldparticle1 = goldobject1->GetComponent<ParticleSystem>();
-		goldparticle1->SetRenderLayer((1 << 1));
-		goldparticle1->SetMinScale(20.0f);
-		goldparticle1->SetMaxScale(55.0f);
-		goldparticle1->SetRenderOrder(2000);
+
 		goldparticle2 = goldobject2->GetComponent<ParticleSystem>();
-		goldparticle2->SetRenderLayer((1 << 2));
-		goldparticle2->SetMinScale(20.0f);
-		goldparticle2->SetMaxScale(55.0f);
-		goldparticle2->SetRenderOrder(2000);
+
 	}
 	else
 	{

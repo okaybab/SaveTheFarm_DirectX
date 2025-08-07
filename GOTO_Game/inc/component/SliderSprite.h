@@ -13,7 +13,7 @@ namespace GOTOEngine
 	private:
 		float m_value = 1.0f;
 	
-		Sprite* m_backgroundSprite;
+		Texture2D* m_backgroundTexture;
 	public:
     SliderSprite()
     {
