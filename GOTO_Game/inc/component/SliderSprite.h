@@ -12,6 +12,8 @@ namespace GOTOEngine
 	{
 	private:
 		float m_value = 1.0f;
+	
+		Sprite* m_backgroundSprite;
 	public:
     SliderSprite()
     {

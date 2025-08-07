@@ -71,6 +71,11 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
 	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
 
+	auto GoldFXGO = new GameObject((id == 0 ? L"p1 Gold FX" : L"p2 Gold FX"));
+	auto GoldFX = GoldFXGO->AddComponent<ParticleSystem>();
+	GoldFX->SetMaxParticleCount(55);
+	GoldFXGO->GetTransform()->SetParent(GO->GetTransform(), false);
+
 	return GO;
 }
 
@@ -154,6 +159,11 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	StrengthTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
 
 	crosshairFire->strText = strengthText;
+
+	auto GoldFXGO = new GameObject((id == 0 ? L"p1 Gold FX" : L"p2 Gold FX"));
+	auto GoldFX = GoldFXGO->AddComponent<ParticleSystem>();
+	GoldFX->SetMaxParticleCount(55);
+	GoldFXGO->GetTransform()->SetParent(GO->GetTransform(), false);
 
 	return GO;
 }
