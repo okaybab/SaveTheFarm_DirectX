@@ -6,6 +6,7 @@
 #include "GamepadRumbleManager.h"
 #include "SoundManager.h"
 #include "FadeInOutFXManager.h"
+#include "SpriteRenderer.h"
 
 void StartScene::Initialize()
 {
@@ -25,6 +26,13 @@ void StartScene::Initialize()
 		Object::DontDestroyOnLoad(CrossHair2GO);
 	}
 
+	auto BG = new GameObject(L"BG");
+	BG->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/BG.png");
+
+	auto Title = new GameObject(L"Title");
+	Title->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Title/타이틀로고.png");
+	Title->GetTransform()->SetPosition({ 0.0f,295.0f });
+
 	auto RumbleManagerGO = new GameObject(L"GamePadRumbleManager");
 	RumbleManagerGO->AddComponent<GamepadRumbleManager>();
 
@@ -35,7 +43,6 @@ void StartScene::Initialize()
 	if (FadeInOutFXManager::instance)
 		FadeInOutFXManager::instance->FadeIn();
 
-	auto soundManager = new GameObject(L"사운드매니저");
-
+	auto soundManager = new GameObject(L"SoundManager");
 	soundManager->AddComponent<SoundManager>();
 }

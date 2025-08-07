@@ -322,6 +322,7 @@ GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity(const 
 
     if (shape == EmissionShape::Rectangle)
     {
+        //GOTO에서 수정할것 -> 270 = 180
         return Vector2(
             cos(Mathf::PI - m_emissionDirection) * speed,
             sin(Mathf::PI - m_emissionDirection) * speed
@@ -363,7 +364,7 @@ GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionPosition(const 
         -cos(Mathf::PI - m_emissionDirection)
     );
 
-    spawnPos += tangentDir * (dis(gen) - 0.5f) * m_emissionTangentLength;
+    spawnPos += tangentDir * ((dis(gen) - 0.5f) * 2.0f) * m_emissionTangentLength;
     
     return spawnPos;
 }
