@@ -8,9 +8,9 @@
 #include "EnhancedCrosshairFire.h"
 
 #include "DirIndicatorController.h"
-#include "ItemManager.h"
-#include "GameManager.h"
-#include "GimmickManager.h"
+#include "ItemManager2.h"
+#include "GameManager2.h"
+#include "GimmickManager2.h"
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
 #include "EnemySpawner.h"
@@ -67,4 +67,10 @@ void DefenseScene::Initialize()
 	//메인 캔버스
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
+	auto itemManager = new GameObject(L"아이템매니저");
+	itemManager->AddComponent<ItemManager2>();
+	auto gameManager = new GameObject(L"게임매니저");
+	gameManager->AddComponent<GameManager2>();
+	auto gimmickManager = new GameObject(L"기믹매니저");
+	gimmickManager->AddComponent<GimmickManager2>();
 }

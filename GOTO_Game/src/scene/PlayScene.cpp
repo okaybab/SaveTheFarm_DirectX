@@ -69,7 +69,7 @@ void PlayScene::Initialize()
 	canvas->AddComponent<Canvas>();
 	auto itemManager = new GameObject(L"아이템매니저");
 	itemManager->AddComponent<ItemManager>();
-	auto gameManager = new GameObject(L"스코어매니저");
+	auto gameManager = new GameObject(L"게임매니저");
 	gameManager->AddComponent<GameManager>();
 	auto gimmickManager = new GameObject(L"기믹매니저");
 	gimmickManager->AddComponent<GimmickManager>();

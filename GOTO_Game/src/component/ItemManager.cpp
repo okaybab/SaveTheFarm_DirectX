@@ -101,9 +101,9 @@ void ItemManager::Awake() {
         }
     ]
 })" });
-		auto particleobject = new GameObject;
-		particleobject->GetTransform()->SetLocalPosition({ 0.0f,Screen::GetHeight()/2 });
-		itemparticle1 = particleobject->AddComponent<ParticleSystem>();
+		auto snowobject = new GameObject;
+		snowobject->GetTransform()->SetLocalPosition({ 0.0f,Screen::GetHeight()/2 });
+		itemparticle1 = snowobject->AddComponent<ParticleSystem>();
 		itemparticle1->SetMaxParticleCount(100);
 		itemparticle1->SetRenderLayer((1 << 1));
 		itemparticle1->SetFadeOutTime(2.0f);
@@ -116,7 +116,7 @@ void ItemManager::Awake() {
 		itemparticle1->SetMaxScale(0.02f);
 		itemparticle1->SetSpawnInterval(0.2f);
 		itemparticle1->SetEmissionDirectionDegrees(270.0f);
-		itemparticle2 = particleobject->AddComponent<ParticleSystem>();
+		itemparticle2 = snowobject->AddComponent<ParticleSystem>();
 		itemparticle2->SetMaxParticleCount(100);
 		itemparticle2->SetRenderLayer((1 << 2));
 		itemparticle2->SetFadeOutTime(2.0f);
@@ -131,6 +131,21 @@ void ItemManager::Awake() {
 		itemparticle2->SetEmissionDirectionDegrees(270.0f);
 		snow = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_effect.png");
 		snow->IncreaseRefCount();
+		itemparticle1->SetCommonSprite(snow);
+		itemparticle2->SetCommonSprite(snow);
+
+		auto goldobject1 = GameObject::Find(L"p1 Gold FX");
+		auto goldobject2 = GameObject::Find(L"p2 Gold FX");
+		goldparticle1 = goldobject1->GetComponent<ParticleSystem>();
+		goldparticle1->SetRenderLayer((1 << 1));
+		goldparticle1->SetMinScale(20.0f);
+		goldparticle1->SetMaxScale(55.0f);
+		goldparticle1->SetRenderOrder(2000);
+		goldparticle2 = goldobject2->GetComponent<ParticleSystem>();
+		goldparticle2->SetRenderLayer((1 << 2));
+		goldparticle2->SetMinScale(20.0f);
+		goldparticle2->SetMaxScale(55.0f);
+		goldparticle2->SetRenderOrder(2000);
 	}
 	else
 	{
@@ -197,6 +212,7 @@ void ItemManager::Update(){
 		if (p1TicketTimer <= 0.0f) {
 			p1TicketTimer = 0.0f;
 			GameManager::instance->P1Bonus = 1;
+			goldparticle1->Stop();
 		}
 	}
 
@@ -205,6 +221,7 @@ void ItemManager::Update(){
 		if (p2TicketTimer <= 0.0f) {
 			p2TicketTimer = 0.0f;
 			GameManager::instance->P2Bonus = 1;
+			goldparticle2->Stop();
 		}
 	}
 	if (p1IceTimer > 0.0f) {
@@ -410,7 +427,6 @@ void ItemManager::UseItem(int player, ItemType item)
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 				}
 				SoundManager::instance->PlaySFX("IceBomb");
-				itemparticle1->SetCommonSprite(snow);
 				itemparticle1->Play();
 				p1IceTimer = timelimit;
 			}
@@ -435,7 +451,6 @@ void ItemManager::UseItem(int player, ItemType item)
 					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
 				}
 				SoundManager::instance->PlaySFX("IceBomb");
-				itemparticle2->SetCommonSprite(snow);
 				itemparticle2->Play();
 				p2IceTimer = timelimit;
 			}
@@ -444,11 +459,13 @@ void ItemManager::UseItem(int player, ItemType item)
 			if (player == 1) {
 				GameManager::instance->P1Bonus = 2;
 				SoundManager::instance->PlaySFX("GoldenTicket");
+				goldparticle1->Play();
 				p1TicketTimer = timelimit;
 			}
 			else {
 				GameManager::instance->P2Bonus = 2;
 				SoundManager::instance->PlaySFX("GoldenTicket");
+				goldparticle2->Play();
 				p2TicketTimer = timelimit;
 			}
 			break;
