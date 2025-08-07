@@ -5,6 +5,7 @@
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
 #include <Animator.h>
+#include <ParticleSystem.h>
 #include "Canvas.h"
 #include "Image.h"
 #include "RectTransform.h"
@@ -45,6 +46,10 @@ namespace GOTOEngine
 		float p1AniTime[7]{ 0.0f, 0.13f, 0.25f, 0.38f, 0.52f, 0.65f, 0.83f };
 		float p2AniTime[7]{ 0.0f, 0.13f, 0.25f, 0.38f, 0.52f, 0.65f, 0.83f };
 		AnimationCurve* itemanimation;
+
+		ParticleSystem* itemparticle1;
+		ParticleSystem* itemparticle2;
+		Sprite* snow;
 	public:
     ItemManager()
     {

@@ -54,7 +54,7 @@ namespace GOTOEngine
 				m_moveFlag = 0b0000;
 				GetGameObject()->name = L"두더지";
 				m_disPoneTime = 8.0f;
-				SetRandomYPosition(-0.4f, -0.1f);
+				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			case crow_1:
@@ -98,6 +98,7 @@ namespace GOTOEngine
 			auto fader = GetGameObject()->GetComponent<FadeComponent>();
 			fader->Initialize();
 
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
 			fader->FadeOut(0.5f, [this]() {
 				Destroy(GetGameObject());
 			});

@@ -277,12 +277,12 @@ void GameManager::Update() {
 			}
 			if (GameTimer <= GoldTiming[0]) {
 				//황금두더지 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
+				EnemySpawner->CreateGoleMole();
 				GoldTiming[0] = -1.0f;
 			}
 			if (GameTimer <= GoldTiming[1]) {
 				//황금두더지 생성
-				EnemySpawner->CreateEnemy(E_EnemyType::itemspawn, 3, (1 << 1) | (1 << 2));
+				EnemySpawner->CreateGoleMole();
 				GoldTiming[1] = -1.0f;
 			}
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
@@ -299,6 +299,7 @@ void GameManager::Update() {
 			endingTimer -= TIME_GET_DELTATIME();
 			EnemySpawner->Setp1EnemyAllDestroy();
 			EnemySpawner->Setp2EnemyAllDestroy();
+			EnemySpawner->DestroyGoldMole();
 			if (P1Score > P2Score) {
 				winner = 1;
 				P1wintext->text = std::wstring(L"Win");

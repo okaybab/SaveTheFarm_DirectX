@@ -207,11 +207,6 @@
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\StartManager.h" />
-    <ClInclude Include="inc\component\TestComponent.h" />
-    <ClInclude Include="inc\component\PlayerGUI.h" />
-    <ClInclude Include="inc\component\PlayerFSMController.h" />
-    <ClInclude Include="inc\IAttackAble.h" />
-    <ClInclude Include="inc\ICollideAble.h" />
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
     <ClInclude Include="inc\interface\IAttackAble.h" />
     <ClInclude Include="inc\interface\ICollideAble.h" />
@@ -231,6 +226,7 @@
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
     <ClInclude Include="inc\component\ItemManager2.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
+    <ClInclude Include="inc\CompetEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

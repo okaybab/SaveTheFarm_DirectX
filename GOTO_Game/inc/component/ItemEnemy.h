@@ -14,7 +14,6 @@ namespace GOTOEngine
 		iceCrow,	// 얼음새
 		bombCrow,	// 폭탄새
 		goldCrow,	// 황금새
-		goldMole,	// 황금 두더지
 		item_type_count
 	};
 
@@ -27,11 +26,6 @@ namespace GOTOEngine
 		void Dispose()
 		{
 			if (!GameManager::instance->setactive) return;
-
-			if (m_itemEnemyType == E_Item_Enemy_Type::goldMole)
-			{
-				return;
-			}
 
 			if (m_isDeathByDispone)
 			{
@@ -86,13 +80,6 @@ namespace GOTOEngine
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
 				break;
-			case goldMole:
-				m_moveFlag = 0b0001;
-				m_disPoneTime = 10.0f;
-				GetGameObject()->name = L"황금두더지";
-				SetRandomYPosition(-0.4f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
-				break;
 			}
 			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
 			AddComponent<FadeComponent>();
@@ -119,15 +106,11 @@ namespace GOTOEngine
 			auto fader = GetGameObject()->GetComponent<FadeComponent>();
 			fader->Initialize();
 
-			fader->FadeOut(0.5f, [this]() {
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+
+			fader->FadeOut(0.5f, [this]() {	
 				Destroy(GetGameObject());
 			});
-
-			if (m_layer == 0b0110) // 황금두더지
-			{
-				// EnemySpawner::GenerateRandom(0, ItemType::Item_Count)
-				ItemManager::instance->UseItem(attackerID+1, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
-			}
 		}
 	};
 }
