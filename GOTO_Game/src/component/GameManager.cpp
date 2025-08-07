@@ -106,7 +106,8 @@ void GameManager::Awake(){
 		p1finalsctext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p1finalsctext->SetColor({ 0,0,0,255 });
 		p1finalsctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.36f });
+				Screen::GetWidth() * 0.27f, Screen::GetHeight() * 0.36f });
+		p1finalsctext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p2final1 = new GameObject;
 		p2finalsctext = p2final1->AddComponent<Text>();
 		p2final1->GetTransform()->SetParent(canvas->GetTransform());
@@ -115,7 +116,8 @@ void GameManager::Awake(){
 		p2finalsctext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p2finalsctext->SetColor({ 0,0,0,255 });
 		p2finalsctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.36f });
+				Screen::GetWidth() * 0.77f, Screen::GetHeight() * 0.36f });
+		p2finalsctext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p1final2 = new GameObject;
 		p1losttext = p1final2->AddComponent<Text>();
 		p1final2->GetTransform()->SetParent(canvas->GetTransform());
@@ -124,7 +126,8 @@ void GameManager::Awake(){
 		p1losttext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p1losttext->SetColor({ 0,0,0,255 });
 		p1losttext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.505f });
+				Screen::GetWidth() * 0.27f, Screen::GetHeight() * 0.505f });
+		p1losttext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p2final2 = new GameObject;
 		p2losttext = p2final2->AddComponent<Text>();
 		p2final2->GetTransform()->SetParent(canvas->GetTransform());
@@ -133,7 +136,8 @@ void GameManager::Awake(){
 		p2losttext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p2losttext->SetColor({ 0,0,0,255 });
 		p2losttext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.505f });
+				Screen::GetWidth() * 0.77f, Screen::GetHeight() * 0.505f });
+		p2losttext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p1final3 = new GameObject;
 		p1catchtext = p1final3->AddComponent<Text>();
 		p1final3->GetTransform()->SetParent(canvas->GetTransform());
@@ -142,7 +146,8 @@ void GameManager::Awake(){
 		p1catchtext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p1catchtext->SetColor({ 0,0,0,255 });
 		p1catchtext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.294f, Screen::GetHeight() * 0.65f });
+				Screen::GetWidth() * 0.27f, Screen::GetHeight() * 0.65f });
+		p1catchtext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p2final3 = new GameObject;
 		p2catchtext = p2final3->AddComponent<Text>();
 		p2final3->GetTransform()->SetParent(canvas->GetTransform());
@@ -151,7 +156,8 @@ void GameManager::Awake(){
 		p2catchtext->SetFont(L"../Resources/Maplestory Light.ttf");
 		p2catchtext->SetColor({ 0,0,0,255 });
 		p2catchtext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.794f, Screen::GetHeight() * 0.65f });
+				Screen::GetWidth() * 0.77f, Screen::GetHeight() * 0.65f });
+		p2catchtext->GetRectTransform()->SetSizeDelta({ 200,100 });
 		auto p1final4 = new GameObject;
 		p1timetext = p1final4->AddComponent<Text>();
 		p1final4->GetTransform()->SetParent(canvas->GetTransform());
