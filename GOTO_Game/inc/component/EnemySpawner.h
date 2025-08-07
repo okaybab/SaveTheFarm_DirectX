@@ -12,6 +12,13 @@
 
 namespace GOTOEngine
 {	
+	//static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1)
+	enum class EPlayerOwner : std::uint32_t
+	{
+		NONE = 0,
+		PLAYER_1 = 1 << 1,
+		PLAYER_2 = 1 << 2,
+	};
 	enum E_EnemyType;
 	class EnemySpawner : public ScriptBehaviour
 	{

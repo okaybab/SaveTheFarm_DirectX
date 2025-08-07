@@ -19,6 +19,7 @@
 #include "MovementUpDown.h"
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
+#include "SoundManager.h"
 
 namespace GOTOEngine
 {
@@ -87,15 +88,8 @@ namespace GOTOEngine
 			{
 				// 디스폰
 				m_isDeathByDispone = true;
-				if (m_enemyType = E_EnemyType::competition)
-				{
-					EnemySpawner::instance->SetDeleteGoldMole();
-				}
-				else
-				{
-					EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
-				}
-				Destroy(GetGameObject(), 1.0f);
+				m_isDie = true;
+				OnDie(-1);
 				return;
 			}
 
@@ -210,11 +204,15 @@ namespace GOTOEngine
 			m_enemyHp -= damage;
 			if (m_enemyHp <= 0) OnBulletDie(attackerID);
 		}
-		virtual void OnBulletDie(int attackerID)
+		void OnBulletDie(int attackerID)
 		{
 			m_isDie = true;
 
 			GameManager::instance->PointChange(attackerID + 1, 1);
+			SoundManager::instance->PlaySFX("Hit");
+
+			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
+		virtual void OnDie(int attackerID) = 0;
 	};
 }
