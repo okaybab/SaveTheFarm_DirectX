@@ -48,6 +48,8 @@ namespace GOTOEngine
         std::array<SliderSprite*, 4> sliderSprites;
         std::array<float, 4> sliderTargetValue;
 
+        Transform* exitButton = nullptr;
+
 		void Awake()
 		{
             m_openAnimation = AnimationCurve(std::string{ R"({
@@ -266,9 +268,9 @@ namespace GOTOEngine
 
 
                 // 포커스 UI 위치 업데이트
-                auto focusSpace = 100.0f;
+                auto focusSpace = 150.0f;
 
-                auto startPosY = 180.0f;
+                auto startPosY = 255.0f;
 
                 auto targetPosY = startPosY + focusSpace * -m_focusIndex;
 

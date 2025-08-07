@@ -40,7 +40,7 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	// 항목들
 	//---- 항목 옵션
 	auto gageYSpace = 150.0f;
-	auto gageYStartPos = 240.0f;
+	auto gageYStartPos = 255.0f;
 
 	auto optionTitleBarTextGO = new GameObject(L"titlebar text");
 	auto optionTitleBarText = optionTitleBarTextGO->AddComponent<TextRenderer>();
@@ -223,6 +223,14 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 	focusUI->GetTransform()->SetParent(baseWindow->GetTransform(), false);
 
 	optionWindowSystem->focusUITransform = focusUI->GetTransform();
+
+	auto exitButtonGO = new GameObject(L"exit button");
+	auto exitButtonSprite = exitButtonGO->AddComponent<SpriteRenderer>();
+	exitButtonSprite->SetSprite(L"../Resources/artResource/UI/Setting/환경설정 X 버튼.png");
+	exitButtonSprite->SetRenderOrder(505);
+	exitButtonGO->GetTransform()->SetParent(baseWindow->GetTransform(), false);
+	exitButtonGO->GetTransform()->SetLocalScale({ 0.15f,0.15f });
+	exitButtonGO->GetTransform()->SetLocalPosition({ 0.0f, gageYStartPos - gageYSpace * 4 - 20 });
 
 
     return GO;

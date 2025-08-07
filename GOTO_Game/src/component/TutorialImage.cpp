@@ -245,7 +245,7 @@ void TutorialImage::Update() {
 
 	auto buttonMaxTimer = 1.25f;
 
-	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0,GamepadButton::ButtonWest);
+	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0, GamepadButton::ButtonWest);
 	auto p2ButtonPress = INPUT_GET_KEY(KeyCode::M) || INPUT_GET_GAMEPAD_BUTTON(1, GamepadButton::ButtonWest);
 
 	auto lastButton1Timer = button1Timer;
