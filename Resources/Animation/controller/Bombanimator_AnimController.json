@@ -1,5 +1,5 @@
 {
-    "controllerName": "Bombanimator",
+    "controllerName": "BombAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
     "defaultState": "Bomb_effect",
