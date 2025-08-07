@@ -1,4 +1,5 @@
 #include "CrosshairFire.h"
+#include "SoundManager.h"
 
 GOTOEngine::RumbleAnimationClip* GOTOEngine::CrosshairFire::s_pfireRumbleClip = nullptr;
 int GOTOEngine::CrosshairFire::s_crosshairCount = 0;
@@ -179,8 +180,7 @@ void GOTOEngine::CrosshairFire::Update()
 
 	m_fireCooldown = fireRate;
 
-    GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
-
+    bool isHit = false;
 	for (auto* obj : m_collider->GetCollideObjects())
 	{
 		std::wcout << obj->name << std::endl;
@@ -190,13 +190,24 @@ void GOTOEngine::CrosshairFire::Update()
 			if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
 			{
 				attackable->TakeDamage(id,1);
+                isHit = true;
 			}
 		}
 	}
 
+    if (id == 0)
+        SoundManager::instance->PlaySFX("Shot1P");
+    else
+        SoundManager::instance->PlaySFX("Shot2P");
 	onFire.Invoke(id);
-    if (m_shaker)
-        m_shaker->ShakeCamera(24, 55, 8);
+    if(isHit)
+    {
+        GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
+
+        if (m_shaker)
+            m_shaker->ShakeCamera(24, 55, 8);
+    }
+
 #ifdef _DEBUG
 	std::cout << "Crosshair Fire! : " << id << std::endl;
 #endif

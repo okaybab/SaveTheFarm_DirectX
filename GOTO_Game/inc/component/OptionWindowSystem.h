@@ -246,6 +246,8 @@ namespace GOTOEngine
                     || m_YstickPressedDown[0]
                     || m_YstickPressedDown[1])
                 {
+                    SoundManager::instance->PlaySFX("Button");
+
                     m_focusIndex++;
                     if (m_focusIndex > 3) // 예시로 3개의 버튼이 있다고 가정
                         m_focusIndex = 3;
@@ -256,6 +258,8 @@ namespace GOTOEngine
                     || m_YstickPressedUp[0]
                     || m_YstickPressedUp[1])
                 {
+                    SoundManager::instance->PlaySFX("Button");
+
                     m_focusIndex--;
                     if (m_focusIndex < 0)
                         m_focusIndex = 0;
@@ -285,12 +289,18 @@ namespace GOTOEngine
                 if (INPUT_GET_KEYDOWN(KeyCode::LeftArrow)
                     || m_XstickPressedLeft[0]
                     || m_XstickPressedLeft[1])
+                {
+                    SoundManager::instance->PlaySFX("Button");
                     sliderTargetValue[m_focusIndex] -= 0.1f;
+                }
 
                 if (INPUT_GET_KEYDOWN(KeyCode::RightArrow)
                     || m_XstickPressedRight[0]
                     || m_XstickPressedRight[1])
+                {
+                    SoundManager::instance->PlaySFX("Button");
                     sliderTargetValue[m_focusIndex] += 0.1f;
+                }
 
                 sliderTargetValue[m_focusIndex] = Mathf::Clamp01(sliderTargetValue[m_focusIndex]);
             }

@@ -4,6 +4,7 @@
 #include <Delegate.h>
 #include <Transform.h>
 #include <random>
+#include <Mathf.h>
 
 namespace GOTOEngine
 {
@@ -13,11 +14,13 @@ namespace GOTOEngine
 		float m_angularVelocity = 0.0f;   // ω: 각속도
 		float m_angle = 0.0f;
 
+		float m_sourceScale = 1.0f;
 		float m_scale = 1.0f;            // 현재 값 (예: 스케일)
 		float m_scaleVelocity = 0.0f;         // 현재 속도
 	public:
     ButtonAnimation()
     {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		float torqueStrength = 200.0f;    // 스프링 강도
@@ -27,6 +30,12 @@ namespace GOTOEngine
 		float target = 1.0f;     // 목표 값 (원래 크기)
 		float strength = 500.0f;  // 스프링 강도 (k)
 		float scaleDamping = 8.0f;    // 감쇠 계수 (d)
+
+
+		void Awake()
+		{
+			m_sourceScale = Mathf::Min(GetTransform()->GetLossyScale().x,GetTransform()->GetLossyScale().y);
+		}
 
 		void ApplyTorque(float torque)
 		{
@@ -76,7 +85,7 @@ namespace GOTOEngine
 
 			// 실제 회전에 적용
 			GetTransform()->SetLocalRotation(m_angle);
-			GetTransform()->SetLocalScale(Vector2(m_scale, m_scale));
+			GetTransform()->SetLocalScale(Vector2(m_sourceScale * m_scale, m_sourceScale * m_scale));
 		}
 	};
 }

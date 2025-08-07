@@ -76,11 +76,7 @@ namespace GOTOEngine
 				{
 					// 이전 버튼의 상호작용 상태 초기화
 					lastP1InteractButton->isInteracted = false; 
-					auto lastButtonP1Sprite = lastP1InteractButton->parentButton->GetComponent<SpriteRenderer>();
-					if (IsValidObject(lastButtonP1Sprite))
-					{
-						lastButtonP1Sprite->SetSprite(L"../Resources/Demo/MenuButton.png");
-					}
+					lastP1InteractButton->ChangeToDefaultSprite();
 				}
 				lastP1InteractButton = currentP1InteractButtons;
 
@@ -88,11 +84,7 @@ namespace GOTOEngine
 				{
 					// 현재 버튼의 상호작용 상태 설정
 					currentP1InteractButtons->isInteracted = true;
-					auto currentButtonP1Sprite = currentP1InteractButtons->parentButton->GetComponent<SpriteRenderer>();
-					if (IsValidObject(currentButtonP1Sprite))
-					{
-						currentButtonP1Sprite->SetSprite(L"../Resources/Demo/MenuButton_Select_P1.png");
-					}
+					currentP1InteractButtons->ChangeToP1ClickSprite();
 				}
 			}
 
@@ -114,11 +106,7 @@ namespace GOTOEngine
 				{
 					// 이전 버튼의 상호작용 상태 초기화
 					lastP2InteractButton->isInteracted = false;
-					auto lastButtonP2Sprite = lastP2InteractButton->parentButton->GetComponent<SpriteRenderer>();
-					if (IsValidObject(lastButtonP2Sprite))
-					{
-						lastButtonP2Sprite->SetSprite(L"../Resources/Demo/MenuButton.png");
-					}
+					lastP2InteractButton->ChangeToDefaultSprite();
 				}
 				lastP2InteractButton = currentP2InteractButtons;
 
@@ -126,11 +114,7 @@ namespace GOTOEngine
 				{
 					// 현재 버튼의 상호작용 상태 설정
 					currentP2InteractButtons->isInteracted = true;
-					auto currentButtonP2Sprite = currentP2InteractButtons->parentButton->GetComponent<SpriteRenderer>();
-					if (IsValidObject(currentButtonP2Sprite))
-					{
-						currentButtonP2Sprite->SetSprite(L"../Resources/Demo/MenuButton_Select_P2.png");
-					}
+					currentP2InteractButtons->ChangeToP2ClickSprite();
 				}
 			}
 
@@ -176,29 +160,15 @@ namespace GOTOEngine
 			{
 				for (auto* button : p1InteractButtons)
 				{
+					button->ChangeToDefaultSprite();
 					button->interactedTime = 0.0f; // 모든 버튼의 상호작용 시간 초기화
 					button->isInteracted = false; // 모든 버튼의 상호작용 상태 초기화
 				}
 				for (auto* button : p2InteractButtons)
 				{
+					button->ChangeToDefaultSprite();
 					button->interactedTime = 0.0f; // 모든 버튼의 상호작용 시간 초기화
 					button->isInteracted = false; // 모든 버튼의 상호작용 상태 초기화
-				}
-
-				auto buttonSprite = startButton->GetComponent<SpriteRenderer>();
-				if (IsValidObject(buttonSprite))
-				{
-					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
-				}
-				buttonSprite = optionsButton->GetComponent<SpriteRenderer>();
-				if (IsValidObject(buttonSprite))
-				{
-					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
-				}
-				buttonSprite = exitButton->GetComponent<SpriteRenderer>();
-				if (IsValidObject(buttonSprite))
-				{
-					buttonSprite->SetSprite(L"../Resources/Demo/MenuButton.png"); // 모든 버튼의 스프라이트 초기화
 				}
 			}
 		}
