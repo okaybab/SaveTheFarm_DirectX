@@ -134,6 +134,8 @@ void TutorialImage::Awake() {
 	tutorial4->IncreaseRefCount();
 	tutorial5 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_5.png");
 	tutorial5->IncreaseRefCount();
+	tutorial6 = Resource::Load<Sprite>(L"../Resources/artResource/UI/Tutorial/Tutorial_6.png");
+	tutorial6->IncreaseRefCount();
 }
 
 void TutorialImage::OnDestroy() {
@@ -152,6 +154,8 @@ void TutorialImage::OnDestroy() {
 		tutorial4->DecreaseRefCount();
 	if (IsValidObject(tutorial5))
 		tutorial5->DecreaseRefCount();
+	if (IsValidObject(tutorial6))
+		tutorial6->DecreaseRefCount();
 }
 
 void TutorialImage::Update() {
@@ -220,6 +224,21 @@ void TutorialImage::Update() {
 			leftTriggerPressed[1]) {
 			SoundManager::instance->PlaySFX("Button");
 			explainnum = 4;
+		}
+		if (INPUT_GET_KEYDOWN(KeyCode::RightShift) ||
+			rightTriggerPressed[0] ||
+			rightTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
+			explainnum = 6;
+		}
+		break;
+	case 6:
+		explanation->SetSprite(tutorial6);
+		if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) ||
+			leftTriggerPressed[0] ||
+			leftTriggerPressed[1]) {
+			SoundManager::instance->PlaySFX("Button");
+			explainnum = 5;
 		}
 		break;
 	}

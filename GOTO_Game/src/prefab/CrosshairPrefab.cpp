@@ -78,7 +78,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	GoldFXGO->GetTransform()->SetParent(GO->GetTransform(), false);
 	GoldFX->SetRenderLayer(1 << (id+1));
 	GoldFX->SetMinScale(0.05f);
-	GoldFX->SetMaxScale(0.2f);
+	GoldFX->SetMaxScale(0.1f);
 	GoldFX->SetRenderOrder(2000);
 
 	
