@@ -1,0 +1,20 @@
+{
+    "clipName": "MushCrow_Die",
+    "loop": false,
+    "alpha": true,
+    "texturePath": "../Resources/artResource/SpriteSheet/Crow/MushCrow_Die.png",
+    "duration": 0.9166666269302368,
+    "frames": [
+        {
+            "sprite": "MushCrow_Die_0",
+            "time": 0.0,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "MushCrow_Die_0",
+            "time": 0.8333333134651184,
+            "alpha": 0.0
+        }
+    ],
+    "events": []
+}

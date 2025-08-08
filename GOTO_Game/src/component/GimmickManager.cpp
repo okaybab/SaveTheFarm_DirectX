@@ -81,18 +81,12 @@ void GimmickManager::Update() {
 			p1gimmick2Image->SetSprite(nullptr);
 		}
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha9)) {
-		GimmickOn(1 << 1, 1);
+	if (INPUT_GET_KEYDOWN(KeyCode::F8)) {
+		GimmickOn(1 << 1, 3);
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0)) {
-		GimmickOn(1 << 2, 1);
+	if (INPUT_GET_KEYDOWN(KeyCode::F9)) {
+		GimmickOn(1 << 2, 3);
 	}
-	//if (INPUT_GET_KEYDOWN(KeyCode::A)) {
-	//	GimmickOn(1, 2);
-	//}
-	//if (INPUT_GET_KEYDOWN(KeyCode::L)) {
-	//	GimmickOn(2, 2);
-	//}
 };
 
 void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
@@ -146,7 +140,7 @@ void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
 			for (int i = 0; i < 3; i++)
 			{
 				// moveEnemy
-				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player);
+				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player, true);
 			}
 			break;
 		}

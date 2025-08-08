@@ -1,0 +1,188 @@
+{
+    "texture": "MushCrow_Move.png",
+    "textureWidth": 4250,
+    "textureHeight": 2736,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "MushCrow_Move_0",
+            "x": 152.0,
+            "y": 2067.0,
+            "width": 613.0,
+            "height": 567.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_1",
+            "x": 913.0,
+            "y": 2073.0,
+            "width": 745.0,
+            "height": 465.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_2",
+            "x": 1702.0,
+            "y": 2082.0,
+            "width": 834.0,
+            "height": 404.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_3",
+            "x": 2586.0,
+            "y": 2089.0,
+            "width": 810.0,
+            "height": 404.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_4",
+            "x": 3408.0,
+            "y": 2088.0,
+            "width": 834.0,
+            "height": 412.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_5",
+            "x": 36.0,
+            "y": 1404.0,
+            "width": 766.0,
+            "height": 450.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_6",
+            "x": 1010.0,
+            "y": 1404.0,
+            "width": 592.0,
+            "height": 587.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_7",
+            "x": 1862.0,
+            "y": 1405.0,
+            "width": 569.0,
+            "height": 630.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_8",
+            "x": 2692.0,
+            "y": 1406.0,
+            "width": 648.0,
+            "height": 552.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_9",
+            "x": 3433.0,
+            "y": 1408.0,
+            "width": 808.0,
+            "height": 445.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_10",
+            "x": 13.0,
+            "y": 728.0,
+            "width": 832.0,
+            "height": 423.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_11",
+            "x": 894.0,
+            "y": 724.0,
+            "width": 793.0,
+            "height": 469.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_12",
+            "x": 1863.0,
+            "y": 720.0,
+            "width": 610.0,
+            "height": 581.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_13",
+            "x": 2711.0,
+            "y": 719.0,
+            "width": 550.0,
+            "height": 647.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_14",
+            "x": 3559.0,
+            "y": 719.0,
+            "width": 561.0,
+            "height": 636.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_15",
+            "x": 157.0,
+            "y": 35.0,
+            "width": 623.0,
+            "height": 556.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_16",
+            "x": 899.0,
+            "y": 35.0,
+            "width": 787.0,
+            "height": 444.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_17",
+            "x": 1716.0,
+            "y": 36.0,
+            "width": 830.0,
+            "height": 386.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_18",
+            "x": 2603.0,
+            "y": 29.0,
+            "width": 780.0,
+            "height": 446.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Move_19",
+            "x": 3518.0,
+            "y": 21.0,
+            "width": 687.0,
+            "height": 510.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

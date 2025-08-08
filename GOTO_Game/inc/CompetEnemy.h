@@ -5,7 +5,6 @@
 #include <Collider2D.h>
 
 #include "ItemManager.h"
-#include "FadeComponent.h"
 
 namespace GOTOEngine
 {
@@ -20,10 +19,6 @@ namespace GOTOEngine
 		E_Compet_Enemy_Type m_competEnemyType;
 
 	public:
-		void Dispose()
-		{
-			if (!GameManager::instance->setactive) return;
-		}
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Compet_Enemy_Type)) m_competEnemyType = std::any_cast<E_Compet_Enemy_Type >(param);

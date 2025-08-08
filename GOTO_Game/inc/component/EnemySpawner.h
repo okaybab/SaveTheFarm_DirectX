@@ -68,7 +68,7 @@ namespace GOTOEngine
 		void DestroyGoldMole();
 
 		//bool CreateEnemy()
-		void CreateEnemy(E_EnemyType enemyType, std::uint32_t player);
+		void CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick = false);
 		void CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player);
 		void CreateGoleMole();
 

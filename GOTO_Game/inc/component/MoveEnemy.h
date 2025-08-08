@@ -4,8 +4,7 @@
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
 
-#include "FadeComponent.h"
-
+using ParameterMap = std::map<std::string, std::any>;
 
 namespace GOTOEngine
 {
@@ -20,29 +19,22 @@ namespace GOTOEngine
 	class MoveEnemy : public BaseEnemyObject
 	{
 		E_Move_Enemy_Type m_moveEnemyType;
+		bool m_isGimmick;
 
 	public:
-		void Dispose()
-		{
-			if (!GameManager::instance->setactive) return;
-
-			if (m_isDeathByDispone)
-			{
-				if (m_layer & 1 << 1)
-				{
-					GameManager::instance->PointChange(1, -1);
-					GameManager::instance->P1Lost++;
-				}
-				else if (m_layer & 1 << 2)
-				{
-					GameManager::instance->PointChange(2, -1);
-					GameManager::instance->P2Lost++;
-				}
-			}
-		}
 		void Initialize(std::any param) override
 		{
-			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
+			if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
+				const ParameterMap& params = *pMap;
+				auto itEnemyType = params.find("EnemyType");
+				if (itEnemyType != params.end()) {
+					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
+				}
+				auto itBool = params.find("isGimmick");
+				if (itBool != params.end()) {
+					if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isGimmick = *pValue; }
+				}
+			}
 		}
 		void Awake()
 		{
@@ -106,6 +98,16 @@ namespace GOTOEngine
 		{
 			__super::OnDispone();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			if (m_layer & 1 << 1)
+			{
+				GameManager::instance->PointChange(1, -1);
+				GameManager::instance->P1Lost++;
+			}
+			else if (m_layer & 1 << 2)
+			{
+				GameManager::instance->PointChange(2, -1);
+				GameManager::instance->P2Lost++;
+			}
 		}
 	};
 }

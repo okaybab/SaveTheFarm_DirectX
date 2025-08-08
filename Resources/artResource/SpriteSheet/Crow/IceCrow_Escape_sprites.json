@@ -1,0 +1,188 @@
+{
+    "texture": "IceCrow_Escape.png",
+    "textureWidth": 4170,
+    "textureHeight": 3564,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "IceCrow_Escape_0",
+            "x": 138.0,
+            "y": 2719.0,
+            "width": 614.0,
+            "height": 799.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_1",
+            "x": 974.0,
+            "y": 2734.0,
+            "width": 657.0,
+            "height": 728.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_2",
+            "x": 1733.0,
+            "y": 2751.0,
+            "width": 759.0,
+            "height": 675.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_3",
+            "x": 2509.0,
+            "y": 2769.0,
+            "width": 823.0,
+            "height": 658.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_4",
+            "x": 3347.0,
+            "y": 2787.0,
+            "width": 818.0,
+            "height": 641.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_5",
+            "x": 106.0,
+            "y": 1916.0,
+            "width": 693.0,
+            "height": 647.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_6",
+            "x": 982.0,
+            "y": 1937.0,
+            "width": 585.0,
+            "height": 711.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_7",
+            "x": 1818.0,
+            "y": 1945.0,
+            "width": 568.0,
+            "height": 728.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_8",
+            "x": 2654.0,
+            "y": 1926.0,
+            "width": 592.0,
+            "height": 717.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_9",
+            "x": 3423.0,
+            "y": 1909.0,
+            "width": 725.0,
+            "height": 646.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_10",
+            "x": 1.0,
+            "y": 1004.0,
+            "width": 830.0,
+            "height": 652.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_11",
+            "x": 867.0,
+            "y": 983.0,
+            "width": 789.0,
+            "height": 668.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_12",
+            "x": 1820.0,
+            "y": 963.0,
+            "width": 614.0,
+            "height": 746.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_13",
+            "x": 2656.0,
+            "y": 947.0,
+            "width": 549.0,
+            "height": 832.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_14",
+            "x": 3487.0,
+            "y": 934.0,
+            "width": 554.0,
+            "height": 840.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_15",
+            "x": 148.0,
+            "y": 35.0,
+            "width": 612.0,
+            "height": 792.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_16",
+            "x": 897.0,
+            "y": 36.0,
+            "width": 757.0,
+            "height": 697.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_17",
+            "x": 1681.0,
+            "y": 37.0,
+            "width": 818.0,
+            "height": 699.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_18",
+            "x": 2561.0,
+            "y": 39.0,
+            "width": 763.0,
+            "height": 703.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "IceCrow_Escape_19",
+            "x": 3476.0,
+            "y": 42.0,
+            "width": 656.0,
+            "height": 746.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

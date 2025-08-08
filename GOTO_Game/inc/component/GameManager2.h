@@ -46,11 +46,12 @@ namespace GOTOEngine
 		Image* wave3check;
 
 		int itemchange;
-		float NormalTiming = 122.0f;
+		float NormalTiming = 120.0f;
 		float GimmickTiming = 120.0f;
+		float Gimmick2Timing = 120.0f;
 		float NormalWarningTiming = 120.0f;
 		float GimmickWarningTiming = 120.0f;
-		float ItemTiming[6] = { 150.0f, 130.0f, 90.0f, 70.0f, 30.0f, 10.0f };
+		float Gimmick2WarningTiming = 120.0f;
 
 		int wave = 0;
 		float waveTiming[3] = { 180.0f, 120.0f, 60.0f };

@@ -1,0 +1,188 @@
+{
+    "texture": "MushCrow_Escape.png",
+    "textureWidth": 4250,
+    "textureHeight": 3172,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "MushCrow_Escape_0",
+            "x": 152.0,
+            "y": 2437.0,
+            "width": 613.0,
+            "height": 633.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_1",
+            "x": 913.0,
+            "y": 2430.0,
+            "width": 745.0,
+            "height": 544.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_2",
+            "x": 1702.0,
+            "y": 2425.0,
+            "width": 834.0,
+            "height": 497.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_3",
+            "x": 2586.0,
+            "y": 2421.0,
+            "width": 810.0,
+            "height": 508.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_4",
+            "x": 3408.0,
+            "y": 2422.0,
+            "width": 834.0,
+            "height": 514.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_5",
+            "x": 36.0,
+            "y": 1632.0,
+            "width": 766.0,
+            "height": 549.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_6",
+            "x": 1010.0,
+            "y": 1635.0,
+            "width": 592.0,
+            "height": 683.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_7",
+            "x": 1862.0,
+            "y": 1638.0,
+            "width": 569.0,
+            "height": 724.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_8",
+            "x": 2692.0,
+            "y": 1642.0,
+            "width": 648.0,
+            "height": 643.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_9",
+            "x": 3433.0,
+            "y": 1645.0,
+            "width": 808.0,
+            "height": 535.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_10",
+            "x": 13.0,
+            "y": 855.0,
+            "width": 832.0,
+            "height": 514.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_11",
+            "x": 894.0,
+            "y": 849.0,
+            "width": 793.0,
+            "height": 562.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_12",
+            "x": 1863.0,
+            "y": 845.0,
+            "width": 610.0,
+            "height": 674.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_13",
+            "x": 2711.0,
+            "y": 840.0,
+            "width": 550.0,
+            "height": 744.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_14",
+            "x": 3559.0,
+            "y": 836.0,
+            "width": 561.0,
+            "height": 737.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_15",
+            "x": 157.0,
+            "y": 39.0,
+            "width": 623.0,
+            "height": 661.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_16",
+            "x": 899.0,
+            "y": 35.0,
+            "width": 787.0,
+            "height": 553.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_17",
+            "x": 1716.0,
+            "y": 31.0,
+            "width": 830.0,
+            "height": 500.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_18",
+            "x": 2603.0,
+            "y": 34.0,
+            "width": 780.0,
+            "height": 550.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "MushCrow_Escape_19",
+            "x": 3518.0,
+            "y": 44.0,
+            "width": 687.0,
+            "height": 596.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

@@ -5,7 +5,6 @@
 #include <Collider2D.h>
 
 #include "GimmickManager.h"
-#include "FadeComponent.h"
 
 namespace GOTOEngine
 {
@@ -22,29 +21,6 @@ namespace GOTOEngine
 		E_Gimmick_Enemy_Type m_gimmickEnemyType;
 
 	public:
-		void Dispose()
-		{
-			if (!GameManager::instance->setactive) return;
-
-			if (m_isDeathByDispone)
-			{
-				if (m_layer & 1 << 1)
-				{
-					GameManager::instance->PointChange(1, -1);
-					GameManager::instance->P1Lost++;
-				}
-				else if (m_layer & 1 << 2)
-				{
-					GameManager::instance->PointChange(2, -1);
-					GameManager::instance->P2Lost++;
-				}
-			}
-			else
-			{
-				// 기믹 호출 GimmickManager::GimmickOn()
-				GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
-			}
-		}
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Gimmick_Enemy_Type)) m_gimmickEnemyType = std::any_cast<E_Gimmick_Enemy_Type>(param);
@@ -106,11 +82,22 @@ namespace GOTOEngine
 		{
 			__super::OnDie(attackerID);
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			if (m_layer & 1 << 1)
+			{
+				GameManager::instance->PointChange(1, -1);
+				GameManager::instance->P1Lost++;
+			}
+			else if (m_layer & 1 << 2)
+			{
+				GameManager::instance->PointChange(2, -1);
+				GameManager::instance->P2Lost++;
+			}
 		}
 	};
 }

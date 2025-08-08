@@ -176,7 +176,7 @@ void ItemManager::Update(){
 			p1Items.erase(p1Items.begin());
 		}
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha2) || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonL1)) {
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha0) || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonL1)) {
 		if (!p2Items.empty()) {
 			ItemType item = p2Items[0];
 			UseItem(2, item);

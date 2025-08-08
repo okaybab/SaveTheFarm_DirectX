@@ -153,7 +153,6 @@
     <ClCompile Include="src\component\DirIndicatorController.cpp" />
     <ClCompile Include="src\component\DirIndicator.cpp" />
     <ClCompile Include="src\component\GimmickManager2.cpp" />
-    <ClCompile Include="src\component\ItemManager2.cpp" />
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp" />
     <ClCompile Include="src\component\FadeInOutFXManager.cpp" />
     <ClCompile Include="src\scene\SampleScene.cpp" />
@@ -230,7 +229,6 @@
     <ClInclude Include="inc\component\SoundManager.h" />
     <ClInclude Include="inc\component\TutorialImage.h" />
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
-    <ClInclude Include="inc\component\ItemManager2.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
     <ClInclude Include="inc\CompetEnemy.h" />
   </ItemGroup>

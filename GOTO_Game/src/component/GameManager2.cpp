@@ -262,19 +262,33 @@ void GameManager2::Update() {
 				}
 				NormalTiming -= 2.0f;
 			}
-			if (GimmickTiming - GameTimer >= 6.0f) {
+			if (GimmickTiming - GameTimer >= 10.0f) {
 				if (!warningon) {
 					if (wave == 1) {
-						//1번 웨이브 기믹몬스터
+						//1번 웨이브 지상기믹몬스터
 					}
 					else if (wave == 2) {
-						//2번 웨이브 기믹몬스터
+						//2번 웨이브 지상기믹몬스터
 					}
 					else if (wave == 3) {
-						//3번 웨이브 기믹몬스터
+						//3번 웨이브 지상기믹몬스터
 					}
 				}
-				GimmickTiming -= 6.0f;
+				GimmickTiming -= 10.0f;
+			}
+			if (Gimmick2Timing - GameTimer >= 15.0f) {
+				if (!warningon) {
+					if (wave == 1) {
+						//1번 웨이브 공중기믹몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 공중기믹몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 공중기믹몬스터
+					}
+				}
+				Gimmick2Timing -= 15.0f;
 			}
 			if (NormalWarningTiming - GameTimer >= 1.0f) {
 				if (warningon) {
@@ -290,86 +304,35 @@ void GameManager2::Update() {
 				}
 				NormalWarningTiming -= 1.0f;
 			}
-			if (GimmickWarningTiming - GameTimer >= 3.0f) {
+			if (GimmickWarningTiming - GameTimer >= 8.0f) {
 				if (warningon) {
 					if (wave == 1) {
-						//1번 웨이브 기믹몬스터
+						//1번 웨이브 지상기믹몬스터
 					}
 					else if (wave == 2) {
-						//2번 웨이브 기믹몬스터
+						//2번 웨이브 지상기믹몬스터
 					}
 					else if (wave == 3) {
-						//3번 웨이브 기믹몬스터
+						//3번 웨이브 지상기믹몬스터
 					}
 				}
-				GimmickWarningTiming -= 3.0f;
+				GimmickWarningTiming -= 8.0f;
 			}
-			if (GameTimer <= ItemTiming[0]) {
-				if (itemchange == 1 || itemchange == 3) {
-					//폭탄새
+			if (Gimmick2WarningTiming - GameTimer >= 10.0f) {
+				if (warningon) {
+					if (wave == 1) {
+						//1번 웨이브 공중기믹몬스터
+					}
+					else if (wave == 2) {
+						//2번 웨이브 공중기믹몬스터
+					}
+					else if (wave == 3) {
+						//3번 웨이브 공중기믹몬스터
+					}
 				}
-				else if (itemchange == 2) {
-					//얼음새
-				}
-				else if (itemchange == 4) {
-					//버섯새
-				}
-				ItemTiming[0] = -1.0f;
+				Gimmick2WarningTiming -= 10.0f;
 			}
-			if (GameTimer <= ItemTiming[1]) {
-				if (itemchange == 2 || itemchange == 4) {
-					//폭탄새
-				}
-				else if (itemchange == 1) {
-					//버섯새
-				}
-				else if (itemchange == 3) {
-					//얼음새
-				}
-				ItemTiming[1] = -1.0f;
-			}
-			if (GameTimer <= ItemTiming[2]) {
-				if (itemchange == 3 || itemchange == 4) {
-					//얼음새
-				}
-				else if (itemchange == 1) {
-					//폭탄새
-				}
-				else if (itemchange == 2) {
-					//버섯새
-				}
-				ItemTiming[2] = -1.0f;
-			}
-			if (GameTimer <= ItemTiming[3]) {
-				if (itemchange == 2 || itemchange == 3 || itemchange == 4) {
-					//폭탄새
-				}
-				else if (itemchange == 1) {
-					//얼음새
-				}
-				ItemTiming[3] = -1.0f;
-			}
-			if (GameTimer <= ItemTiming[4]) {
-				if (itemchange == 1 || itemchange == 3) {
-					//버섯새
-				}
-				else if (itemchange == 2) {
-					//얼음새
-				}
-				else if (itemchange == 4) {
-					//폭탄새
-				}
-				ItemTiming[4] = -1.0f;
-			}
-			if (GameTimer <= ItemTiming[5]) {
-				if (itemchange == 1 || itemchange == 2 || itemchange == 3) {
-					//폭탄새
-				}
-				else if (itemchange == 4) {
-					//얼음새
-				}
-				ItemTiming[5] = -1.0f;
-			}
+
 			if ((GameTimer <= 141.0f && GameTimer > 140.0f) || (GameTimer <= 81.0f && GameTimer > 80.0f) || (GameTimer <= 21.0f && GameTimer > 20.0f)) {
 				warningImage->SetSprite(warningsprite);
 				warningAniTime += TIME_GET_DELTATIME();

@@ -5,7 +5,6 @@
 #include <Collider2D.h>
 
 #include "ItemManager.h"
-#include "FadeComponent.h"
 
 namespace GOTOEngine
 {
@@ -23,28 +22,6 @@ namespace GOTOEngine
 		ItemType m_itemType;
 
 	public:
-		void Dispose()
-		{
-			if (!GameManager::instance->setactive) return;
-
-			if (m_isDeathByDispone)
-			{
-				if (m_layer & 1 << 1)
-				{
-					GameManager::instance->PointChange(1, -1);
-					GameManager::instance->P1Lost++;
-				}
-				else if (m_layer & 1 << 2)
-				{
-					GameManager::instance->PointChange(2, -1);
-					GameManager::instance->P2Lost++;
-				}
-			}
-			else
-			{
-				ItemManager::instance->AddItem(m_layer, m_itemType);
-			}
-		}
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Item_Enemy_Type)) m_itemEnemyType = std::any_cast<E_Item_Enemy_Type>(param);
@@ -110,11 +87,22 @@ namespace GOTOEngine
 		{
 			__super::OnDie(attackerID);
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			ItemManager::instance->AddItem(m_layer, m_itemType);
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			if (m_layer & 1 << 1)
+			{
+				GameManager::instance->PointChange(1, -1);
+				GameManager::instance->P1Lost++;
+			}
+			else if (m_layer & 1 << 2)
+			{
+				GameManager::instance->PointChange(2, -1);
+				GameManager::instance->P2Lost++;
+			}
 		}
 	};
 }

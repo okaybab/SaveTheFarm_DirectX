@@ -1,26 +1,26 @@
 {
-    "controllerName": "IceCrowAnimator",
+    "controllerName": "MushCrowAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
     "defaultState": "Move",
     "states": [
         {
             "name": "Move",
-            "motionName": "IceCrow_Move",
+            "motionName": "MushCrow_Move",
             "clipLength": 1.6666667461395264,
             "loop": true,
             "transitions": []
         },
-		{
+        {
             "name": "Die",
-            "motionName": "IceCrow_Die",
+            "motionName": "MushCrow_Die",
             "clipLength": 0.9166666269302368,
             "loop": false,
             "transitions": []
         },
         {
             "name": "Escape",
-            "motionName": "IceCrow_Escape",
+            "motionName": "MushCrow_Escape",
             "clipLength": 1.75,
             "loop": false,
             "transitions": []
