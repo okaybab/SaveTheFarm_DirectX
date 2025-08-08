@@ -114,10 +114,6 @@ void GOTOEngine::EnemySpawner::Update()
 	{
 		CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
 	}
-	if (INPUT_GET_KEYUP(KeyCode::Z)) // 황금 두더지 생성
-	{
-		CreateGoleMole();
-	}
 }
 // 플레이어에 타입 랜덤 생성
 void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t player)
@@ -135,11 +131,11 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 		break;
 	case gimmick:
 		newEnemyObject->AddComponent<GimmickEnemy>();
-		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(squirrel);
+		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(thiefmole);
 		break;
 	case itemspawn:
 		newEnemyObject->AddComponent<ItemEnemy>();
-		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldMole);
+		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldCrow);
 		break;
 	default:
 		break;

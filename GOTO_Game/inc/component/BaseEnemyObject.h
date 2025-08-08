@@ -84,18 +84,15 @@ namespace GOTOEngine
     BaseEnemyObject()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
-        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-        REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
-        REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		
 	public:
-		virtual ~BaseEnemyObject() = default;
+		virtual void Initialize(std::any param) = 0;
 		virtual void Awake() {}
 		void Update()
 		{
-			if (m_isDeathByDispone || m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
+			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{
 				return;
 			}
@@ -107,7 +104,6 @@ namespace GOTOEngine
 			if (!m_isDeathByDispone && m_disPoneTime <= 0.0f)
 			{
 				OnDispone();
-				return;
 			}
 
 			// 이번 프레임의 '중심축' 이동량
@@ -132,22 +128,8 @@ namespace GOTOEngine
 			Vector2 newPos = m_currentPathPosition + totalOffset;
 
 			GetGameObject()->GetTransform()->SetPosition(newPos);
-
-		}
-		virtual void OnEnable() 
-		{
-		}
-		virtual void OnDisable() 
-		{
-
-		}
-		virtual void OnDestroy() 
-		{
-			m_isDeathByDispone = true;
-		}
+		}		
 		
-		virtual void Initialize(std::any param) = 0;
-
 		// Get
 		bool IsEnemyDie() { return m_isDie; }
 		virtual int GetType() { return static_cast<int>(m_enemyType); }
