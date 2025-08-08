@@ -83,13 +83,15 @@ void GOTOEngine::Text::Render()
 
 
     //피벗 이동
-    auto transform = Matrix3x3::Translate(sizeDelta.x * -pivot.x, (sizeDelta.y * -pivot.y) + (sizeDelta.y * -sizeFactorY));
+    auto transform = Matrix3x3::Translate(sizeDelta.x * -pivot.x, sizeDelta.y * -pivot.y  + ((sizeDelta.y * -sizeFactorY) / rectTransform->GetLocalScale().y));
 
     //유니티 좌표계 플립
     transform = Matrix3x3::Scale(1.0f, -1.0f) * transform;
 
     ////TRS 세팅
-    transform = Matrix3x3::TRS({ currentPos.x * sizeFactorX, currentPos.y * sizeFactorY }, rectTransform->GetLocalRotation(), { rectTransform->GetLocalScale().x * sizeFactorX, rectTransform->GetLocalScale().y * sizeFactorY }) * transform;
+    transform = Matrix3x3::TRS({ currentPos.x * sizeFactorX, currentPos.y * sizeFactorY }, rectTransform->GetLocalRotation(), { scale.x * sizeFactorX, scale.y * sizeFactorY }) * transform;
+
+    //transform = Matrix3x3::Translate(0, (sizeDelta.y * -sizeFactorY / rectTransform->GetLocalScale().y)) * transform;
 
     renderAPI->DrawString(text.c_str(), { 0.0f, 0.0f, sizeDelta.x ,sizeDelta.y  }, IsValidObject(m_font) ? m_font->GetFont() : nullptr, size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, transform, static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
 }
