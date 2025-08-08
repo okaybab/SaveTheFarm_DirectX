@@ -1,0 +1,188 @@
+{
+    "texture": "Squirrel_Escape.png",
+    "textureWidth": 3105,
+    "textureHeight": 1876,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Squirrel_Escape_0",
+            "x": 48.0,
+            "y": 1414.0,
+            "width": 541.0,
+            "height": 425.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_1",
+            "x": 669.0,
+            "y": 1417.0,
+            "width": 545.0,
+            "height": 428.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_2",
+            "x": 1290.0,
+            "y": 1417.0,
+            "width": 549.0,
+            "height": 429.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_3",
+            "x": 1911.0,
+            "y": 1417.0,
+            "width": 553.0,
+            "height": 425.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_4",
+            "x": 2532.0,
+            "y": 1416.0,
+            "width": 557.0,
+            "height": 429.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_5",
+            "x": 48.0,
+            "y": 950.0,
+            "width": 560.0,
+            "height": 437.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_6",
+            "x": 669.0,
+            "y": 950.0,
+            "width": 563.0,
+            "height": 447.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_7",
+            "x": 1286.0,
+            "y": 952.0,
+            "width": 567.0,
+            "height": 450.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_8",
+            "x": 1895.0,
+            "y": 959.0,
+            "width": 571.0,
+            "height": 442.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_9",
+            "x": 2503.0,
+            "y": 966.0,
+            "width": 575.0,
+            "height": 438.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_10",
+            "x": 7.0,
+            "y": 505.0,
+            "width": 579.0,
+            "height": 432.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_11",
+            "x": 628.0,
+            "y": 505.0,
+            "width": 568.0,
+            "height": 430.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_12",
+            "x": 1247.0,
+            "y": 504.0,
+            "width": 563.0,
+            "height": 427.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_13",
+            "x": 1866.0,
+            "y": 501.0,
+            "width": 557.0,
+            "height": 422.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_14",
+            "x": 2491.0,
+            "y": 497.0,
+            "width": 554.0,
+            "height": 423.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_15",
+            "x": 15.0,
+            "y": 25.0,
+            "width": 551.0,
+            "height": 425.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_16",
+            "x": 643.0,
+            "y": 22.0,
+            "width": 548.0,
+            "height": 423.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_17",
+            "x": 1270.0,
+            "y": 17.0,
+            "width": 547.0,
+            "height": 421.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_18",
+            "x": 1898.0,
+            "y": 15.0,
+            "width": 545.0,
+            "height": 423.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Squirrel_Escape_19",
+            "x": 2525.0,
+            "y": 10.0,
+            "width": 543.0,
+            "height": 427.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

@@ -1,11 +1,11 @@
 {
-    "texture": "Rabbit_Jump.png",
+    "texture": "Rabbit_Move.png",
     "textureWidth": 1900,
     "textureHeight": 2536,
     "textureRenderMode": "Bilinear",
     "sprites": [
         {
-            "name": "Rabbit_Jump_0",
+            "name": "Rabbit_Move_0",
             "x": 58.0,
             "y": 1905.0,
             "width": 320.0,
@@ -14,7 +14,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_1",
+            "name": "Rabbit_Move_1",
             "x": 434.0,
             "y": 1906.0,
             "width": 325.0,
@@ -23,7 +23,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_2",
+            "name": "Rabbit_Move_2",
             "x": 807.0,
             "y": 1909.0,
             "width": 332.0,
@@ -32,7 +32,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_3",
+            "name": "Rabbit_Move_3",
             "x": 1181.0,
             "y": 1910.0,
             "width": 338.0,
@@ -41,7 +41,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_4",
+            "name": "Rabbit_Move_4",
             "x": 1554.0,
             "y": 1910.0,
             "width": 344.0,
@@ -50,7 +50,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_5",
+            "name": "Rabbit_Move_5",
             "x": 28.0,
             "y": 1274.0,
             "width": 350.0,
@@ -59,7 +59,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_6",
+            "name": "Rabbit_Move_6",
             "x": 402.0,
             "y": 1271.0,
             "width": 357.0,
@@ -68,7 +68,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_7",
+            "name": "Rabbit_Move_7",
             "x": 776.0,
             "y": 1274.0,
             "width": 363.0,
@@ -77,7 +77,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_8",
+            "name": "Rabbit_Move_8",
             "x": 1150.0,
             "y": 1281.0,
             "width": 369.0,
@@ -86,7 +86,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_9",
+            "name": "Rabbit_Move_9",
             "x": 1525.0,
             "y": 1290.0,
             "width": 373.0,
@@ -95,7 +95,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_10",
+            "name": "Rabbit_Move_10",
             "x": 1.0,
             "y": 663.0,
             "width": 377.0,
@@ -104,7 +104,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_11",
+            "name": "Rabbit_Move_11",
             "x": 383.0,
             "y": 659.0,
             "width": 376.0,
@@ -113,7 +113,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_12",
+            "name": "Rabbit_Move_12",
             "x": 769.0,
             "y": 658.0,
             "width": 370.0,
@@ -122,7 +122,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_13",
+            "name": "Rabbit_Move_13",
             "x": 1154.0,
             "y": 657.0,
             "width": 365.0,
@@ -131,7 +131,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_14",
+            "name": "Rabbit_Move_14",
             "x": 1539.0,
             "y": 654.0,
             "width": 359.0,
@@ -140,7 +140,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_15",
+            "name": "Rabbit_Move_15",
             "x": 25.0,
             "y": 0.0,
             "width": 353.0,
@@ -149,7 +149,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_16",
+            "name": "Rabbit_Move_16",
             "x": 413.0,
             "y": 0.0,
             "width": 346.0,
@@ -158,7 +158,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_17",
+            "name": "Rabbit_Move_17",
             "x": 800.0,
             "y": 0.0,
             "width": 339.0,
@@ -167,7 +167,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_18",
+            "name": "Rabbit_Move_18",
             "x": 1187.0,
             "y": 0.0,
             "width": 332.0,
@@ -176,7 +176,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Rabbit_Jump_19",
+            "name": "Rabbit_Move_19",
             "x": 1575.0,
             "y": 9.0,
             "width": 323.0,

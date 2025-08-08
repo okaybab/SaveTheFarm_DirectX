@@ -1,0 +1,17 @@
+{
+    "texture": "Rabbit_Die.png",
+    "textureWidth": 322,
+    "textureHeight": 630,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Rabbit_Die_0",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 322.0,
+            "height": 630.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
