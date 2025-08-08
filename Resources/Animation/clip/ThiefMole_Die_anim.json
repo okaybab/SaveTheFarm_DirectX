@@ -2,7 +2,7 @@
     "clipName": "ThiefMole_Die",
     "loop": false,
     "alpha": true,
-    "texturePath": "../Resources/artResource/SpriteSheet/ThiefMole/ThiefMole_Die.png",
+    "texturePath": "../Resources/artResource/SpriteSheet/Mole/ThiefMole_Die.png",
     "duration": 0.9166666269302368,
     "frames": [
         {

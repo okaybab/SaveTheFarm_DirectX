@@ -85,19 +85,15 @@ namespace GOTOEngine
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
-			controller->SetOnStateEnter([this, controller](AnimatorState* newState) {
-				if (newState->GetStateName() == StateToString(DIE))
+			controller->SetOnAnimationEnd([this]() {
+				if (m_animState == DIE)
 				{
-					controller->SetOnAnimationEnd([this]() {
-						Destroy(GetGameObject());
-					});
+					Destroy(GetGameObject());
 				}
 
-				if (newState->GetStateName() == StateToString(ESCAPE))
+				if (m_animState == ESCAPE)
 				{
-					controller->SetOnAnimationEnd([this]() {
-						Destroy(GetGameObject());
-					});
+					Destroy(GetGameObject());
 				}
 			});
 			
@@ -114,7 +110,7 @@ namespace GOTOEngine
 		void OnDie(int attackerID) override
 		{
 			__super::OnDie(attackerID);
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
 		}
 	};
 }

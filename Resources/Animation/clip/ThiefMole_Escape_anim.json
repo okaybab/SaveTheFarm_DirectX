@@ -2,7 +2,7 @@
     "clipName": "ThiefMole_Escape",
     "loop": false,
     "alpha": true,
-    "texturePath": "../Resources/artResource/SpriteSheet/ThiefMole/ThiefMole_Escape.png",
+    "texturePath": "../Resources/artResource/SpriteSheet/Mole/ThiefMole_Escape.png",
     "duration": 1.6666667461395264,
     "frames": [
         {
