@@ -337,12 +337,17 @@ void D2DRenderAPI::DrawString(const wchar_t* string, const Rect& rect, const IRe
 
 	if (useScreenPos)
 	{
-		auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);//D2D1::Matrix3x2F::Translation(rect.x, screenHeight - rect.y - rect.height);
+		auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);
 		d2dTransform = d2dTransform * correctTransform;
 	}
 
 	m_d2dContext->SetTransform(d2dTransform);
+
+	//m_solidColorBrush->SetColor(D2D1::ColorF(0.0f, 0.0f, 0.0f,0.0f));
 	m_d2dContext->DrawText(string, static_cast<UINT32>(wcslen(string)), textFormat, &layoutRect, m_solidColorBrush.Get());
+	m_d2dContext->DrawRectangle(layoutRect, m_solidColorBrush.Get());
+
+	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matrix3x3& mat, Color color, bool useScreenPos)
