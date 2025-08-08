@@ -23,11 +23,16 @@ namespace GOTOEngine
 		Image* warningImage;
 		Sprite* warningsprite;
 
+		Image* waveImage;
+		Sprite* wave1sprite;
+		Sprite* wave2sprite;
+		Sprite* wave3sprite;
+
 		int totalSeconds;
-		int minutes;
-		int seconds;
 		AnimationCurve* warninganimation;
 		float warningAniTime = 0.0f;
+		AnimationCurve* waveanimation;
+		float waveAniTime = 0.0f;
 
 		int itemchange;
 		float NormalTiming = 122.0f;
@@ -54,7 +59,7 @@ namespace GOTOEngine
     }
 		int winner;
 		float GameTimer = 180.0f;
-		float CropGauge = 100.0f;
+		int CropGauge = 8;
 		float endingTimer = 3.0f;
 		static GameManager2* instance;
 		bool setactive = false;

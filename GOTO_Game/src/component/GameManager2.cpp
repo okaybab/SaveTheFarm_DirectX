@@ -68,6 +68,59 @@ void GameManager2::Awake() {
         }
     ]
 })" });
+		auto waveobject = new GameObject;
+		waveobject->GetTransform()->SetParent(canvas->GetTransform());
+		waveImage = waveobject->AddComponent<Image>();
+		waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight()*19 / 20 });
+		waveImage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
+		waveImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth()/10, Screen::GetHeight()/10 });
+		wave1sprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Wave/Wave1.png");
+		wave1sprite->IncreaseRefCount();
+		wave2sprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Wave/Wave2.png");
+		wave2sprite->IncreaseRefCount();
+		wave3sprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Wave/Wave3.png");
+		wave3sprite->IncreaseRefCount();
+		waveanimation = new AnimationCurve({ R"({
+     "keyframes": [
+        {
+            "time": 0,
+            "value": 0,
+            "in_tangent": 0,
+            "out_tangent": 1,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.5,
+            "value": 2.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.5,
+            "value": 2.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.0,
+            "value": 0.05,
+            "in_tangent": 1.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+})" });
+
+		auto timeitem = new GameObject;
+		timeitem->GetTransform()->SetParent(canvas->GetTransform());
+		Timetext = timeitem->AddComponent<Text>();
+		Timetext->horizontalAlign = TextHoriAlign::Center;
+		Timetext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.88f });
+		Timetext->size = 43;
+		Timetext->SetColor({ 0,0,0,255 });
 	}
 	else
 	{
@@ -86,6 +139,13 @@ void GameManager2::OnDestroy() {
 	delete(warninganimation);
 	if (IsValidObject(warningsprite))
 		warningsprite->DecreaseRefCount();
+	delete(waveanimation);
+	if (IsValidObject(wave1sprite))
+		wave1sprite->DecreaseRefCount();
+	if (IsValidObject(wave2sprite))
+		wave2sprite->DecreaseRefCount();
+	if (IsValidObject(wave3sprite))
+		wave3sprite->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
@@ -103,12 +163,32 @@ void GameManager2::Update() {
 			else if ((GameTimer <= 180.0f && GameTimer > 140.0f) || (GameTimer <= 120.0f && GameTimer > 80.0f) || (GameTimer <= 60.0f && GameTimer > 20.0f)) {
 				warningon = false;
 			}
-			for (int i = 0; i < 3; ++i) {
-				if (GameTimer <= waveTiming[i]) {
-					wave = i + 1;
-					waveTiming[i] = -1.0f;
-				}
+
+			if (GameTimer <= waveTiming[0]) {
+				wave = 1;
+				waveImage->SetSprite(wave1sprite);
+				waveTiming[0] = -1.0f;
 			}
+			if (GameTimer <= waveTiming[1]) {
+				wave = 2;
+				waveImage->SetSprite(wave2sprite);
+				waveTiming[1] = -1.0f;
+			}
+			if (GameTimer <= waveTiming[2]) {
+				wave = 3;
+				waveImage->SetSprite(wave3sprite);
+				waveTiming[2] = -1.0f;
+			}
+			if ((GameTimer <= 180.0f && GameTimer >= 178.0f) || (GameTimer <= 120.0f && GameTimer >= 118.0f) || (GameTimer <= 60.0f && GameTimer >= 58.0f)) {
+				waveAniTime += TIME_GET_DELTATIME();
+				float animValue = waveanimation->Evaluate(waveAniTime);
+				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight() * 19 / 20 - animValue*80.0f});
+			}
+			else {
+				waveAniTime = 0.0f;
+				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight() * 19 / 20});
+			}
+
 			if (NormalTiming - GameTimer >= 2.0f) {
 				if (!warningon) {
 					if (wave == 1) {
@@ -231,7 +311,7 @@ void GameManager2::Update() {
 				}
 				ItemTiming[5] = -1.0f;
 			}
-			if ((GameTimer <= 180.0f && GameTimer > 140.0f) || (GameTimer <= 82.0f && GameTimer > 80.0f) || (GameTimer <= 22.0f && GameTimer > 20.0f)) {
+			if ((GameTimer <= 141.0f && GameTimer > 140.0f) || (GameTimer <= 81.0f && GameTimer > 80.0f) || (GameTimer <= 21.0f && GameTimer > 20.0f)) {
 				warningImage->SetSprite(warningsprite);
 				warningAniTime += TIME_GET_DELTATIME();
 				if (warningAniTime > 1.0f) {
@@ -244,10 +324,10 @@ void GameManager2::Update() {
 				warningImage->SetSprite(nullptr);
 				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight()});
 			}
-			if (CropGauge == 0.0f) {
+			if (CropGauge == 0) {
 				GameTimer = 0.0f;
 			}
-			if (GameTimer <= 0.0f) {
+			if (GameTimer <= 0.0f || INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
 		}
@@ -258,7 +338,7 @@ void GameManager2::Update() {
 	else {
 		if (GameTimer == 0.0f) {
 			endingTimer -= TIME_GET_DELTATIME();
-			if (CropGauge > 0.0f) {
+			if (CropGauge > 0 ) {
 				winner = 1;
 			}
 			else {
@@ -291,7 +371,5 @@ void GameManager2::Update() {
 		}
 	}
 	totalSeconds = static_cast<int>(floor(GameTimer));
-	minutes = totalSeconds / 60;
-	seconds = totalSeconds % 60;
-	//Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
+	Timetext->text = std::to_wstring(totalSeconds);
 }

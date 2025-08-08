@@ -6,7 +6,7 @@
 #include "ItemEnemy.h"
 
 #include "FadeInOutFXManager.h"
-
+#include "SoundManager.h"
 #include <time.h>
 
 using namespace GOTOEngine;
@@ -444,6 +444,18 @@ void GameManager::Update() {
 	minutes = totalSeconds / 60;
 	seconds = totalSeconds % 60;
 	Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
+	if (GameTimer <= BGMTiming[0]) {
+		SoundManager::instance->PlayBGM("Battle1");
+		BGMTiming[0] = -1.0f;
+	}
+	if (GameTimer <= BGMTiming[1]) {
+		SoundManager::instance->PlayBGM("Battle2");
+		BGMTiming[1] = -1.0f;
+	}
+	if (GameTimer <= BGMTiming[2]) {
+		SoundManager::instance->StopBGM();
+		BGMTiming[2] = -1.0f;
+	}
 }
 
 void GameManager::PointChange(int player, int point) {

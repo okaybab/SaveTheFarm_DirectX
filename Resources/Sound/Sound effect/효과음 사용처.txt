@@ -13,3 +13,30 @@ IceBomb_sound 얼음 폭탄 사용 사운드
 Shot1P_sound 1P 사격 사운드
 
 Shot2P_sound 2P 사격 사운드
+<<<<<<< .mine
+
+Sling_sound 산탄 모드 사운드
+
+Warning_sound 경고 UI 사운드
+
+Continuous_sound 연사 모드 사운드
+
+Round_sound 웨이브 시작 사운드||||||| .r119
+=======
+
+Worning 웨이브 경고
+
+Finish 웨이브 막바지
+
+Play1
+Play2
+Play3 타이틀 + 스테이지
+
+Round(falling) 웨이브 시작
+
+Sling 산탄 효과
+
+Continuous 연사 효과
+
+
+>>>>>>> .r123

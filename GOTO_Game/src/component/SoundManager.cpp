@@ -32,6 +32,11 @@ void SoundManager::Awake() {
 			source->SetVolume(sfxVolume);
 			sfxSources[key] = source;
 		}
+
+		bgmClips["Battle1"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM1.mp3");
+		bgmClips["Battle1"]->IncreaseRefCount();
+		bgmClips["Battle2"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM2.mp3");
+		bgmClips["Battle2"]->IncreaseRefCount();
 		auto bgmSourceitem = new GameObject;
 		bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
 		bgmSource = bgmSourceitem->AddComponent<AudioSource>();
@@ -95,3 +100,7 @@ void SoundManager::PlayBGM(const std::string& key) {
 		bgmSource->Play();
 	}
 };
+
+void SoundManager::StopBGM() {
+	bgmSource->Stop();
+}

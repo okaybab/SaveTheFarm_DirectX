@@ -71,6 +71,32 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
 	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
 
+	auto particleSys = GO->AddComponent<ParticleSystem>();
+	particleSys->SetRenderLayer((1 << (id + 1)));
+	particleSys->SetRenderOrder(2);
+	particleSys->SetFadeOutTime(0.3f);
+	//particleSys->SetFadeMode(ParticleFadeMode::Shrink);
+	particleSys->SetSprite(L"../Resources/Demo/drops.png");
+	particleSys->SetMinAngularVelocityDegrees(0.0f);
+	particleSys->SetMaxAngularVelocityDegrees(35.0f);
+	particleSys->SetSpawnInterval(0.65f);
+	particleSys->SetParticlesPerSpawn(2);
+	particleSys->SetGravity({ 0.0f,-450.0f });
+
+	crosshairFire->dropParticleSys = particleSys;
+
+	auto StrengthTextGO = new GameObject(L"Strength Text");
+	auto strengthText = StrengthTextGO->AddComponent<TextRenderer>();
+	strengthText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	strengthText->size = 18;
+	strengthText->SetRenderLayer((1 << (id + 1)));
+	strengthText->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+
+	StrengthTextGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	StrengthTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
+
+	crosshairFire->strText = strengthText;
+
 	auto GoldFXGO = new GameObject((id == 0 ? L"p1 Gold FX" : L"p2 Gold FX"));
 	auto GoldFX = GoldFXGO->AddComponent<ParticleSystem>();
 	GoldFX->SetMaxParticleCount(55);

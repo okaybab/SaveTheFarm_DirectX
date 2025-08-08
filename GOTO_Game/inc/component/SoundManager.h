@@ -25,6 +25,7 @@ namespace GOTOEngine
 		float GetbgmVolume();
 		void PlaySFX(const std::string& key);
 		void PlayBGM(const std::string& key);
+		void StopBGM();
 	private:
 		float sfxVolume = 1.0f;
 		float bgmVolume = 1.0f;
