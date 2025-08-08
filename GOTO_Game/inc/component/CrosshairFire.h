@@ -34,6 +34,11 @@ namespace GOTOEngine
 		float m_fireCooldown = 0.0f; // 발사 쿨타임
 		float m_fireGage = 0.0f;
 
+		const float m_fullautoTorque[11] = { 200.0f,155.0f,120.0f,165.0f,125.0f,85.0f,180.0f,65.0f,100.0f,155.0f,165.0f };
+
+		const int m_maxFullautoTorque = 11;
+		int m_fullautoTorqueIdx = 0;
+
 		CameraShaker* m_shaker = nullptr;
 		
 		static RumbleAnimationClip* s_pfireRumbleClip;
@@ -67,6 +72,7 @@ namespace GOTOEngine
     }
 
 		float fireRate = 0.5f; // 발사 간격
+		float fireFullAutoRate = 0.1f; //연사 간격
 		float fireGageUpRate = 1.25f;
 
 		int id = 0;

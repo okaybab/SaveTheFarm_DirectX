@@ -477,8 +477,6 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
         }
     }
 
-
-
     //입력 감지: 플레이어 ID별 키 또는 버튼 입력
     bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||
         (id == 1 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) ||
@@ -538,7 +536,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
     {
         if (IsValidObject(gageSprite))
         {
-            gageSprite->SetFillAmount((fireRate - m_fireCooldown) / fireRate);
+            gageSprite->SetFillAmount(m_fireCooldown / fireRate);
         }
         return;
     }
@@ -677,8 +675,6 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
         m_rumbleAnimID = -1;
         m_holdingRumbleAnimID = -1;
         m_shakeMove = { 0,0 };
-
-        gageSprite->SetClockwise(false);
     }
 
     if (IsValidObject(strText))
@@ -701,7 +697,62 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
 
 void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
 {
+    m_fireCooldown -= TIME_GET_DELTATIME();
+    m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
 
+    if (m_fireCooldown > 0.0f)
+    {
+        return;
+    }
+
+    bool firePressed = (id == 0 && INPUT_GET_KEY(KeyCode::LeftShift)) ||
+        (id == 1 && INPUT_GET_KEY(KeyCode::RightShift)) ||
+        INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1);
+
+    if (!firePressed || !IsValidObject(m_collider))
+        return;
+
+    m_fireCooldown = fireFullAutoRate;
+
+    bool isHit = false;
+    for (auto* obj : m_collider->GetCollideObjects())
+    {
+        std::wcout << obj->name << std::endl;
+
+        for (auto* comp : obj->GetAllComponents())
+        {
+            if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
+            {
+                attackable->TakeDamage(id, 1);
+                isHit = true;
+            }
+        }
+    }
+
+    if (id == 0)
+        SoundManager::instance->PlaySFX("Shot1P");
+    else
+        SoundManager::instance->PlaySFX("Shot2P");
+
+    if (IsValidObject(physAnimation))
+    {
+        physAnimation->ApplyTorque(m_fullautoTorque[m_fullautoTorqueIdx]);
+        physAnimation->ApplyScaleForce(1.2f);
+    }
+
+    onFire.Invoke(id);
+    if (isHit)
+    {
+        GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
+
+        if (m_shaker)
+            m_shaker->ShakeCamera(24, 55, 8);
+    }
+
+    m_fullautoTorqueIdx++;
+    m_fullautoTorqueIdx %= m_maxFullautoTorque;
+
+    onFire.Invoke(id);
 }
 
 void GOTOEngine::CrosshairFire::ChangeMode(CrosshairFireMode mode)
@@ -721,8 +772,10 @@ void GOTOEngine::CrosshairFire::OnEnter(CrosshairFireMode mode)
         gageSprite->SetClockwise(false);
         break;
     case CrosshairFireMode::Hold:
+        gageSprite->SetClockwise(true);
         break;
     case CrosshairFireMode::FullAuto:
+        gageSprite->SetFillAmount(0.0f);
         break;
     }
 }
@@ -738,7 +791,6 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
         {
             GamepadRumbleManager::instance->Stop(m_rumbleAnimID);
         }
-
         if (m_holdingRumbleAnimID != -1)
         {
             GamepadRumbleManager::instance->Stop(m_holdingRumbleAnimID);
