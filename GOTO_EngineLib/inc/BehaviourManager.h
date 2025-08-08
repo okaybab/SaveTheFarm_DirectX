@@ -44,6 +44,19 @@ namespace GOTOEngine
 				behaviour->CallMessage(messageName, std::forward<Args>(args)...);
 			}
 		}
+
+		template<typename... Args>
+		void AllBroadCastBehaviourMessage(const std::string& messageName, Args&&... args)
+		{
+			for (auto& behaviour : m_activeBehaviours)
+			{
+				behaviour->CallMessage(messageName, std::forward<Args>(args)...);
+			}
+			for (auto& behaviour : m_inactiveBehaviours)
+			{
+				behaviour->CallMessage(messageName, std::forward<Args>(args)...);
+			}
+		}
 	
 		void CheckAndSortBehaviours();
 		void StartUp();

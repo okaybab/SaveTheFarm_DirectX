@@ -16,7 +16,6 @@ namespace GOTOEngine
 		CrosshairCollide* m_collider = nullptr; // Collider2D 컴포넌트
 		const float slowSpeedFactor = 0.6f; // 슬로우 모드 속도 감소 비율
 		Vector2 m_vel = { 0,0 };
-		
 	public:
     CrosshairMove()
     {
@@ -26,6 +25,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
+		const float defalutMoveSpeed = 650.0f;
 		float moveSpeed = 650.0f;
 		int id = 0;
 		Rect clampRect = { 0, 0, 1.0f, 1.0f }; // 화면의 크기에 맞춰 조정
