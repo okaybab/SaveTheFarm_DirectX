@@ -22,7 +22,7 @@ namespace GOTOEngine
 
 		void OnAnimationUpdate();
 
-		AnimatorController* GetAnimatorController() { return m_controller; } //참조 카운트 꼭 하기
+		RuntimeAnimatorController* GetAnimatorController() { return m_runtimeController; } //참조 카운트 꼭 하기
 		void SetAnimatorController(AnimatorController* controller);
 		void SetAnimatorController(const std::wstring& filePath);
 

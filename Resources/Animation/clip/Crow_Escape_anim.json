@@ -1,16 +1,16 @@
 {
     "clipName": "Crow_Escape",
-    "loop": true,
-    "texturePath": "Assets/Sprite/Crow_Die.png",
+    "loop": false,
+    "texturePath": "../Resources/artResource/SpriteSheet/Crow/Crow_Escape.png",
     "duration": 1.0166666507720948,
     "frames": [
         {
-            "sprite": "Crow_Die_0",
+            "sprite": "Crow_Escape_0",
             "time": 0.0,
             "alpha": 1.0
         },
         {
-            "sprite": "Crow_Die_0",
+            "sprite": "Crow_Escape_0",
             "time": 1.0,
             "alpha": 0.0
         }
