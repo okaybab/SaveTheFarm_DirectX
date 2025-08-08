@@ -42,12 +42,20 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"황금두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.15f, 0.15f });
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
+
+			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnAnimationEnd([this, controller]() {
+				if (m_animState == DIE || m_animState == ESCAPE)
+				{
+					controller->SetOnAnimationEnd(nullptr);
+					GameObject::Destroy(GetGameObject());
+				}
+			});
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
@@ -62,17 +70,14 @@ namespace GOTOEngine
 
 		void OnDie(int attackerID) override
 		{
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
-
-			auto fader = GetGameObject()->GetComponent<FadeComponent>();
-			fader->Initialize();
+			__super::OnDie(attackerID);
 			EnemySpawner::instance->SetDeleteGoldMole();
-
-			if(attackerID != -1) ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
-			fader->FadeOut(0.5f, [this]() {
-				Destroy(GetGameObject());
-			});
+			ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
+		}
+		void OnDispone() override
+		{
+			__super::OnDispone();
+			EnemySpawner::instance->SetDeleteGoldMole();
 		}
 	};
 }

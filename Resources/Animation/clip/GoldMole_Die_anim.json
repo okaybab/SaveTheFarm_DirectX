@@ -1,0 +1,20 @@
+{
+    "clipName": "GoldMole_Die",
+    "loop": false,
+    "alpha": true,
+    "texturePath": "../Resources/artResource/SpriteSheet/Mole/GoldMole_Die.png",
+    "duration": 0.8333333134651184,
+    "frames": [
+        {
+            "sprite": "GoldMole_Die_0",
+            "time": 0.0,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "GoldMole_Die_0",
+            "time": 0.8333333134651184,
+            "alpha": 0.0
+        }
+    ],
+    "events": []
+}

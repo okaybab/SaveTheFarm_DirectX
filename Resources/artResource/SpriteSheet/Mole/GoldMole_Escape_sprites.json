@@ -1,0 +1,188 @@
+{
+    "texture": "GoldMole_Escape.png",
+    "textureWidth": 5535,
+    "textureHeight": 6688,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "GoldMole_Escape_0",
+            "x": 8.0,
+            "y": 5074.0,
+            "width": 1049.0,
+            "height": 1587.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_1",
+            "x": 1118.0,
+            "y": 5068.0,
+            "width": 1047.0,
+            "height": 1596.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_2",
+            "x": 2228.0,
+            "y": 5067.0,
+            "width": 1047.0,
+            "height": 1601.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_3",
+            "x": 3338.0,
+            "y": 5072.0,
+            "width": 1044.0,
+            "height": 1598.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_4",
+            "x": 4448.0,
+            "y": 5069.0,
+            "width": 1042.0,
+            "height": 1604.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_5",
+            "x": 24.0,
+            "y": 3391.0,
+            "width": 1039.0,
+            "height": 1608.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_6",
+            "x": 1134.0,
+            "y": 3385.0,
+            "width": 1037.0,
+            "height": 1602.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_7",
+            "x": 2244.0,
+            "y": 3382.0,
+            "width": 1036.0,
+            "height": 1591.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_8",
+            "x": 3354.0,
+            "y": 3382.0,
+            "width": 1034.0,
+            "height": 1579.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_9",
+            "x": 4464.0,
+            "y": 3385.0,
+            "width": 1032.0,
+            "height": 1562.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_10",
+            "x": 38.0,
+            "y": 1714.0,
+            "width": 1030.0,
+            "height": 1547.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_11",
+            "x": 1146.0,
+            "y": 1716.0,
+            "width": 1030.0,
+            "height": 1557.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_12",
+            "x": 2250.0,
+            "y": 1720.0,
+            "width": 1033.0,
+            "height": 1567.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_13",
+            "x": 3353.0,
+            "y": 1727.0,
+            "width": 1035.0,
+            "height": 1572.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_14",
+            "x": 4457.0,
+            "y": 1732.0,
+            "width": 1036.0,
+            "height": 1581.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_15",
+            "x": 25.0,
+            "y": 61.0,
+            "width": 1040.0,
+            "height": 1589.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_16",
+            "x": 1129.0,
+            "y": 59.0,
+            "width": 1042.0,
+            "height": 1589.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_17",
+            "x": 2232.0,
+            "y": 53.0,
+            "width": 1043.0,
+            "height": 1594.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_18",
+            "x": 3336.0,
+            "y": 50.0,
+            "width": 1046.0,
+            "height": 1597.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "GoldMole_Escape_19",
+            "x": 4439.0,
+            "y": 53.0,
+            "width": 1049.0,
+            "height": 1594.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

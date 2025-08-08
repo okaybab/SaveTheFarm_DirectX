@@ -178,7 +178,6 @@ void GOTOEngine::RuntimeAnimatorController::ForceChangeState(std::wstring stateN
 		m_currentState = m_controller->GetState(stateName);
 		m_time = 0.0f;
 		m_isFinished = false;
-		m_onAnimationEnd = nullptr;
 
 		// callback 호출
 		if (m_onStateEnter && m_currentState)

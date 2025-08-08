@@ -107,7 +107,7 @@ namespace GOTOEngine
 			{
 				// 디스폰
 				m_isDeathByDispone = true;
-				SetState(E_Enemy_Anim_State::ESCAPE);
+				OnDispone();
 				return;
 			}
 
@@ -239,5 +239,6 @@ namespace GOTOEngine
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
 		virtual void OnDie(int attackerID) { SetState(E_Enemy_Anim_State::DIE); }
+		virtual void OnDispone() { SetState(E_Enemy_Anim_State::ESCAPE); }
 	};
 }
