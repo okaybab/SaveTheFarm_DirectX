@@ -1,0 +1,17 @@
+{
+    "texture": "GoldMole_Die.png",
+    "textureWidth": 1024,
+    "textureHeight": 1536,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "GoldMole_Die_0",
+            "x": 0.0,
+            "y": 34.0,
+            "width": 956.0,
+            "height": 1502.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

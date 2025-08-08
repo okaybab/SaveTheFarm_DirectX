@@ -81,7 +81,6 @@ namespace GOTOEngine
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
@@ -110,6 +109,11 @@ namespace GOTOEngine
 		void OnDie(int attackerID) override
 		{
 			__super::OnDie(attackerID);
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+		}
+		void OnDispone() override
+		{
+			__super::OnDispone();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
 		}
 	};

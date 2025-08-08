@@ -2,13 +2,27 @@
     "controllerName": "GoldMoleAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "GoldMole_Move",
+    "defaultState": "Move",
     "states": [
         {
-            "name": "GoldMole_Move",
+            "name": "Move",
             "motionName": "GoldMole_Move",
             "clipLength": 1.6666667461395264,
             "loop": true,
+            "transitions": []
+        },
+		{
+            "name": "Die",
+            "motionName": "GoldMole_Die",
+            "clipLength": 0.8333333134651184,
+            "loop": false,
+            "transitions": []
+        },
+        {
+            "name": "Escape",
+            "motionName": "GoldMole_Escape",
+            "clipLength": 1.75,
+            "loop": false,
             "transitions": []
         }
     ],
