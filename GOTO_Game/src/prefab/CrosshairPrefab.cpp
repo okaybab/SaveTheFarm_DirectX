@@ -54,8 +54,8 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	physAnimation->scaleDamping = 16.0f;
 	physAnimation->strength = 220.0f;
 
-	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyTorque(400.0f); });
-	//crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.36f); });
+	crosshairFire->physAnimation = physAnimation;
+
 	crosshairCollide->spriteRenderer = spriteRenderer;
 
 	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
@@ -68,8 +68,6 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	crosshairFire->gageSprite = radialRenderer;
 
 	GageGO->GetTransform()->SetParent(GO->GetTransform(), false);
-
-	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
 
 	auto particleSys = GO->AddComponent<ParticleSystem>();
 	particleSys->SetRenderLayer((1 << (id + 1)));

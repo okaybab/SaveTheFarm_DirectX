@@ -77,7 +77,8 @@ void GOTOEngine::Text::Render()
     auto sizeFactorY = canvasSize.y / screenSize.y;
     auto currentPos = rectTransform->GetAnchoredPosition();
 
+    auto scale = rectTransform->GetLocalScale();
 
-    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, IsValidObject(m_font) ? m_font->GetFont() : nullptr , size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, {},static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
+    renderAPI->DrawString(text.c_str(), { currentPos.x * sizeFactorX,currentPos.y * sizeFactorY,sizeDelta.x * sizeFactorX,sizeDelta.y * sizeFactorY }, IsValidObject(m_font) ? m_font->GetFont() : nullptr, size, FontStyleHelper::ToRenderFontStyle(fontStyle), m_color, Matrix3x3::Scale(scale.x, scale.y), static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign), true);
 }
 
