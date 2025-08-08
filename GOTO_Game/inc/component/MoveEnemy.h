@@ -19,24 +19,6 @@ namespace GOTOEngine
 		E_Move_Enemy_Type m_moveEnemyType;
 
 	public:
-		void Dispose()
-		{
-			if (!GameManager::instance->setactive) return;
-
-			if (m_isDeathByDispone)
-			{
-				if (m_layer & 1 << 1)
-				{
-					GameManager::instance->PointChange(1, -1);
-					GameManager::instance->P1Lost++;
-				}
-				else if (m_layer & 1 << 2)
-				{
-					GameManager::instance->PointChange(2, -1);
-					GameManager::instance->P2Lost++;
-				}
-			}
-		}
 		void Initialize(std::any param) override
 		{
 			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
@@ -103,6 +85,16 @@ namespace GOTOEngine
 		{
 			__super::OnDispone();
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			if (m_layer & 1 << 1)
+			{
+				GameManager::instance->PointChange(1, -1);
+				GameManager::instance->P1Lost++;
+			}
+			else if (m_layer & 1 << 2)
+			{
+				GameManager::instance->PointChange(2, -1);
+				GameManager::instance->P2Lost++;
+			}
 		}
 	};
 }

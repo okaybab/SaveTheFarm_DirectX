@@ -103,10 +103,9 @@ namespace GOTOEngine
 			float deltaTime = TimeManager::Get()->GetDeltaTime();
 			m_disPoneTime -= deltaTime;
 
-			if (m_disPoneTime <= 0.0f)
+			// 디스폰
+			if (!m_isDeathByDispone && m_disPoneTime <= 0.0f)
 			{
-				// 디스폰
-				m_isDeathByDispone = true;
 				OnDispone();
 				return;
 			}
@@ -229,8 +228,6 @@ namespace GOTOEngine
 		}
 		void OnBulletDie(int attackerID)
 		{
-			m_isDie = true;
-
 			GameManager::instance->PointChange(attackerID + 1, 1);
 			int& point = attackerID == 0 ? GameManager::instance->P1Catch : GameManager::instance->P2Catch;
 			point++;
@@ -238,7 +235,7 @@ namespace GOTOEngine
 
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
-		virtual void OnDie(int attackerID) { SetState(E_Enemy_Anim_State::DIE); }
-		virtual void OnDispone() { SetState(E_Enemy_Anim_State::ESCAPE); }
+		virtual void OnDie(int attackerID) { m_isDie = true;  SetState(E_Enemy_Anim_State::DIE); }
+		virtual void OnDispone() { m_isDeathByDispone = true; SetState(E_Enemy_Anim_State::ESCAPE); }
 	};
 }
