@@ -120,39 +120,49 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 {
 	if (GameManager::instance == nullptr) return;
 
-	GameObject* newEnemyObject = new GameObject(L"Enemy");
-
 	/*// 설정대로 스폰 (디버그 용)
+	GameObject* newEnemyObject = (enemyType == competition)? nullptr : new GameObject(L"Enemy");
 	switch(enemyType)
 	{
 	case move:
+	{
+		ParameterMap params;
+		params["EnemyType"] = static_cast<E_Move_Enemy_Type>(crow_1);
+		params["isGimmick"] = isGimmick;
+
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(crow_1);
-		break;
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
+	}
+	break;
 	case gimmick:
+	{
 		newEnemyObject->AddComponent<GimmickEnemy>();
 		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(thiefmole);
-		break;
+	}
+	break;
 	case itemspawn:
+	{
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(goldCrow);
-		break;
-	default:
-		break;
 	}
+	break;
+	case competition:
+	{
+		CreateGoleMole();
+	}
+	break;
+	}
+	if (!newEnemyObject) return;
 	//*/
 
-
 	//*// 랜덤 스폰
+	GameObject* newEnemyObject = new GameObject(L"Enemy");
 	switch (enemyType)
 	{
 	case move:
 	{
-		auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
-
-		using ParameterMap = std::map<std::string, std::any>;
 		ParameterMap params;
-		params["EnemyType"] = randomType;
+		params["EnemyType"] = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
 		params["isGimmick"] = isGimmick;
 
 		newEnemyObject->AddComponent<MoveEnemy>();
@@ -199,19 +209,26 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType
 	switch (enemyType)
 	{
 	case move:
+	{
+		ParameterMap params;
+		params["EnemyType"] = static_cast<E_Move_Enemy_Type>(detailType);
+
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(static_cast<E_Move_Enemy_Type>(detailType));
-		break;
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
+	}
+	break;
 	case gimmick:
+	{
 		newEnemyObject->AddComponent<GimmickEnemy>();
 		newEnemyObject->GetComponent<GimmickEnemy>()->Initialize(static_cast<E_Gimmick_Enemy_Type>(detailType));
-		break;
+	}
+	break;
 	case itemspawn:
+	{
 		newEnemyObject->AddComponent<ItemEnemy>();
 		newEnemyObject->GetComponent<ItemEnemy>()->Initialize(static_cast<E_Item_Enemy_Type>(detailType));
-		break;
-	default:
-		break;
+	}
+	break;
 	}
 
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(player);

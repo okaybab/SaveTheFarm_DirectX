@@ -24,22 +24,15 @@ namespace GOTOEngine
 	public:
 		void Initialize(std::any param) override
 		{
-			//if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
 			if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
 				const ParameterMap& params = *pMap;
-
-				auto itMoveType = params.find("EnemyType");
-				if (itMoveType != params.end()) {
-					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itMoveType->second)) {
-						m_moveEnemyType = *pValue;
-					}
+				auto itEnemyType = params.find("EnemyType");
+				if (itEnemyType != params.end()) {
+					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
 				}
-
-				auto itAggro = params.find("isGimmick");
-				if (itAggro != params.end()) {
-					if (const auto pValue = std::any_cast<bool>(&itAggro->second)) {
-						m_isGimmick = *pValue;
-					}
+				auto itBool = params.find("isGimmick");
+				if (itBool != params.end()) {
+					if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isGimmick = *pValue; }
 				}
 			}
 		}
