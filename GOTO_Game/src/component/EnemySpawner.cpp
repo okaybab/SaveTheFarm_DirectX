@@ -116,7 +116,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 }
 // 플레이어에 타입 랜덤 생성
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t player)
+void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -142,14 +142,21 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 	}
 	//*/
 
+
 	//*// 랜덤 스폰
 	switch (enemyType)
 	{
 	case move:
 	{
 		auto randomType = static_cast<E_Move_Enemy_Type>(std::rand() % E_Move_Enemy_Type::move_type_count);
+
+		using ParameterMap = std::map<std::string, std::any>;
+		ParameterMap params;
+		params["EnemyType"] = randomType;
+		params["isGimmick"] = isGimmick;
+
 		newEnemyObject->AddComponent<MoveEnemy>();
-		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(randomType);
+		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
 	}
 	break;
 	case gimmick:

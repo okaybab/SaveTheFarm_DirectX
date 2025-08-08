@@ -140,7 +140,7 @@ void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
 			for (int i = 0; i < 3; i++)
 			{
 				// moveEnemy
-				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player);
+				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player, true);
 			}
 			break;
 		}

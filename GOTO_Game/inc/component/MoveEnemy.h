@@ -4,6 +4,8 @@
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
 
+using ParameterMap = std::map<std::string, std::any>;
+
 namespace GOTOEngine
 {
 	enum E_Move_Enemy_Type
@@ -17,11 +19,29 @@ namespace GOTOEngine
 	class MoveEnemy : public BaseEnemyObject
 	{
 		E_Move_Enemy_Type m_moveEnemyType;
+		bool m_isGimmick;
 
 	public:
 		void Initialize(std::any param) override
 		{
-			if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
+			//if (param.type() == typeid(E_Move_Enemy_Type)) m_moveEnemyType = std::any_cast<E_Move_Enemy_Type>(param);
+			if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
+				const ParameterMap& params = *pMap;
+
+				auto itMoveType = params.find("EnemyType");
+				if (itMoveType != params.end()) {
+					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itMoveType->second)) {
+						m_moveEnemyType = *pValue;
+					}
+				}
+
+				auto itAggro = params.find("isGimmick");
+				if (itAggro != params.end()) {
+					if (const auto pValue = std::any_cast<bool>(&itAggro->second)) {
+						m_isGimmick = *pValue;
+					}
+				}
+			}
 		}
 		void Awake()
 		{
