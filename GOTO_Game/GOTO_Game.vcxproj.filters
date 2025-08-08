@@ -89,12 +89,6 @@
     <ClCompile Include="src\component\GamepadRumbleManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\FadeInOutFXManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\component\ItemManager2.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
@@ -162,7 +156,16 @@
       <Filter>소스 파일\컴포넌트\조준점</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\DefenseScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\씬</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\CrosshairController.cpp">
+      <Filter>소스 파일\프리팹</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\FadeInOutFXManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
+      <Filter>소스 파일\프리팹</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,7 +323,10 @@
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
     <ClInclude Include="inc\scene\DefenseScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\씬</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\CrosshairController.h">
+      <Filter>헤더 파일\컴포넌트\조준점</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

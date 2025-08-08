@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 #include "FadeInOutFXManager.h"
 #include "SpriteRenderer.h"
+#include "CrosshairMove.h"
 
 void StartScene::Initialize()
 {
@@ -24,6 +25,18 @@ void StartScene::Initialize()
 		//커서 유지
 		Object::DontDestroyOnLoad(CrossHair1GO);
 		Object::DontDestroyOnLoad(CrossHair2GO);
+	}
+
+	auto p1 = GameObject::Find(L"Player1");
+	auto p2 = GameObject::Find(L"Player2");
+
+	if (Object::IsValidObject(p1))
+	{
+		p1->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
+	}
+	if (Object::IsValidObject(p2))
+	{
+		p2->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
 	}
 
 	auto BG = new GameObject(L"BG");
