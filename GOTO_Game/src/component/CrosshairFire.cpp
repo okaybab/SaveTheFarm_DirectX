@@ -494,7 +494,11 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
     else
     {
         if (lastfireCoolDown > 0.0f)
+        {
             onCharge.Invoke(id);
+            if (IsValidObject(physAnimation))
+                physAnimation->ApplyScaleForce(3.2f);
+        }
 
         if (IsValidObject(gageSprite))
         {
@@ -533,6 +537,13 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
         SoundManager::instance->PlaySFX("Shot1P");
     else
         SoundManager::instance->PlaySFX("Shot2P");
+
+    if (IsValidObject(physAnimation))
+    {
+        physAnimation->ApplyTorque(400.0f);
+        physAnimation->ApplyScaleForce(3.2f);
+    }
+
     onFire.Invoke(id);
     if (isHit)
     {
@@ -569,6 +580,8 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             if (!m_charged)
             {
                 m_charged = true;
+                if(IsValidObject(physAnimation))
+                    physAnimation->ApplyScaleForce(3.2f);
                 onCharge.Invoke(id);
             }
 
@@ -629,6 +642,11 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             }
 
             onFire.Invoke(id);
+            if (IsValidObject(physAnimation))
+            {
+                physAnimation->ApplyTorque(80.0f * Mathf::Max(1.25f, m_strCount));
+                physAnimation->ApplyScaleForce(0.56f * Mathf::Max(1.25f, m_strCount));
+            }
             GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
             m_strCount = 0;
         }
@@ -684,7 +702,6 @@ void GOTOEngine::CrosshairFire::ChangeMode(CrosshairFireMode mode)
 {
     if (m_fireMode == mode)
         return;
-
     OnExit(m_fireMode);
     m_fireMode = mode;
     OnEnter(m_fireMode);
