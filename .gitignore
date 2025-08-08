@@ -403,3 +403,6 @@ FodyWeavers.xsd
 .svn
 /Resources/artResource/Animation/
 
+Resources/artResource/SpriteSheet/Background/Bakcground_spritesheet.png
+Resources/artResource/SpriteSheet/Background/Bakcground_spritesheet_sprites.json
+Resources/artResource/SpriteSheet/Background/Bakcground_spritesheet_sprites.json
