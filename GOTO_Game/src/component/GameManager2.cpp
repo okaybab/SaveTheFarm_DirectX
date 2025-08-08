@@ -1,6 +1,6 @@
 #include "GameManager2.h"
 #include "TutorialImage2.h"
-
+#include "SoundManager.h"
 #include "FadeInOutFXManager.h"
 #include <AnimationCurve.h>
 #include <time.h>
@@ -220,16 +220,19 @@ void GameManager2::Update() {
 			if (GameTimer <= waveTiming[0]) {
 				wave = 1;
 				waveImage->SetSprite(wave1sprite);
+				SoundManager::instance->PlaySFX("Round");
 				waveTiming[0] = -1.0f;
 			}
 			if (GameTimer <= waveTiming[1]) {
 				wave = 2;
 				waveImage->SetSprite(wave2sprite);
+				SoundManager::instance->PlaySFX("Round");
 				waveTiming[1] = -1.0f;
 			}
 			if (GameTimer <= waveTiming[2]) {
 				wave = 3;
 				waveImage->SetSprite(wave3sprite);
+				SoundManager::instance->PlaySFX("Round");
 				waveTiming[2] = -1.0f;
 			}
 			if ((GameTimer <= 180.0f && GameTimer >= 178.0f) || (GameTimer <= 120.0f && GameTimer >= 118.0f) || (GameTimer <= 60.0f && GameTimer >= 58.0f)) {
@@ -379,6 +382,12 @@ void GameManager2::Update() {
 			else {
 				warningImage->SetSprite(nullptr);
 				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight()});
+			}
+			for (int i = 0; i < 3; ++i) {
+				if (GameTimer <= warningsoundTiming[i]) {
+					SoundManager::instance->PlaySFX("Warning");
+					warningsoundTiming[i] = -1.0f;
+				}
 			}
 			if (CropGauge == 0) {
 				GameTimer = 0.0f;
