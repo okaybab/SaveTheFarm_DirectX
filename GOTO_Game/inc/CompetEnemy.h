@@ -49,18 +49,11 @@ namespace GOTOEngine
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
-			controller->SetOnAnimationEnd([this]() {
-
-				std::cout << "Goldmole OnAnimation" << std::endl;
-
-				if (m_animState == DIE)
+			controller->SetOnAnimationEnd([this, controller]() {
+				if (m_animState == DIE || m_animState == ESCAPE)
 				{
-					Destroy(GetGameObject());
-				}
-
-				if (m_animState == ESCAPE)
-				{
-					Destroy(GetGameObject());
+					controller->SetOnAnimationEnd(nullptr);
+					GameObject::Destroy(GetGameObject());
 				}
 			});
 
