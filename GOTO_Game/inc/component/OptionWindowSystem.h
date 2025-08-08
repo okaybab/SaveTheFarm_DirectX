@@ -346,9 +346,11 @@ namespace GOTOEngine
             {
                 if (INPUT_GET_KEYDOWN(KeyCode::Enter)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
-                    || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
+                    || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonSouth)
                     || m_RightTriggerPressed[0]
-                    || m_RightTriggerPressed[1])
+                    || m_RightTriggerPressed[1]
+                    || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonR1)
+                    || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1))
                 {
                     m_isOpen = false;
                 }
