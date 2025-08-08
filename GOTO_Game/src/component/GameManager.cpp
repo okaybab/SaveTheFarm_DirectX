@@ -56,17 +56,20 @@ void GameManager::Awake(){
 		p2sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
 
-		//P1sctext->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
-		//P2sctext->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
-
 		P1sctext->horizontalAlign = TextHoriAlign::Center;
 		P2sctext->horizontalAlign = TextHoriAlign::Center;
 		Timetext->horizontalAlign = TextHoriAlign::Center;
 
+		P1sctext->verticalAlign = TextVertAlign::Center;
+		P2sctext->verticalAlign = TextVertAlign::Center;
+
+		P1sctext->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		P2sctext->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+
 		P1sctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.315f, Screen::GetHeight() * 0.88f });
+				Screen::GetWidth() * 0.34f, Screen::GetHeight() * 0.85f });
 		P2sctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.635f, Screen::GetHeight() * 0.88f });
+				Screen::GetWidth() * 0.66f, Screen::GetHeight() * 0.85f });
 		Timetext->GetRectTransform()->SetAnchoredPosition({
 				Screen::GetWidth() * 0.475f, Screen::GetHeight() * 0.88f });
 
@@ -408,9 +411,9 @@ void GameManager::Update() {
 			if (p1scoreup) {
 				p1scoreAniTime += TIME_GET_DELTATIME();
 				float animValue = scoreeffect->Evaluate(p1scoreAniTime);
-				P1sctext->GetRectTransform()->SetLocalScale({ 0.5f,0.5f });
+				P1sctext->GetRectTransform()->SetLocalScale({ 1.0f - animValue * 0.3f, 1.0f - animValue * 0.3f });
 				if (p1scoreAniTime >= 0.5f) {
-					P1sctext->size = 43;
+					P1sctext->GetRectTransform()->SetLocalScale({ 1.0f,1.0f });
 					p1scoreup = false;
 					p1scoreAniTime = 0.0f;
 				}
@@ -418,9 +421,9 @@ void GameManager::Update() {
 			if (p2scoreup) {
 				p2scoreAniTime += TIME_GET_DELTATIME();
 				float animValue = scoreeffect->Evaluate(p2scoreAniTime);
-				P2sctext->GetRectTransform()->SetLocalScale({ 0.5f,0.5f });
+				P2sctext->GetRectTransform()->SetLocalScale({ 1.0f - animValue * 0.3f, 1.0f - animValue * 0.3f });
 				if (p2scoreAniTime >= 0.5f) {
-					P2sctext->size = 43;
+					P2sctext->GetRectTransform()->SetLocalScale({ 1.0f,1.0f });
 					p2scoreup = false;
 					p2scoreAniTime = 0.0f;
 				}
