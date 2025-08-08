@@ -23,7 +23,11 @@ void DefenseScene::Initialize()
 	auto player1CamGO = Camera::CreateMainCamera();
 
 	auto player1CamMoverGO = new GameObject(L"카메라 핸들러");
-	player1CamMoverGO->AddComponent<CameraMove>()->id = 0;
+	auto player1CamMover = player1CamMoverGO->AddComponent<CameraMove>();
+	player1CamMover->id = 0;
+	player1CamMover->maxMoveLength = -780;
+	player1CamMover->minMoveLength = -1350;
+	
 	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
 
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
@@ -43,7 +47,10 @@ void DefenseScene::Initialize()
 	auto player2CamGO = Camera::CreateSubCamera();
 
 	auto player2CamMoverGO = new GameObject(L"카메라 핸들러2");
-	player2CamMoverGO->AddComponent<CameraMove>()->id = 1;
+	auto player2CamMover = player2CamMoverGO->AddComponent<CameraMove>();
+	player2CamMover->id = 1;
+	player2CamMover->maxMoveLength = 1350;
+	player2CamMover->minMoveLength = 780;
 	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
 
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
@@ -62,7 +69,8 @@ void DefenseScene::Initialize()
 	auto BackgroundGO = new GameObject(L"Background");
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Bakcground_wide.png");
-	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f });
+	BackgroundGO->GetTransform()->SetLossyScale({ 0.82f, 0.82f });
+	BackgroundGO->GetTransform()->SetLocalPosition({ 0.0f, 0.0f });
 
 	//메인 캔버스
 	auto canvas = new GameObject(L"Canvas");

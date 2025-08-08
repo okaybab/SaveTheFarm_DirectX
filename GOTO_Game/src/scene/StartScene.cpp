@@ -27,12 +27,13 @@ void StartScene::Initialize()
 	}
 
 	auto BG = new GameObject(L"BG");
-	BG->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/Demo/BG.png");
+	BG->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Background/Background1.png");
 	BG->GetComponent<SpriteRenderer>()->SetRenderOrder(-120000);
+	BG->GetTransform()->SetLocalScale({ 0.5f,0.5f });
 
 	auto Title = new GameObject(L"Title");
-	Title->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Title/타이틀로고.png");
-	Title->GetTransform()->SetPosition({ 0.0f,295.0f });
+	Title->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/Title/타이틀로고ver2.png");
+	Title->GetTransform()->SetPosition({ 0.0f,400.0f });
 
 	auto RumbleManagerGO = new GameObject(L"GamePadRumbleManager");
 	RumbleManagerGO->AddComponent<GamepadRumbleManager>();

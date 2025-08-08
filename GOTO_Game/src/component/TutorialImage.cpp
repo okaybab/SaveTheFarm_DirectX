@@ -86,14 +86,14 @@ void TutorialImage::Awake() {
 	p1bBackObject->GetTransform()->SetParent(canvas->GetTransform());
 	p1buttonBack = p1bBackObject->AddComponent<Image>();
 	p1buttonBack->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.25f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f)});
+		Screen::GetWidth() * 0.258f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f)});
 	p1buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	auto p1bobject = new GameObject;
 	Tutorialobject.push_back(p1bobject);
 	p1bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p1button = p1bobject->AddComponent<Image>();
 	p1button->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.23f });
+		Screen::GetWidth() * 0.258f, Screen::GetHeight() * 0.23f });
 	p1button->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	p1button->SetSortOrder(1);
 	auto p2bBackObject = new GameObject;

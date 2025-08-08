@@ -39,9 +39,6 @@ namespace GOTOEngine
         bool m_XstickPressedRight[2];
         bool m_XstickPressedLeft[2];
 
-        bool m_RightTriggerCheckTrigger[2];
-        bool m_RightTriggerPressed[2];
-
 	public:
     OptionWindowSystem()
     {
@@ -122,6 +119,12 @@ namespace GOTOEngine
                 case 1:
                     sliderTargetValue[i] = SoundManager::instance->GetsfxVolume();
                     break;
+                case 2:
+                    sliderTargetValue[i] = m_cachedMove1->moveSpeed / (m_cachedMove1->defalutMoveSpeed * 2);
+                    break;
+                case 3:
+                    sliderTargetValue[i] = m_cachedMove2->moveSpeed / (m_cachedMove2->defalutMoveSpeed * 2);
+                    break;
                 default:
                     sliderTargetValue[i] = 0.5f;
                 }
@@ -152,35 +155,7 @@ namespace GOTOEngine
             std::memset(m_XpressedRightTrigger, false, sizeof(m_XpressedRightTrigger));
             std::memset(m_XpressedLeftTrigger, false, sizeof(m_XpressedLeftTrigger));
             std::memset(m_XpressedLeftTrigger, false, sizeof(m_XpressedLeftTrigger));
-            std::memset(m_RightTriggerCheckTrigger, false, sizeof(m_RightTriggerCheckTrigger));
             StickPressedCheckReset();
-            TriggerPressedCheckReset();
-        }
-
-        void TriggerPressedCheck()
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::RightTrigger);
-                if (!m_RightTriggerCheckTrigger[i])
-                {
-                    if (currentRightTrigger > 0.89f)
-                    {
-                        m_RightTriggerCheckTrigger[i] = true;
-                        m_RightTriggerPressed[i] = true;
-                        return;
-                    }
-                }
-                else if ((m_RightTriggerCheckTrigger[i] && currentRightTrigger < 0.2f))
-                {
-                    m_RightTriggerCheckTrigger[i] = false;
-                }
-            }
-        }
-
-        void TriggerPressedCheckReset()
-        {
-            std::memset(m_RightTriggerPressed, false, sizeof(m_RightTriggerPressed));
         }
 
         void StickPressedCheck()
@@ -347,8 +322,6 @@ namespace GOTOEngine
                 if (INPUT_GET_KEYDOWN(KeyCode::Enter)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonSouth)
-                    || m_RightTriggerPressed[0]
-                    || m_RightTriggerPressed[1]
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonR1)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1))
                 {
@@ -409,8 +382,6 @@ namespace GOTOEngine
 
 		void Update()
 		{
-            TriggerPressedCheckReset();
-            TriggerPressedCheck();
             StickPressedCheckReset();
             StickPressedCheck();
             ApplyBaseWindowAnimation();

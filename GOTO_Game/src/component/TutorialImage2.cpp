@@ -86,14 +86,14 @@ void TutorialImage2::Awake() {
 	p1bBackObject->GetTransform()->SetParent(canvas->GetTransform());
 	p1buttonBack = p1bBackObject->AddComponent<Image>();
 	p1buttonBack->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.25f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f) });
+		Screen::GetWidth() * 0.258f + (55.0f * 0.5f) , Screen::GetHeight() * 0.23f + (55.0f * 0.5f) });
 	p1buttonBack->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	auto p1bobject = new GameObject;
 	Tutorialobject.push_back(p1bobject);
 	p1bobject->GetTransform()->SetParent(canvas->GetTransform());
 	p1button = p1bobject->AddComponent<Image>();
 	p1button->GetRectTransform()->SetAnchoredPosition({
-		Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.23f });
+		Screen::GetWidth() * 0.258f, Screen::GetHeight() * 0.23f });
 	p1button->GetRectTransform()->SetSizeDelta(buttonSizeDelta);
 	p1button->SetSortOrder(1);
 	auto p2bBackObject = new GameObject;
@@ -245,8 +245,8 @@ void TutorialImage2::Update() {
 
 	auto buttonMaxTimer = 1.25f;
 
-	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0, GamepadButton::ButtonWest);
-	auto p2ButtonPress = INPUT_GET_KEY(KeyCode::M) || INPUT_GET_GAMEPAD_BUTTON(1, GamepadButton::ButtonWest);
+	auto p1ButtonPress = INPUT_GET_KEY(KeyCode::Z) || INPUT_GET_GAMEPAD_BUTTON(0, GamepadButton::ButtonSouth);
+	auto p2ButtonPress = INPUT_GET_KEY(KeyCode::M) || INPUT_GET_GAMEPAD_BUTTON(1, GamepadButton::ButtonSouth);
 
 	auto lastButton1Timer = button1Timer;
 	auto lastButton2Timer = button2Timer;

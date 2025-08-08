@@ -401,8 +401,6 @@ AnimationCurve{ R"({
 void GOTOEngine::CrosshairFire::OnEnable()
 {
 	m_fireCooldown = 0.0f;
-	m_RightTriggerCheckTrigger = false;
-	TriggerPressedCheckReset();
 }
 
 void GOTOEngine::CrosshairFire::OnDestroy()
@@ -424,35 +422,8 @@ void GOTOEngine::CrosshairFire::OnDestroy()
     }
 }
 
-
-void GOTOEngine::CrosshairFire::TriggerPressedCheck()
-{
-	auto currentRightTrigger = INPUT_GET_GAMEPAD_AXIS(id, GamepadAxis::RightTrigger);
-	if (!m_RightTriggerCheckTrigger)
-	{
-		if (currentRightTrigger > 0.89f)
-		{
-			m_RightTriggerCheckTrigger = true;
-			m_RightTriggerPressed = true;
-			return;
-		}
-	}
-	else if ((m_RightTriggerCheckTrigger && currentRightTrigger < 0.2f))
-	{
-		m_RightTriggerCheckTrigger = false;
-	}
-}
-
-void GOTOEngine::CrosshairFire::TriggerPressedCheckReset()
-{
-	m_RightTriggerPressed = false;
-}
-
 void GOTOEngine::CrosshairFire::Update()
-{
-	TriggerPressedCheckReset();
-	TriggerPressedCheck();
-    
+{    
     if (INPUT_GET_GAMEPAD_BUTTONDOWN(id,GamepadButton::ButtonNorth))
     {
         CrosshairFireMode nextMode = static_cast<CrosshairFireMode>(static_cast<int>(m_fireMode) + 1);
@@ -511,7 +482,7 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
     //입력 감지: 플레이어 ID별 키 또는 버튼 입력
     bool firePressed = (id == 0 && INPUT_GET_KEYDOWN(KeyCode::LeftShift)) ||
         (id == 1 && INPUT_GET_KEYDOWN(KeyCode::RightShift)) ||
-        m_RightTriggerPressed || INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonR1);
+        INPUT_GET_GAMEPAD_BUTTONDOWN(id, GamepadButton::ButtonR1);
 
     if (!firePressed || !IsValidObject(m_collider))
         return;
@@ -560,7 +531,7 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
 
 void GOTOEngine::CrosshairFire::HoldModeUdpate()
 {
-    if (m_RightTriggerCheckTrigger || INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1))
+    if (INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1))
     {
         m_fireGage += fireGageUpRate * TIME_GET_DELTATIME();
 

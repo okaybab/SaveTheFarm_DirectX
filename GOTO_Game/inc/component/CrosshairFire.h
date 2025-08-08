@@ -34,9 +34,6 @@ namespace GOTOEngine
 		float m_fireCooldown = 0.0f; // 발사 쿨타임
 		float m_fireGage = 0.0f;
 
-		bool m_RightTriggerCheckTrigger;
-		bool m_RightTriggerPressed;
-
 		CameraShaker* m_shaker = nullptr;
 		
 		static RumbleAnimationClip* s_pfireRumbleClip;
@@ -89,9 +86,6 @@ namespace GOTOEngine
 		void OnEnable();
 
 		void OnDestroy();
-		
-		void TriggerPressedCheck();
-		void TriggerPressedCheckReset();
 
 		void Update();
 

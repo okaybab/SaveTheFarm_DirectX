@@ -61,8 +61,8 @@ void PlayScene::Initialize()
 	//배경 이미지
 	auto BackgroundGO = new GameObject(L"Background");	
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
-	BackgdoundSprite->SetSprite(L"../Resources/Demo/BG.png");
-	BackgroundGO->GetTransform()->SetLossyScale({ 1.35f, 1.35f});
+	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Background1.png");
+	BackgroundGO->GetTransform()->SetLossyScale({ 0.7f, 0.7f});
 
 	//메인 캔버스
 	auto canvas = new GameObject(L"Canvas");
