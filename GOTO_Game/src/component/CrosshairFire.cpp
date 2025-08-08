@@ -543,8 +543,6 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
 
     if (INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1) && m_fireCooldown == 0.0f)
     {
-        gageSprite->SetClockwise(true);
-
         m_fireGage += fireGageUpRate * TIME_GET_DELTATIME();
 
         m_strCount = 1;
@@ -730,9 +728,9 @@ void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
     }
 
     if (id == 0)
-        SoundManager::instance->PlaySFX("Shot1P");
+        SoundManager::instance->PlaySFX("Continuous");
     else
-        SoundManager::instance->PlaySFX("Shot2P");
+        SoundManager::instance->PlaySFX("Continuous");
 
     if (IsValidObject(physAnimation))
     {
@@ -772,7 +770,7 @@ void GOTOEngine::CrosshairFire::OnEnter(CrosshairFireMode mode)
         gageSprite->SetClockwise(false);
         break;
     case CrosshairFireMode::Hold:
-        gageSprite->SetClockwise(true);
+        gageSprite->SetClockwise(false);
         break;
     case CrosshairFireMode::FullAuto:
         gageSprite->SetFillAmount(0.0f);
