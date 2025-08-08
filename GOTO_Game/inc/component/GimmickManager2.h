@@ -14,11 +14,10 @@ namespace GOTOEngine
 	class GimmickManager2 : public ScriptBehaviour
 	{
 	private:
-		float p1gimmick1Timer = 0.0f;
-		float p2gimmick1Timer = 0.0f;
-		float p1gimmick2Timer = 0.0f;
-		float p2gimmick2Timer = 0.0f;
-		const float timelimit = 10.0f;
+		float gimmick5Timer = 0.0f;
+		float p1gimmick6Timer = 0.0f;
+		float p2gimmick6Timer = 0.0f;
+
 	public:
     GimmickManager2()
     {
