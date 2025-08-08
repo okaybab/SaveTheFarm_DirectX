@@ -65,18 +65,17 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			case crow_2:
 				m_moveFlag = 0b0010;
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			}
-			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
-			sprite->SetRenderLayer(m_layer);
+			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 			
@@ -111,10 +110,5 @@ namespace GOTOEngine
 		}
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
-
-		void OnDie(int attackerID) override
-		{
-			SetState(E_Enemy_Anim_State::DIE);
-		}
 	};
 }

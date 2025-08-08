@@ -238,6 +238,6 @@ namespace GOTOEngine
 
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
-		virtual void OnDie(int attackerID) = 0;
+		virtual void OnDie(int attackerID) { SetState(E_Enemy_Anim_State::DIE); }
 	};
 }

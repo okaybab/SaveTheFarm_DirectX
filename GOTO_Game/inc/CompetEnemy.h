@@ -42,13 +42,12 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"황금두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
+				GetTransform()->SetLossyScale({ 0.18f, 0.18f });
 				break;
 			}
-			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
+			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			sprite->SetRenderLayer(m_layer);
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
