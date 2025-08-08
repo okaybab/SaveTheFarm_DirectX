@@ -1,0 +1,188 @@
+{
+    "texture": "Mole_Escape.png",
+    "textureWidth": 5670,
+    "textureHeight": 3808,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Mole_Escape_0",
+            "x": 1.0,
+            "y": 2889.0,
+            "width": 1065.0,
+            "height": 877.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_1",
+            "x": 1135.0,
+            "y": 2915.0,
+            "width": 1084.0,
+            "height": 855.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_2",
+            "x": 2269.0,
+            "y": 2944.0,
+            "width": 1099.0,
+            "height": 830.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_3",
+            "x": 3403.0,
+            "y": 2953.0,
+            "width": 1109.0,
+            "height": 825.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_4",
+            "x": 4537.0,
+            "y": 2950.0,
+            "width": 1108.0,
+            "height": 827.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_5",
+            "x": 1.0,
+            "y": 1991.0,
+            "width": 1102.0,
+            "height": 831.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_6",
+            "x": 1135.0,
+            "y": 1978.0,
+            "width": 1096.0,
+            "height": 841.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_7",
+            "x": 2269.0,
+            "y": 1958.0,
+            "width": 1085.0,
+            "height": 856.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_8",
+            "x": 3403.0,
+            "y": 1940.0,
+            "width": 1075.0,
+            "height": 869.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_9",
+            "x": 4537.0,
+            "y": 1922.0,
+            "width": 1064.0,
+            "height": 882.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_10",
+            "x": 1.0,
+            "y": 953.0,
+            "width": 1050.0,
+            "height": 894.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_11",
+            "x": 1135.0,
+            "y": 966.0,
+            "width": 1058.0,
+            "height": 886.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_12",
+            "x": 2269.0,
+            "y": 979.0,
+            "width": 1067.0,
+            "height": 877.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_13",
+            "x": 3403.0,
+            "y": 993.0,
+            "width": 1074.0,
+            "height": 867.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_14",
+            "x": 4537.0,
+            "y": 1007.0,
+            "width": 1082.0,
+            "height": 858.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_15",
+            "x": 1.0,
+            "y": 69.0,
+            "width": 1088.0,
+            "height": 849.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_16",
+            "x": 1135.0,
+            "y": 83.0,
+            "width": 1095.0,
+            "height": 839.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_17",
+            "x": 2269.0,
+            "y": 87.0,
+            "width": 1095.0,
+            "height": 837.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_18",
+            "x": 3403.0,
+            "y": 68.0,
+            "width": 1087.0,
+            "height": 851.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Mole_Escape_19",
+            "x": 4537.0,
+            "y": 50.0,
+            "width": 1076.0,
+            "height": 865.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

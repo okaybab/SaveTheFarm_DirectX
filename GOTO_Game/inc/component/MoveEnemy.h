@@ -81,9 +81,7 @@ namespace GOTOEngine
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 			
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
-
 			controller->SetOnStateEnter([this, controller](AnimatorState* newState) {
-
 				if (newState->GetStateName() == StateToString(DIE))
 				{
 					EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
@@ -101,7 +99,6 @@ namespace GOTOEngine
 						Destroy(GetGameObject());
 					});
 				}
-
 			});
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
