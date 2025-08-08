@@ -64,7 +64,7 @@ namespace GOTOEngine
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"토끼";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+				GetTransform()->SetLossyScale({ 0.24f, 0.24f });
 				break;
 			case squirrel:
 				m_moveFlag = 0b1001;
@@ -78,7 +78,7 @@ namespace GOTOEngine
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"도둑두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.18f, 0.18f });
+				GetTransform()->SetLossyScale({ 0.44f, 0.44f });
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);

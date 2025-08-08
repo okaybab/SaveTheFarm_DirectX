@@ -42,7 +42,7 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"황금두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.18f, 0.18f });
+				GetTransform()->SetLossyScale({ 0.44f, 0.44f });
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
