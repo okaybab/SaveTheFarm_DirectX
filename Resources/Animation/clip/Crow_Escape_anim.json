@@ -1,6 +1,7 @@
 {
     "clipName": "Crow_Escape",
     "loop": false,
+	"alpha": true,
     "texturePath": "../Resources/artResource/SpriteSheet/Crow/Crow_Escape.png",
     "duration": 1.0166666507720948,
     "frames": [

@@ -64,7 +64,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Icebomb;
 				GetGameObject()->name = L"얼음새";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			case bombCrow:
 				m_moveFlag = 0b1000;
@@ -72,7 +72,7 @@ namespace GOTOEngine
 				m_itemType = ItemType::Bomb;
 				GetGameObject()->name = L"폭탄새";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			case goldCrow:
 				m_moveFlag = 0b0010;
@@ -80,13 +80,12 @@ namespace GOTOEngine
 				m_itemType = ItemType::Ticket;
 				GetGameObject()->name = L"황금새";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			}
-			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
+			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			sprite->SetRenderLayer(m_layer);
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();

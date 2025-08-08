@@ -4,6 +4,7 @@
 #include "FadeInOutFXManager.h"
 #include <AnimationCurve.h>
 #include <time.h>
+#include <Texture2D.h>
 
 using namespace GOTOEngine;
 GameManager2* GameManager2::instance = nullptr;
@@ -23,7 +24,7 @@ void GameManager2::Awake() {
 		auto warningitem = new GameObject;
 		warningitem->GetTransform()->SetParent(canvas->GetTransform());
 		warningImage = warningitem->AddComponent<Image>();
-		warningImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth()/2, Screen::GetHeight()/2 });
+		warningImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth()*0.5f, Screen::GetHeight()*0.5f });
 		warningImage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
 		warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight()});
 		warningImage->SetSprite(nullptr);
@@ -71,9 +72,9 @@ void GameManager2::Awake() {
 		auto waveobject = new GameObject;
 		waveobject->GetTransform()->SetParent(canvas->GetTransform());
 		waveImage = waveobject->AddComponent<Image>();
-		waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight()*19 / 20 });
+		waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() *0.5f, Screen::GetHeight()*0.95f });
 		waveImage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
-		waveImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth()/10, Screen::GetHeight()/10 });
+		waveImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth()*0.1f, Screen::GetHeight()*0.1f });
 		wave1sprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Wave/Wave1.png");
 		wave1sprite->IncreaseRefCount();
 		wave2sprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Wave/Wave2.png");
@@ -112,13 +113,61 @@ void GameManager2::Awake() {
         }
     ]
 })" });
+		auto pannelobject = new GameObject;
+		pannelobject->GetTransform()->SetParent(canvas->GetTransform());
+		endpannel = pannelobject->AddComponent<Image>();
+		endpannel->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.7f });
+		endpannel->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		endpannel->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.55f });
+		endpannel->SetSprite(nullptr);
+		winpannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/승리! UI 창.png");
+		winpannel->IncreaseRefCount();
+		losepannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/게임 오버 UI 창.png");
+		losepannel->IncreaseRefCount();
+
+		auto barobject1 = new GameObject;
+		barobject1->GetTransform()->SetParent(canvas->GetTransform());
+		wavebarout = barobject1->AddComponent<Image>();
+		wavebarout->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.4f, Screen::GetHeight() * 0.1f });
+		wavebarout->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		wavebarout->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.95f });
+		wavebarout->SetSprite(L"../Resources/artResource/UI/Ingame/Wave bar out.png");
+		auto barobject2 = new GameObject;
+		barobject2->GetTransform()->SetParent(canvas->GetTransform());
+		wavebarin = barobject2->AddComponent<Image>();
+		wavebarin->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.38f, Screen::GetHeight() * 0.08f });
+		wavebarin->GetRectTransform()->SetPivot({ 1.0f,0.5f });
+		wavebarin->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.69f, Screen::GetHeight() * 0.95f });
+		wavebarin->SetSprite(L"../Resources/artResource/UI/Ingame/Wave bar in.png");
+		texRect = wavebarin->GetSprite()->GetTexture()->GetRect();
+		auto wave1checkobject = new GameObject;
+		wave1checkobject->GetTransform()->SetParent(canvas->GetTransform());
+		wave1check = wave1checkobject->AddComponent<Image>();
+		wave1check->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.1f });
+		wave1check->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		wave1check->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.32f, Screen::GetHeight() * 0.95f });
+		wave1check->SetSprite(L"../Resources/artResource/UI/Ingame/Wave 1 UI.png");
+		auto wave2checkobject = new GameObject;
+		wave2checkobject->GetTransform()->SetParent(canvas->GetTransform());
+		wave2check = wave2checkobject->AddComponent<Image>();
+		wave2check->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.1f });
+		wave2check->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		wave2check->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.45f, Screen::GetHeight() * 0.95f });
+		wave2check->SetSprite(L"../Resources/artResource/UI/Ingame/Wave 2 UI.png");
+		auto wave3checkobject = new GameObject;
+		wave3checkobject->GetTransform()->SetParent(canvas->GetTransform());
+		wave3check = wave3checkobject->AddComponent<Image>();
+		wave3check->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.05f, Screen::GetHeight() * 0.1f });
+		wave3check->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		wave3check->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.58f, Screen::GetHeight() * 0.95f });
+		wave3check->SetSprite(L"../Resources/artResource/UI/Ingame/Wave 3 UI.png");
 
 		auto timeitem = new GameObject;
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
 		Timetext = timeitem->AddComponent<Text>();
 		Timetext->horizontalAlign = TextHoriAlign::Center;
 		Timetext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.88f });
+				Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.88f });
 		Timetext->size = 43;
 		Timetext->SetColor({ 0,0,0,255 });
 	}
@@ -146,6 +195,10 @@ void GameManager2::OnDestroy() {
 		wave2sprite->DecreaseRefCount();
 	if (IsValidObject(wave3sprite))
 		wave3sprite->DecreaseRefCount();
+	if (IsValidObject(winpannel))
+		winpannel->DecreaseRefCount();
+	if (IsValidObject(losepannel))
+		losepannel->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
@@ -182,12 +235,15 @@ void GameManager2::Update() {
 			if ((GameTimer <= 180.0f && GameTimer >= 178.0f) || (GameTimer <= 120.0f && GameTimer >= 118.0f) || (GameTimer <= 60.0f && GameTimer >= 58.0f)) {
 				waveAniTime += TIME_GET_DELTATIME();
 				float animValue = waveanimation->Evaluate(waveAniTime);
-				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight() * 19 / 20 - animValue*80.0f});
+				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.95f - animValue*50.0f});
 			}
 			else {
 				waveAniTime = 0.0f;
-				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() / 2, Screen::GetHeight() * 19 / 20});
+				waveImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.95f});
 			}
+
+		    wavebarin->GetSprite()->SetRect({ texRect.width * (1 - (GameTimer / 180.0f)),0,texRect.width * (GameTimer / 180.0f),texRect.height });
+			wavebarin->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.38f * (GameTimer / 180.0f), Screen::GetHeight() * 0.08f });
 
 			if (NormalTiming - GameTimer >= 2.0f) {
 				if (!warningon) {
@@ -340,9 +396,11 @@ void GameManager2::Update() {
 			endingTimer -= TIME_GET_DELTATIME();
 			if (CropGauge > 0 ) {
 				winner = 1;
+				endpannel->SetSprite(winpannel);
 			}
 			else {
 				winner = 0;
+				endpannel->SetSprite(losepannel);
 			}
 			if (endingTimer <= 0.0f) {
 				FadeInOutFXManager::instance->FadeOut();

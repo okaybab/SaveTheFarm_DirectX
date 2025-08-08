@@ -81,7 +81,16 @@ GOTOEngine::RuntimeAnimatorController::RuntimeAnimatorController(AnimatorControl
 		m_currentState = m_controller->GetState(m_controller->m_defaultState);
 	}
 
+	m_currentState = m_controller->GetState(m_controller->m_defaultState);
 	m_time = 0.0f;
+	m_isFinished = false;
+
+	// callback 호출
+	if (m_onStateEnter && m_currentState)
+	{
+		m_onStateEnter(m_currentState);
+	}
+
 }
 
 void GOTOEngine::RuntimeAnimatorController::Update(float deltaTime)
@@ -100,7 +109,17 @@ void GOTOEngine::RuntimeAnimatorController::Update(float deltaTime)
 	}
 	else {
 		if (m_time > currentClipDuration) {
-			m_time = currentClipDuration;
+			if (m_isFinished == false)
+			{
+				// 종료 이벤트 호출
+				if (m_onAnimationEnd)
+				{
+					m_onAnimationEnd();
+				}
+
+				m_time = currentClipDuration;
+				m_isFinished = true;
+			}
 		}
 	}
 
@@ -140,7 +159,31 @@ void GOTOEngine::RuntimeAnimatorController::Update(float deltaTime)
 
 			m_currentState = m_controller->GetState(transition.toState);
 			m_time = 0.0f; // 애니메이션 시간 초기화
+			m_isFinished = false;
+
+			// callback 호출
+			if (m_onStateEnter && m_currentState)
+			{
+				m_onStateEnter(m_currentState);
+			}
 			break;
+		}
+	}
+}
+
+void GOTOEngine::RuntimeAnimatorController::ForceChangeState(std::wstring stateName)
+{
+	if (m_controller->GetState(stateName))
+	{
+		m_currentState = m_controller->GetState(stateName);
+		m_time = 0.0f;
+		m_isFinished = false;
+		m_onAnimationEnd = nullptr;
+
+		// callback 호출
+		if (m_onStateEnter && m_currentState)
+		{
+			m_onStateEnter(m_currentState);
 		}
 	}
 }

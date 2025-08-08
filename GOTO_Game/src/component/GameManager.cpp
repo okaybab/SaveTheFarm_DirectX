@@ -8,6 +8,7 @@
 #include "FadeInOutFXManager.h"
 #include "SoundManager.h"
 #include <time.h>
+#include <AnimationCurve.h>
 
 using namespace GOTOEngine;
 GameManager* GameManager::instance = nullptr;
@@ -54,6 +55,9 @@ void GameManager::Awake(){
 		p1sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 		p2sctextitem->GetTransform()->SetParent(canvas->GetTransform());
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
+
+		//P1sctext->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
+		//P2sctext->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
 
 		P1sctext->horizontalAlign = TextHoriAlign::Center;
 		P2sctext->horizontalAlign = TextHoriAlign::Center;
@@ -177,6 +181,32 @@ void GameManager::Awake(){
 		p2timetext->GetRectTransform()->SetAnchoredPosition({
 				Screen::GetWidth() * 0.63f, Screen::GetHeight() * 0.24f });
 
+		scoreeffect = new AnimationCurve({ R"({
+     "keyframes": [
+        {
+            "time": 0,
+            "value": 0,
+            "in_tangent": 0,
+            "out_tangent": 1,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.25,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.5,
+            "value": 0.0,
+            "in_tangent": 1.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+})" });
+
 		srand(time(NULL));
 		p1itemchange = rand() % 4 + 1;
 		p2itemchange = rand() % 4 + 1;
@@ -203,6 +233,7 @@ void GameManager::OnDestroy() {
 		losepannel->DecreaseRefCount();
 	if (IsValidObject(deucepannel))
 		deucepannel->DecreaseRefCount();
+	delete(scoreeffect);
 	EnemySpawner = nullptr;
 }
 
@@ -369,10 +400,35 @@ void GameManager::Update() {
 				EnemySpawner->CreateGoleMole();
 				GoldTiming[1] = -1.0f;
 			}
+			if (GameTimer <= scoreredTiming) {
+				Timetext->SetColor({ 255,0,0,255 });
+				scoreredTiming = -1.0f;
+			}
+
+			if (p1scoreup) {
+				p1scoreAniTime += TIME_GET_DELTATIME();
+				float animValue = scoreeffect->Evaluate(p1scoreAniTime);
+				P1sctext->GetRectTransform()->SetLocalScale({ 0.5f,0.5f });
+				if (p1scoreAniTime >= 0.5f) {
+					P1sctext->size = 43;
+					p1scoreup = false;
+					p1scoreAniTime = 0.0f;
+				}
+			}
+			if (p2scoreup) {
+				p2scoreAniTime += TIME_GET_DELTATIME();
+				float animValue = scoreeffect->Evaluate(p2scoreAniTime);
+				P2sctext->GetRectTransform()->SetLocalScale({ 0.5f,0.5f });
+				if (p2scoreAniTime >= 0.5f) {
+					P2sctext->size = 43;
+					p2scoreup = false;
+					p2scoreAniTime = 0.0f;
+				}
+			}
+
 			if (GameTimer <= 0.0f|| INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
-			//*/
 		}
 		else if (GameTimer == 0.0f) {
 			setactive = false;
@@ -462,9 +518,13 @@ void GameManager::PointChange(int player, int point) {
 	if (point > 0) {
 		if (player == 1) {
 			P1Score += point * P1Bonus;
+			p1scoreup = true;
+			p1scoreAniTime = 0.0f;
 		}
 		else if (player == 2) {
 			P2Score += point * P2Bonus;
+			p2scoreup = true;
+			p2scoreAniTime = 0.0f;
 		}
 	}
 	else {

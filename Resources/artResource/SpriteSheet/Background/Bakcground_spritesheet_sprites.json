@@ -1,0 +1,278 @@
+{
+    "texture": "Bakcground_spritesheet.png",
+    "textureWidth": 8192,
+    "textureHeight": 3845,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Bakcground_spritesheet_0",
+            "x": 0.0,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_1",
+            "x": 1365.333251953125,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_2",
+            "x": 2730.66650390625,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_3",
+            "x": 4095.999755859375,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_4",
+            "x": 5461.3330078125,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_5",
+            "x": 6826.66650390625,
+            "y": 3076.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_6",
+            "x": 0.0,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_7",
+            "x": 1365.333251953125,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_8",
+            "x": 2730.66650390625,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_9",
+            "x": 4095.999755859375,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_10",
+            "x": 5461.3330078125,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_11",
+            "x": 6826.66650390625,
+            "y": 2307.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_12",
+            "x": 0.0,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_13",
+            "x": 1365.333251953125,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_14",
+            "x": 2730.66650390625,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_15",
+            "x": 4095.999755859375,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_16",
+            "x": 5461.3330078125,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_17",
+            "x": 6826.66650390625,
+            "y": 1538.35595703125,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_18",
+            "x": 0.0,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_19",
+            "x": 1365.333251953125,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_20",
+            "x": 2730.66650390625,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_21",
+            "x": 4095.999755859375,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_22",
+            "x": 5461.3330078125,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_23",
+            "x": 6826.66650390625,
+            "y": 769.3560180664063,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_24",
+            "x": 0.0,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_25",
+            "x": 1365.333251953125,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_26",
+            "x": 2730.66650390625,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_27",
+            "x": 4095.999755859375,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_28",
+            "x": 5461.3330078125,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Bakcground_spritesheet_29",
+            "x": 6826.66650390625,
+            "y": 0.3560185134410858,
+            "width": 1365.333251953125,
+            "height": 768.6439819335938,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

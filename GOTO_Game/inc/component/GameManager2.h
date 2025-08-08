@@ -34,6 +34,17 @@ namespace GOTOEngine
 		AnimationCurve* waveanimation;
 		float waveAniTime = 0.0f;
 
+		Image* endpannel;
+		Sprite* winpannel;
+		Sprite* losepannel;
+
+		Image* wavebarout;
+		Image* wavebarin;
+		Rect texRect;
+		Image* wave1check;
+		Image* wave2check;
+		Image* wave3check;
+
 		int itemchange;
 		float NormalTiming = 122.0f;
 		float GimmickTiming = 120.0f;

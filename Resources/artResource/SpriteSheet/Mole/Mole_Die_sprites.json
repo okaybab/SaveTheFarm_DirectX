@@ -1,0 +1,17 @@
+{
+    "texture": "Mole_Die.png",
+    "textureWidth": 1024,
+    "textureHeight": 798,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Mole_Die_0",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 1024.0,
+            "height": 798.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

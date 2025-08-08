@@ -8,6 +8,11 @@ namespace GOTOEngine
 {
 	class RuntimeAnimatorController : public Object
 	{
+	public:
+		// state마다 event 추가
+		using EventStateChange = std::function<void(AnimatorState* newState)>;
+		using EventAnimationEnd = std::function<void()>;
+
 	private:
 		AnimatorController* m_controller;
 
@@ -18,22 +23,19 @@ namespace GOTOEngine
 
 		//state
 		AnimatorState* m_currentState;
+		EventStateChange m_onStateEnter;
+		EventAnimationEnd m_onAnimationEnd;
+
 		float m_time;
+		bool m_isFinished;
 
 		bool CheckCondition(const AnimatorCondition& condition);
 		void Dispose() override;
+		
 	public:
-
 		RuntimeAnimatorController(AnimatorController* controller);
 		void Update(float deltaTime);
-		void ForceChangeState(std::wstring stateName)
-		{
-			if (m_controller->GetState(stateName))
-			{
-				m_currentState = m_controller->GetState(stateName);
-				m_time = 0.0f;
-			}
-		}
+		void ForceChangeState(std::wstring stateName);
 
 		Sprite* GetCurrentSprite();
 		const bool GetCurrentStateIsAlpha() { return m_currentState->GetIsAlpha(); }
@@ -41,6 +43,8 @@ namespace GOTOEngine
 		{ 
 			return m_currentState->GetStateName();
 		}
+		void SetOnStateEnter(const EventStateChange& callback) { m_onStateEnter = callback; }
+		void SetOnAnimationEnd(const EventAnimationEnd& callback) { m_onAnimationEnd = callback; }
 
 		void RegisterTrigger(std::wstring name, bool defaultvalue);
 		void RegisterBool(std::wstring name, bool defaultvalue);

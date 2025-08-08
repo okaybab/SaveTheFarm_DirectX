@@ -1,0 +1,20 @@
+{
+    "clipName": "Mole_Die",
+    "loop": false,
+	"alpha": true,
+    "texturePath": "../Resources/artResource/SpriteSheet/Mole/Mole_Die.png",
+    "duration": 1.0166666507720948,
+    "frames": [
+        {
+            "sprite": "Mole_Die_0",
+            "time": 0.0,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Mole_Die_0",
+            "time": 1.0,
+            "alpha": 0.0
+        }
+    ],
+    "events": []
+}

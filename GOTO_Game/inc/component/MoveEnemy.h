@@ -6,6 +6,7 @@
 
 #include "FadeComponent.h"
 
+
 namespace GOTOEngine
 {
 	enum E_Move_Enemy_Type
@@ -64,21 +65,40 @@ namespace GOTOEngine
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			case crow_2:
 				m_moveFlag = 0b0010;
 				m_disPoneTime = 10.0f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.2f, 0.2f });
+				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 				break;
 			}
-			SpriteRenderer* sprite = AddComponent<SpriteRenderer>();
+			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
-			sprite->SetRenderLayer(m_layer);
 			
+			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnStateEnter([this, controller](AnimatorState* newState) {
+				if (newState->GetStateName() == StateToString(DIE))
+				{
+					EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
+
+					controller->SetOnAnimationEnd([this]() {
+						Destroy(GetGameObject());
+					});
+				}
+
+				if (newState->GetStateName() == StateToString(ESCAPE))
+				{
+					EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
+
+					controller->SetOnAnimationEnd([this]() {
+						Destroy(GetGameObject());
+					});
+				}
+			});
 
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
@@ -90,25 +110,5 @@ namespace GOTOEngine
 		}
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
-
-		void OnDie(int attackerID) override
-		{
-			/*auto comp = GetGameObject()->GetComponent<Animator>()->GetAnimatorController();
-			std::wcout << comp->GetCurrentStateName() << std::endl;
-			comp->ForceChangeState(L"Die");
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
-			Destroy(GetGameObject(), 3.0f);*/
-
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
-
-			auto fader = GetGameObject()->GetComponent<FadeComponent>();
-			fader->Initialize();
-
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
-			fader->FadeOut(0.5f, [this]() {
-				Destroy(GetGameObject());
-			});
-		}
 	};
 }
