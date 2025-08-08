@@ -4,9 +4,6 @@
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
 
-#include "FadeComponent.h"
-
-
 namespace GOTOEngine
 {
 	enum E_Move_Enemy_Type

@@ -5,7 +5,6 @@
 #include <Collider2D.h>
 
 #include "ItemManager.h"
-#include "FadeComponent.h"
 
 namespace GOTOEngine
 {

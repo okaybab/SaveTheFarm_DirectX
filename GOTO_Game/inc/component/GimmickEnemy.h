@@ -5,7 +5,6 @@
 #include <Collider2D.h>
 
 #include "GimmickManager.h"
-#include "FadeComponent.h"
 
 namespace GOTOEngine
 {

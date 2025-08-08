@@ -2,13 +2,27 @@
     "controllerName": "GoldCrowAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "GoldCrow_Move",
+    "defaultState": "Move",
     "states": [
         {
-            "name": "GoldCrow_Move",
+            "name": "Move",
             "motionName": "GoldCrow_Move",
             "clipLength": 1.6666667461395264,
             "loop": true,
+            "transitions": []
+        },
+		{
+            "name": "Die",
+            "motionName": "GoldCrow_Die",
+            "clipLength": 0.9166666269302368,
+            "loop": false,
+            "transitions": []
+        },
+        {
+            "name": "Escape",
+            "motionName": "GoldCrow_Escape",
+            "clipLength": 1.75,
+            "loop": false,
             "transitions": []
         }
     ],

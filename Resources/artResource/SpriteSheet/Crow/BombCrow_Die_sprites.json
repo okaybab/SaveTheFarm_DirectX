@@ -1,0 +1,17 @@
+{
+    "texture": "BombCrow_Die.png",
+    "textureWidth": 630,
+    "textureHeight": 576,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "BombCrow_Die_0",
+            "x": 0.0,
+            "y": 12.0,
+            "width": 630.0,
+            "height": 564.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

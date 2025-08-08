@@ -1,0 +1,188 @@
+{
+    "texture": "BombCrow_Escape.png",
+    "textureWidth": 4170,
+    "textureHeight": 3260,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "BombCrow_Escape_0",
+            "x": 138.0,
+            "y": 2501.0,
+            "width": 614.0,
+            "height": 713.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_1",
+            "x": 974.0,
+            "y": 2509.0,
+            "width": 657.0,
+            "height": 649.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_2",
+            "x": 1733.0,
+            "y": 2518.0,
+            "width": 759.0,
+            "height": 584.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_3",
+            "x": 2509.0,
+            "y": 2528.0,
+            "width": 823.0,
+            "height": 508.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_4",
+            "x": 3347.0,
+            "y": 2539.0,
+            "width": 818.0,
+            "height": 503.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_5",
+            "x": 106.0,
+            "y": 1736.0,
+            "width": 693.0,
+            "height": 599.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_6",
+            "x": 982.0,
+            "y": 1749.0,
+            "width": 584.0,
+            "height": 671.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_7",
+            "x": 1818.0,
+            "y": 1755.0,
+            "width": 554.0,
+            "height": 690.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_8",
+            "x": 2654.0,
+            "y": 1747.0,
+            "width": 592.0,
+            "height": 668.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_9",
+            "x": 3423.0,
+            "y": 1740.0,
+            "width": 725.0,
+            "height": 587.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_10",
+            "x": 1.0,
+            "y": 921.0,
+            "width": 830.0,
+            "height": 583.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_11",
+            "x": 867.0,
+            "y": 910.0,
+            "width": 789.0,
+            "height": 599.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_12",
+            "x": 1820.0,
+            "y": 899.0,
+            "width": 614.0,
+            "height": 658.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_13",
+            "x": 2656.0,
+            "y": 884.0,
+            "width": 549.0,
+            "height": 743.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_14",
+            "x": 3487.0,
+            "y": 871.0,
+            "width": 554.0,
+            "height": 751.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_15",
+            "x": 148.0,
+            "y": 49.0,
+            "width": 612.0,
+            "height": 702.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_16",
+            "x": 897.0,
+            "y": 49.0,
+            "width": 757.0,
+            "height": 617.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_17",
+            "x": 1681.0,
+            "y": 49.0,
+            "width": 817.0,
+            "height": 613.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_18",
+            "x": 2561.0,
+            "y": 51.0,
+            "width": 763.0,
+            "height": 605.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "BombCrow_Escape_19",
+            "x": 3476.0,
+            "y": 53.0,
+            "width": 656.0,
+            "height": 659.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
