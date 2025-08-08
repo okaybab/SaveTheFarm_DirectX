@@ -16,7 +16,11 @@ void SoundManager::Awake() {
 			{"Hit", L"../Resources/Sound/Sound effect/Hit_sound.wav"},
 			{"IceBomb", L"../Resources/Sound/Sound effect/IceBomb_sound.mp3"},
 			{"Shot1P", L"../Resources/Sound/Sound effect/Shot1P_sound.wav"},
-			{"Shot2P", L"../Resources/Sound/Sound effect/Shot2P_sound.wav"}
+			{"Shot2P", L"../Resources/Sound/Sound effect/Shot2P_sound.wav"},
+			{"Continuous", L"../Resources/Sound/Sound effect/Continuous_sound.wav"},
+			{"Round", L"../Resources/Sound/Sound effect/round_sound.wav"},
+			{"Sling", L"../Resources/Sound/Sound effect/Sling_sound.wav"},
+			{"Warning", L"../Resources/Sound/Sound effect/Warning_sound.mp3"}
 		};
 
 		for (const auto& [key, path] : sfxList) {
