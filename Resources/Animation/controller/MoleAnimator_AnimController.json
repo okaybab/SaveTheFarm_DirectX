@@ -2,11 +2,32 @@
     "controllerName": "MoleAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "Mole_Idle",
+    "defaultState": "Idle",
     "states": [
-        {
-            "name": "Mole_Idle",
+		{
+            "name": "Idle",
             "motionName": "Mole_Idle",
+            "clipLength": 1.6666667461395264,
+            "loop": true,
+            "transitions": []
+        },
+        {
+            "name": "Die",
+            "motionName": "Mole_Die",
+            "clipLength": 1.0166666507720948,
+            "loop": false,
+            "transitions": []
+        },
+        {
+            "name": "Normal_Die",
+            "motionName": "NormalMole_Die",
+            "clipLength": 1.0166666507720948,
+            "loop": false,
+            "transitions": []
+        },
+        {
+            "name": "Normal_Move",
+            "motionName": "NormalMole_Move",
             "clipLength": 1.6666667461395264,
             "loop": true,
             "transitions": []

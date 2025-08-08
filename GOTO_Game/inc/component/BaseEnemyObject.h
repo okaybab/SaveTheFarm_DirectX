@@ -30,6 +30,24 @@ namespace GOTOEngine
 		itemspawn,
 		competition
 	};
+	enum E_Enemy_Anim_State
+	{
+		IDLE,
+		MOVE,
+		DIE,
+		ESCAPE
+	};
+	inline std::wstring StateToString(E_Enemy_Anim_State state)
+	{
+		switch (state)
+		{
+		case E_Enemy_Anim_State::IDLE:   return L"Idle";
+		case E_Enemy_Anim_State::MOVE:   return L"Move";
+		case E_Enemy_Anim_State::DIE:    return L"Die";
+		case E_Enemy_Anim_State::ESCAPE: return L"Escape";
+		default:                         return L"";
+		}
+	}
 
 	class BaseEnemyObject : public ScriptBehaviour,
 							public IAttackAble
@@ -41,6 +59,7 @@ namespace GOTOEngine
 
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
+		E_Enemy_Anim_State m_animState = E_Enemy_Anim_State::MOVE;
 
 		// move
 		int m_moveFlag;
@@ -88,8 +107,7 @@ namespace GOTOEngine
 			{
 				// 디스폰
 				m_isDeathByDispone = true;
-				m_isDie = true;
-				OnDie(-1);
+				SetState(E_Enemy_Anim_State::ESCAPE);
 				return;
 			}
 
@@ -195,6 +213,11 @@ namespace GOTOEngine
 		void SetEnemyLayer(std::uint32_t _player = 1 << 1)
 		{
 			m_layer = _player;
+		}
+		void SetState(E_Enemy_Anim_State state)
+		{
+			m_animState = state;
+			GetGameObject()->GetComponent<Animator>()->GetRuntimeAnimatorController()->ForceChangeState(StateToString(state));
 		}
 
 		// 이벤트

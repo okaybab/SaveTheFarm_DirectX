@@ -1,0 +1,17 @@
+{
+    "texture": "NormalMole_Die.png",
+    "textureWidth": 992,
+    "textureHeight": 1269,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "NormalMole_Die_0",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 992.0,
+            "height": 1269.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
