@@ -87,6 +87,19 @@ namespace GOTOEngine
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 
+			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnAnimationEnd([this]() {
+				if (m_animState == DIE)
+				{
+					Destroy(GetGameObject());
+				}
+
+				if (m_animState == ESCAPE)
+				{
+					Destroy(GetGameObject());
+				}
+			});
+
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
@@ -100,17 +113,8 @@ namespace GOTOEngine
 
 		void OnDie(int attackerID) override
 		{
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
-
-			auto fader = GetGameObject()->GetComponent<FadeComponent>();
-			fader->Initialize();
-
+			__super::OnDie(attackerID);
 			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
-
-			fader->FadeOut(0.5f, [this]() {
-				Destroy(GetGameObject());
-			});
 		}
 	};
 }

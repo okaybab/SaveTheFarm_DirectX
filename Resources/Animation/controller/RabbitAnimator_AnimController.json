@@ -2,20 +2,27 @@
     "controllerName": "RabbitAnimator",
     "commonClipPath": "../Resources/Animation/clip/",
     "parameters": [],
-    "defaultState": "Rabbit_Jump",
+    "defaultState": "Move",
     "states": [
         {
-            "name": "Rabbit_Idle",
-            "motionName": "Rabbit_Idle",
-            "clipLength": 3.3333332538604738,
+            "name": "Move",
+            "motionName": "Rabbit_Move",
+            "clipLength": 1.6666667461395264,
             "loop": true,
             "transitions": []
         },
+		{
+            "name": "Die",
+            "motionName": "Rabbit_Die",
+            "clipLength": 0.8333333134651184,
+            "loop": false,
+            "transitions": []
+        },
         {
-            "name": "Rabbit_Jump",
-            "motionName": "Rabbit_Jump",
+            "name": "Escape",
+            "motionName": "Rabbit_Escape",
             "clipLength": 1.6666667461395264,
-            "loop": true,
+            "loop": false,
             "transitions": []
         }
     ],

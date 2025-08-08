@@ -1,0 +1,17 @@
+{
+    "texture": "Squirrel_Die.png",
+    "textureWidth": 500,
+    "textureHeight": 535,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Squirrel_Die_0",
+            "x": 0.0,
+            "y": 41.0,
+            "width": 460.0,
+            "height": 426.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

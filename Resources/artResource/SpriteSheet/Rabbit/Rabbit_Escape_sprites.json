@@ -1,0 +1,188 @@
+{
+    "texture": "Rabbit_Escape.png",
+    "textureWidth": 2510,
+    "textureHeight": 2592,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Rabbit_Escape_0",
+            "x": 70.0,
+            "y": 1962.0,
+            "width": 428.0,
+            "height": 630.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_1",
+            "x": 567.0,
+            "y": 1964.0,
+            "width": 433.0,
+            "height": 628.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_2",
+            "x": 1064.0,
+            "y": 1966.0,
+            "width": 438.0,
+            "height": 626.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_3",
+            "x": 1561.0,
+            "y": 1967.0,
+            "width": 443.0,
+            "height": 624.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_4",
+            "x": 2057.0,
+            "y": 1967.0,
+            "width": 449.0,
+            "height": 622.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_5",
+            "x": 44.0,
+            "y": 1317.0,
+            "width": 454.0,
+            "height": 623.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_6",
+            "x": 541.0,
+            "y": 1315.0,
+            "width": 459.0,
+            "height": 623.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_7",
+            "x": 1038.0,
+            "y": 1318.0,
+            "width": 464.0,
+            "height": 618.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_8",
+            "x": 1535.0,
+            "y": 1324.0,
+            "width": 469.0,
+            "height": 611.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_9",
+            "x": 2032.0,
+            "y": 1331.0,
+            "width": 474.0,
+            "height": 602.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_10",
+            "x": 19.0,
+            "y": 690.0,
+            "width": 479.0,
+            "height": 595.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_11",
+            "x": 527.0,
+            "y": 689.0,
+            "width": 473.0,
+            "height": 595.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_12",
+            "x": 1035.0,
+            "y": 686.0,
+            "width": 467.0,
+            "height": 599.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_13",
+            "x": 1542.0,
+            "y": 683.0,
+            "width": 462.0,
+            "height": 603.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_14",
+            "x": 2049.0,
+            "y": 681.0,
+            "width": 457.0,
+            "height": 606.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_15",
+            "x": 46.0,
+            "y": 30.0,
+            "width": 452.0,
+            "height": 612.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_16",
+            "x": 553.0,
+            "y": 28.0,
+            "width": 447.0,
+            "height": 616.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_17",
+            "x": 1060.0,
+            "y": 25.0,
+            "width": 442.0,
+            "height": 621.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_18",
+            "x": 1566.0,
+            "y": 23.0,
+            "width": 438.0,
+            "height": 624.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Rabbit_Escape_19",
+            "x": 2073.0,
+            "y": 20.0,
+            "width": 433.0,
+            "height": 628.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

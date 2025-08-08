@@ -1,0 +1,188 @@
+{
+    "texture": "ThiefMole_Escape.png",
+    "textureWidth": 5430,
+    "textureHeight": 6108,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "ThiefMole_Escape_0",
+            "x": 34.0,
+            "y": 4628.0,
+            "width": 978.0,
+            "height": 1470.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_1",
+            "x": 1118.0,
+            "y": 4619.0,
+            "width": 944.0,
+            "height": 1480.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_2",
+            "x": 2203.0,
+            "y": 4615.0,
+            "width": 941.0,
+            "height": 1487.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_3",
+            "x": 3288.0,
+            "y": 4617.0,
+            "width": 948.0,
+            "height": 1487.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_4",
+            "x": 4374.0,
+            "y": 4623.0,
+            "width": 968.0,
+            "height": 1484.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_5",
+            "x": 31.0,
+            "y": 3096.0,
+            "width": 988.0,
+            "height": 1481.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_6",
+            "x": 1118.0,
+            "y": 3083.0,
+            "width": 1004.0,
+            "height": 1482.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_7",
+            "x": 2206.0,
+            "y": 3072.0,
+            "width": 1016.0,
+            "height": 1479.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_8",
+            "x": 3295.0,
+            "y": 3064.0,
+            "width": 1026.0,
+            "height": 1473.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_9",
+            "x": 4384.0,
+            "y": 3059.0,
+            "width": 1032.0,
+            "height": 1464.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_10",
+            "x": 44.0,
+            "y": 1530.0,
+            "width": 1035.0,
+            "height": 1453.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_11",
+            "x": 1133.0,
+            "y": 1535.0,
+            "width": 1027.0,
+            "height": 1460.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_12",
+            "x": 2218.0,
+            "y": 1542.0,
+            "width": 1020.0,
+            "height": 1470.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_13",
+            "x": 3300.0,
+            "y": 1552.0,
+            "width": 1011.0,
+            "height": 1477.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_14",
+            "x": 4382.0,
+            "y": 1565.0,
+            "width": 1001.0,
+            "height": 1479.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_15",
+            "x": 35.0,
+            "y": 44.0,
+            "width": 986.0,
+            "height": 1480.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_16",
+            "x": 1118.0,
+            "y": 40.0,
+            "width": 969.0,
+            "height": 1483.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_17",
+            "x": 2203.0,
+            "y": 37.0,
+            "width": 950.0,
+            "height": 1483.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_18",
+            "x": 3289.0,
+            "y": 38.0,
+            "width": 947.0,
+            "height": 1482.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "ThiefMole_Escape_19",
+            "x": 4376.0,
+            "y": 44.0,
+            "width": 947.0,
+            "height": 1473.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

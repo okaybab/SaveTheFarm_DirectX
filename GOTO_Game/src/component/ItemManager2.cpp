@@ -37,7 +37,7 @@ void ItemManager2::Awake() {
 		bombItemSprite->IncreaseRefCount();
 		icebombItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_item.png");
 		icebombItemSprite->IncreaseRefCount();
-		mushroomItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Golden_ticket.png");
+		mushroomItemSprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/mushroom_item.png");
 		mushroomItemSprite->IncreaseRefCount();
 		iced = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
 		iced->IncreaseRefCount();
