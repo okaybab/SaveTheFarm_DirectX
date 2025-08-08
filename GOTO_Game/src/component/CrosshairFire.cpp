@@ -531,9 +531,25 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
 
 void GOTOEngine::CrosshairFire::HoldModeUdpate()
 {
-    if (INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1))
+    m_fireCooldown -= TIME_GET_DELTATIME();
+    m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
+
+    if (m_fireCooldown > 0.0f)
     {
+        if (IsValidObject(gageSprite))
+        {
+            gageSprite->SetFillAmount((fireRate - m_fireCooldown) / fireRate);
+        }
+        return;
+    }
+
+    if (INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1) && m_fireCooldown == 0.0f)
+    {
+        gageSprite->SetClockwise(true);
+
         m_fireGage += fireGageUpRate * TIME_GET_DELTATIME();
+
+        m_strCount = 1;
 
         if (m_rumbleAnimID == -1)
         {
@@ -556,7 +572,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
                 onCharge.Invoke(id);
             }
 
-            m_strCount = 1 + static_cast<int>((m_fireGage - 1.0f) / 1.2f);
+            m_strCount = 2 + static_cast<int>((m_fireGage - 1.0f) / 1.65f);
             m_strCount = min(5, m_strCount);
         }
 
@@ -588,6 +604,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
     }
     else
     {
+        bool hasHit = false;
         if (m_strCount != 0)
         {
             int loopCount = m_strCount;
@@ -605,6 +622,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
                     {
                         attackable->TakeDamage(id, 1);
                         isHit = true;
+                        hasHit = true;
                     }
 
                     if (isHit)
@@ -615,11 +633,25 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             onFire.Invoke(id);
             if (IsValidObject(physAnimation))
             {
-                physAnimation->ApplyTorque(80.0f * Mathf::Max(1.25f, m_strCount));
+                physAnimation->ApplyTorque(320.0f * (1.0f + (float)(m_strCount - 1) * (2.25f - 1.0f) / (5 - 1)));
                 physAnimation->ApplyScaleForce(0.56f * Mathf::Max(1.25f, m_strCount));
             }
-            GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
+
+            if (hasHit)
+            {
+                GamepadRumbleManager::instance->Play(id, *s_pfireRumbleClip, 1.0f);
+                if (m_shaker)
+                    m_shaker->ShakeCamera(24, 55, 8);
+            }
+
+            if (id == 0)
+                SoundManager::instance->PlaySFX("Shot1P");
+            else
+                SoundManager::instance->PlaySFX("Shot2P");
+
             m_strCount = 0;
+
+            m_fireCooldown = 0.5f;
         }
 
         m_fireGage = 0;
@@ -645,11 +677,13 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
         m_rumbleAnimID = -1;
         m_holdingRumbleAnimID = -1;
         m_shakeMove = { 0,0 };
+
+        gageSprite->SetClockwise(false);
     }
 
     if (IsValidObject(strText))
     {
-        if (m_strCount == 0)
+        if (m_strCount < 2)
         {
             strText->text = L"";
         }
@@ -667,6 +701,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
 
 void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
 {
+
 }
 
 void GOTOEngine::CrosshairFire::ChangeMode(CrosshairFireMode mode)
@@ -683,6 +718,7 @@ void GOTOEngine::CrosshairFire::OnEnter(CrosshairFireMode mode)
     switch (mode)
     {
     case CrosshairFireMode::Trigger:
+        gageSprite->SetClockwise(false);
         break;
     case CrosshairFireMode::Hold:
         break;

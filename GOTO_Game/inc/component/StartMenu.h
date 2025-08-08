@@ -51,11 +51,18 @@ namespace GOTOEngine
 			}
 
 			//*/ 디버깅용 스페이스 바
-			if (INPUT_GET_KEYDOWN(KeyCode::Space))
+			if (INPUT_GET_KEYDOWN(KeyCode::F1))
 			{
 				FadeInOutFXManager::instance->FadeOut();
 				m_selectStart = true;
 			}
+
+			if (INPUT_GET_KEYDOWN(KeyCode::F2))
+			{
+				FadeInOutFXManager::instance->FadeOut();
+				m_selectDeffense = true;
+			}
+
 			//*/
 
 			//매 프레임 마다 스타트 메뉴 확인
