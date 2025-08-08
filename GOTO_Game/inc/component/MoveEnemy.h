@@ -24,7 +24,6 @@ namespace GOTOEngine
 	public:
 		void Dispose()
 		{
-			std::cout << "move dispose" << std::endl;
 			if (!GameManager::instance->setactive) return;
 
 			if (m_isDeathByDispone)
@@ -81,10 +80,8 @@ namespace GOTOEngine
 			
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
-				std::cout << "SetOnAnimationEnd" << std::endl;
 				if (m_animState == DIE || m_animState == ESCAPE)
 				{
-					std::cout << "Die || Escape" << std::endl;
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());
 				}
