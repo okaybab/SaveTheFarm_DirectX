@@ -1,0 +1,16 @@
+{
+    "controllerName": "BackgroundAnimator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Background",
+    "states": [
+        {
+            "name": "Background",
+            "motionName": "Background",
+            "clipLength": 2.5,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}
