@@ -21,7 +21,6 @@ namespace GOTOEngine
 	{
 		E_Gimmick_Enemy_Type m_gimmickEnemyType;
 
-
 	public:
 		void Dispose()
 		{
@@ -78,13 +77,30 @@ namespace GOTOEngine
 				m_disPoneTime = 9.0f;
 				GetGameObject()->name = L"도둑두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.44f, 0.44f });
+				GetTransform()->SetLossyScale({ 0.15f, 0.15f });
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<FadeComponent>();
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
 
+			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnStateEnter([this, controller](AnimatorState* newState) {
+				if (newState->GetStateName() == StateToString(DIE))
+				{
+					controller->SetOnAnimationEnd([this]() {
+						Destroy(GetGameObject());
+					});
+				}
+
+				if (newState->GetStateName() == StateToString(ESCAPE))
+				{
+					controller->SetOnAnimationEnd([this]() {
+						Destroy(GetGameObject());
+					});
+				}
+			});
+			
 			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
@@ -95,17 +111,10 @@ namespace GOTOEngine
 		}
 
 		int GetType() override { return static_cast<int>(m_gimmickEnemyType); }
-
 		void OnDie(int attackerID) override
 		{
-			auto fader = GetGameObject()->GetComponent<FadeComponent>();
-			fader->Initialize();
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
-			GetGameObject()->GetComponent<Animator>()->SetEnabled(false);
-			GetGameObject()->GetComponent<SpriteRenderer>()->SetSprite(EnemySpawner::instance->GetSprite(GetGameObject()->name));
-			fader->FadeOut(0.5f, [this]() {
-				Destroy(GetGameObject());
-			});
+			__super::OnDie(attackerID);
+			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
 		}
 	};
 }

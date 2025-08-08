@@ -1,0 +1,17 @@
+{
+    "texture": "ThiefMole_Die.png",
+    "textureWidth": 1024,
+    "textureHeight": 1536,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "ThiefMole_Die_0",
+            "x": 46.0,
+            "y": 86.0,
+            "width": 936.0,
+            "height": 1366.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}
