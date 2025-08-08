@@ -25,32 +25,25 @@ void GimmickManager2::OnDestroy() {
 }
 
 void GimmickManager2::Update() {
-	if (p1gimmick1Timer > 0.0f) {
-		p1gimmick1Timer -= TIME_GET_DELTATIME();
-		if (p1gimmick1Timer <= 0.0f) {
-			p1gimmick1Timer = 0.0f;
-			//p1연사모드해제
+	if (gimmick5Timer > 0.0f) {
+		gimmick5Timer -= TIME_GET_DELTATIME();
+		if (gimmick5Timer <= 0.0f) {
+			gimmick5Timer = 0.0f;
+			//빙결해제
 		}
 	}
-	if (p2gimmick1Timer > 0.0f) {
-		p2gimmick1Timer -= TIME_GET_DELTATIME();
-		if (p2gimmick1Timer <= 0.0f) {
-			p2gimmick1Timer = 0.0f;
-			//p2연사모드해제
+	if (p1gimmick6Timer > 0.0f) {
+		p1gimmick6Timer -= TIME_GET_DELTATIME();
+		if (p1gimmick6Timer <= 0.0f) {
+			p1gimmick6Timer = 0.0f;
+			//빅건해제
 		}
 	}
-	if (p1gimmick2Timer > 0.0f) {
-		p1gimmick2Timer -= TIME_GET_DELTATIME();
-		if (p1gimmick2Timer <= 0.0f) {
-			p1gimmick2Timer = 0.0f;
-			//p1샷건모드해제
-		}
-	}
-	if (p2gimmick2Timer > 0.0f) {
-		p2gimmick2Timer -= TIME_GET_DELTATIME();
-		if (p2gimmick2Timer <= 0.0f) {
-			p2gimmick2Timer = 0.0f;
-			//p2샷건모드해제
+	if (p1gimmick6Timer > 0.0f) {
+		p1gimmick6Timer -= TIME_GET_DELTATIME();
+		if (p1gimmick6Timer <= 0.0f) {
+			p1gimmick6Timer = 0.0f;
+			//빅건해제
 		}
 	}
 };
@@ -62,26 +55,38 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 		case 1:
 			if (player == 1) {
 				//p1연사모드
-				p1gimmick1Timer = timelimit;
 			}
 			else {
 				//p2연사모드
-				p2gimmick1Timer = timelimit;
 			}
 			break;
 		case 2:
 			if (player == 1) {
 				//p1샷건모드
-				p1gimmick2Timer = timelimit;
 			}
 			else {
 				//p2샷건모드
-				p2gimmick2Timer = timelimit;
 			}
 			break;
 		case 3:
 			//적 3마리 생성
 			break;
+		case 4:
+			//폭탄
+			break;
+		case 5:
+			//얼음폭탄
+			gimmick5Timer = 2.0f;
+			break;
+		case 6:
+			if (player == 1) {
+				//p1빅건모드
+				p1gimmick6Timer = 10.0f;
+			}
+			else {
+				//p2빅건모드
+				p2gimmick6Timer = 10.0f;
+			}
 		}
 	}
 };
