@@ -330,18 +330,16 @@ void D2DRenderAPI::DrawString(const wchar_t* string, const Rect& rect, const IRe
 
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
-	D2D1_RECT_F layoutRect; 
-	
-	if (useScreenPos)
-	{
-		layoutRect = D2D1::RectF(rect.x, (screenHeight - rect.y - rect.height), (rect.x + rect.width), (screenHeight - rect.y));
-	}
-	else
-	{
-		layoutRect = D2D1::RectF(0.0f, 0.0f, rect.width, rect.height);
-	}
+	D2D1_RECT_F layoutRect = D2D1::RectF(0.0f, 0.0f, rect.width, rect.height);
+
 
 	auto d2dTransform = ConvertToD2DMatrix(mat);
+
+	if (useScreenPos)
+	{
+		auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);//D2D1::Matrix3x2F::Translation(rect.x, screenHeight - rect.y - rect.height);
+		d2dTransform = d2dTransform * correctTransform;
+	}
 
 	m_d2dContext->SetTransform(d2dTransform);
 	m_d2dContext->DrawText(string, static_cast<UINT32>(wcslen(string)), textFormat, &layoutRect, m_solidColorBrush.Get());
