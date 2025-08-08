@@ -17,12 +17,12 @@ namespace GOTOEngine
 		Body* m_jointbody1;
 		Body* m_jointbody2;
 	public:
-		InteractiveTitle()
-		{
-			REGISTER_BEHAVIOUR_MESSAGE(Awake);
-			REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-			REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
-		}
+    InteractiveTitle()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
+    }
 
 		void FixedUpdate()
 		{

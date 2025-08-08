@@ -24,13 +24,13 @@ namespace GOTOEngine
 		float m_coolTime;
 		int m_bulletCount;
 	public:
-		CrosshairController()
-		{
-			SetExecutionOrder(1);
-			REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
-			REGISTER_BEHAVIOUR_MESSAGE(Awake);
-			REGISTER_BEHAVIOUR_MESSAGE(Update);
-		}
+    CrosshairController()
+    {
+        SetExecutionOrder(1);
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
+        REGISTER_BEHAVIOUR_MESSAGE(Update);
+    }
 
 		int id = 0;
 
