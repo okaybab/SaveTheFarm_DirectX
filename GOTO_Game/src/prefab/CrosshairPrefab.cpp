@@ -31,7 +31,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	crosshairMove->gimmickAnimator->SetEnabled(false);
 	crosshairMove->gimmickAnimSprite = gimmickSprite;
 	crosshairMove->gimmickAnimSprite->SetEnabled(false);
-	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.18f,0.18f });
+	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.24f,0.24f });
 	GimmickAnimatorGO->GetTransform()->SetLocalPosition({ 0.0f,26.0f });
 
 	GimmickAnimatorGO->GetTransform()->SetParent(GO->GetTransform());
@@ -58,7 +58,9 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
 	crosshairCollide->spriteRenderer = spriteRenderer;
 
-	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+	auto col2d = GO->AddComponent<Collider2D>(); // Collider 크기 조정
+	col2d->SetSize({ 45.0f, 45.0f });
+	col2d->SetIsTrigger(true);
 
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
@@ -135,7 +137,10 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 
 	collide->spriteRenderer = spriteRenderer;
 
-	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+	auto col2d = GO->AddComponent<Collider2D>(); // Collider 크기 조정
+	col2d->SetSize({ 45.0f, 45.0f });
+	col2d->SetIsTrigger(true);
+
 
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();

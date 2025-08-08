@@ -14,7 +14,7 @@ namespace GOTOEngine
 		PhysicsManager::Body2DWrapper* m_wrapperBody;
 
 		PhysicsManager::Body2DWrapper* GetWrapperBody() { return m_wrapperBody; };
-		
+
 		~Collider2D();
 
 		void AdditionalInitialize() override;
@@ -29,10 +29,24 @@ namespace GOTOEngine
 			 return { 0,0 };
 		}
 
+		bool GetIsTrigger()
+		{
+			if (GetWrapperBody() && GetWrapperBody()->m_pBody)
+				return  { GetWrapperBody()->m_pBody->isTrigger };
+
+			return false;
+		}
+
 		void SetSize(const Vector2& size) 
 		{ 
 			if (GetWrapperBody() && GetWrapperBody()->m_pBody)
 				GetWrapperBody()->m_pBody->width = { size.x, size.y };
+		}
+
+		void SetIsTrigger(bool value)
+		{
+			if (GetWrapperBody() && GetWrapperBody()->m_pBody)
+				GetWrapperBody()->m_pBody->isTrigger = value;
 		}
 	};
 }

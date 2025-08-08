@@ -328,5 +328,8 @@
     <ClInclude Include="inc\component\CrosshairController.h">
       <Filter>헤더 파일\컴포넌트\조준점</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\InteractiveTitle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

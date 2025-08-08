@@ -128,6 +128,9 @@ void World::BroadPhase()
 			if (bi->invMass == 0.0f && bj->invMass == 0.0f)
 				continue;
 
+			if (bi->isTrigger || bj->isTrigger)
+				continue;
+
 			Arbiter newArb(bi, bj);
 			ArbiterKey key(bi, bj);
 
