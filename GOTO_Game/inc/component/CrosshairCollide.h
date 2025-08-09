@@ -38,6 +38,10 @@ namespace GOTOEngine
 
 		int id = 0;
 
+		Vector2 GetColSize() { return m_collider->GetSize(); }
+
+		void SetColSize(const Vector2& size) { m_collider->SetSize(size); }
+
 		void Awake()
 		{
 			m_collider = GetComponent<Collider2D>();

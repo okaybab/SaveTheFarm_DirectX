@@ -202,6 +202,8 @@ void GOTOEngine::CrosshairController::Awake()
 {
     OnEnter(m_type);
     fire->onFire.Add([this](int id) { OnCrosshairFire(); });
+
+    m_colSize = collide->GetColSize();
 }
 
 void GOTOEngine::CrosshairController::Update()
@@ -317,20 +319,69 @@ void GOTOEngine::CrosshairController::Update()
             break;
         }
 
-
-
         //±³Ã¼
         if (m_bulletCount <= 0 && m_animationDone)
         {
-
             ChangeType(CrosshairType::HoldingGun);
             break;
         }
-
         break;
     }
     case CrosshairType::BigGun:
+    {
+        float deltaTime = TIME_GET_DELTATIME();
+        float lastCurveKeyFrameTime = s_bigGunAnimationCurve.GetKeyframes().back().time;
+        m_coolTime -= deltaTime;
+
+        if (m_coolTime > 0 && !m_animationDone)
+        {
+            m_animationTime += deltaTime;
+
+            float curveValue = s_bigGunAnimationCurve.Evaluate(m_animationTime * 1.8f);
+
+            collide->SetColSize(m_colSize * curveValue);
+
+            GetTransform()->SetLocalScale({ curveValue,curveValue });
+
+            if (m_animationTime * 1.8f > lastCurveKeyFrameTime)
+            {
+                m_animationDone = true;
+                m_animationTime = 0.0f;
+            }
+        }
+        
+        text->text = std::to_wstring(static_cast<int>(Mathf::Max(0.0f, m_coolTime + 1.0f)));
+
+        if (m_coolTime <= 0)
+        {
+            m_animationDone = false;
+            text->GetGameObject()->SetActive(false);
+        }
+
+        if (m_coolTime <= 0 && !m_animationDone)
+        {
+            m_animationTime += deltaTime;
+
+            float curveValue = s_bigGunAnimationCurve.Evaluate(lastCurveKeyFrameTime - (m_animationTime * 1.8f));
+
+            collide->SetColSize(m_colSize * curveValue);
+
+            GetTransform()->SetLocalScale({ curveValue,curveValue });
+
+            if (m_animationTime * 1.8f > lastCurveKeyFrameTime)
+            {
+                m_animationDone = true;
+                m_animationTime = 0.0f;
+            }
+        }
+
+        if (m_coolTime <= 0 && m_animationDone)
+        {
+            ChangeType(CrosshairType::HoldingGun);
+        }
         break;
+    }
+        
     }
 }
 
@@ -376,8 +427,14 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
     }
     case CrosshairType::BigGun:
     {
+        m_coolTime = 10.0f;
+        m_animationDone = false;
+        m_animationTime = 0.0f;
         fire->damage = 2;
         fire->ChangeMode(CrosshairFireMode::Hold);
+        text->GetGameObject()->SetActive(true);
+        text->GetTransform()->SetLocalPosition({ 0.0f, -90.0f });
+        text->text = std::to_wstring(static_cast<int>(m_coolTime));
         break;
     }
     }
@@ -417,11 +474,13 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
 
         move->clampOffset = { 0.0f,0.0f };
 
-
         break;
     }
     case CrosshairType::BigGun:
         fire->damage = 1;
+        collide->SetColSize(m_colSize);
+        GetTransform()->SetLocalScale({1.0f,1.0f});
+        text->GetGameObject()->SetActive(false);
         break;
     }
 }

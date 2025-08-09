@@ -28,6 +28,8 @@ namespace GOTOEngine
 		float m_animationTime = 0.0f;
 		static AnimationCurve s_bigGunAnimationCurve;
 
+		Vector2 m_colSize;
+
 		float BulletSpriteStartX(int length, float bias);
 	public:
     CrosshairController()

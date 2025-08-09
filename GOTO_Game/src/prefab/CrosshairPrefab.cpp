@@ -113,6 +113,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	auto ControllerText = ControllerTextGO->AddComponent<TextRenderer>();
 	ControllerText->SetFont(L"../Resources/Maplestory Bold.ttf");
 	ControllerText->size = 18;
+	ControllerText->color = { 0,255,0,255 };
 	ControllerText->SetRenderLayer((1 << (id + 1)) | (1 << 3));
 	ControllerText->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
 
