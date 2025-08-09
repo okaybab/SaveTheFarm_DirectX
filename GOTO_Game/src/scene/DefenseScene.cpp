@@ -27,7 +27,7 @@ void DefenseScene::Initialize()
 	player1CamMover->id = 0;
 	player1CamMover->maxMoveLength = 1500;
 	player1CamMover->minMoveLength = -1500;
-	
+	player1CamMover->moveCrosshair = false;
 	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
 
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
@@ -51,6 +51,7 @@ void DefenseScene::Initialize()
 	player2CamMover->id = 1;
 	player2CamMover->maxMoveLength = 1500;
 	player2CamMover->minMoveLength = -1500;
+	player2CamMover->moveCrosshair = false;
 	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
 
 	auto player2Cam = player2CamGO->GetComponent<Camera>();

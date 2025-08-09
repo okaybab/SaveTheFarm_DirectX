@@ -124,7 +124,7 @@ namespace GOTOEngine
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, vInput }, 1.0f);
 			m_vel = Vector2::Lerp(m_vel, moveInput.Normalized() * moveInput.Magnitude() * moveSpeed * currentSpeedFactor, 12.0f * TIME_GET_DELTATIME());
 
-			GetTransform()->SetPosition(GetTransform()->GetPosition() + (m_vel * TIME_GET_DELTATIME()));
+			GetTransform()->SetLocalPosition(GetTransform()->GetPosition() + (m_vel * TIME_GET_DELTATIME()));
 
 			Vector2 posMin = cam->ViewportToWorldPoint({ 0,0 });
 			Vector2 posMax = cam->ViewportToWorldPoint({ 1.0f, 1.0f });

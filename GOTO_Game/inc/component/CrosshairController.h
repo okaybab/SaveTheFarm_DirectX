@@ -5,6 +5,7 @@
 #include "CrosshairCollide.h"
 #include "CrosshairFire.h"
 #include "CrosshairMove.h"
+#include "TextRenderer.h"
 
 namespace GOTOEngine
 {
@@ -39,8 +40,12 @@ namespace GOTOEngine
 		CrosshairCollide* collide = nullptr;
 		CrosshairFire* fire = nullptr;
 		CrosshairMove* move = nullptr;
+		
+		TextRenderer* text = nullptr;
 
-		GameObject* subCrosshair[3] { nullptr };
+		GameObject* subCrosshairs[3] { nullptr };
+
+		Transform* bulletImageTransforms[5] { nullptr };
 
 		void ChangeType(CrosshairType type);
 

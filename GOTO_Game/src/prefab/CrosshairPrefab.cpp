@@ -2,6 +2,7 @@
 #include "CrosshairCollide.h"
 #include "CrosshairMove.h"
 #include "CrosshairFire.h"
+#include "CrosshairController.h"
 #include "ButtonAnimation.h"
 
 #include <GameObject.h>
@@ -106,8 +107,18 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	GoldFX->SetMinScale(0.05f);
 	GoldFX->SetMaxScale(0.1f);
 	GoldFX->SetRenderOrder(2000);
-
 	
+	auto crosshairCon = GO->AddComponent<CrosshairController>();
+	crosshairCon->collide = crosshairCollide;
+	crosshairCon->move = crosshairMove;
+	crosshairCon->fire = crosshairFire;
+
+	for (int i = 0; i < 3; i++)
+	{
+		auto subCrosshairGO = CreateSubCrosshair(id);
+		subCrosshairGO->GetTransform()->SetParent(GO->GetTransform(),false);
+		crosshairCon->subCrosshairs[i] = subCrosshairGO;
+	}
 
 	return GO;
 }
