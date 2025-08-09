@@ -1,0 +1,55 @@
+{
+    "clipName": "Gimmick3_effect",
+    "loop": false,
+    "alpha": false,
+    "texturePath": "../Resources/artResource/SpriteSheet/Gimmick/Gimmick3_effect.png",
+    "duration": 0.75,
+    "frames": [
+        {
+            "sprite": "Gimmick3_effect_0",
+            "time": 0.0,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_1",
+            "time": 0.0833333358168602,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_2",
+            "time": 0.1666666716337204,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_3",
+            "time": 0.25,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_4",
+            "time": 0.3333333432674408,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_5",
+            "time": 0.4166666865348816,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_6",
+            "time": 0.5,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_51",
+            "time": 0.5833333730697632,
+            "alpha": 1.0
+        },
+        {
+            "sprite": "Gimmick3_effect_52",
+            "time": 0.6666666865348816,
+            "alpha": 1.0
+        }
+    ],
+    "events": []
+}

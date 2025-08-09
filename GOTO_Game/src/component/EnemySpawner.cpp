@@ -39,7 +39,9 @@ void GOTOEngine::EnemySpawner::Awake()
 			{L"얼음새", L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"},
 			{L"폭탄새", L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"},
 			{L"황금새", L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"},
-			{L"황금두더지", L"../Resources/Animation/controller/GoldMoleAnimator_AnimController.json"}
+			{L"황금두더지", L"../Resources/Animation/controller/GoldMoleAnimator_AnimController.json"},
+
+			{L"Gimmick3", L"../Resources/Animation/controller/Gimmick3_Animator_AnimController.json"}
 		};
 		for (const auto& [key, path] : animList)
 		{

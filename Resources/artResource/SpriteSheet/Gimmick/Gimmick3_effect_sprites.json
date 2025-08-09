@@ -1,0 +1,89 @@
+{
+    "texture": "Gimmick3_effect.png",
+    "textureWidth": 3365,
+    "textureHeight": 1424,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "Gimmick3_effect_0",
+            "x": 88.0,
+            "y": 796.0,
+            "width": 539.0,
+            "height": 528.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_1",
+            "x": 687.0,
+            "y": 777.0,
+            "width": 637.0,
+            "height": 580.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_2",
+            "x": 1370.0,
+            "y": 753.0,
+            "width": 624.0,
+            "height": 606.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_3",
+            "x": 2033.0,
+            "y": 741.0,
+            "width": 639.0,
+            "height": 626.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_4",
+            "x": 2698.0,
+            "y": 743.0,
+            "width": 655.0,
+            "height": 618.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_5",
+            "x": 23.0,
+            "y": 2.0,
+            "width": 642.0,
+            "height": 653.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_6",
+            "x": 672.0,
+            "y": 0.0,
+            "width": 671.0,
+            "height": 647.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_51",
+            "x": 337.0,
+            "y": 55.0,
+            "width": 16.0,
+            "height": 8.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "Gimmick3_effect_52",
+            "x": 404.0,
+            "y": 63.0,
+            "width": 25.0,
+            "height": 6.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

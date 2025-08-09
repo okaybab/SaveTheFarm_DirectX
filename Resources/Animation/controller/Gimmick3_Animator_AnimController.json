@@ -1,0 +1,16 @@
+{
+    "controllerName": "Gimmick3_Animator",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "Gimmick3",
+    "states": [
+        {
+            "name": "Gimmick3",
+            "motionName": "Gimmick3_effect",
+            "clipLength": 0.75,
+            "loop": false,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}
