@@ -185,7 +185,10 @@ float GOTOEngine::CrosshairController::BulletSpriteStartX(int length, float bias
 void GOTOEngine::CrosshairController::ChangeType(CrosshairType type)
 {
     if (m_type == type)
+    {
+        ResetValue(m_type);
         return;
+    }
 
     OnExit(m_type);
     m_type = type;
@@ -481,6 +484,31 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
         collide->SetColSize(m_colSize);
         GetTransform()->SetLocalScale({1.0f,1.0f});
         text->GetGameObject()->SetActive(false);
+        break;
+    }
+}
+
+void GOTOEngine::CrosshairController::ResetValue(CrosshairType type)
+{
+    switch (m_type)
+    {
+    case CrosshairType::TriggerGun:
+        break;
+    case CrosshairType::HoldingGun:
+        break;
+    case CrosshairType::MachineGun:
+        m_bulletCount = 30;
+        break;
+    case CrosshairType::ShotGun:
+        m_bulletCount = 5;
+        break;
+    case CrosshairType::BigGun:
+        if (m_coolTime <= 0 && !m_animationDone)
+        {
+            return;
+        }
+        m_coolTime = 10;
+        text->GetGameObject()->SetActive(true);
         break;
     }
 }

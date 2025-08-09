@@ -62,6 +62,7 @@ namespace GOTOEngine
 
 		void OnEnter(CrosshairType type);
 		void OnExit(CrosshairType type);
+		void ResetValue(CrosshairType type);
 
 		void OnCrosshairFire();
 	};

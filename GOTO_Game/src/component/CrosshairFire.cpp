@@ -787,6 +787,10 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
             GamepadRumbleManager::instance->Stop(m_holdingRumbleAnimID);
         }
         dropParticleSys->Stop();
+        if (IsValidObject(strText))
+        {
+            strText->text = L"";
+        }
         break;
     case CrosshairFireMode::FullAuto:
         break;
