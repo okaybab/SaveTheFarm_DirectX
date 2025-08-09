@@ -86,6 +86,8 @@ namespace GOTOEngine
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
 			SetMovementComponents(0.15f, 0.4f);
+
+			if (m_isGimmick) OnGimmick();
 		}
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
@@ -108,6 +110,23 @@ namespace GOTOEngine
 				GameManager::instance->PointChange(2, -1);
 				GameManager::instance->P2Lost++;
 			}
+		}
+		void OnGimmick()
+		{
+			auto gimmickEffect = new GameObject;
+			gimmickEffect->layer = m_layer;
+			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
+			// render order 수정해야함
+			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() + 1);
+			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(L"Gimmick3"));
+			gimmickEffect->GetTransform()->SetParent(this->GetTransform(), false);
+			if (m_moveEnemyType == mole) gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 2.3f);
+			else gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 1.5f);
+
+			auto controller = gimmickEffect->GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnAnimationEnd([this, gimmickEffect]() {
+				GameObject::Destroy(gimmickEffect);
+			});
 		}
 	};
 }

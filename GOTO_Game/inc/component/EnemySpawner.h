@@ -53,11 +53,11 @@ namespace GOTOEngine
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
-        AnimatorController* GetAnimation(std::wstring& name) {  
+        AnimatorController* GetAnimation(const std::wstring& name) const {
            auto it = m_animControllers.find(name);  
            return (it != m_animControllers.end()) ? it->second : nullptr;  
         }
-		Sprite* GetSprite(std::wstring& name) {
+		Sprite* GetSprite(const std::wstring& name) const {
 			auto it = m_sprites.find(name);
 			return (it != m_sprites.end()) ? it->second : nullptr;
 		}
