@@ -42,7 +42,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	crosshairFire->id = id;
 	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
 	crosshairCollide->id = id;
-	GO->layer = (1 << (id + 1)) | (1 << 3) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
+	GO->layer = (1 << (id + 1)); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
 
 	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
 	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
@@ -221,7 +221,7 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 
 	fire->ChangeMode(CrosshairFireMode::Hold);
 
-	GO->layer = (1 << (id + 1)) | (1 << 3) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
+	GO->layer = (1 << (id + 1)); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
 
 	GO->SetActive(false);
 
