@@ -33,7 +33,7 @@ void DefenseScene::Initialize()
 	auto player1Cam = player1CamGO->GetComponent<Camera>();
 	player1Cam->GetGameObject()->name = L"p1Cam";
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
-	player1Cam->SetRenderLayer(1 << 1);
+	player1Cam->SetRenderLayer(1 << 0);
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 
@@ -56,9 +56,14 @@ void DefenseScene::Initialize()
 	auto player2Cam = player2CamGO->GetComponent<Camera>();
 	player2Cam->GetGameObject()->name = L"p2Cam";
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
-	player2Cam->SetRenderLayer(1 << 2);
+	player2Cam->SetRenderLayer(1 << 0);
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
+
+	auto CommonCamGO = Camera::CreateSubCamera();
+	auto CommonCam = CommonCamGO->GetComponent<Camera>();
+	CommonCam->SetRenderLayer(1 << 3);
+	CommonCam->SetBackGroundColor({ 0,0,0,0 });
 
 	//auto p2CamEnemyIndicator = new GameObject(L"p2 enemy indicator");
 	//auto p2IndicatorController = p2CamEnemyIndicator->AddComponent<DirIndicatorController>();
@@ -71,11 +76,11 @@ void DefenseScene::Initialize()
 
 	if (Object::IsValidObject(p1))
 	{
-		p1->GetComponent<CrosshairMove>()->cam = player1Cam;
+		p1->GetComponent<CrosshairMove>()->cam = CommonCam;
 	}
 	if (Object::IsValidObject(p2))
 	{
-		p2->GetComponent<CrosshairMove>()->cam = player2Cam;
+		p2->GetComponent<CrosshairMove>()->cam = CommonCam;
 	}
 
 
@@ -83,6 +88,8 @@ void DefenseScene::Initialize()
 	auto BackgroundGO = new GameObject(L"Background");
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Bakcground_wide.png");
+	BackgdoundSprite->SetRenderLayer((1 << 0));
+	BackgdoundSprite->SetRenderOrder(-2500);
 	BackgroundGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
 	BackgroundGO->GetTransform()->SetLocalPosition({ 0.0f, 0.0f });
 
