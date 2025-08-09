@@ -394,6 +394,8 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 	else {
 		m_d2dContext->DrawRectangle(dstRect, m_solidColorBrush.Get());
 	}
+
+	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter, bool useScreenPos)

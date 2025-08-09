@@ -14,7 +14,7 @@ void GOTOEngine::RectRenderer::Render(Matrix3x3& viewMatrix)
 	transform = Matrix3x3::Scale(1.0f, -1.0f) * transform;
 
 	////TRS 세팅
-	transform = GetTransform()->GetWorldMatrix();
+	transform = GetTransform()->GetWorldMatrix() * transform;
 
 	////유니티 좌표계 매트릭스 적용
 	transform = viewMatrix * transform;

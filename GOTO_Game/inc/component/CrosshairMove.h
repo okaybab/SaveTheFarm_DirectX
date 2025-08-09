@@ -14,6 +14,7 @@ namespace GOTOEngine
 	{
 	private:
 		CrosshairCollide* m_collider = nullptr; // Collider2D 컴포넌트
+
 		const float slowSpeedFactor = 0.6f; // 슬로우 모드 속도 감소 비율
 		Vector2 m_vel = { 0,0 };
 	public:
@@ -39,6 +40,9 @@ namespace GOTOEngine
 		
 		Animator* gimmickAnimator;
 		SpriteRenderer* gimmickAnimSprite;
+
+
+		CrosshairCollide* subColliders[3] { nullptr };
 
 		Camera* cam;
 
@@ -115,11 +119,27 @@ namespace GOTOEngine
 			}
 
 			auto currentSpeedFactor = 1.0f;
+			bool currentIsHit = false;
 			if (m_collider && m_collider->GetCollideObjects().size() != 0)
 			{
 				currentSpeedFactor = slowSpeedFactor; // 슬로우 모드 적용
+				currentIsHit = true;
 			}
 
+			if (!currentIsHit)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					auto currentSubCol = subColliders[i];
+					if (IsValidObject(currentSubCol)
+						&& currentSubCol->IsActiveAndEnabled()
+						&& currentSubCol->GetCollideObjects().size() != 0)
+					{
+						currentSpeedFactor = slowSpeedFactor;
+						break;
+					}
+				}
+			}
 	
 			auto moveInput = Vector2::ClampMagnitude(Vector2{ hInput, vInput }, 1.0f);
 			m_vel = Vector2::Lerp(m_vel, moveInput.Normalized() * moveInput.Magnitude() * moveSpeed * currentSpeedFactor, 12.0f * TIME_GET_DELTATIME());

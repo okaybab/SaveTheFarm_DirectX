@@ -25,7 +25,12 @@ namespace GOTOEngine
 		float m_coolTime;
 		int m_bulletCount;
 		bool m_animationDone = true;
+		float m_animationTime = 0.0f;
 		static AnimationCurve s_bigGunAnimationCurve;
+
+		Vector2 m_colSize;
+
+		float BulletSpriteStartX(int length, float bias);
 	public:
     CrosshairController()
     {
@@ -55,7 +60,9 @@ namespace GOTOEngine
 		void Awake();
 		void Update();
 
-		void StartAnimation(CrosshairType type);
-		void EndAnimation(CrosshairType type);
+		void OnEnter(CrosshairType type);
+		void OnExit(CrosshairType type);
+
+		void OnCrosshairFire();
 	};
 }
