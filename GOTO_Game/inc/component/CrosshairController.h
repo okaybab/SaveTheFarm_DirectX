@@ -24,6 +24,8 @@ namespace GOTOEngine
 		CrosshairType m_type = CrosshairType::TriggerGun;
 		float m_coolTime;
 		int m_bulletCount;
+		bool m_animationDone = true;
+		static AnimationCurve s_bigGunAnimationCurve;
 	public:
     CrosshairController()
     {
@@ -52,5 +54,8 @@ namespace GOTOEngine
 		void OnSceneLoaded();
 		void Awake();
 		void Update();
+
+		void StartAnimation(CrosshairType type);
+		void EndAnimation(CrosshairType type);
 	};
 }
