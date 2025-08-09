@@ -3,22 +3,25 @@
 #include "AudioManager.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
+#include "AudioClip.h"
+#include "WStringHelper.h"
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 
 using namespace GOTOEngine;
 
 void AudioManager::StartUp()
 {
-	// 오디오 끊김 방지를 위한 설정
+	// 오디오 엔진 초기화
 	ma_engine_config config = ma_engine_config_init();
+	config.periodSizeInFrames = 512;
+	config.periodSizeInMilliseconds = 0;
 
-	config.periodSizeInFrames = 512;      // 버퍼 크기 조정
-	config.periodSizeInMilliseconds = 0;  // 프레임 기준 사용
-
-	ma_result result = ma_engine_init(NULL, &m_audioEngine);
+	ma_result result = ma_engine_init(&config, &m_audioEngine);
 	m_isInitialized = (result == MA_SUCCESS);
 	m_mainListener = nullptr;
+	m_audioUpdateTime = 0.0f;
 
 #ifdef _DEBUG
 	if (m_isInitialized)
@@ -35,6 +38,7 @@ void AudioManager::ShutDown()
 		m_listeners.clear();
 		m_audioSources.clear();
 		m_mainListener = nullptr;
+
 		ma_engine_uninit(&m_audioEngine);
 		m_isInitialized = false;
 	}
@@ -44,18 +48,33 @@ void AudioManager::Update()
 {
 	if (!m_isInitialized) return;
 
+	auto startTime = std::chrono::high_resolution_clock::now();
+
 	// 메인 리스너 위치 업데이트
 	if (m_mainListener && m_mainListener->GetEnabled())
 	{
 		m_mainListener->UpdateListenerPosition();
 	}
 
-	// 모든 AudioSource 위치 업데이트
+	// AudioSource들의 백그라운드 업데이트 (자동 준비 포함)
+	UpdateAudioSources();
+
+	auto endTime = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+	m_audioUpdateTime = duration.count() / 1000.0f; // 밀리초로 변환
+}
+
+void AudioManager::UpdateAudioSources()
+{
 	for (auto& source : m_audioSources)
 	{
 		if (source && source->GetEnabled())
 		{
+			// 위치 업데이트
 			source->UpdateTransform();
+
+			// 내부 상태 업데이트 (자동 준비 포함)
+			source->InternalUpdate();
 		}
 	}
 }
@@ -105,6 +124,66 @@ void AudioManager::UnRegisterAudioSource(AudioSource* source)
 	}
 }
 
+void AudioManager::NotifyClipUnloaded(AudioClip* clip)
+{
+	// 해당 클립을 사용하는 모든 AudioSource에게 다시 준비 필요하다고 알림
+	for (auto& source : m_audioSources)
+	{
+		if (source && source->GetClip() == clip)
+		{
+			source->MarkNeedsPrepare();
+		}
+	}
+}
+
+void AudioManager::PreloadSceneAudioClips()
+{
+	if (!m_isInitialized) return;
+
+#ifdef _DEBUG
+	std::cout << "=== Preloading Scene Audio Clips ===" << std::endl;
+#endif
+
+	int preloadedCount = 0;
+	size_t totalMemoryLoaded = 0;
+
+	// 현재 씬의 모든 AudioSource를 순회하며 preloadAudioData 클립들을 로딩
+	for (auto& source : m_audioSources)
+	{
+		if (source && source->GetClip())
+		{
+			AudioClip* clip = source->GetClip();
+
+			// preloadAudioData가 true이고 DecompressOnLoad 모드인 클립만 로딩
+			if (clip->GetPreloadAudioData() &&
+				clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad &&
+				!clip->IsAudioDataLoaded())
+			{
+				clip->ForcedLoadAudioData();
+				if (clip->IsAudioDataLoaded())
+				{
+					preloadedCount++;
+					totalMemoryLoaded += clip->GetMemoryUsage();
+
+					// 로딩 후 해당 AudioSource도 준비 필요 상태로 설정
+					source->MarkNeedsPrepare();
+
+#ifdef _DEBUG
+					std::cout << "Preloaded: " << WStringHelper::wstring_to_string(clip->GetFilePath())
+						<< " (" << (clip->GetMemoryUsage() / 1024.0f) << " KB)" << std::endl;
+#endif
+				}
+			}
+		}
+	}
+
+#ifdef _DEBUG
+	std::cout << "Scene preload complete: " << preloadedCount << " clips, "
+		<< (totalMemoryLoaded / 1024.0f / 1024.0f) << " MB total" << std::endl;
+	std::cout << "==============================" << std::endl;
+#endif
+}
+
 void AudioManager::SetMasterVolume(float volume)
 {
 	if (!m_isInitialized) return;
@@ -116,4 +195,36 @@ float AudioManager::GetMasterVolume() const
 {
 	if (!m_isInitialized) return 0.0f;
 	return ma_engine_get_volume(const_cast<ma_engine*>(&m_audioEngine));
+}
+
+AudioStats AudioManager::GetAudioStats() const
+{
+	AudioStats stats;
+
+	// 활성/재생 중인 소스 수 계산
+	for (const auto& source : m_audioSources)
+	{
+		if (source)
+		{
+			stats.activeSources++;
+			if (source->IsPlaying())
+				stats.playingSources++;
+			if (source->IsSoundReady())
+				stats.readySources++;
+		}
+	}
+
+	return stats;
+}
+
+void AudioManager::LogAudioStats() const
+{
+	AudioStats stats = GetAudioStats();
+
+	std::cout << "=== Audio Statistics ===" << std::endl;
+	std::cout << "Active Sources: " << stats.activeSources << std::endl;
+	std::cout << "Playing Sources: " << stats.playingSources << std::endl;
+	std::cout << "Ready Sources: " << stats.readySources << std::endl;
+	std::cout << "Audio Update Time: " << m_audioUpdateTime << "ms" << std::endl;
+	std::cout << "========================" << std::endl;
 }

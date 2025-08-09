@@ -7,33 +7,22 @@ namespace GOTOEngine
 {
 	class AudioClip;
 
-	//======== 오디오 소스 ========
-	//
-	//          * 주의 사항 *
-	// 
-	//  GetClip()을 대입식에 넣어놓은 경우
-	//  반드시 IncreaseRefCount()를 호출하여 
-	//  참조카운트가 늘어나지 않도록 합니다.
-	// 
-	//  ex) AudioClip* clip = audioSource->GetClip();
-	//      clip->IncreaseRefCount();
-	//
-	// 
-	//  이후 사용을 끝마칠 경우 반드시 
-	//  DecreaseRefCount()를 호출하여 마감가지로
-	//  참조카운트가 늘어나지 않도록 합니다.
-	// 
-	//  ex) clip->DecreaseRefCount(); //코드 블록 끝에
-	// 
-	//
-	//=================================
-
 	class AudioSource : public Behaviour
 	{
 	private:
+		friend class AudioManager;
+
 		AudioClip* m_clip;
+
+		// 메모리 기반 재생용
+		ma_audio_buffer m_audioBuffer;
+		bool m_audioBufferInitialized;
 		ma_sound m_sound;
 		bool m_soundInitialized;
+
+		// 스트리밍 재생용
+		ma_sound m_streamSound;
+		bool m_streamSoundInitialized;
 
 		float m_volume;
 		float m_pitch;
@@ -49,30 +38,45 @@ namespace GOTOEngine
 		Vector2 m_lastPosition;
 		bool m_positionDirty;
 
+		// 준비 상태 관리
+		bool m_soundReady;
+		bool m_needsPrepare;
+
 		void OnEnable();
 		void OnDisable();
 		void OnDestroy();
 
-		void InitializeSound();
-		void CleanupSound();
+		void InitializeMemorySound();    // 메모리 기반 사운드 초기화
+		void InitializeStreamSound();    // 스트리밍 사운드 초기화
+		void CleanupSounds();           // 모든 사운드 정리
 		void ApplySettings();
+		void AutoPrepareIfNeeded();
+
+		// AudioManager에서만 호출하는 함수들
+		void InternalUpdate();
+		void MarkNeedsPrepare() { m_needsPrepare = true; m_soundReady = false; }
+
+		// 현재 사용할 사운드 객체 반환
+		ma_sound* GetActiveSound();
 
 	protected:
 		~AudioSource();
 
 	public:
-		void SetClip(AudioClip* clip);
-		AudioClip* GetClip() const { return m_clip; } // 참조 카운트 명시적으로 설정하기
 		AudioSource();
 
+		void SetClip(AudioClip* clip);
+		AudioClip* GetClip() const { return m_clip; }
+
 		void Play();
-		void PlayOneShot(); 
+		void PlayOneShot();
 		void Stop();
 		void Pause();
 		void Resume();
 
 		bool IsPlaying() const { return m_isPlaying && !m_isPaused; }
 		bool IsPaused() const { return m_isPaused; }
+		bool IsSoundReady() const { return m_soundReady; }
 
 		void SetVolume(float volume);
 		float GetVolume() const { return m_volume; }

@@ -242,6 +242,7 @@ namespace GOTOEngine
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonEast)
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonEast))
                 {
+                    SoundManager::instance->PlaySFX("Button");
                     m_isOpen = false;
                 }
 
@@ -326,6 +327,7 @@ namespace GOTOEngine
                     || INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1))
                 {
                     m_isOpen = false;
+                    SoundManager::instance->PlaySFX("Button");
                 }
                 return;
             }

@@ -3,6 +3,7 @@
 #include <IAttackAble.h>
 #include <Joint.h>
 #include <PhysicsManager.h>
+#include <SoundManager.h>
 #include <RigidBody2D.h>
 #include <Mathf.h>
 
@@ -16,13 +17,16 @@ namespace GOTOEngine
 		Joint* m_joint2;
 		Body* m_jointbody1;
 		Body* m_jointbody2;
+
+		bool m_jointDestroied = false;
+		int m_hp = 9999;
 	public:
-		InteractiveTitle()
-		{
-			REGISTER_BEHAVIOUR_MESSAGE(Awake);
-			REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-			REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
-		}
+    InteractiveTitle()
+    {
+        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
+        REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
+    }
 
 		void FixedUpdate()
 		{
@@ -58,6 +62,9 @@ namespace GOTOEngine
 
 		void OnDestroy()
 		{
+			if (m_jointDestroied)
+				return;
+
 			if (m_jointbody1)
 			{
 				PhysicsManager::Get()->RemoveBody(m_jointbody1);
@@ -68,11 +75,51 @@ namespace GOTOEngine
 				PhysicsManager::Get()->RemoveJoint(m_joint1);
 				delete m_joint1;
 			}
+			if (m_jointbody2)
+			{
+				PhysicsManager::Get()->RemoveBody(m_jointbody2);
+				delete m_jointbody2;
+			}
+			if (m_joint2)
+			{
+				PhysicsManager::Get()->RemoveJoint(m_joint2);
+				delete m_joint2;
+			}
 		}
 
 		void TakeDamage(int attackerID, float damage) override
 		{
 			m_rb->AddForce({ -25000.0f,5000000.0f });
+			//m_rb->AddTorque({ 500.0f });
+			SoundManager::instance->PlaySFX("Hit");
+
+			m_hp -= damage;
+
+			if (m_hp <= 0 && !m_jointDestroied)
+			{
+				m_jointDestroied = true;
+
+				if (m_jointbody1)
+				{
+					PhysicsManager::Get()->RemoveBody(m_jointbody1);
+					delete m_jointbody1;
+				}
+				if (m_joint1)
+				{
+					PhysicsManager::Get()->RemoveJoint(m_joint1);
+					delete m_joint1;
+				}
+				if (m_jointbody2)
+				{
+					PhysicsManager::Get()->RemoveBody(m_jointbody2);
+					delete m_jointbody2;
+				}
+				if (m_joint2)
+				{
+					PhysicsManager::Get()->RemoveJoint(m_joint2);
+					delete m_joint2;
+				}
+			}
 		}
 	};
 }

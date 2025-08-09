@@ -424,15 +424,6 @@ void GOTOEngine::CrosshairFire::OnDestroy()
 
 void GOTOEngine::CrosshairFire::Update()
 {    
-    if (INPUT_GET_GAMEPAD_BUTTONDOWN(id,GamepadButton::ButtonNorth))
-    {
-        CrosshairFireMode nextMode = static_cast<CrosshairFireMode>(static_cast<int>(m_fireMode) + 1);
-        if (nextMode == CrosshairFireMode::Count)
-            nextMode = CrosshairFireMode::Trigger;
-
-        ChangeMode(nextMode);
-    }
-
     switch (m_fireMode)
     {
     case CrosshairFireMode::Trigger:

@@ -25,7 +25,7 @@ namespace GOTOEngine
 	public:
     CrosshairCollide()
     {
-		SetExecutionOrder(2);
+        SetExecutionOrder(2);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
@@ -57,10 +57,14 @@ namespace GOTOEngine
 
 		void OnDestroy()
 		{
-			m_crosshair1Sprite->DecreaseRefCount();
-			m_crosshair2Sprite->DecreaseRefCount();
-			m_crosshairEmpty1Sprite->DecreaseRefCount();
-			m_crosshairEmpty2Sprite->DecreaseRefCount();
+			if(IsValidObject(m_crosshair1Sprite))
+				m_crosshair1Sprite->DecreaseRefCount();
+			if (IsValidObject(m_crosshair2Sprite))
+				m_crosshair2Sprite->DecreaseRefCount();
+			if (IsValidObject(m_crosshairEmpty1Sprite))
+				m_crosshairEmpty1Sprite->DecreaseRefCount();
+			if (IsValidObject(m_crosshairEmpty2Sprite))
+				m_crosshairEmpty2Sprite->DecreaseRefCount();
 		}
 
 		void FixedUpdate()

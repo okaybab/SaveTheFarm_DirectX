@@ -16,7 +16,6 @@ GameObject* GOTOEngine::OptionWindowPrefab::CreateOptionWindow()
 {
     //루트 오브젝트
 	auto GO = new GameObject(L"OptionWindow");
-
 	auto optionWindowSystem = GO->AddComponent<OptionWindowSystem>();
 
 	// 뒷 배경 창

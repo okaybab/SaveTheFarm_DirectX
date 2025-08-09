@@ -40,7 +40,7 @@ namespace GOTOEngine
         AnimationCurve() = default;
 
         // JSON 문자열을 받아 처리할 수 있는 생성자 (편의용)
-        explicit AnimationCurve(const std::string& json_string)
+        AnimationCurve(const std::string& json_string)
         {
             try
             {

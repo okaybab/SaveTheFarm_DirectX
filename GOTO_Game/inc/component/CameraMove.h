@@ -24,6 +24,7 @@ namespace GOTOEngine
 		float moveSpeed = 620.0f;
 		float maxMoveLength = 420;
 		float minMoveLength = -420;
+		bool moveCrosshair = true;
 		int id;
 
 		Vector2 GetMoveVector() { return m_moveVec; }
@@ -96,7 +97,7 @@ namespace GOTOEngine
 
 			GetTransform()->SetLocalPosition({ clampedPosX, 0.0f });
 
-			if (m_playerTransform)
+			if (IsValidObject(m_playerTransform) && moveCrosshair)
 			{
 				m_playerTransform->SetPosition(m_playerTransform->GetPosition() + (Vector2{1,0} *(clampedPosX - lastPosX)));
 			}

@@ -96,6 +96,9 @@ void Engine::ProcessFrame()
 		BehaviourManager::Get()->DisableBehaviours();
 		ResourceManager::Get()->DestroyUnusedResource();
 		ObjectDestructionManager::Get()->Clear();
+
+		AudioManager::Get()->PreloadSceneAudioClips();
+
 		BehaviourManager::Get()->SortBehaviours();
 		BehaviourManager::Get()->AllBroadCastBehaviourMessage("OnSceneLoaded");
 	}
