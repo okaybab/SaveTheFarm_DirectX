@@ -532,7 +532,11 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
         return;
     }
 
-    if (INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1) && m_fireCooldown == 0.0f)
+    bool firePressed = (id == 0 && INPUT_GET_KEY(KeyCode::LeftShift)) ||
+        (id == 1 && INPUT_GET_KEY(KeyCode::RightShift)) ||
+        INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1);
+
+    if (firePressed && m_fireCooldown == 0.0f)
     {
         m_fireGage += fireGageUpRate * TIME_GET_DELTATIME();
 
@@ -563,7 +567,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             m_strCount = min(5, m_strCount);
         }
 
-        if (m_fireGage >= 2.9f)
+        if (m_fireGage >= 2.9f && !dontShake)
         {
             float x = Mathf::PerlinNoise(m_noiseSeed, TIME_GET_TOTALTIME() * 15.0f) * 2.0f - 1.0f;
             float y = Mathf::PerlinNoise(m_noiseSeed + 100.0f, TIME_GET_TOTALTIME() * 15.0f) * 2.0f - 1.0f;
@@ -740,8 +744,6 @@ void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
 
     m_fullautoTorqueIdx++;
     m_fullautoTorqueIdx %= m_maxFullautoTorque;
-
-    onFire.Invoke(id);
 }
 
 void GOTOEngine::CrosshairFire::ChangeMode(CrosshairFireMode mode)
@@ -784,6 +786,7 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
         {
             GamepadRumbleManager::instance->Stop(m_holdingRumbleAnimID);
         }
+        dropParticleSys->Stop();
         break;
     case CrosshairFireMode::FullAuto:
         break;

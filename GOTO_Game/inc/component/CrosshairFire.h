@@ -75,6 +75,11 @@ namespace GOTOEngine
 		float fireFullAutoRate = 0.1f; //연사 간격
 		float fireGageUpRate = 1.25f;
 
+
+		float damage = 1;
+
+		bool dontShake = false;
+
 		int id = 0;
 		Delegate<void,int> onFire;
 		Delegate<void,int> onCharge;

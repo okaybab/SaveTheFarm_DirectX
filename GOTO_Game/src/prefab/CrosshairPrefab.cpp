@@ -5,6 +5,7 @@
 #include "CrosshairController.h"
 #include "ButtonAnimation.h"
 
+#include <RectRenderer.h>
 #include <GameObject.h>
 #include <SpriteRenderer.h>
 #include <RadialSpriteRenderer.h>
@@ -46,7 +47,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
 	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair.png" : L"../Resources/Demo/Crosshair2.png");
-	spriteRenderer->SetRenderOrder(1000 - id); // 커서가 항상 위에 보이도록 설정
+	spriteRenderer->SetRenderOrder(1000 - (id * 2)); // 커서가 항상 위에 보이도록 설정
 
     spriteRenderer->SetRenderLayer((1 << (id + 1)) | (1 << 3));
 	SpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(), false);
@@ -66,7 +67,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
 	radialRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair_gage.png" : L"../Resources/Demo/Crosshair_gage2.png");
-	radialRenderer->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+	radialRenderer->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
 	radialRenderer->SetRenderLayer((1 << (id + 1)) | (1 << 3));
 	crosshairFire->gageSprite = radialRenderer;
 
@@ -91,7 +92,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	strengthText->SetFont(L"../Resources/Maplestory Bold.ttf");
 	strengthText->size = 18;
 	strengthText->SetRenderLayer((1 << (id + 1)) | (1 << 3));
-	strengthText->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+	strengthText->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
 
 	StrengthTextGO->GetTransform()->SetParent(GO->GetTransform(), false);
 	StrengthTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
@@ -107,17 +108,46 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	GoldFX->SetMinScale(0.05f);
 	GoldFX->SetMaxScale(0.1f);
 	GoldFX->SetRenderOrder(2000);
+
+	auto ControllerTextGO = new GameObject(L"Controller Text");
+	auto ControllerText = ControllerTextGO->AddComponent<TextRenderer>();
+	ControllerText->SetFont(L"../Resources/Maplestory Bold.ttf");
+	ControllerText->size = 18;
+	ControllerText->SetRenderLayer((1 << (id + 1)) | (1 << 3));
+	ControllerText->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
+
+	ControllerTextGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	ControllerTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
 	
 	auto crosshairCon = GO->AddComponent<CrosshairController>();
 	crosshairCon->collide = crosshairCollide;
 	crosshairCon->move = crosshairMove;
 	crosshairCon->fire = crosshairFire;
+	crosshairCon->text = ControllerText;
 
 	for (int i = 0; i < 3; i++)
 	{
 		auto subCrosshairGO = CreateSubCrosshair(id);
 		subCrosshairGO->GetTransform()->SetParent(GO->GetTransform(),false);
 		crosshairCon->subCrosshairs[i] = subCrosshairGO;
+		crosshairMove->subColliders[i] = subCrosshairGO->GetComponent<CrosshairCollide>();
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		auto bulletSpriteRendererGO = new GameObject(L"bulletSprite");
+		
+		//추후에 스프라이트로 변경
+		auto rect = bulletSpriteRendererGO->AddComponent<RectRenderer>();
+		rect->SetRect({ 0,0,15,15 });
+		rect->SetColor({ 15,255,15,255 });
+		rect->SetRenderOrder(1000 - (id * 2) - 1);
+		rect->SetRenderLayer((1 << (id + 1)) | (1 << 3));
+
+		bulletSpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(),false);
+
+		crosshairCon->bulletImageTransforms[i] = bulletSpriteRendererGO->GetTransform();
+		crosshairCon->bulletImageTransforms[i]->GetGameObject()->SetActive(false);
 	}
 
 	return GO;
@@ -130,12 +160,13 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 	auto collide = GO->AddComponent<CrosshairCollide>();
 
 	fire->id = id;
+	fire->dontShake = true;
 	collide->id = id;
 
 	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
 	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair.png" : L"../Resources/Demo/Crosshair2.png");
-	spriteRenderer->SetRenderOrder(1000 - id); // 커서가 항상 위에 보이도록 설정
+	spriteRenderer->SetRenderOrder(1000 - (id * 2)); // 커서가 항상 위에 보이도록 설정
 
 	spriteRenderer->SetRenderLayer((1 << (id + 1)) | (1 << 3));
 	SpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(), false);
@@ -156,7 +187,7 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
 	radialRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair_gage.png" : L"../Resources/Demo/Crosshair_gage2.png");
-	radialRenderer->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+	radialRenderer->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
 	radialRenderer->SetRenderLayer((1 << (id + 1)) | (1 << 3));
 	fire->gageSprite = radialRenderer;
 
@@ -180,12 +211,16 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 	strengthText->SetFont(L"../Resources/Maplestory Bold.ttf");
 	strengthText->size = 18;
 	strengthText->SetRenderLayer((1 << (id + 1)) | (1 << 3));
-	strengthText->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
+	strengthText->SetRenderOrder(1000 - (id * 2) - 1); // 커서가 항상 위에 보이도록 설정
 
 	StrengthTextGO->GetTransform()->SetParent(GO->GetTransform(), false);
 	StrengthTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
 
 	fire->strText = strengthText;
+
+	fire->ChangeMode(CrosshairFireMode::Hold);
+
+	GO->layer = (1 << (id + 1)) | (1 << 3) | (1 << 0); // 레이어 설정: 1 << 1 for Player 1, 1 << 2 for Player 2
 
 	GO->SetActive(false);
 
