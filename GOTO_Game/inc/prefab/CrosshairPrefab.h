@@ -6,6 +6,6 @@ namespace GOTOEngine
 	{
 	public:
 		static GameObject* CreateCrosshair(int id);
-		static GameObject* CreateEnhancedCrosshair(int id);
+		static GameObject* CreateSubCrosshair(int id);
 	};
 }

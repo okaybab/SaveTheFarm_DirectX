@@ -30,6 +30,7 @@ Body::Body()
 
 void Body::Set(const Vec2& w, float m)
 {
+	isTrigger = false;
 	position.Set(0.0f, 0.0f);
 	rotation = 0.0f;
 	velocity.Set(0.0f, 0.0f);

@@ -25,6 +25,7 @@ namespace GOTOEngine
 	public:
     CrosshairCollide()
     {
+		SetExecutionOrder(2);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);

@@ -137,6 +137,14 @@ namespace GOTOEngine
 				m_physicsWorld2D->Step(deltaTime);
 		}
 
+		void SetGravity(const Vector2& gravity)
+		{
+			m_gravity = gravity;
+			m_physicsWorld2D->gravity = { m_gravity.x,m_gravity.y };
+		}
+
+		const Vector2& GetGravity() const { return m_gravity; }
+
 		void PreApplyTransform();
 		void ApplyTransform();
 
@@ -144,6 +152,26 @@ namespace GOTOEngine
 		{
 			CheckAtiveBodyWrapper();
 			RefreshBodyFromPhysicsWorld2D();
+		}
+
+		void AddJoint(Joint* joint)
+		{
+			m_physicsWorld2D->Add(joint);
+		}
+
+		void RemoveJoint(Joint* joint)
+		{
+			m_physicsWorld2D->Remove(joint);
+		}
+
+		void AddBody(Body* body)
+		{
+			m_physicsWorld2D->Add(body);
+		}
+
+		void RemoveBody(Body* body)
+		{
+			m_physicsWorld2D->Remove(body);
 		}
 
 		void ShutDown()

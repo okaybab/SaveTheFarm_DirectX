@@ -23,6 +23,12 @@ void GOTOEngine::RigidBody2D::AddForce(Vector2 force)
 		m_wrapperBody->GetBody()->AddForce({ force.x, force.y });
 }
 
+void GOTOEngine::RigidBody2D::AddTorque(float torque)
+{
+	if (GetWrapperBody())
+		m_wrapperBody->GetBody()->AddTorque(torque);
+}
+
 GOTOEngine::Vector2 GOTOEngine::RigidBody2D::GetPosition()
 {
 	if (GetWrapperBody() && GetWrapperBody()->m_pBody)

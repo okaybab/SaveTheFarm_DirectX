@@ -106,5 +106,6 @@ void SoundManager::PlayBGM(const std::string& key) {
 };
 
 void SoundManager::StopBGM() {
+	//bgmSource->SetLoop(false);  //나중에 stopBGM이 아닌 SetBGMLoop()로 따로 구현하여 적용
 	bgmSource->Stop();
 }

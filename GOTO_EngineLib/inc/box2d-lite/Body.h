@@ -24,6 +24,13 @@ struct Body
 		force += f;
 	}
 
+	void AddTorque(const float& rad)
+	{
+		torque += rad;
+	}
+
+	bool isTrigger;
+
 	Vec2 position;
 	float rotation;
 

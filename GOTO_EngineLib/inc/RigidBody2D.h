@@ -11,7 +11,6 @@ namespace GOTOEngine
 		friend class PhysicsManager;
 		friend class PhysicsManager::Body2DWrapper;
 		PhysicsManager::Body2DWrapper* m_wrapperBody;
-		PhysicsManager::Body2DWrapper* GetWrapperBody() { return m_wrapperBody; };
 
 		void AdditionalInitialize() override;
 
@@ -20,6 +19,8 @@ namespace GOTOEngine
 		RigidBody2D();
 
 		void AddForce(Vector2 force);
+		void AddTorque(float torque);
+		PhysicsManager::Body2DWrapper* GetWrapperBody() { return m_wrapperBody; };
 
 		Vector2 GetPosition();
 		void SetPosition(Vector2 pos);

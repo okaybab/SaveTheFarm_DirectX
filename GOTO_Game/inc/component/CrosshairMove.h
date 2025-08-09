@@ -22,9 +22,11 @@ namespace GOTOEngine
         SetExecutionOrder(5);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
-        REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
+
+		Vector2 clampOffset = { 0,0 };
+
 		const float defalutMoveSpeed = 650.0f;
 		float moveSpeed = 650.0f;
 		int id = 0;
@@ -38,7 +40,7 @@ namespace GOTOEngine
 		Animator* gimmickAnimator;
 		SpriteRenderer* gimmickAnimSprite;
 
-		Camera* m_cam2;
+		Camera* cam;
 
 		void Awake()
 		{
@@ -48,17 +50,6 @@ namespace GOTOEngine
 		void OnEnable()
 		{
 			m_vel = { 0,0 };
-		}
-
-		void OnSceneLoaded()
-		{
-			m_cam2 = nullptr;
-			if (id == 1)
-			{
-				auto p2camGO = GameObject::Find(L"p2Cam");
-				if (p2camGO)
-					m_cam2 = p2camGO->GetComponent<Camera>();
-			}
 		}
 
 		void Update()
@@ -135,33 +126,12 @@ namespace GOTOEngine
 
 			GetTransform()->SetPosition(GetTransform()->GetPosition() + (m_vel * TIME_GET_DELTATIME()));
 
-
-
-			Vector2 posMin; 
-			Vector2 posMax;
-			if(id == 0)
-			{
-				posMin = Camera::GetMainCamera()->ViewportToWorldPoint({ 0,0 }); 
-				posMax = Camera::GetMainCamera()->ViewportToWorldPoint({ 1.0f, 1.0f });
-			}
-			else
-			{
-				if (m_cam2)
-				{
-					posMin = m_cam2->ViewportToWorldPoint({ 0,0 });
-					posMax = m_cam2->ViewportToWorldPoint({ 1.0f, 1.0f });
-				}
-				else
-				{
-					posMin = Camera::GetMainCamera()->ViewportToWorldPoint({ 0,0 });
-					posMax = Camera::GetMainCamera()->ViewportToWorldPoint({ 1.0f, 1.0f });
-				}
-			}
-			
+			Vector2 posMin = cam->ViewportToWorldPoint({ 0,0 });
+			Vector2 posMax = cam->ViewportToWorldPoint({ 1.0f, 1.0f });
 
 			auto currentPos = GetTransform()->GetPosition();
 
-			GetTransform()->SetPosition({ Mathf::Clamp(currentPos.x,posMin.x,posMax.x), Mathf::Clamp(currentPos.y,posMin.y,posMax.y) });
+			GetTransform()->SetPosition({ Mathf::Clamp(currentPos.x,posMin.x + clampOffset.x,posMax.x + clampOffset.x), Mathf::Clamp(currentPos.y,posMin.y + clampOffset.y,posMax.y + clampOffset.y) });
 		}
 	};
 }

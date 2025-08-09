@@ -15,6 +15,7 @@
 #include "EnemySpawner.h"
 #include "SoundManager.h"
 #include "CameraMove.h"
+#include "CrosshairMove.h"
 
 void DefenseScene::Initialize()
 {
@@ -63,6 +64,20 @@ void DefenseScene::Initialize()
 	//auto p2IndicatorController = p2CamEnemyIndicator->AddComponent<DirIndicatorController>();
 	//p2IndicatorController->cam = player2Cam;
 	//p2IndicatorController->id = 1;
+
+		//카메라 세팅
+	auto p1 = GameObject::Find(L"Player1");
+	auto p2 = GameObject::Find(L"Player2");
+
+	if (Object::IsValidObject(p1))
+	{
+		p1->GetComponent<CrosshairMove>()->cam = player1Cam;
+	}
+	if (Object::IsValidObject(p2))
+	{
+		p2->GetComponent<CrosshairMove>()->cam = player2Cam;
+	}
+
 
 	//배경 이미지
 	auto BackgroundGO = new GameObject(L"Background");

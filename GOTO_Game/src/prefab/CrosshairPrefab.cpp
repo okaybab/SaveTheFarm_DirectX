@@ -31,7 +31,7 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	crosshairMove->gimmickAnimator->SetEnabled(false);
 	crosshairMove->gimmickAnimSprite = gimmickSprite;
 	crosshairMove->gimmickAnimSprite->SetEnabled(false);
-	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.18f,0.18f });
+	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.24f,0.24f });
 	GimmickAnimatorGO->GetTransform()->SetLocalPosition({ 0.0f,26.0f });
 
 	GimmickAnimatorGO->GetTransform()->SetParent(GO->GetTransform());
@@ -58,7 +58,9 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 
 	crosshairCollide->spriteRenderer = spriteRenderer;
 
-	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+	auto col2d = GO->AddComponent<Collider2D>(); // Collider 크기 조정
+	col2d->SetSize({ 45.0f, 45.0f });
+	col2d->SetIsTrigger(true);
 
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
@@ -110,31 +112,14 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	return GO;
 }
 
-GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
+GameObject* GOTOEngine::CrosshairPrefab::CreateSubCrosshair(int id)
 {
-	auto GO = new GameObject(L"Player");
-	auto crosshairMove = GO->AddComponent<CrosshairMove>();
-	crosshairMove->id = id;
+	auto GO = new GameObject(L"SubCrosshair");
+    auto fire =	GO->AddComponent<CrosshairFire>();
+	auto collide = GO->AddComponent<CrosshairCollide>();
 
-	auto GimmickAnimatorGO = new GameObject(L"Gimmick Animation");
-	auto gimmickSprite = GimmickAnimatorGO->AddComponent<SpriteRenderer>();
-	gimmickSprite->SetRenderLayer((1 << (id + 1)));
-	gimmickSprite->SetRenderOrder(1000 + id + 2);
-	GimmickAnimatorGO->AddComponent<Animator>()->SetAnimatorController(L"../Resources/Animation/controller/Gimmick1_effect_AnimController.json");
-	crosshairMove->gimmickAnimator = GimmickAnimatorGO->GetComponent<Animator>();
-	crosshairMove->gimmickAnimator->SetEnabled(false);
-	crosshairMove->gimmickAnimSprite = gimmickSprite;
-	crosshairMove->gimmickAnimSprite->SetEnabled(false);
-	GimmickAnimatorGO->GetTransform()->SetLocalScale({ 0.18f,0.18f });
-	GimmickAnimatorGO->GetTransform()->SetLocalPosition({ 0.0f,26.0f });
-
-	GimmickAnimatorGO->GetTransform()->SetParent(GO->GetTransform());
-
-	auto crosshairFire = GO->AddComponent<EnhancedCrosshairFire>();
-	crosshairFire->id = id;
-	auto crosshairCollide = GO->AddComponent<CrosshairCollide>();
-	crosshairCollide->id = id;
-	GO->layer = (1 << (id + 1)) | (1 << 0); // 레이어 설정: 1 << 1 - Player 1, 1 << 2 - Player 2 // 1 << 0 - 공통
+	fire->id = id;
+	collide->id = id;
 
 	auto SpriteRendererGO = new GameObject(L"Crosshair Sprite");
 	auto spriteRenderer = SpriteRendererGO->AddComponent<SpriteRenderer>();
@@ -143,25 +128,26 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 
 	spriteRenderer->SetRenderLayer((1 << (id + 1)));
 	SpriteRendererGO->GetTransform()->SetParent(GO->GetTransform(), false);
-	
+
 	auto physAnimation = SpriteRendererGO->AddComponent<ButtonAnimation>();
 	physAnimation->scaleDamping = 16.0f;
 	physAnimation->strength = 220.0f;
 
-	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyTorque(80.0f * Mathf::Max(1.25f,crosshairFire->GetCurrentStrength())); });
-	crosshairFire->onFire.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(0.56f * Mathf::Max(1.25f,crosshairFire->GetCurrentStrength())); });
-	crosshairCollide->spriteRenderer = spriteRenderer;
+	fire->physAnimation = physAnimation;
 
-	crosshairFire->onCharge.Add([physAnimation, crosshairFire](int id) { physAnimation->ApplyScaleForce(3.2f); });
+	collide->spriteRenderer = spriteRenderer;
 
-	GO->AddComponent<Collider2D>()->SetSize({ 45.0f, 45.0f }); // Collider 크기 조정
+	auto col2d = GO->AddComponent<Collider2D>(); // Collider 크기 조정
+	col2d->SetSize({ 45.0f, 45.0f });
+	col2d->SetIsTrigger(true);
+
 
 	auto GageGO = new GameObject(L"Croshair Gage");
 	auto radialRenderer = GageGO->AddComponent<RadialSpriteRenderer>();
 	radialRenderer->SetSprite(id == 0 ? L"../Resources/Demo/Crosshair_gage.png" : L"../Resources/Demo/Crosshair_gage2.png");
 	radialRenderer->SetRenderOrder(1000 - id - 1); // 커서가 항상 위에 보이도록 설정
 	radialRenderer->SetRenderLayer((1 << (id + 1)));
-	crosshairFire->gageSprite = radialRenderer;
+	fire->gageSprite = radialRenderer;
 
 	GageGO->GetTransform()->SetParent(GO->GetTransform(), false);
 
@@ -169,7 +155,6 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	particleSys->SetRenderLayer((1 << (id + 1)));
 	particleSys->SetRenderOrder(2);
 	particleSys->SetFadeOutTime(0.3f);
-	//particleSys->SetFadeMode(ParticleFadeMode::Shrink);
 	particleSys->SetSprite(L"../Resources/Demo/drops.png");
 	particleSys->SetMinAngularVelocityDegrees(0.0f);
 	particleSys->SetMaxAngularVelocityDegrees(35.0f);
@@ -177,7 +162,7 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	particleSys->SetParticlesPerSpawn(2);
 	particleSys->SetGravity({ 0.0f,-450.0f });
 
-	crosshairFire->dropParticleSys = particleSys;
+	fire->dropParticleSys = particleSys;
 
 	auto StrengthTextGO = new GameObject(L"Strength Text");
 	auto strengthText = StrengthTextGO->AddComponent<TextRenderer>();
@@ -189,13 +174,9 @@ GameObject* GOTOEngine::CrosshairPrefab::CreateEnhancedCrosshair(int id)
 	StrengthTextGO->GetTransform()->SetParent(GO->GetTransform(), false);
 	StrengthTextGO->GetTransform()->SetLocalPosition({ 0.0f,-65.0f });
 
-	crosshairFire->strText = strengthText;
+	fire->strText = strengthText;
 
-	auto GoldFXGO = new GameObject((id == 0 ? L"p1 Gold FX" : L"p2 Gold FX"));
-	auto GoldFX = GoldFXGO->AddComponent<ParticleSystem>();
-	GoldFX->SetMaxParticleCount(55);
-	GoldFX->SetSprite(L"../Resources/artResource/UI/Goldenticket_effect.png");
-	GoldFXGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	GO->SetActive(false);
 
 	return GO;
 }
