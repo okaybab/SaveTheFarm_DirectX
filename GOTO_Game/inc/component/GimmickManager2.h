@@ -15,8 +15,6 @@ namespace GOTOEngine
 	{
 	private:
 		float gimmick5Timer = 0.0f;
-		float p1gimmick6Timer = 0.0f;
-		float p2gimmick6Timer = 0.0f;
 
 	public:
     GimmickManager2()
