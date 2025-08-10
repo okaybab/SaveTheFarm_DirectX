@@ -221,10 +221,12 @@ void AudioManager::LogAudioStats() const
 {
 	AudioStats stats = GetAudioStats();
 
+#ifdef _DEBUG
 	std::cout << "=== Audio Statistics ===" << std::endl;
 	std::cout << "Active Sources: " << stats.activeSources << std::endl;
 	std::cout << "Playing Sources: " << stats.playingSources << std::endl;
 	std::cout << "Ready Sources: " << stats.readySources << std::endl;
 	std::cout << "Audio Update Time: " << m_audioUpdateTime << "ms" << std::endl;
 	std::cout << "========================" << std::endl;
+#endif
 }

@@ -13,8 +13,11 @@ using namespace GOTOEngine;
 
 AudioSource::AudioSource()
 	: m_clip(nullptr)
+	, m_audioBuffer{}
 	, m_audioBufferInitialized(false)
+	, m_sound{}
 	, m_soundInitialized(false)
+	, m_streamSound{}
 	, m_streamSoundInitialized(false)
 	, m_volume(1.0f)
 	, m_pitch(1.0f)
@@ -29,6 +32,7 @@ AudioSource::AudioSource()
 	, m_positionDirty(true)
 	, m_soundReady(false)
 	, m_needsPrepare(false)
+	, m_lastCleanupTime(0.0f)
 {
 	AudioManager::Get()->RegisterAudioSource(this);
 	REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
@@ -44,6 +48,31 @@ void GOTOEngine::AudioSource::Dispose()
 		m_clip->DecreaseRefCount();
 		m_clip = nullptr;
 	}
+}
+
+void GOTOEngine::AudioSource::CleanupFinishedOneShots()
+{
+	auto currentTime = static_cast<float>(ma_engine_get_time(AudioManager::Get()->GetEngine()));
+
+	// 완료된 사운드들을 찾아서 제거
+	auto it = std::remove_if(m_oneShotSounds.begin(), m_oneShotSounds.end(),
+		[currentTime](const std::unique_ptr<OneShotSound>& oneShot) {
+			if (!oneShot->initialized) return true;
+
+			// 사운드가 끝났는지 확인
+			if (!ma_sound_is_playing(&oneShot->sound)) {
+				return true;  // 제거 대상
+			}
+
+			// 너무 오래 재생된 경우도 정리 (안전장치, 예: 30초)
+			if (currentTime - oneShot->startTime > 30.0f) {
+				return true;
+			}
+
+			return false;
+		});
+
+	m_oneShotSounds.erase(it, m_oneShotSounds.end());
 }
 
 void AudioSource::OnEnable()
@@ -218,6 +247,8 @@ ma_sound* AudioSource::GetActiveSound()
 
 GOTOEngine::AudioSource::~AudioSource()
 {
+	// OneShot 사운드들 즉시 정리
+	m_oneShotSounds.clear();
 	AudioManager::Get()->UnRegisterAudioSource(this);
 }
 
@@ -246,6 +277,13 @@ void AudioSource::ApplySettings()
 void AudioSource::InternalUpdate()
 {
 	AutoPrepareIfNeeded();
+
+	float currentTime = static_cast<float>(ma_engine_get_time(AudioManager::Get()->GetEngine()));
+
+	if (currentTime - m_lastCleanupTime >= CLEANUP_INTERVAL) {
+		CleanupFinishedOneShots();
+		m_lastCleanupTime = currentTime;
+	}
 }
 
 void AudioSource::Play()
@@ -300,31 +338,61 @@ void AudioSource::Play()
 
 void AudioSource::PlayOneShot()
 {
-	if (!m_clip || !AudioManager::Get()->IsInitialized())
+	PlayOneShot(m_clip, 1.0f);
+}
+
+void AudioSource::PlayOneShot(AudioClip* clip, float volumeScale)
+{
+	if (!clip || !AudioManager::Get()->IsInitialized())
 		return;
 
-	// 간단한 원샷 구현
-	ma_sound tempSound;
-	std::string filePathUtf8 = WStringHelper::wstring_to_string(m_clip->GetFilePath());
+	// 완료된 OneShot들 정리
+	CleanupFinishedOneShots();
+
+	// 새로운 OneShot 생성
+	auto oneShot = std::make_unique<OneShotSound>();
+
+	std::string filePathUtf8 = WStringHelper::wstring_to_string(clip->GetFilePath());
 	ma_uint32 flags = MA_SOUND_FLAG_NO_PITCH | MA_SOUND_FLAG_NO_SPATIALIZATION;
 
-	ma_result result = ma_sound_init_from_file(AudioManager::Get()->GetEngine(), filePathUtf8.c_str(), flags, nullptr, nullptr, &tempSound);
+	ma_result result = ma_sound_init_from_file(
+		AudioManager::Get()->GetEngine(),
+		filePathUtf8.c_str(),
+		flags,
+		nullptr,
+		nullptr,
+		&oneShot->sound
+	);
 
-	if (result == MA_SUCCESS)
-	{
-		ma_sound_set_volume(&tempSound, m_volume);
-		ma_sound_set_pitch(&tempSound, m_pitch);
-		ma_sound_set_looping(&tempSound, MA_FALSE);
-		ma_sound_start(&tempSound);
+	if (result == MA_SUCCESS) {
+		oneShot->initialized = true;
+		oneShot->startTime = static_cast<float>(ma_engine_get_time(AudioManager::Get()->GetEngine()));
+
+		// 설정 적용
+		ma_sound_set_volume(&oneShot->sound, m_volume * volumeScale);
+		ma_sound_set_pitch(&oneShot->sound, m_pitch);
+		ma_sound_set_looping(&oneShot->sound, MA_FALSE);
+
+		// 재생 시작
+		result = ma_sound_start(&oneShot->sound);
+
+		if (result == MA_SUCCESS) {
+			// 성공적으로 재생 시작된 경우만 컨테이너에 추가
+			m_oneShotSounds.push_back(std::move(oneShot));
 
 #ifdef _DEBUG
-		std::cout << "AudioSource one-shot played." << std::endl;
+			std::cout << "AudioSource one-shot played successfully." << std::endl;
 #endif
-	}
-	else
-	{
+		}
+		else {
 #ifdef _DEBUG
-		std::cout << "Failed to play one-shot. Error: " << result << std::endl;
+			std::cout << "Failed to start one-shot playback. Error: " << result << std::endl;
+#endif
+		}
+	}
+	else {
+#ifdef _DEBUG
+		std::cout << "Failed to initialize one-shot sound. Error: " << result << std::endl;
 #endif
 	}
 }

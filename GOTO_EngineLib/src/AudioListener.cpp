@@ -49,10 +49,6 @@ void AudioListener::UpdateListenerPosition()
 
 		m_lastPosition = currentPosition;
 		m_positionDirty = false;
-
-#ifdef _DEBUG_VERBOSE
-		std::cout << "Listener position: (" << currentPosition.x << ", " << currentPosition.y << ")" << std::endl;
-#endif
 	}
 }
 
