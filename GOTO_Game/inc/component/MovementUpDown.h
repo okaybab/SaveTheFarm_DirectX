@@ -26,11 +26,17 @@ namespace GOTOEngine
             m_maxY = _max;
             m_minY = _min;
         }
+        void Initialize(int moveFlag, Vector2 initialPos, float speed) override
+        {
+            __super::Initialize(moveFlag, initialPos, speed);
+
+            m_moveSpeed = 140.0f * speed;
+
+        }
         void Awake() override
         {
             __super::Awake();
-
-            m_moveSpeed = 140.0f;
+       
             m_role = E_Move_Role::PATH;
 
             if (m_flag & MOVE_LEFT_RIGHT && m_flag & MOVE_WAVE)

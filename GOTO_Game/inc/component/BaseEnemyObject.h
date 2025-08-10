@@ -64,6 +64,7 @@ namespace GOTOEngine
 		// move
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
+		float m_moveSpeed = 1.0f;
 
 		// hp, score
 		float m_enemyHp = 1.0f;
@@ -168,7 +169,7 @@ namespace GOTOEngine
 
 			for (auto comp : m_movementComponents)
 			{
-				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition());
+				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
 			}
 
 		}

@@ -52,10 +52,10 @@ namespace GOTOEngine
         virtual void Awake() {}
         virtual void OnDestroy() {}
 
-        virtual void Initialize(int moveFlag, Vector2 initialPos)
+        virtual void Initialize(int moveFlag, Vector2 initialPos, float speed)
         { 
             m_flag = moveFlag; 
-            m_initializePos = initialPos; 
+            m_initializePos = initialPos;
         }
 
         // Get

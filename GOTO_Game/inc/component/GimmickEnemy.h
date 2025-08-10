@@ -44,6 +44,7 @@ namespace GOTOEngine
 			case squirrel:
 				m_moveFlag = 0b1001;
 				m_disPoneTime = 9.0f;
+				m_moveSpeed = 1.3f;
 				GetGameObject()->name = L"다람쥐";
 				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
