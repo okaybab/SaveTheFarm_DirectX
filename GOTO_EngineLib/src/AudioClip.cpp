@@ -32,6 +32,8 @@ AudioClip::AudioClip()
 AudioClip::~AudioClip()
 {
     UnloadAudioDataInternal();
+    UnloadCompressedDataInternal();
+    UnloadFirstChunkInternal();
     ClearResampledData();
 }
 
