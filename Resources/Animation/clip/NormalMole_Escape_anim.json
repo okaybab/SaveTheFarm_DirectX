@@ -2,6 +2,7 @@
     "clipName": "NormalMole_Escape",
     "loop": false,
 	"alpha": true,
+	"speed": 3.0,
     "texturePath": "../Resources/artResource/SpriteSheet/Mole/NormalMole_Escape.png",
     "duration": 1.6666667461395264,
     "frames": [

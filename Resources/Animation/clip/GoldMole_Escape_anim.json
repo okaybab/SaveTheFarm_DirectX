@@ -2,6 +2,7 @@
     "clipName": "GoldMole_Escape",
     "loop": false,
     "alpha": true,
+	"speed": 3.0,
     "texturePath": "../Resources/artResource/SpriteSheet/Mole/GoldMole_Escape.png",
     "duration": 1.75,
     "frames": [

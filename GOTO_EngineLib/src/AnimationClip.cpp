@@ -61,6 +61,7 @@ void GOTOEngine::AnimationClip::LoadFromFilePath(const std::wstring& filePath)
 		m_isLoop = jFromFile["loop"];
 		m_duration = jFromFile["duration"];
 		m_isAlpha = jFromFile.value("alpha", false);
+		m_animSpeed = jFromFile.value("speed", 1.0f);
 
 		//스프라이트 연결
 		for (auto keyframe : jFromFile["frames"])

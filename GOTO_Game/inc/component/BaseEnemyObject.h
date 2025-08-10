@@ -64,6 +64,7 @@ namespace GOTOEngine
 		// move
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
+		float m_moveSpeed = 1.0f;
 
 		// hp, score
 		float m_enemyHp = 1.0f;
@@ -168,14 +169,25 @@ namespace GOTOEngine
 
 			for (auto comp : m_movementComponents)
 			{
-				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition());
+				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
 			}
-
 		}
+		void SetMoveSpeed(float speed)
+		{
+			m_moveSpeed = speed;
+
+			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+
+			for (auto comp : m_movementComponents)
+			{
+				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+			}
+		}
+
 		void SetRandomYPosition(float minY, float maxY)
 		{
 			// 가로 크기 고정 X는 추후에 변동하면 추가
-			float randomX = Screen::GetWidth() * EnemySpawner::GenerateRandom(-0.25f, 0.25f);
+			float randomX = EnemySpawner::GenerateRandom(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 			float randomY = Screen::GetHeight() * EnemySpawner::GenerateRandom(minY, maxY);
 
 			GetTransform()->SetPosition({ randomX, randomY });
@@ -218,6 +230,11 @@ namespace GOTOEngine
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
 		virtual void OnDie(int attackerID) { m_isDie = true;  SetState(E_Enemy_Anim_State::DIE); }
-		virtual void OnDispone() { m_isDeathByDispone = true; SetState(E_Enemy_Anim_State::ESCAPE); }
+		virtual void OnDispone()
+		{ 
+			m_isDeathByDispone = true;
+			SetMoveSpeed(3.0f);
+			SetState(E_Enemy_Anim_State::ESCAPE); 
+		}
 	};
 }

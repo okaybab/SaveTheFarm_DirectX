@@ -27,11 +27,17 @@ namespace GOTOEngine
             m_maxX = _max;
             m_minX = _min;
         }
+        void Initialize(int moveFlag, Vector2 initialPos, float speed) override
+        {
+            __super::Initialize(moveFlag, initialPos, speed);
+
+            m_moveSpeed = 80.0f * speed;
+
+        }
         void Awake() override
         {
             __super::Awake();
 
-            m_moveSpeed = 80.0f;
             m_role = E_Move_Role::PATH;
         }
         void OnDestroy() override

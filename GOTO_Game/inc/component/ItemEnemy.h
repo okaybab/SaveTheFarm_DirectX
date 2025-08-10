@@ -32,6 +32,7 @@ namespace GOTOEngine
 
 			m_enemyType = E_EnemyType::itemspawn;
 			m_isMoveLoop = true;
+			m_moveSpeed = 0.8f;
 			
 			switch (m_itemEnemyType)
 			{
@@ -77,7 +78,7 @@ namespace GOTOEngine
 			auto collider = AddComponent<Collider2D>();
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
-
+			
 			SetMovementComponents(0.15f, 0.4f);
 		}
 

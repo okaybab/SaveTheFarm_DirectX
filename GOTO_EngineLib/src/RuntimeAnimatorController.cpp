@@ -98,7 +98,10 @@ void GOTOEngine::RuntimeAnimatorController::Update(float deltaTime)
 	auto currentClip = m_currentState->m_clip;
 
 	if (currentClip && !currentClip->GetKeyframes().empty())
-		m_time += deltaTime;
+	{
+		float animSpeed = currentClip->GetSpeed();
+		m_time += deltaTime * animSpeed;
+	}
 
 	float currentClipDuration = currentClip->GetDuration();
 

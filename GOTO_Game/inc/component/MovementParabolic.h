@@ -34,9 +34,11 @@ namespace GOTOEngine
             m_maxX = _max;
             m_minX = _min;
         }
-        void Initialize(int moveFlag, Vector2 initialPos) override
+        void Initialize(int moveFlag, Vector2 initialPos, float speed) override
         {
-            __super::Initialize(moveFlag, initialPos);
+            __super::Initialize(moveFlag, initialPos, speed);
+
+            m_moveSpeed = 2.0f * speed;
 
             if (m_role == E_Move_Role::PATH)
             {
@@ -59,8 +61,6 @@ namespace GOTOEngine
             {
                 m_role = E_Move_Role::PATH;
             }
-
-            m_moveSpeed = 2.0f;
         }
         void OnDestroy() override
         {

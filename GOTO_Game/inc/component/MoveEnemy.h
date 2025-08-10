@@ -47,14 +47,15 @@ namespace GOTOEngine
 			{
 			case mole:
 				m_moveFlag = 0b0000;
-				GetGameObject()->name = L"두더지";
 				m_disPoneTime = 8.0f;
+				GetGameObject()->name = L"두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
 				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 				break;
 			case crow_1:
 				m_moveFlag = 0b0001;
 				m_disPoneTime = 10.0f;
+				m_moveSpeed = 1.3f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
@@ -62,6 +63,7 @@ namespace GOTOEngine
 			case crow_2:
 				m_moveFlag = 0b0010;
 				m_disPoneTime = 10.0f;
+				m_moveSpeed = 1.3f;
 				GetGameObject()->name = L"까마귀";
 				SetRandomYPosition(0.15f, 0.4f);
 				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
