@@ -175,7 +175,7 @@ namespace GOTOEngine
 		void SetRandomYPosition(float minY, float maxY)
 		{
 			// 가로 크기 고정 X는 추후에 변동하면 추가
-			float randomX = Screen::GetWidth() * EnemySpawner::GenerateRandom(-0.25f, 0.25f);
+			float randomX = EnemySpawner::GenerateRandom(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 			float randomY = Screen::GetHeight() * EnemySpawner::GenerateRandom(minY, maxY);
 
 			GetTransform()->SetPosition({ randomX, randomY });
