@@ -110,7 +110,6 @@ void GOTOEngine::Text::Render()
         IsValidObject(m_font) ? m_font->GetFont() : nullptr,
         size, FontStyleHelper::ToRenderFontStyle(fontStyle),
         m_color, transform,
-        static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign),
-        false);
+        static_cast<int>(horizontalAlign), static_cast<int>(verticalAlign));
 }
 

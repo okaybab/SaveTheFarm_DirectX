@@ -67,13 +67,13 @@ void GOTOEngine::Image::Render()
         switch (m_type)
         {
         case ImageType::Simple:
-            renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+            renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_color, filter);
             break;
         case ImageType::RadialFill:
             if(m_fillAmount < 1.0f)
-                renderAPI->DrawRadialFillBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_fillAmount, m_startAngle, m_clockwise, m_color, filter, true);
+                renderAPI->DrawRadialFillBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_fillAmount, m_startAngle, m_clockwise, m_color, filter);
             else
-                renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_color, filter, true);
+                renderAPI->DrawBitmap(m_sprite->GetTexture()->GetBitmap(), transform, { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, m_sprite->GetRect(), m_color, filter);
             break;
         }        
     }
@@ -120,7 +120,7 @@ void GOTOEngine::Image::Render()
         // 하나의 TRS로 최종 행렬 생성
         auto transform = Matrix3x3::TRS(finalPos, rotation, finalScale);
 
-        renderAPI->DrawRect({ 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, true, transform, m_color, true);
+        renderAPI->DrawRect({ 0.0f, 0.0f, sizeDelta.x, sizeDelta.y }, true, transform, m_color);
     }
 }
 

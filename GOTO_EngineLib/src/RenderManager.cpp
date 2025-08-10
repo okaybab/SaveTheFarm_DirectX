@@ -60,12 +60,12 @@ void GOTOEngine::RenderManager::DrawString(const wchar_t* text, Rect rect, const
 		{ 1.0f, -1.0f } // scale
 	);
 
-	m_pRenderAPI->DrawString(text, rect, font, 24, IRenderFontStyle::Bold, color, Matrix3x3{}, static_cast<int>(hAlign), static_cast<int>(vAlign),true);
+	m_pRenderAPI->DrawString(text, rect, font, 24, IRenderFontStyle::Bold, color, Matrix3x3{}, static_cast<int>(hAlign), static_cast<int>(vAlign));
 }
 
 void GOTOEngine::RenderManager::DrawString(const wchar_t* text, Rect rect, Color color)
 {
-	m_pRenderAPI->DrawString(text, rect, nullptr, 24, IRenderFontStyle::Bold, color, Matrix3x3{}, -1, 1, true);
+	m_pRenderAPI->DrawString(text, rect, nullptr, 24, IRenderFontStyle::Bold, color, Matrix3x3{}, -1, 1);
 }
 
 RenderAPIMemoryStatus RenderManager::CollectMemoryUsage()
@@ -244,15 +244,13 @@ void GOTOEngine::RenderManager::Render()
 
 		//그리기 전에 카메라 영역 박스색칠 (렌더타겟이 없기 때문에 클리어 대신 씀)
 		m_pRenderAPI->SetViewport(camRect);
-		m_pRenderAPI->DrawRect(Rect{
-			m_pRenderAPI->GetWindow().GetWidth() * camRect.x,
-			m_pRenderAPI->GetWindow().GetHeight() * camRect.y,
+		m_pRenderAPI->DrawRectSimple(Rect{
+			0,
+			0,
 			m_pRenderAPI->GetWindow().GetWidth() * camRect.width,
 			m_pRenderAPI->GetWindow().GetHeight() * camRect.height },
 			true,
-			Matrix3x3{},
-			camera->GetBackGroundColor(),
-			true);
+			camera->GetBackGroundColor());
 		
 		for (const auto& renderer : m_renderers)
 		{
@@ -290,7 +288,7 @@ void GOTOEngine::RenderManager::Render()
 				////유니티 좌표계 매트릭스 적용
 				transform = cameraMat * transform;
 
-				m_pRenderAPI->DrawRect(drawRect, false, transform, { 0,255,0,255 }, false);
+				m_pRenderAPI->DrawRect(drawRect, false, transform, { 0,255,0,255 });
 			}
 		}
 #endif

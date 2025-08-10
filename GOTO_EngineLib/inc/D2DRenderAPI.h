@@ -35,10 +35,10 @@ namespace GOTOEngine
         void ChangeBufferSize(int newWidth, int newHeight) override;
         void Clear() override;
         //void DrawImage(int x, int y, float scale, bool flipX, const IRenderImage* image) override;
-        void DrawBitmap(const IRenderBitmap* bitmap, const Matrix3x3& mat, const Rect& destRect, const Rect& sourceRect, Color color, TextureFiltering filter = TextureFiltering::Linear,  bool useScreenPos = false) override;
-        void DrawString(const wchar_t* string, const Rect& rect, const IRenderFont* font, size_t size, const IRenderFontStyle& fontStyle, Color color, const Matrix3x3& mat, int hAlignment, int vAlignment, bool useScreenPos) override;
-        void DrawRect(const Rect& rect, bool fill, const Matrix3x3& mat, Color color, bool useScreenPos) override;
-        void DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter, bool useScreenPos) override;
+        void DrawBitmap(const IRenderBitmap* bitmap, const Matrix3x3& mat, const Rect& destRect, const Rect& sourceRect, Color color, TextureFiltering filter = TextureFiltering::Linear) override;
+        void DrawString(const wchar_t* string, const Rect& rect, const IRenderFont* font, size_t size, const IRenderFontStyle& fontStyle, Color color, const Matrix3x3& mat, int hAlignment, int vAlignment) override;
+        void DrawRect(const Rect& rect, bool fill, const Matrix3x3& mat, Color color) override;
+        void DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter) override;
         void DrawRadialFillBitmap(
             const IRenderBitmap* bitmap,
             const Matrix3x3& mat,
@@ -48,8 +48,9 @@ namespace GOTOEngine
             float startAngle,
             bool clockwise,
             Color color,
-            TextureFiltering filter,
-            bool useScreenPos) override;
+            TextureFiltering filter) override;
+
+        void DrawRectSimple(const Rect& rect, bool fill, Color color) override;
 
         void SetViewport(Rect rect) override;
         void ResetViewport() override;
