@@ -14,7 +14,7 @@ AudioListener::AudioListener()
 	if (AudioManager::Get()->IsInitialized())
 	{
 		AudioManager::Get()->RegisterListener(this);
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "AudioListener enabled." << std::endl;
 #endif
 	}
@@ -25,7 +25,7 @@ AudioListener::~AudioListener()
 	if (AudioManager::Get()->IsInitialized())
 	{
 		AudioManager::Get()->UnRegisterListener(this);
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "AudioListener disabled." << std::endl;
 #endif
 	}

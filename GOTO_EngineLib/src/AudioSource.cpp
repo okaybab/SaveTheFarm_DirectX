@@ -2,6 +2,8 @@
 
 #include "AudioSource.h"
 #include "AudioManager.h"
+#include "AudioListener.h"
+#include <thread>
 #include "AudioClip.h"
 #include "Transform.h"
 #include "GameObject.h"
@@ -50,6 +52,32 @@ void GOTOEngine::AudioSource::Dispose()
 	}
 }
 
+void GOTOEngine::AudioSource::PrintDebugInfo() const
+{
+	std::cout << "=== AudioSource Debug Info ===" << std::endl;
+
+	if (m_clip) {
+		std::cout << "Clip: " << WStringHelper::wstring_to_string(m_clip->GetFilePath()) << std::endl;
+		std::cout << "Load Mode: " << (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad ? "Memory" : "Stream") << std::endl;
+		std::cout << "PreLoad Flag: " << m_clip->GetPreloadAudioData() << std::endl;
+		std::cout << "Data Loaded: " << m_clip->IsAudioDataLoaded() << std::endl;
+		std::cout << "Has Valid PCM: " << m_clip->HasValidPCMData() << std::endl;
+		if (m_clip->IsAudioDataLoaded()) {
+			std::cout << "Memory Usage: " << (m_clip->GetMemoryUsage() / 1024.0f) << " KB" << std::endl;
+		}
+	}
+	else {
+		std::cout << "No clip assigned" << std::endl;
+	}
+
+	std::cout << "Sound Ready: " << m_soundReady << std::endl;
+	std::cout << "Memory Sound: " << m_soundInitialized << std::endl;
+	std::cout << "Stream Sound: " << m_streamSoundInitialized << std::endl;
+	std::cout << "Needs Prepare: " << m_needsPrepare << std::endl;
+	std::cout << "Is Playing: " << m_isPlaying << std::endl;
+	std::cout << "===============================" << std::endl;
+}
+
 void GOTOEngine::AudioSource::CleanupFinishedOneShots()
 {
 	auto currentTime = static_cast<float>(ma_engine_get_time(AudioManager::Get()->GetEngine()));
@@ -87,7 +115,7 @@ void AudioSource::OnEnable()
 		if (m_playOnAwake && m_clip)
 			Play();
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "AudioSource enabled." << std::endl;
 #endif
 	}
@@ -99,7 +127,7 @@ void AudioSource::OnDisable()
 	{
 		Stop();
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "AudioSource disabled." << std::endl;
 #endif
 	}
@@ -112,7 +140,7 @@ void AudioSource::SetClip(AudioClip* clip)
 	if (m_isPlaying) Stop();
 	CleanupSounds();
 
-	// 레퍼런스 카운팅 관리
+	// 레퍼런스 카운트 관리
 	if (clip)
 		clip->IncreaseRefCount();
 	if (m_clip)
@@ -122,11 +150,26 @@ void AudioSource::SetClip(AudioClip* clip)
 	m_soundReady = false;
 	m_needsPrepare = (clip != nullptr);
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	if (clip) {
 		std::cout << "AudioClip set: " << WStringHelper::wstring_to_string(clip->GetFilePath()) << std::endl;
 		std::cout << "Load mode: " << (clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad ? "Memory" : "Stream") << std::endl;
+		std::cout << "PreLoad enabled: " << (clip->GetPreloadAudioData() ? "Yes" : "No") << std::endl;
 		std::cout << "Audio data loaded: " << (clip->IsAudioDataLoaded() ? "Yes" : "No") << std::endl;
+
+		// PreLoad가 활성화되어 있지만 데이터가 없으면 자동 로드
+		if (clip->GetPreloadAudioData() &&
+			clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad &&
+			!clip->IsAudioDataLoaded()) {
+
+			std::cout << "Auto-loading audio data..." << std::endl;
+			if (clip->LoadAudioData()) {
+				std::cout << "Audio data auto-loaded successfully!" << std::endl;
+			}
+			else {
+				std::cout << "Failed to auto-load audio data" << std::endl;
+			}
+		}
 	}
 #endif
 }
@@ -136,19 +179,33 @@ void AudioSource::AutoPrepareIfNeeded()
 	if (!m_needsPrepare || !m_clip || !AudioManager::Get()->IsInitialized())
 		return;
 
-	// 일단 간단하게 파일 기반으로만 시도
-	InitializeStreamSound();
+	//클립의 로드 모드와 데이터 상태에 따라 적절한 초기화 방법 선택
+	if (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad) {
+		// DecompressOnLoad 모드: PreLoad된 PCM 데이터 사용
+		if (m_clip->IsAudioDataLoaded()) {
+			//PreLoad된 메모리 데이터 사용
+			InitializeMemorySound();
+		}
+		else {
+			// PCM 데이터가 없으면 파일에서 직접 로드 (fallback)
+			InitializeStreamSound();
+		}
+	}
+	else {
+		// Stream 모드: 항상 파일에서 스트리밍
+		InitializeStreamSound();
+	}
 
-	if (m_soundReady)
-	{
+	if (m_soundReady) {
 		m_needsPrepare = false;
-#ifdef _DEBUG
-		std::cout << "Sound auto-prepared successfully" << std::endl;
+#ifdef _DEBUG_AUDIO
+		std::cout << "Sound auto-prepared successfully (Mode: "
+			<< (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad ? "Memory" : "Stream")
+			<< ", PreLoaded: " << (m_clip->IsAudioDataLoaded() ? "Yes" : "No") << ")" << std::endl;
 #endif
 	}
-	else
-	{
-#ifdef _DEBUG
+	else {
+#ifdef _DEBUG_AUDIO
 		std::cout << "Failed to auto-prepare sound" << std::endl;
 #endif
 	}
@@ -163,7 +220,7 @@ void AudioSource::InitializeStreamSound()
 
 	std::string filePathUtf8 = WStringHelper::wstring_to_string(m_clip->GetFilePath());
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	std::cout << "Initializing sound from file: " << filePathUtf8 << std::endl;
 #endif
 
@@ -188,14 +245,14 @@ void AudioSource::InitializeStreamSound()
 		m_soundReady = true;
 		ApplySettings();
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "Sound initialized successfully" << std::endl;
 #endif
 	}
 	else
 	{
 		m_soundReady = false;
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "Failed to initialize sound. Error code: " << result << std::endl;
 #endif
 	}
@@ -203,10 +260,78 @@ void AudioSource::InitializeStreamSound()
 
 void AudioSource::InitializeMemorySound()
 {
-	// 일단 사용하지 않음 - 문제 해결 후 나중에 구현
-#ifdef _DEBUG
-	std::cout << "Memory sound initialization not implemented yet" << std::endl;
+	if (!m_clip || !m_clip->HasValidPCMData()) {
+#ifdef _DEBUG_AUDIO
+		std::cout << "Cannot initialize memory sound: No valid PCM data" << std::endl;
 #endif
+		return;
+	}
+
+	CleanupSounds();
+
+	// 구조체 초기화
+	memset(&m_audioBuffer, 0, sizeof(ma_audio_buffer));
+	memset(&m_sound, 0, sizeof(ma_sound));
+
+#ifdef _DEBUG_AUDIO
+	std::cout << "Initializing memory sound from preloaded PCM data..." << std::endl;
+#endif
+
+	// PreLoad된 PCM 데이터로 오디오 버퍼 생성
+	ma_audio_buffer_config bufferConfig = ma_audio_buffer_config_init(
+		ma_format_f32,                    // PCM 포맷
+		m_clip->GetChannels(),            // 채널 수
+		m_clip->GetFrameCount(),          // 프레임 수
+		m_clip->GetPCMData(),             // PreLoad된 PCM 데이터
+		nullptr                           // 해제 콜백 (AudioClip이 관리)
+	);
+
+	ma_result result = ma_audio_buffer_init(&bufferConfig, &m_audioBuffer);
+	if (result != MA_SUCCESS) {
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to initialize audio buffer from PCM data. Error: " << result << std::endl;
+#endif
+		return;
+	}
+
+	m_audioBufferInitialized = true;
+
+	// 오디오 버퍼로부터 사운드 생성
+	result = ma_sound_init_from_data_source(
+		AudioManager::Get()->GetEngine(),
+		&m_audioBuffer,                   // PreLoad된 데이터 소스
+		MA_SOUND_FLAG_NO_PITCH | MA_SOUND_FLAG_NO_SPATIALIZATION,
+		nullptr,
+		&m_sound
+	);
+
+	if (result == MA_SUCCESS) {
+		m_soundInitialized = true;
+		m_soundReady = true;
+		ApplySettings();
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "Memory sound initialized successfully from preloaded data!" << std::endl;
+		std::cout << "  - Channels: " << m_clip->GetChannels() << std::endl;
+		std::cout << "  - Sample Rate: " << m_clip->GetSampleRate() << std::endl;
+		std::cout << "  - Frame Count: " << m_clip->GetFrameCount() << std::endl;
+		std::cout << "  - Memory Usage: " << (m_clip->GetMemoryUsage() / 1024.0f) << " KB" << std::endl;
+#endif
+	}
+	else {
+		m_soundReady = false;
+
+		// 버퍼 초기화는 성공했지만 사운드 실패시 버퍼 정리
+		if (m_audioBufferInitialized) {
+			ma_audio_buffer_uninit(&m_audioBuffer);
+			memset(&m_audioBuffer, 0, sizeof(ma_audio_buffer));
+			m_audioBufferInitialized = false;
+		}
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to initialize memory sound from buffer. Error: " << result << std::endl;
+#endif
+	}
 }
 
 void AudioSource::CleanupSounds()
@@ -237,10 +362,11 @@ void AudioSource::CleanupSounds()
 
 ma_sound* AudioSource::GetActiveSound()
 {
-	if (m_streamSoundInitialized)
-		return &m_streamSound;
-	else if (m_soundInitialized)
-		return &m_sound;
+	//메모리 사운드를 우선적으로 반환
+	if (m_soundInitialized)
+		return &m_sound;          // PreLoad된 메모리 사운드
+	else if (m_streamSoundInitialized)
+		return &m_streamSound;    // 스트림 사운드
 	else
 		return nullptr;
 }
@@ -288,50 +414,64 @@ void AudioSource::InternalUpdate()
 
 void AudioSource::Play()
 {
-#ifdef _DEBUG
-	std::cout << "Play() called" << std::endl;
+#ifdef _DEBUG_AUDIO
+	std::cout << "=== Play() Debug Info ===" << std::endl;
+	if (m_clip) {
+		std::cout << "Clip: " << WStringHelper::wstring_to_string(m_clip->GetFilePath()) << std::endl;
+		std::cout << "Load Mode: " << (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad ? "Memory" : "Stream") << std::endl;
+		std::cout << "PreLoad Enabled: " << (m_clip->GetPreloadAudioData() ? "Yes" : "No") << std::endl;
+		std::cout << "Data Loaded: " << (m_clip->IsAudioDataLoaded() ? "Yes" : "No") << std::endl;
+		std::cout << "Sound Ready: " << (m_soundReady ? "Yes" : "No") << std::endl;
+		std::cout << "Memory Sound Init: " << (m_soundInitialized ? "Yes" : "No") << std::endl;
+		std::cout << "Stream Sound Init: " << (m_streamSoundInitialized ? "Yes" : "No") << std::endl;
+	}
+	std::cout << "=========================" << std::endl;
 #endif
 
-	if (!m_soundReady && m_clip)
-	{
-#ifdef _DEBUG
+	if (!m_soundReady && m_clip) {
+#ifdef _DEBUG_AUDIO
 		std::cout << "Sound not ready, preparing..." << std::endl;
 #endif
 		AutoPrepareIfNeeded();
 	}
 
 	ma_sound* activeSound = GetActiveSound();
-	if (activeSound)
-	{
-#ifdef _DEBUG
-		std::cout << "Starting sound playback..." << std::endl;
-#endif
-
-		// 처음부터 재생하도록 시크
-		ma_sound_seek_to_pcm_frame(activeSound, 0);
-
-		ma_result result = ma_sound_start(activeSound);
-
-		if (result == MA_SUCCESS)
-		{
-			m_isPlaying = true;
-			m_isPaused = false;
-
-#ifdef _DEBUG
-			std::cout << "AudioSource playing successfully!" << std::endl;
-#endif
-		}
-		else
-		{
-#ifdef _DEBUG
-			std::cout << "Failed to start AudioSource. Error: " << result << std::endl;
-#endif
-		}
-	}
-	else
-	{
-#ifdef _DEBUG
+	if (!activeSound) {
+#ifdef _DEBUG_AUDIO
 		std::cout << "No active sound available for playback" << std::endl;
+#endif
+		return;
+	}
+
+#ifdef _DEBUG_AUDIO
+	std::cout << "Using " << (m_soundInitialized ? "MEMORY" : "STREAM") << " sound for playback" << std::endl;
+	std::cout << "Starting sound playback..." << std::endl;
+#endif
+
+	// 처음부터 재생하도록 시크
+	ma_result seekResult = ma_sound_seek_to_pcm_frame(activeSound, 0);
+	if (seekResult != MA_SUCCESS) {
+#ifdef _DEBUG_AUDIO
+		std::cout << "Warning: Failed to seek to beginning. Error: " << seekResult << std::endl;
+#endif
+	}
+
+	ma_result result = ma_sound_start(activeSound);
+
+	if (result == MA_SUCCESS) {
+		m_isPlaying = true;
+		m_isPaused = false;
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "AudioSource playing successfully using "
+			<< (m_soundInitialized ? "PRELOADED MEMORY" : "STREAM") << " data!" << std::endl;
+#endif
+	}
+	else {
+		m_isPlaying = false;
+		m_isPaused = false;
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to start audio playback. Error: " << result << std::endl;
 #endif
 	}
 }
@@ -380,18 +520,18 @@ void AudioSource::PlayOneShot(AudioClip* clip, float volumeScale)
 			// 성공적으로 재생 시작된 경우만 컨테이너에 추가
 			m_oneShotSounds.push_back(std::move(oneShot));
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 			std::cout << "AudioSource one-shot played successfully." << std::endl;
 #endif
 		}
 		else {
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 			std::cout << "Failed to start one-shot playback. Error: " << result << std::endl;
 #endif
 		}
 	}
 	else {
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "Failed to initialize one-shot sound. Error: " << result << std::endl;
 #endif
 	}
@@ -407,7 +547,7 @@ void AudioSource::Stop()
 		m_isPlaying = false;
 		m_isPaused = false;
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 		std::cout << "AudioSource stopped." << std::endl;
 #endif
 	}
@@ -503,3 +643,300 @@ void AudioSource::UpdateTransform()
 		m_positionDirty = false;
 	}
 }
+
+// ===================================================================
+// 오디오 재생 문제 진단 코드
+// ===================================================================
+
+// AudioSource.cpp - 상세 진단 함수 추가
+void AudioSource::DiagnosePlaybackIssues()
+{
+	std::cout << "\n=== AUDIO PLAYBACK DIAGNOSIS ===" << std::endl;
+
+	// 1. AudioManager 상태 확인
+	std::cout << "1. AudioManager Status:" << std::endl;
+	std::cout << "   - Initialized: " << AudioManager::Get()->IsInitialized() << std::endl;
+	std::cout << "   - Master Volume: " << AudioManager::Get()->GetMasterVolume() << std::endl;
+
+	// 2. ma_engine 상태 확인
+	ma_engine* engine = AudioManager::Get()->GetEngine();
+	if (engine) {
+		std::cout << "   - Engine Valid: Yes" << std::endl;
+
+		// 엔진 상태 상세 확인
+		ma_uint32 sampleRate = ma_engine_get_sample_rate(engine);
+		ma_uint32 channels = ma_engine_get_channels(engine);
+		std::cout << "   - Engine Sample Rate: " << sampleRate << std::endl;
+		std::cout << "   - Engine Channels: " << channels << std::endl;
+
+		// 엔진이 실행 중인지 확인
+		std::cout << "   - Engine Running: " << (ma_engine_get_time(engine) > 0 ? "Yes" : "Unknown") << std::endl;
+	}
+	else {
+		std::cout << "   - Engine Valid: NO!" << std::endl;
+	}
+
+	// 3. 사운드 객체 상태 확인
+	std::cout << "\n2. Sound Object Status:" << std::endl;
+	ma_sound* activeSound = GetActiveSound();
+	if (activeSound) {
+		std::cout << "   - Active Sound: " << (m_soundInitialized ? "Memory" : "Stream") << std::endl;
+
+		// 사운드 상태 상세 확인
+		ma_bool32 isPlaying = ma_sound_is_playing(activeSound);
+		ma_bool32 atEnd = ma_sound_at_end(activeSound);
+		float volume = ma_sound_get_volume(activeSound);
+		float pitch = ma_sound_get_pitch(activeSound);
+
+		std::cout << "   - Is Playing: " << isPlaying << std::endl;
+		std::cout << "   - At End: " << atEnd << std::endl;
+		std::cout << "   - Volume: " << volume << std::endl;
+		std::cout << "   - Pitch: " << pitch << std::endl;
+
+		// 현재 재생 위치 확인
+		ma_uint64 currentFrame;
+		ma_result result = ma_sound_get_cursor_in_pcm_frames(activeSound, &currentFrame);
+		if (result == MA_SUCCESS) {
+			std::cout << "   - Current Frame: " << currentFrame << std::endl;
+		}
+
+		// 사운드 길이 확인
+		ma_uint64 lengthInFrames;
+		result = ma_sound_get_length_in_pcm_frames(activeSound, &lengthInFrames);
+		if (result == MA_SUCCESS) {
+			std::cout << "   - Total Frames: " << lengthInFrames << std::endl;
+			std::cout << "   - Length: " << (float)lengthInFrames / m_clip->GetSampleRate() << " seconds" << std::endl;
+		}
+
+		// 공간 오디오 설정 확인
+		ma_bool32 spatialEnabled = ma_sound_is_spatialization_enabled(activeSound);
+		std::cout << "   - Spatial Audio: " << (spatialEnabled ? "Enabled" : "Disabled") << std::endl;
+
+		if (spatialEnabled) {
+			ma_vec3f position = ma_sound_get_position(activeSound);
+			std::cout << "   - Sound Position: (" << position.x << ", " << position.y << ", " << position.z << ")" << std::endl;
+		}
+
+	}
+	else {
+		std::cout << "   - Active Sound: NONE!" << std::endl;
+	}
+
+	// 4. 리스너 상태 확인
+	std::cout << "\n3. Listener Status:" << std::endl;
+	AudioListener* mainListener = AudioManager::Get()->GetMainListener();
+	if (mainListener) {
+		std::cout << "   - Main Listener: Present" << std::endl;
+		if (mainListener->GetTransform()) {
+			Vector2 pos = mainListener->GetTransform()->GetPosition();
+			std::cout << "   - Listener Position: (" << pos.x << ", " << pos.y << ")" << std::endl;
+		}
+
+		// 엔진의 리스너 위치 확인
+		if (engine) {
+			ma_vec3f listenerPos = ma_engine_listener_get_position(engine, 0);
+			std::cout << "   - Engine Listener Pos: (" << listenerPos.x << ", " << listenerPos.y << ", " << listenerPos.z << ")" << std::endl;
+		}
+	}
+	else {
+		std::cout << "   - Main Listener: MISSING!" << std::endl;
+	}
+
+	// 5. 오디오 데이터 유효성 재확인
+	std::cout << "\n4. Audio Data Validation:" << std::endl;
+	if (m_clip && m_clip->IsAudioDataLoaded()) {
+		const float* pcmData = m_clip->GetPCMData();
+		ma_uint64 frameCount = m_clip->GetFrameCount();
+		ma_uint32 channels = m_clip->GetChannels();
+
+		std::cout << "   - PCM Data Pointer: " << (pcmData ? "Valid" : "NULL!") << std::endl;
+		std::cout << "   - Frame Count: " << frameCount << std::endl;
+		std::cout << "   - Channels: " << channels << std::endl;
+
+		if (pcmData && frameCount > 0) {
+			// 실제 오디오 데이터 샘플 확인 (처음 몇 샘플)
+			std::cout << "   - First samples: ";
+			for (int i = 0; i < std::min(8, (int)(frameCount * channels)); ++i) {
+				std::cout << pcmData[i] << " ";
+			}
+			std::cout << std::endl;
+
+			// 오디오 데이터가 모두 0인지 확인 (무음 데이터 체크)
+			bool hasNonZeroSample = false;
+			for (ma_uint64 i = 0; i < std::min(1000ULL, frameCount * channels); ++i) {
+				if (pcmData[i] != 0.0f) {
+					hasNonZeroSample = true;
+					break;
+				}
+			}
+			std::cout << "   - Has Non-Zero Samples: " << (hasNonZeroSample ? "Yes" : "NO! (Silent audio)") << std::endl;
+		}
+	}
+
+	std::cout << "=================================" << std::endl;
+}
+
+// ===================================================================
+// 오디오 시스템 강제 테스트 함수
+// ===================================================================
+
+void AudioSource::ForceAudioSystemTest()
+{
+	std::cout << "\n=== AUDIO SYSTEM FORCED TEST ===" << std::endl;
+
+	// 1. 마스터 볼륨 강제 설정
+	std::cout << "1. Setting master volume to 1.0..." << std::endl;
+	AudioManager::Get()->SetMasterVolume(1.0f);
+	std::cout << "   Master volume set to: " << AudioManager::Get()->GetMasterVolume() << std::endl;
+
+	// 2. 사운드 볼륨 강제 설정
+	if (GetActiveSound()) {
+		std::cout << "2. Setting sound volume to 1.0..." << std::endl;
+		ma_sound_set_volume(GetActiveSound(), 1.0f);
+		std::cout << "   Sound volume set to: " << ma_sound_get_volume(GetActiveSound()) << std::endl;
+	}
+
+	// 3. 공간 오디오 강제 비활성화
+	if (GetActiveSound()) {
+		std::cout << "3. Disabling spatial audio..." << std::endl;
+		ma_sound_set_spatialization_enabled(GetActiveSound(), MA_FALSE);
+		std::cout << "   Spatial audio disabled" << std::endl;
+	}
+
+	// 4. 사운드 위치 초기화
+	if (GetActiveSound()) {
+		std::cout << "4. Resetting sound position..." << std::endl;
+		ma_sound_set_position(GetActiveSound(), 0.0f, 0.0f, 0.0f);
+	}
+
+	// 5. 강제 재생 테스트
+	std::cout << "5. Force play test..." << std::endl;
+	ma_sound* activeSound = GetActiveSound();
+	if (activeSound) {
+		// 처음부터 재생
+		ma_sound_seek_to_pcm_frame(activeSound, 0);
+		ma_result result = ma_sound_start(activeSound);
+
+		std::cout << "   Start result: " << (result == MA_SUCCESS ? "SUCCESS" : "FAILED") << std::endl;
+
+		// 잠시 후 상태 확인
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+		std::cout << "   Is playing after 100ms: " << ma_sound_is_playing(activeSound) << std::endl;
+
+		ma_uint64 currentFrame;
+		if (ma_sound_get_cursor_in_pcm_frames(activeSound, &currentFrame) == MA_SUCCESS) {
+			std::cout << "   Current frame after 100ms: " << currentFrame << std::endl;
+		}
+	}
+
+	std::cout << "=================================" << std::endl;
+}
+
+// ===================================================================
+// 간단한 테스트 톤 생성 (시스템 테스트용)
+// ===================================================================
+
+void AudioSource::PlayTestTone()
+{
+	std::cout << "\n=== PLAYING TEST TONE ===" << std::endl;
+
+	ma_engine* engine = AudioManager::Get()->GetEngine();
+	if (!engine) {
+		std::cout << "Engine not available!" << std::endl;
+		return;
+	}
+
+	// 간단한 사인파 테스트 톤 재생
+	ma_waveform_config waveformConfig = ma_waveform_config_init(
+		ma_format_f32,
+		2,          // 스테레오
+		44100,      // 샘플레이트
+		ma_waveform_type_sine,
+		0.2,        // 볼륨 (작게)
+		440.0       // 440Hz (A4 음)
+	);
+
+	ma_waveform waveform;
+	ma_result result = ma_waveform_init(&waveformConfig, &waveform);
+
+	if (result == MA_SUCCESS) {
+		ma_sound testSound;
+		result = ma_sound_init_from_data_source(
+			engine,
+			&waveform,
+			0,
+			nullptr,
+			&testSound
+		);
+
+		if (result == MA_SUCCESS) {
+			std::cout << "Playing test tone for 1 second..." << std::endl;
+			ma_sound_start(&testSound);
+
+			// 1초 재생
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+			ma_sound_stop(&testSound);
+			ma_sound_uninit(&testSound);
+			std::cout << "Test tone finished." << std::endl;
+		}
+		else {
+			std::cout << "Failed to create test sound: " << result << std::endl;
+		}
+
+		ma_waveform_uninit(&waveform);
+	}
+	else {
+		std::cout << "Failed to create test waveform: " << result << std::endl;
+	}
+
+	std::cout << "===========================" << std::endl;
+}
+
+// ===================================================================
+// 통합 진단 함수
+// ===================================================================
+
+void AudioSource::FullAudioDiagnosis()
+{
+	std::cout << "\n=== FULL AUDIO SYSTEM DIAGNOSIS ===" << std::endl;
+
+	// 기본 정보 출력
+	PrintDebugInfo();
+
+	// 상세 진단
+	DiagnosePlaybackIssues();
+
+	// 시스템 강제 테스트
+	ForceAudioSystemTest();
+
+	// 테스트 톤 재생 (시스템이 정상인지 확인)
+	PlayTestTone();
+
+	std::cout << "\n=== DIAGNOSIS SUMMARY ===" << std::endl;
+	std::cout << "1. Check if test tone played successfully" << std::endl;
+	std::cout << "2. If test tone works but your audio doesn't:" << std::endl;
+	std::cout << "   - Audio file may be corrupted or silent" << std::endl;
+	std::cout << "   - PCM data conversion issue" << std::endl;
+	std::cout << "3. If test tone also doesn't work:" << std::endl;
+	std::cout << "   - Audio device/driver issue" << std::endl;
+	std::cout << "   - miniaudio engine configuration problem" << std::endl;
+	std::cout << "=================================" << std::endl;
+}
+
+// ===================================================================
+// 사용법 예시
+// ===================================================================
+
+/*
+게임 코드에서 이렇게 사용:
+
+// 오디오 문제 발생 시
+audioSource->FullAudioDiagnosis();
+
+// 또는 개별 진단
+audioSource->DiagnosePlaybackIssues();
+audioSource->ForceAudioSystemTest();
+audioSource->PlayTestTone();
+*/

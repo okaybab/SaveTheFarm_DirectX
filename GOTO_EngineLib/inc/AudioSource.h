@@ -119,5 +119,14 @@ namespace GOTOEngine
 		float GetMaxDistance() const { return m_maxDistance; }
 
 		void UpdateTransform();
+
+
+		void PrintDebugInfo() const;
+
+		void FullAudioDiagnosis();
+
+		void DiagnosePlaybackIssues();
+		void ForceAudioSystemTest();
+		void PlayTestTone();
 	};
 }

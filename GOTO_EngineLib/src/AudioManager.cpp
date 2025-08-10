@@ -17,13 +17,14 @@ void AudioManager::StartUp()
 	ma_engine_config config = ma_engine_config_init();
 	config.periodSizeInFrames = 512;
 	config.periodSizeInMilliseconds = 0;
+	config.sampleRate = 48000;
 
 	ma_result result = ma_engine_init(&config, &m_audioEngine);
 	m_isInitialized = (result == MA_SUCCESS);
 	m_mainListener = nullptr;
 	m_audioUpdateTime = 0.0f;
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	if (m_isInitialized)
 		std::cout << "AudioManager initialized successfully." << std::endl;
 	else
@@ -140,7 +141,7 @@ void AudioManager::PreloadSceneAudioClips()
 {
 	if (!m_isInitialized) return;
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	std::cout << "=== Preloading Scene Audio Clips ===" << std::endl;
 #endif
 
@@ -168,7 +169,7 @@ void AudioManager::PreloadSceneAudioClips()
 					// 로딩 후 해당 AudioSource도 준비 필요 상태로 설정
 					source->MarkNeedsPrepare();
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 					std::cout << "Preloaded: " << WStringHelper::wstring_to_string(clip->GetFilePath())
 						<< " (" << (clip->GetMemoryUsage() / 1024.0f) << " KB)" << std::endl;
 #endif
@@ -177,7 +178,7 @@ void AudioManager::PreloadSceneAudioClips()
 		}
 	}
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	std::cout << "Scene preload complete: " << preloadedCount << " clips, "
 		<< (totalMemoryLoaded / 1024.0f / 1024.0f) << " MB total" << std::endl;
 	std::cout << "==============================" << std::endl;
@@ -221,7 +222,7 @@ void AudioManager::LogAudioStats() const
 {
 	AudioStats stats = GetAudioStats();
 
-#ifdef _DEBUG
+#ifdef _DEBUG_AUDIO
 	std::cout << "=== Audio Statistics ===" << std::endl;
 	std::cout << "Active Sources: " << stats.activeSources << std::endl;
 	std::cout << "Playing Sources: " << stats.playingSources << std::endl;

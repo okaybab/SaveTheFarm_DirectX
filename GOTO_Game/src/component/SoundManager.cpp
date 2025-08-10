@@ -25,9 +25,10 @@ void SoundManager::Awake() {
 
 		for (const auto& [key, path] : sfxList) {
 			auto clip = Resource::Load<AudioClip>(path.c_str());
+			clip->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
 			clip->IncreaseRefCount();
 			clip->SetPreloadAudioData(true);  // 메모리 로딩 활성화
-			clip->ForcedLoadAudioData();      // PCM 데이터 메모리에 로딩
+			clip->LoadAudioData();      // PCM 데이터 메모리에 로딩
 			sfxClips[key] = clip;
 
 			auto sfxSourceitem = new GameObject;
@@ -40,13 +41,15 @@ void SoundManager::Awake() {
 		}
 
 		bgmClips["Battle1"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM1.mp3");
+		bgmClips["Battle1"]->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
 		bgmClips["Battle1"]->IncreaseRefCount();
 		bgmClips["Battle1"]->SetPreloadAudioData(true);
-		bgmClips["Battle1"]->ForcedLoadAudioData();
+		bgmClips["Battle1"]->LoadAudioData();
 		bgmClips["Battle2"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM2.mp3");
+		bgmClips["Battle2"]->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
 		bgmClips["Battle2"]->IncreaseRefCount();
-		bgmClips["Battle1"]->SetPreloadAudioData(true);
-		bgmClips["Battle2"]->ForcedLoadAudioData();
+		bgmClips["Battle2"]->SetPreloadAudioData(true);
+		bgmClips["Battle2"]->LoadAudioData();
 		auto bgmSourceitem = new GameObject;
 		bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
 		bgmSource = bgmSourceitem->AddComponent<AudioSource>();
