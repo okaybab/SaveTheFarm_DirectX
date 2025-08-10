@@ -240,7 +240,7 @@ void GOTOEngine::CrosshairController::Update()
     case CrosshairType::HoldingGun:
         break;
     case CrosshairType::MachineGun:
-        if (m_bulletCount < 0)
+        if (m_bulletCount <= 0)
         {
             ChangeType(CrosshairType::HoldingGun);
             break;
@@ -402,10 +402,11 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
     {
         fire->ChangeMode(CrosshairFireMode::FullAuto);
         bulletImageTransforms[0]->GetGameObject()->SetActive(true);
-        bulletImageTransforms[0]->SetLocalPosition({ -22.0f, -65.0f });
+        bulletImageTransforms[0]->SetLocalPosition({ -19.0f, -65.0f });
         m_bulletCount = 30;
         text->GetGameObject()->SetActive(true);
-        text->GetTransform()->SetLocalPosition({ 15.0f, -65.0f });
+        text->horizontalAlign = TextHoriAlign::Left;
+        text->GetTransform()->SetLocalPosition({ 45.0f, -65.0f });
         text->text = L"X " + std::to_wstring(m_bulletCount);
         break;
     }
@@ -436,6 +437,7 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
         fire->damage = 2;
         fire->ChangeMode(CrosshairFireMode::Hold);
         text->GetGameObject()->SetActive(true);
+        text->horizontalAlign = TextHoriAlign::Center;
         text->GetTransform()->SetLocalPosition({ 0.0f, -90.0f });
         text->text = std::to_wstring(static_cast<int>(m_coolTime));
         break;

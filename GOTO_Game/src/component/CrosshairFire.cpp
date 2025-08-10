@@ -520,9 +520,11 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
 
 void GOTOEngine::CrosshairFire::HoldModeUdpate()
 {
+    //쿨타임 계산
     m_fireCooldown -= TIME_GET_DELTATIME();
     m_fireCooldown = Mathf::Max(m_fireCooldown, 0.0f);
 
+    //쿨타임 중인 경우 동작X
     if (m_fireCooldown > 0.0f)
     {
         if (IsValidObject(gageSprite))
@@ -532,27 +534,33 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
         return;
     }
 
+    //발사 키 점검
     bool firePressed = (id == 0 && INPUT_GET_KEY(KeyCode::LeftShift)) ||
         (id == 1 && INPUT_GET_KEY(KeyCode::RightShift)) ||
         INPUT_GET_GAMEPAD_BUTTON(id, GamepadButton::ButtonR1);
 
-    if (firePressed && m_fireCooldown == 0.0f)
+    //발사 키 홀드
+    if (firePressed)
     {
+        //차징 게이지 계산
         m_fireGage += fireGageUpRate * TIME_GET_DELTATIME();
 
         m_strCount = 1;
 
+        //차징 진동 애니메이션 재생 (단발성)
         if (m_rumbleAnimID == -1)
         {
             m_rumbleAnimID = GamepadRumbleManager::instance->Play(id, *s_pholdRumbleClip, 0.6f);
         }
 
+        //차징 2.5초 뒤 땀방울 재생
         if (m_fireGage >= 2.5f && !m_startDrop && IsValidObject(dropParticleSys))
         {
             dropParticleSys->Play();
             m_startDrop = true;
         }
 
+        //차징 
         if (m_fireGage >= 1.0f)
         {
             if (!m_charged)
@@ -593,6 +601,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             }
         }
     }
+    //발사 키 땜
     else
     {
         bool hasHit = false;
@@ -611,7 +620,7 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
                     bool isHit = false;
                     if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
                     {
-                        attackable->TakeDamage(id, 1);
+                        attackable->TakeDamage(id, damage * m_strCount);
                         isHit = true;
                         hasHit = true;
                     }
@@ -672,13 +681,13 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
 
     if (IsValidObject(strText))
     {
-        if (m_strCount < 2)
+        if ((m_strCount * damage) < 2)
         {
             strText->text = L"";
         }
         else
         {
-            strText->text = std::to_wstring(m_strCount);
+            strText->text = std::to_wstring(m_strCount * static_cast<int>(damage));
         }
     }
 
@@ -791,6 +800,12 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
         {
             strText->text = L"";
         }
+        m_startDrop = false;
+        m_strCount = 0;
+        m_charged = false;
+        m_rumbleAnimID = -1;
+        m_holdingRumbleAnimID = -1;
+        m_shakeMove = { 0,0 };
         break;
     case CrosshairFireMode::FullAuto:
         break;
