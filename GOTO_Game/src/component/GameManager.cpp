@@ -67,9 +67,9 @@ void GameManager::Awake(){
 		P2sctext->GetRectTransform()->SetPivot({ 0.5f,0.5f });
 
 		P1sctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.34f, Screen::GetHeight() * 0.85f });
+				Screen::GetWidth() * 0.34f, Screen::GetHeight() * 0.95f });
 		P2sctext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.66f, Screen::GetHeight() * 0.85f });
+				Screen::GetWidth() * 0.66f, Screen::GetHeight() * 0.95f });
 		Timetext->GetRectTransform()->SetAnchoredPosition({
 				Screen::GetWidth() * 0.475f, Screen::GetHeight() * 0.88f });
 
@@ -471,6 +471,8 @@ void GameManager::Update() {
 				p2timetext->text = std::to_wstring(0);
 				FadeInOutFXManager::instance->FadeOut();
 				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
+					SoundManager::instance->StopBGM();
+					SoundManager::instance->LoopBGM(true);
 					SCENE_CHANGE_SCENE(L"StartScene");
 				}
 			}
@@ -512,7 +514,7 @@ void GameManager::Update() {
 		BGMTiming[1] = -1.0f;
 	}
 	if (GameTimer <= BGMTiming[2]) {
-		SoundManager::instance->StopBGM();
+		SoundManager::instance->LoopBGM(false);
 		BGMTiming[2] = -1.0f;
 	}
 }

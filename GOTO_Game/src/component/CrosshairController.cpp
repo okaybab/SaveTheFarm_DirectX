@@ -505,6 +505,7 @@ void GOTOEngine::CrosshairController::ResetValue(CrosshairType type)
     case CrosshairType::BigGun:
         if (m_coolTime <= 0 && !m_animationDone)
         {
+            OnEnter(m_type);
             return;
         }
         m_coolTime = 10;

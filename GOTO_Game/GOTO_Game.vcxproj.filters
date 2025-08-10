@@ -89,9 +89,6 @@
     <ClCompile Include="src\component\GamepadRumbleManager.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\ItemManager2.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
     <ClCompile Include="src\component\GimmickManager2.cpp">
       <Filter>소스 파일\컴포넌트</Filter>
     </ClCompile>
