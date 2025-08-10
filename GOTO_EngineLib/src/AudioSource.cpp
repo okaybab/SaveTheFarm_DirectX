@@ -179,34 +179,48 @@ void AudioSource::AutoPrepareIfNeeded()
 	if (!m_needsPrepare || !m_clip || !AudioManager::Get()->IsInitialized())
 		return;
 
-	//클립의 로드 모드와 데이터 상태에 따라 적절한 초기화 방법 선택
 	if (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad) {
-		// DecompressOnLoad 모드: PreLoad된 PCM 데이터 사용
 		if (m_clip->IsAudioDataLoaded()) {
-			//PreLoad된 메모리 데이터 사용
 			InitializeMemorySound();
 		}
 		else {
-			// PCM 데이터가 없으면 파일에서 직접 로드 (fallback)
 			InitializeStreamSound();
 		}
 	}
-	else {
-		// Stream 모드: 항상 파일에서 스트리밍
-		InitializeStreamSound();
+	else if (m_clip->GetLoadMode() == AudioLoadMode::CompressedInMemory) {
+		if (m_clip->IsCompressedDataLoaded()) {
+			InitializeCompressedMemorySound();
+		}
+		else {
+			InitializeStreamSound();
+		}
+	}
+	else { // Stream 모드
+		if (m_clip->IsFirstChunkLoaded()) {
+			// 첫 번째 청크가 프리로드된 스트림 초기화
+			InitializeStreamSoundWithFirstChunk();
+		}
+		else {
+			// 일반 스트림 초기화
+			InitializeStreamSound();
+		}
 	}
 
 	if (m_soundReady) {
 		m_needsPrepare = false;
 #ifdef _DEBUG_AUDIO
-		std::cout << "Sound auto-prepared successfully (Mode: "
-			<< (m_clip->GetLoadMode() == AudioLoadMode::DecompressOnLoad ? "Memory" : "Stream")
-			<< ", PreLoaded: " << (m_clip->IsAudioDataLoaded() ? "Yes" : "No") << ")" << std::endl;
-#endif
-	}
-	else {
-#ifdef _DEBUG_AUDIO
-		std::cout << "Failed to auto-prepare sound" << std::endl;
+		const char* modeNames[] = { "DecompressOnLoad", "CompressedInMemory", "Stream" };
+		std::string preloadStatus = "";
+
+		if (m_clip->GetLoadMode() == AudioLoadMode::Stream && m_clip->IsFirstChunkLoaded()) {
+			preloadStatus = " (FirstChunk PreLoaded)";
+		}
+		else if (m_clip->GetLoadMode() != AudioLoadMode::Stream && m_clip->GetPreloadAudioData()) {
+			preloadStatus = " (PreLoaded)";
+		}
+
+		std::cout << "Sound auto-prepared successfully (Mode: " << modeNames[(int)m_clip->GetLoadMode()]
+			<< preloadStatus << ")" << std::endl;
 #endif
 	}
 }
@@ -256,6 +270,124 @@ void AudioSource::InitializeStreamSound()
 		std::cout << "Failed to initialize sound. Error code: " << result << std::endl;
 #endif
 	}
+}
+
+void GOTOEngine::AudioSource::InitializeStreamSoundWithFirstChunk()
+{
+	if (!m_clip) return;
+
+	CleanupSounds();
+	memset(&m_streamSound, 0, sizeof(ma_sound));
+
+	std::string filePathUtf8 = WStringHelper::wstring_to_string(m_clip->GetFilePath());
+
+#ifdef _DEBUG_AUDIO
+	std::cout << "Initializing stream sound with first chunk preload..." << std::endl;
+
+	if (m_clip->IsFirstChunkLoaded()) {
+		std::cout << "  - First chunk available: " << m_clip->GetFirstChunkDuration() << "s" << std::endl;
+		std::cout << "  - First chunk size: " << (m_clip->GetFirstChunkSize() / 1024.0f) << " KB" << std::endl;
+	}
+#endif
+
+	// 일반적인 스트림 사운드 초기화 (첫 번째 청크는 백그라운드에서 도움)
+	ma_uint32 flags = MA_SOUND_FLAG_NO_PITCH | MA_SOUND_FLAG_NO_SPATIALIZATION;
+
+	ma_result result = ma_sound_init_from_file(
+		AudioManager::Get()->GetEngine(),
+		filePathUtf8.c_str(),
+		flags,
+		nullptr,
+		nullptr,
+		&m_streamSound
+	);
+
+	if (result == MA_SUCCESS) {
+		m_streamSoundInitialized = true;
+		m_soundReady = true;
+		ApplySettings();
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "Stream sound initialized successfully!" << std::endl;
+		if (m_clip->IsFirstChunkLoaded()) {
+			std::cout << "  - First chunk will help reduce initial latency" << std::endl;
+		}
+#endif
+	}
+	else {
+		m_soundReady = false;
+		memset(&m_streamSound, 0, sizeof(ma_sound));
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to initialize stream sound. Error: " << result << std::endl;
+#endif
+	}
+}
+
+void GOTOEngine::AudioSource::InitializeCompressedMemorySound()
+{
+	if (!m_clip || !m_clip->HasCompressedData()) {
+#ifdef _DEBUG_AUDIO
+		std::cout << "Cannot initialize compressed memory sound: No compressed data" << std::endl;
+#endif
+		return;
+	}
+
+	CleanupSounds();
+	memset(&m_streamSound, 0, sizeof(ma_sound));
+
+#ifdef _DEBUG_AUDIO
+	std::cout << "Initializing compressed memory sound..." << std::endl;
+	std::cout << "  - Compressed data size: " << (m_clip->GetCompressedDataSize() / 1024.0f) << " KB" << std::endl;
+#endif
+
+	// 압축된 데이터에서 메모리 디코더 생성
+	ma_decoder_config config = ma_decoder_config_init_default();
+	ma_decoder decoder;
+
+	// 메모리에서 디코더 초기화
+	ma_result result = ma_decoder_init_memory(
+		m_clip->GetCompressedData(),
+		m_clip->GetCompressedDataSize(),
+		&config,
+		&decoder
+	);
+
+	if (result != MA_SUCCESS) {
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to initialize memory decoder. Error: " << result << std::endl;
+#endif
+		return;
+	}
+
+	// 디코더로부터 사운드 생성 (실시간 디코딩)
+	result = ma_sound_init_from_data_source(
+		AudioManager::Get()->GetEngine(),
+		&decoder,
+		MA_SOUND_FLAG_NO_PITCH | MA_SOUND_FLAG_NO_SPATIALIZATION,
+		nullptr,
+		&m_streamSound
+	);
+
+	if (result == MA_SUCCESS) {
+		m_streamSoundInitialized = true;
+		m_soundReady = true;
+		ApplySettings();
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "Compressed memory sound initialized successfully!" << std::endl;
+		std::cout << "  - Will decode in real-time during playback" << std::endl;
+#endif
+	}
+	else {
+		m_soundReady = false;
+		memset(&m_streamSound, 0, sizeof(ma_sound));
+
+#ifdef _DEBUG_AUDIO
+		std::cout << "Failed to initialize compressed memory sound. Error: " << result << std::endl;
+#endif
+	}
+
+	// 디코더는 사운드가 참조하므로 여기서 해제하지 않음
 }
 
 void AudioSource::InitializeMemorySound()

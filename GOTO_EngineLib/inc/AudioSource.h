@@ -67,6 +67,8 @@ namespace GOTOEngine
 
 		void InitializeMemorySound();    // 메모리 기반 사운드 초기화
 		void InitializeStreamSound();    // 스트리밍 사운드 초기화
+		void InitializeStreamSoundWithFirstChunk();
+		void InitializeCompressedMemorySound();
 		void CleanupSounds();           // 모든 사운드 정리
 		void ApplySettings();
 		void AutoPrepareIfNeeded();
@@ -74,6 +76,8 @@ namespace GOTOEngine
 		// AudioManager에서만 호출하는 함수들
 		void InternalUpdate();
 		void MarkNeedsPrepare() { m_needsPrepare = true; m_soundReady = false; }
+
+	
 
 		// 현재 사용할 사운드 객체 반환
 		ma_sound* GetActiveSound();

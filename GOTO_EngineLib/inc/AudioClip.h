@@ -65,6 +65,32 @@ namespace GOTOEngine
         bool m_preloadAudioData;
         AudioFileInfo m_fileInfo;              // 파일 정보
 
+        // CompressedInMemory 관련 추가 멤버
+        std::vector<uint8_t> m_compressedData;      // 압축된 원본 파일 데이터
+        bool m_compressedDataLoaded;                // 압축 데이터 로드 여부
+
+        // CompressedInMemory 처리 함수들
+        bool LoadCompressedDataInternal();
+        void UnloadCompressedDataInternal();
+        bool HasCompressedData() const { return m_compressedDataLoaded && !m_compressedData.empty(); }
+
+        const void* GetCompressedData() { return &m_compressedData; }
+
+        // Stream PreLoad 관련 멤버
+        std::vector<float> m_firstChunkPCM;         // 첫 번째 청크 PCM 데이터
+        bool m_firstChunkLoaded;                    // 첫 번째 청크 로드 여부
+        float m_firstChunkDuration;                 // 첫 번째 청크 길이 (초)
+        ma_uint64 m_firstChunkFrames;               // 첫 번째 청크 프레임 수
+
+        // Stream PreLoad 설정
+        static constexpr float DEFAULT_FIRST_CHUNK_DURATION = 0.5f;  // 0.5초
+        static constexpr ma_uint64 MIN_CHUNK_FRAMES = 4096;          // 최소 프레임 수
+
+        // Stream PreLoad 처리 함수들
+        bool LoadFirstChunkInternal();
+        void UnloadFirstChunkInternal();
+        ma_uint64 CalculateFirstChunkSize();
+
         // 실제 오디오 데이터 저장
         std::unique_ptr<AudioData> m_audioData;
 
@@ -111,6 +137,13 @@ namespace GOTOEngine
         const AudioFileInfo& GetFileInfo() const { return m_fileInfo; }
         bool IsLoadModeOverridden() const { return m_loadModeOverridden; }
 
+        // Stream PreLoad 관련 함수들
+        bool IsFirstChunkLoaded() const { return m_firstChunkLoaded; }
+        const float* GetFirstChunkPCM() const;
+        ma_uint64 GetFirstChunkFrames() const { return m_firstChunkFrames; }
+        float GetFirstChunkDuration() const { return m_firstChunkDuration; }
+        size_t GetFirstChunkSize() const;
+
         // preloadAudioData 관련 함수들
         void SetPreloadAudioData(bool preload);
         bool GetPreloadAudioData() const { return m_preloadAudioData; }
@@ -140,6 +173,10 @@ namespace GOTOEngine
         size_t GetTotalMemoryUsage() const;  // 원본 + 리샘플링 데이터 포함
         void ForcedLoadAudioData();
         void ForcedUnloadAudioData();
+
+        // CompressedInMemory 관련 함수들
+        size_t GetCompressedDataSize() const;
+        bool IsCompressedDataLoaded() const { return m_compressedDataLoaded; }
 
         // AudioSource에서 직접 PCM 데이터 접근용
         const float* GetPCMData() const;

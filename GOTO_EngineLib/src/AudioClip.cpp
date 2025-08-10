@@ -22,6 +22,10 @@ AudioClip::AudioClip()
     , m_resampledData(nullptr)
     , m_targetSampleRate(0)
     , m_autoResampleOnPreload(true)
+    , m_compressedDataLoaded(false)
+    , m_firstChunkLoaded(false)          
+    , m_firstChunkDuration(0.0f)         
+    , m_firstChunkFrames(0)              
 {
 }
 
@@ -123,6 +127,64 @@ size_t AudioClip::GetFileSize(const std::wstring& filePath)
     return 0;
 }
 
+bool GOTOEngine::AudioClip::LoadCompressedDataInternal()
+{
+    if (m_compressedDataLoaded && !m_compressedData.empty()) {
+        return true; // 이미 로드됨
+    }
+
+    if (!m_isLoaded) {
+        return false;
+    }
+
+    std::string filePathUtf8 = WStringHelper::wstring_to_string(m_filePath);
+
+    // 파일을 바이너리로 읽어서 메모리에 저장
+    std::ifstream file(m_filePath, std::ios::binary | std::ios::ate);
+    if (!file.is_open()) {
+#ifdef _DEBUG_AUDIO
+        std::cout << "Failed to open file for compressed loading: " << filePathUtf8 << std::endl;
+#endif
+        return false;
+    }
+
+    // 파일 크기 확인
+    std::streamsize fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // 압축 데이터 저장
+    m_compressedData.resize(fileSize);
+    if (!file.read(reinterpret_cast<char*>(m_compressedData.data()), fileSize)) {
+#ifdef _DEBUG_AUDIO
+        std::cout << "Failed to read compressed data: " << filePathUtf8 << std::endl;
+#endif
+        m_compressedData.clear();
+        return false;
+    }
+
+    file.close();
+    m_compressedDataLoaded = true;
+
+#ifdef _DEBUG_AUDIO
+    std::cout << "Compressed data loaded: " << filePathUtf8
+        << " (" << (fileSize / 1024.0f) << " KB)" << std::endl;
+#endif
+
+    return true;
+}
+
+void GOTOEngine::AudioClip::UnloadCompressedDataInternal()
+{
+    if (m_compressedDataLoaded) {
+        m_compressedData.clear();
+        m_compressedDataLoaded = false;
+
+#ifdef _DEBUG_AUDIO
+        std::cout << "Compressed data unloaded from memory" << std::endl;
+#endif
+    }
+}
+
 void AudioClip::LoadFromFilePath(const std::wstring& filePath)
 {
     if (!AudioManager::Get()->IsInitialized()) {
@@ -144,7 +206,7 @@ void AudioClip::LoadFromFilePath(const std::wstring& filePath)
     // 2. 권장 로드타입 결정
     m_recommendedLoadMode = DetermineLoadModeByFileInfo(m_fileInfo);
 
-    // 3. 실제 로드타입 설정 (오버라이드되지 않았으면 권장 모드 사용)
+    // 3. 실제 로드타입 설정
     if (!m_loadModeOverridden) {
         m_loadMode = m_recommendedLoadMode;
     }
@@ -160,17 +222,23 @@ void AudioClip::LoadFromFilePath(const std::wstring& filePath)
     m_decoderConfig = ma_decoder_config_init_default();
     m_isLoaded = true;
 
-    // 6. preloadAudioData가 활성화되고 DecompressOnLoad 모드면 로드
-    if (m_preloadAudioData && m_loadMode == AudioLoadMode::DecompressOnLoad) {
-        LoadAudioDataInternal();
-
-        // 프리로드 시 자동 리샘플링
-        if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
-            ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
-            if (engineSampleRate != m_sampleRate) {
-                ResamplePCMData(engineSampleRate);
+    // 6. 로드 모드에 따른 데이터 로드
+    if (m_preloadAudioData) {
+        if (m_loadMode == AudioLoadMode::DecompressOnLoad) {
+            // PCM 데이터 로드 + 리샘플링
+            LoadAudioDataInternal();
+            if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
+                ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
+                if (engineSampleRate != m_sampleRate) {
+                    ResamplePCMData(engineSampleRate);
+                }
             }
         }
+        else if (m_loadMode == AudioLoadMode::CompressedInMemory) {
+            // 압축된 원본 파일 데이터 로드
+            LoadCompressedDataInternal();
+        }
+        // Stream 모드는 프리로드하지 않음
     }
 
 #ifdef _DEBUG_AUDIO
@@ -469,32 +537,139 @@ void AudioClip::SetPreloadAudioData(bool preload)
 
     m_preloadAudioData = preload;
 
-    if (preload && m_loadMode == AudioLoadMode::DecompressOnLoad && !IsAudioDataLoaded())
-    {
-        LoadAudioDataInternal();
+    if (preload) {
+        if (m_loadMode == AudioLoadMode::DecompressOnLoad && !IsAudioDataLoaded()) {
+            LoadAudioDataInternal();
 
-        // 프리로드 시 자동 리샘플링 수행
-        if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
-            ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
-            if (engineSampleRate != m_sampleRate) {
-                ResamplePCMData(engineSampleRate);
+            if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
+                ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
+                if (engineSampleRate != m_sampleRate) {
+                    ResamplePCMData(engineSampleRate);
+                }
             }
         }
+        else if (m_loadMode == AudioLoadMode::CompressedInMemory && !IsCompressedDataLoaded()) {
+            LoadCompressedDataInternal();
+        }
+        else if (m_loadMode == AudioLoadMode::Stream && !IsFirstChunkLoaded()) {
+            // Stream 모드에서 첫 번째 청크만 프리로드
+            LoadFirstChunkInternal();
+        }
     }
-    else if (!preload && IsAudioDataLoaded())
-    {
+    else {
+        // 언로드
         UnloadAudioDataInternal();
+        UnloadCompressedDataInternal();
+        UnloadFirstChunkInternal();
         ClearResampledData();
     }
+}
+
+ma_uint64 AudioClip::CalculateFirstChunkSize()
+{
+    if (!m_isLoaded) return 0;
+
+    // 1. 시간 기반 계산 (기본 0.5초)
+    ma_uint64 timeBasedFrames = (ma_uint64)(m_sampleRate * DEFAULT_FIRST_CHUNK_DURATION);
+
+    // 2. 최소 프레임 수 보장
+    ma_uint64 chunkFrames = std::max(timeBasedFrames, MIN_CHUNK_FRAMES);
+
+    // 3. 전체 길이를 초과하지 않도록 제한
+    std::string filePathUtf8 = WStringHelper::wstring_to_string(m_filePath);
+    ma_decoder_config config = ma_decoder_config_init_default();
+    ma_decoder decoder;
+
+    ma_result result = ma_decoder_init_file(filePathUtf8.c_str(), &config, &decoder);
+    if (result == MA_SUCCESS) {
+        ma_uint64 totalFrames;
+        if (ma_decoder_get_length_in_pcm_frames(&decoder, &totalFrames) == MA_SUCCESS) {
+            chunkFrames = std::min(chunkFrames, totalFrames);
+        }
+        ma_decoder_uninit(&decoder);
+    }
+
+    return chunkFrames;
+}
+
+bool AudioClip::LoadFirstChunkInternal()
+{
+    if (m_firstChunkLoaded && !m_firstChunkPCM.empty()) {
+        return true; // 이미 로드됨
+    }
+
+    if (!m_isLoaded) {
+        return false;
+    }
+
+    std::string filePathUtf8 = WStringHelper::wstring_to_string(m_filePath);
+
+#ifdef _DEBUG_AUDIO
+    std::cout << "Loading first chunk for streaming: " << filePathUtf8 << std::endl;
+#endif
+
+    // 디코더 초기화
+    ma_decoder_config config = ma_decoder_config_init(ma_format_f32, 0, 0);
+    ma_decoder decoder;
+
+    ma_result result = ma_decoder_init_file(filePathUtf8.c_str(), &config, &decoder);
+    if (result != MA_SUCCESS) {
+#ifdef _DEBUG_AUDIO
+        std::cout << "Failed to initialize decoder for first chunk. Error: " << result << std::endl;
+#endif
+        return false;
+    }
+
+    // 첫 번째 청크 크기 계산
+    ma_uint64 chunkFrames = CalculateFirstChunkSize();
+    ma_uint64 totalSamples = chunkFrames * decoder.outputChannels;
+
+    // 첫 번째 청크 데이터 읽기
+    m_firstChunkPCM.resize(totalSamples);
+
+    ma_uint64 framesRead;
+    result = ma_decoder_read_pcm_frames(&decoder, m_firstChunkPCM.data(), chunkFrames, &framesRead);
+
+    ma_decoder_uninit(&decoder);
+
+    if (result == MA_SUCCESS || result == MA_AT_END) {
+        // 실제로 읽은 프레임 수로 조정
+        m_firstChunkFrames = framesRead;
+        m_firstChunkPCM.resize(framesRead * m_channels);
+        m_firstChunkDuration = (float)framesRead / (float)m_sampleRate;
+        m_firstChunkLoaded = true;
+
+        // PCM 데이터 유효성 검사 (간단한 버전)
+        for (float& sample : m_firstChunkPCM) {
+            if (!std::isfinite(sample)) {
+                sample = 0.0f;
+            }
+            sample = std::max(-1.0f, std::min(1.0f, sample));
+        }
+
+#ifdef _DEBUG_AUDIO
+        float sizeInKB = (totalSamples * sizeof(float)) / 1024.0f;
+        std::cout << "First chunk loaded successfully:" << std::endl;
+        std::cout << "  - Duration: " << m_firstChunkDuration << " seconds" << std::endl;
+        std::cout << "  - Frames: " << framesRead << std::endl;
+        std::cout << "  - Size: " << sizeInKB << " KB" << std::endl;
+        std::cout << "  - Percentage of total: " << (m_firstChunkDuration / m_length * 100.0f) << "%" << std::endl;
+#endif
+        return true;
+    }
+
+#ifdef _DEBUG_AUDIO
+    std::cout << "Failed to read first chunk. Error: " << result << std::endl;
+#endif
+    return false;
 }
 
 bool AudioClip::SetLoadModeOverride(AudioLoadMode mode, bool force)
 {
     if (m_loadMode == mode && m_loadModeOverridden) {
-        return true; // 이미 같은 모드로 설정됨
+        return true;
     }
 
-    // 안전성 검사
     if (!force && !CanChangeLoadMode()) {
 #ifdef _DEBUG_AUDIO
         std::cout << "Cannot change load mode: Audio is currently in use" << std::endl;
@@ -502,7 +677,6 @@ bool AudioClip::SetLoadModeOverride(AudioLoadMode mode, bool force)
         return false;
     }
 
-    // 권장 모드와 다른 경우 경고
     if (mode != m_recommendedLoadMode) {
 #ifdef _DEBUG_AUDIO
         const char* modeNames[] = { "DecompressOnLoad", "CompressedInMemory", "Stream" };
@@ -514,23 +688,27 @@ bool AudioClip::SetLoadModeOverride(AudioLoadMode mode, bool force)
     }
 
     // 기존 데이터 정리
-    if (IsAudioDataLoaded()) {
-        UnloadAudioDataInternal();
-        ClearResampledData();
-    }
+    UnloadAudioDataInternal();
+    UnloadCompressedDataInternal();
+    ClearResampledData();
 
     m_loadMode = mode;
     m_loadModeOverridden = true;
 
     // 새로운 모드에 따라 데이터 로드
-    if (m_preloadAudioData && mode == AudioLoadMode::DecompressOnLoad) {
-        LoadAudioDataInternal();
+    if (m_preloadAudioData) {
+        if (mode == AudioLoadMode::DecompressOnLoad) {
+            LoadAudioDataInternal();
 
-        if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
-            ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
-            if (engineSampleRate != m_sampleRate) {
-                ResamplePCMData(engineSampleRate);
+            if (m_autoResampleOnPreload && AudioManager::Get()->IsInitialized()) {
+                ma_uint32 engineSampleRate = ma_engine_get_sample_rate(AudioManager::Get()->GetEngine());
+                if (engineSampleRate != m_sampleRate) {
+                    ResamplePCMData(engineSampleRate);
+                }
             }
+        }
+        else if (mode == AudioLoadMode::CompressedInMemory) {
+            LoadCompressedDataInternal();
         }
     }
 
@@ -539,6 +717,33 @@ bool AudioClip::SetLoadModeOverride(AudioLoadMode mode, bool force)
 #endif
 
     return true;
+}
+
+void AudioClip::UnloadFirstChunkInternal()
+{
+    if (m_firstChunkLoaded) {
+        m_firstChunkPCM.clear();
+        m_firstChunkLoaded = false;
+        m_firstChunkFrames = 0;
+        m_firstChunkDuration = 0.0f;
+
+#ifdef _DEBUG_AUDIO
+        std::cout << "First chunk unloaded from memory" << std::endl;
+#endif
+    }
+}
+
+const float* AudioClip::GetFirstChunkPCM() const
+{
+    if (m_firstChunkLoaded && !m_firstChunkPCM.empty()) {
+        return m_firstChunkPCM.data();
+    }
+    return nullptr;
+}
+
+size_t AudioClip::GetFirstChunkSize() const
+{
+    return m_firstChunkPCM.size() * sizeof(float);
 }
 
 void AudioClip::ResetToRecommendedLoadMode()
@@ -680,6 +885,14 @@ size_t AudioClip::GetTotalMemoryUsage() const
         total += m_resampledData->samples.size() * sizeof(float);
     }
 
+    if (IsCompressedDataLoaded()) {
+        total += m_compressedData.size();
+    }
+
+    if (IsFirstChunkLoaded()) {
+        total += GetFirstChunkSize();
+    }
+
     return total;
 }
 
@@ -695,6 +908,11 @@ void AudioClip::ForcedUnloadAudioData()
 {
     UnloadAudioDataInternal();
     ClearResampledData();
+}
+
+size_t GOTOEngine::AudioClip::GetCompressedDataSize() const
+{
+    return m_compressedData.size();
 }
 
 void AudioClip::PrintDetailedFileInfo() const
