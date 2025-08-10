@@ -27,7 +27,7 @@ void SoundManager::Awake() {
 			auto clip = Resource::Load<AudioClip>(path.c_str());
 			clip->IncreaseRefCount();
 			clip->SetPreloadAudioData(true);  // 메모리 로딩 활성화
-			clip->LoadAudioData();            // PCM 데이터 메모리에 로딩
+			clip->ForcedLoadAudioData();      // PCM 데이터 메모리에 로딩
 			sfxClips[key] = clip;
 
 			auto sfxSourceitem = new GameObject;

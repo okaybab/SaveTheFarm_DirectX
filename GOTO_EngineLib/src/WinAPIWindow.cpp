@@ -166,6 +166,15 @@ void WinAPIWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
+    case WM_SYSCOMMAND:
+        if (wParam == SC_CLOSE)
+        {
+            // Alt+F4나 시스템 메뉴의 닫기를 정상적인 WM_CLOSE로 변환
+            PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+            return;  // 시스템의 기본 처리 중단
+        }
+        break;
+
     case WM_CLOSE:
         m_shouldClose = true;
         DestroyWindow(m_hwnd);

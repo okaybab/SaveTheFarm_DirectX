@@ -473,7 +473,7 @@ void GameManager::Update() {
 				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
 					SoundManager::instance->StopBGM();
 					SoundManager::instance->LoopBGM(true);
-					SCENE_CHANGE_SCENE(L"StartScene");
+					SCENE_CHANGE_SCENE(L"PlayScene");
 				}
 			}
 		}

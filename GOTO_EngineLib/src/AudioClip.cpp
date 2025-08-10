@@ -11,7 +11,7 @@ AudioClip::AudioClip()
 	, m_channels(0)
 	, m_sampleRate(0)
 	, m_isLoaded(false)
-	, m_preloadAudioData(true)
+	, m_preloadAudioData(false)
 	, m_audioData(nullptr)
 {
 }
