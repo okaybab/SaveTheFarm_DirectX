@@ -20,21 +20,20 @@ namespace GOTOEngine
 
 		bool m_jointDestroied = false;
 		int m_hp = 9999;
+
+		bool m_isInitialized = false;
 	public:
     InteractiveTitle()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
-        REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
 
-		void FixedUpdate()
-		{
-			m_rb->AddForce({ 0.0f,20.0f });
-		}
-
 		void Awake()
 		{
+			if (m_isInitialized)
+				return;
+
 			m_rb = GetComponent<RigidBody2D>();
 			m_jointbody1 = new Body();
 			m_jointbody1->Set({1.0f,1.0f},FLT_MAX);
@@ -58,6 +57,8 @@ namespace GOTOEngine
 			PhysicsManager::Get()->AddBody(m_jointbody2);
 
 			m_rb->SetPosition({ 0.0f, 440.0f });
+
+			m_isInitialized = true;
 		}
 
 		void OnDestroy()

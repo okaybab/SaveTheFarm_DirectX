@@ -42,11 +42,11 @@ void SoundManager::Awake() {
 		bgmClips["Battle1"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM1.mp3");
 		bgmClips["Battle1"]->IncreaseRefCount();
 		bgmClips["Battle1"]->SetPreloadAudioData(true);
-		bgmClips["Battle1"]->LoadAudioData();
+		bgmClips["Battle1"]->ForcedLoadAudioData();
 		bgmClips["Battle2"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM2.mp3");
 		bgmClips["Battle2"]->IncreaseRefCount();
 		bgmClips["Battle1"]->SetPreloadAudioData(true);
-		bgmClips["Battle2"]->LoadAudioData();
+		bgmClips["Battle2"]->ForcedLoadAudioData();
 		auto bgmSourceitem = new GameObject;
 		bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
 		bgmSource = bgmSourceitem->AddComponent<AudioSource>();
