@@ -148,25 +148,12 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
-	D2D1_RECT_F dstRect;
-	if (useScreenPos)
-	{
-		dstRect = D2D1::RectF(
-			destRect.x,
-			(screenHeight - destRect.y - destRect.height),
-			(destRect.x + destRect.width),
-			(screenHeight - destRect.y)
-		);
-	}
-	else
-	{
-		dstRect = D2D1::RectF(
-			0,
-			0,
-			destRect.width,
-			destRect.height
-		);
-	}
+	D2D1_RECT_F dstRect = D2D1::RectF(
+		0,
+		0,
+		destRect.width,
+		destRect.height
+	);
 
 	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
 	D2D1_RECT_F srcRect = D2D1::RectF(
@@ -186,8 +173,6 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 		mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
 		break;
 	}
-
-	m_d2dContext->SetTransform(d2dTransform);
 
 	// 색상 변경이 필요한지 확인 (RGB가 모두 255가 아니거나 알파가 255가 아닌 경우)
 	//bool needColorEffect = (color.R != 255 || color.G != 255 || color.B != 255 || color.A != 255);
@@ -269,6 +254,14 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 	//}
 	//else
 	{
+		/*if (useScreenPos)
+		{
+			auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);
+			d2dTransform = d2dTransform * correctTransform;
+		}*/
+
+		m_d2dContext->SetTransform(d2dTransform);
+
 		// 색상 변경이 필요없는 경우 기존 방식 사용
 		m_d2dContext->DrawBitmap(
 			d2dBitmap,
@@ -362,31 +355,25 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 
 	float screenHeight = static_cast<float>(m_window->GetHeight());
-	m_d2dContext->SetTransform(d2dTransform);
-	m_solidColorBrush->SetColor(D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f));
 
 	auto col = D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f);
 
-	D2D1_RECT_F dstRect;
+	D2D1_RECT_F dstRect = D2D1::RectF(
+		0,
+		0,
+		rect.width,
+		rect.height
+	);
 
-	if (useScreenPos)
-	{
-		dstRect = D2D1::RectF(
-			rect.x,
-			(screenHeight - rect.y - rect.height),
-			(rect.x + rect.width),
-			(screenHeight - rect.y)
-		);
-	}
-	else
-	{
-		dstRect = D2D1::RectF(
-			0,
-			0,
-			rect.width,
-			rect.height
-		);
-	}
+	//if (useScreenPos)
+	//{
+	//	auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);
+	//	d2dTransform = d2dTransform * correctTransform;
+	//}
+
+	m_d2dContext->SetTransform(d2dTransform);
+	m_solidColorBrush->SetColor(D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f));
+
 
 	if (fill) {
 		m_d2dContext->FillRectangle(dstRect, m_solidColorBrush.Get());
@@ -420,25 +407,12 @@ void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size
 	{
 		d2dTransforms[i] = ConvertToD2DMatrix(mats[i]);
 
-		if (useScreenPos)
-		{
-			d2dDestRects[i] = D2D1::RectF(
-				destRect.x,
-				(screenHeight - destRect.y - destRect.height),
-				(destRect.x + destRect.width),
-				(screenHeight - destRect.y)
-			);
-		}
-		else
-		{
-			d2dDestRects[i] = D2D1::RectF(
-				0,
-				0,
-				destRect.width,
-				destRect.height
-			);
-		}
-
+		d2dDestRects[i] = D2D1::RectF(
+			0,
+			0,
+			destRect.width,
+			destRect.height
+		);
 
 		d2dSrcRects[i] = D2D1::RectU(
 			(UINT32)sourceRect.x,
@@ -447,8 +421,14 @@ void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size
 			(UINT32)(d2dDestY + sourceRect.height)
 		);
 
-		d2dColors[i] = D2D1::ColorF(static_cast<float>(colors[i].R / 255.0f), static_cast<float>(colors[i].G / 255.0f), static_cast<float>(colors[i].B / 255.0f), static_cast<float>(colors[i].A / 255.0f));
 
+		//if (useScreenPos)
+		//{
+		//	auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);
+		//	d2dTransforms[i] = d2dTransforms[i] * correctTransform;
+		//}
+
+		d2dColors[i] = D2D1::ColorF(static_cast<float>(colors[i].R / 255.0f), static_cast<float>(colors[i].G / 255.0f), static_cast<float>(colors[i].B / 255.0f), static_cast<float>(colors[i].A / 255.0f));
 	}
 
 	m_spriteBatch->AddSprites(count, d2dDestRects.data(), d2dSrcRects.data(), d2dColors.data(), d2dTransforms.data());
@@ -632,29 +612,22 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
+	//if (useScreenPos)
+	//{
+	//	auto correctTransform = D2D1::Matrix3x2F::Scale(1.0f, -1.0f) * D2D1::Matrix3x2F::Translation(0, screenHeight);
+	//	d2dTransform = d2dTransform * correctTransform;
+	//}
+
 	// DrawRect와 동일한 방식으로 변환 행렬 적용
 	m_d2dContext->SetTransform(d2dTransform);
 
 	// 목적지 사각형 설정 (DrawRect와 동일한 로직)
-	D2D1_RECT_F dstRect;
-	if (useScreenPos)
-	{
-		dstRect = D2D1::RectF(
-			destRect.x,
-			(screenHeight - destRect.y - destRect.height),
-			(destRect.x + destRect.width),
-			(screenHeight - destRect.y)
-		);
-	}
-	else
-	{
-		dstRect = D2D1::RectF(
-			0,
-			0,
-			destRect.width,
-			destRect.height
-		);
-	}
+	D2D1_RECT_F dstRect = D2D1::RectF(
+		0,
+		0,
+		destRect.width,
+		destRect.height
+	);
 
 	// pathGeometry용 중심점과 반지름 계산 (dstRect 기준)
 	float centerX = (dstRect.left + dstRect.right) * 0.5f;

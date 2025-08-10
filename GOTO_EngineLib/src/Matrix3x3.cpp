@@ -246,32 +246,41 @@ GOTOEngine::Vector2 GOTOEngine::Matrix3x3::MultiplyVector(const Vector2& vector)
 
 GOTOEngine::Matrix3x3 GOTOEngine::Matrix3x3::TRS(const Vector2& position, float rotationRadians, const Vector2& scale)
 {
-    Matrix3x3 mat;
-    mat.SetIdentity(); // 기본적으로 단위 행렬로 초기화
-
-    float c = std::cos(rotationRadians);
-    float s = std::sin(rotationRadians);
-
     // 열 우선 행렬의 TRS 구성
     // 일반적으로 OpenGL에서 사용하는 2D 변환 행렬 구조:
     // [ Sx*cos(theta)   -Sy*sin(theta)   Tx ]
     // [ Sx*sin(theta)    Sy*cos(theta)   Ty ]
     // [ 0                0               1  ]
 
+    Matrix3x3 mat;
+    mat.SetIdentity();
+
+    float c, s;
+
+    // 회전각이 0이면 cos/sin 호출을 건너뛴다
+    if (fabs(rotationRadians) < 1e-6f) {
+        c = 1.0f;
+        s = 0.0f;
+    }
+    else {
+        c = std::cos(rotationRadians);
+        s = std::sin(rotationRadians);
+    }
+
     // Column 0 (Scaled X-axis)
     mat.m[0][0] = c * scale.x;
     mat.m[0][1] = s * scale.x;
-    mat.m[0][2] = 0.0f; // 항상 0
+    mat.m[0][2] = 0.0f;
 
     // Column 1 (Scaled Y-axis)
     mat.m[1][0] = -s * scale.y;
     mat.m[1][1] = c * scale.y;
-    mat.m[1][2] = 0.0f; // 항상 0
+    mat.m[1][2] = 0.0f;
 
     // Column 2 (Translation)
     mat.m[2][0] = position.x;
     mat.m[2][1] = position.y;
-    mat.m[2][2] = 1.0f; // 항상 1
+    mat.m[2][2] = 1.0f;
 
     return mat;
 }

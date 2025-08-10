@@ -137,9 +137,6 @@
     <ClCompile Include="src\component\GimmickManager2.cpp">
       <Filter>소스 파일\컴포넌트\매니저</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\ItemManager2.cpp">
-      <Filter>소스 파일\컴포넌트\매니저</Filter>
-    </ClCompile>
     <ClCompile Include="src\component\TutorialImage2.cpp">
       <Filter>소스 파일\컴포넌트\UI</Filter>
     </ClCompile>
@@ -323,7 +320,7 @@
       <Filter>헤더 파일\컴포넌트\조준점</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\InteractiveTitle.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\컴포넌트\etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

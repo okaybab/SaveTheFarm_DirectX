@@ -12,6 +12,7 @@
 #include "SpriteRenderer.h"
 #include "CrosshairMove.h"
 #include "InteractiveTitle.h"
+#include "CrosshairController.h"
 
 void StartScene::Initialize()
 {
@@ -37,10 +38,12 @@ void StartScene::Initialize()
 	if (Object::IsValidObject(p1))
 	{
 		p1->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
+		p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::TriggerGun);
 	}
 	if (Object::IsValidObject(p2))
 	{
 		p2->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
+		p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::TriggerGun);
 	}
 
 	auto BG = new GameObject(L"BG");

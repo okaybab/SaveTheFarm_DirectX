@@ -74,24 +74,37 @@ void GOTOEngine::Text::Render()
     auto sizeFactorY = canvasSize.y / screenSize.y;
     auto currentPos = rectTransform->GetAnchoredPosition();
     auto pivot = rectTransform->GetPivot();
-    auto scale = rectTransform->GetLocalScale();
+    auto scale = rectTransform->GetLocalScale(); 
+    float rotation = rectTransform->GetLocalRotation();
 
-    // Unity 좌표계 (좌하단 기준)을 D2D 좌표계 (좌상단 기준)으로 변환
-    // 1. 피벗 기준 변환 - Unity에서는 pivot (0,0)이 좌하단이므로
-    auto transform = Matrix3x3::Translate(
+    // 피벗 이동
+    Vector2 pivotOffset{
         sizeDelta.x * -pivot.x,
-        sizeDelta.y * (pivot.y - 1.0f)  // Y축을 뒤집어서 좌하단 기준으로 만듦
-    );
+        sizeDelta.y * (pivot.y - 1.0f)
+    };
 
-    // 2. TRS 적용 (위치도 Y축 뒤집기 적용)
-    transform = Matrix3x3::TRS(
-        { currentPos.x * sizeFactorX, -currentPos.y * sizeFactorY }, // Y축 뒤집기
-        rectTransform->GetLocalRotation(),
-        { scale.x * sizeFactorX, scale.y * sizeFactorY }
-    ) * transform;
+    // 스케일 팩터
+    Vector2 finalScale{
+        scale.x * sizeFactorX,
+        scale.y * sizeFactorY
+    };
 
-    // 3. 최종적으로 화면 높이만큼 아래로 이동 (D2D 좌표계에서 Unity 좌표계처럼 보이게)
-    transform = Matrix3x3::Translate(0, canvasSize.y) * transform;
+    // 피벗 오프셋을 스케일 + 회전에 맞춰 변환
+    float c = std::cos(rotation);
+    float s = std::sin(rotation);
+    Vector2 rotatedPivot{
+        pivotOffset.x * c * finalScale.x + pivotOffset.y * -s * finalScale.y,
+        pivotOffset.x * s * finalScale.x + pivotOffset.y * c * finalScale.y
+    };
+
+    // 최종 위치
+    Vector2 finalPos{
+        currentPos.x * sizeFactorX + rotatedPivot.x,
+        -currentPos.y * sizeFactorY + rotatedPivot.y + canvasSize.y
+    };
+
+    // 하나의 TRS로 최종 행렬 생성
+    auto transform = Matrix3x3::TRS(finalPos, rotation, finalScale);
 
     renderAPI->DrawString(text.c_str(), { 0.0f, 0.0f, sizeDelta.x, sizeDelta.y },
         IsValidObject(m_font) ? m_font->GetFont() : nullptr,
