@@ -2,6 +2,7 @@
 #include <CrosshairMove.h>
 //#include "EnemySpawner.h"
 #include "GameManager2.h"
+#include "CrosshairController.h"
 
 using namespace GOTOEngine;
 
@@ -32,40 +33,54 @@ void GimmickManager2::Update() {
 			//ºù°áÇØÁ¦
 		}
 	}
-	if (p1gimmick6Timer > 0.0f) {
-		p1gimmick6Timer -= TIME_GET_DELTATIME();
-		if (p1gimmick6Timer <= 0.0f) {
-			p1gimmick6Timer = 0.0f;
-			//ºò°ÇÇØÁ¦
-		}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
+		GimmickOn(1, 1);
 	}
-	if (p1gimmick6Timer > 0.0f) {
-		p1gimmick6Timer -= TIME_GET_DELTATIME();
-		if (p1gimmick6Timer <= 0.0f) {
-			p1gimmick6Timer = 0.0f;
-			//ºò°ÇÇØÁ¦
-		}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha2)) {
+		GimmickOn(1, 2);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha3)) {
+		GimmickOn(1, 6);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha6)) {
+		GimmickOn(2, 1);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha7)) {
+		GimmickOn(2, 2);
+	}
+	if (INPUT_GET_KEYDOWN(KeyCode::Alpha8)) {
+		GimmickOn(2, 6);
 	}
 };
 
 void GimmickManager2::GimmickOn(int player, int gimmick) {
 	if (GameManager2::instance->setactive) {
+		auto p1 = GameObject::Find(L"Player1");
+		auto p2 = GameObject::Find(L"Player2");
 		switch (gimmick)
 		{
 		case 1:
 			if (player == 1) {
-				//p1¿¬»ç¸ðµå
+				if (Object::IsValidObject(p1)) {
+					p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::MachineGun);
+				}
 			}
 			else {
-				//p2¿¬»ç¸ðµå
+				if (Object::IsValidObject(p2)) {
+					p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::MachineGun);
+				}
 			}
 			break;
 		case 2:
 			if (player == 1) {
-				//p1¼¦°Ç¸ðµå
+				if (Object::IsValidObject(p1)) {
+					p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::ShotGun);
+				}
 			}
 			else {
-				//p2¼¦°Ç¸ðµå
+				if (Object::IsValidObject(p2)) {
+					p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::ShotGun);
+				}
 			}
 			break;
 		case 3:
@@ -80,12 +95,14 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			break;
 		case 6:
 			if (player == 1) {
-				//p1ºò°Ç¸ðµå
-				p1gimmick6Timer = 10.0f;
+				if (Object::IsValidObject(p1)) {
+					p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::BigGun);
+				}
 			}
 			else {
-				//p2ºò°Ç¸ðµå
-				p2gimmick6Timer = 10.0f;
+				if (Object::IsValidObject(p2)) {
+					p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::BigGun);
+				}
 			}
 		}
 	}
