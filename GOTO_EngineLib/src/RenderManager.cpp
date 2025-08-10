@@ -54,6 +54,12 @@ void GOTOEngine::RenderManager::DrawString(const wchar_t* text, Rect rect, const
 		rect = Rect{ 0,0,static_cast<float>(m_pRenderAPI->GetWindow().GetWidth()),static_cast<float>(m_pRenderAPI->GetWindow().GetHeight()) };
 	}
 
+	auto transform = Matrix3x3::TRS(
+		{ 0.0f,  static_cast<float>(m_pRenderAPI->GetWindow().GetHeight()) },   // 최종 translation
+		0.0f,           // rotation 없음
+		{ 1.0f, -1.0f } // scale
+	);
+
 	m_pRenderAPI->DrawString(text, rect, font, 24, IRenderFontStyle::Bold, color, Matrix3x3{}, static_cast<int>(hAlign), static_cast<int>(vAlign),true);
 }
 
