@@ -55,8 +55,7 @@ void GOTOEngine::RadialSpriteRenderer::Render(Matrix3x3& matrix)
             m_startAngle,   // 시작 각도
             m_clockwise,    // 시계방향 여부
             GetColor(),
-            filter,
-            false
+            filter
         );
     }
     else
@@ -68,8 +67,7 @@ void GOTOEngine::RadialSpriteRenderer::Render(Matrix3x3& matrix)
             { 0, 0, spriteRect.width, spriteRect.height },
             spriteRect,
             GetColor(),
-            filter,
-            false
+            filter
         );
     }
 }

@@ -19,5 +19,5 @@ void GOTOEngine::RectRenderer::Render(Matrix3x3& viewMatrix)
 	////유니티 좌표계 매트릭스 적용
 	transform = viewMatrix * transform;
 
-	renderAPI->DrawRect(m_rect, m_fillDraw, transform, m_color, false);
+	renderAPI->DrawRect(m_rect, m_fillDraw, transform, m_color);
 }

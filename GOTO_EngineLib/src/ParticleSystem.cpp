@@ -260,8 +260,7 @@ void GOTOEngine::ParticleSystem::RenderWithRect(Matrix3x3& viewMatrix)
             {0,0,1,1},
             true,               // 채워진 사각형
             transform,
-            particle->color,
-            false               // useScreenPos = false
+            particle->color           
         );
     }
 }
@@ -313,7 +312,7 @@ void GOTOEngine::ParticleSystem::RenderWithSprite(Matrix3x3& viewMatrix)
         colors.emplace_back(particle->color);
     }
 
-    renderAPI->DrawSpriteBatch(bitmap, m_activeParticles.size(), mats, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, colors, filter, false);
+    renderAPI->DrawSpriteBatch(bitmap, m_activeParticles.size(), mats, { 0,0,spriteRect.width,spriteRect.height }, spriteRect, colors, filter);
 }
 
 GOTOEngine::Vector2 GOTOEngine::ParticleSystem::CalculateEmissionVelocity(const EmissionShape& shape)
