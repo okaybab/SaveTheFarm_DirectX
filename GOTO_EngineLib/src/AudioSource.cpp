@@ -30,33 +30,26 @@ AudioSource::AudioSource()
 	, m_soundReady(false)
 	, m_needsPrepare(false)
 {
-	RegisterMessages();
+	AudioManager::Get()->RegisterAudioSource(this);
+	REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
+	REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
 }
 
-AudioSource::~AudioSource()
+void GOTOEngine::AudioSource::Dispose()
 {
 	CleanupSounds();
-
-	if (m_clip)
+	if (IsValidObject(m_clip)
+		&& !m_clip->IsDestroyed())
 	{
 		m_clip->DecreaseRefCount();
 		m_clip = nullptr;
 	}
 }
 
-void AudioSource::RegisterMessages()
-{
-	REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
-	REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
-	REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-}
-
 void AudioSource::OnEnable()
 {
 	if (AudioManager::Get()->IsInitialized())
 	{
-		AudioManager::Get()->RegisterAudioSource(this);
-
 		if (m_clip)
 		{
 			m_needsPrepare = true;
@@ -76,22 +69,10 @@ void AudioSource::OnDisable()
 	if (AudioManager::Get()->IsInitialized())
 	{
 		Stop();
-		AudioManager::Get()->UnRegisterAudioSource(this);
 
 #ifdef _DEBUG
 		std::cout << "AudioSource disabled." << std::endl;
 #endif
-	}
-}
-
-void AudioSource::OnDestroy()
-{
-	CleanupSounds();
-
-	if (m_clip)
-	{
-		m_clip->DecreaseRefCount();
-		m_clip = nullptr;
 	}
 }
 
@@ -233,6 +214,11 @@ ma_sound* AudioSource::GetActiveSound()
 		return &m_sound;
 	else
 		return nullptr;
+}
+
+GOTOEngine::AudioSource::~AudioSource()
+{
+	AudioManager::Get()->UnRegisterAudioSource(this);
 }
 
 void AudioSource::ApplySettings()

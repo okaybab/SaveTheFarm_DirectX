@@ -9,11 +9,6 @@ namespace GOTOEngine
 	private:
 		Vector2 m_lastPosition;
 		bool m_positionDirty;
-
-		void OnEnable();
-		void OnDisable();
-		void OnDestroy();
-
 	protected:
 		~AudioListener();
 
@@ -23,7 +18,5 @@ namespace GOTOEngine
 
 		static AudioListener* GetMain();
 		void SetAsMainListener();
-
-		void RegisterMessages();
 	};
 }

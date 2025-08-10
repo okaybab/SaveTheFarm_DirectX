@@ -10,22 +10,7 @@ AudioListener::AudioListener()
 	: m_lastPosition(Vector2{ 0, 0 })
 	, m_positionDirty(true)
 {
-	RegisterMessages();
-}
 
-AudioListener::~AudioListener()
-{
-}
-
-void AudioListener::RegisterMessages()
-{
-	REGISTER_BEHAVIOUR_MESSAGE(OnEnable);
-	REGISTER_BEHAVIOUR_MESSAGE(OnDisable);
-	REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
-}
-
-void AudioListener::OnEnable()
-{
 	if (AudioManager::Get()->IsInitialized())
 	{
 		AudioManager::Get()->RegisterListener(this);
@@ -35,7 +20,7 @@ void AudioListener::OnEnable()
 	}
 }
 
-void AudioListener::OnDisable()
+AudioListener::~AudioListener()
 {
 	if (AudioManager::Get()->IsInitialized())
 	{
@@ -44,11 +29,6 @@ void AudioListener::OnDisable()
 		std::cout << "AudioListener disabled." << std::endl;
 #endif
 	}
-}
-
-void AudioListener::OnDestroy()
-{
-
 }
 
 void AudioListener::UpdateListenerPosition()

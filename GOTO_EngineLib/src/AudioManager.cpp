@@ -51,7 +51,7 @@ void AudioManager::Update()
 	auto startTime = std::chrono::high_resolution_clock::now();
 
 	// 메인 리스너 위치 업데이트
-	if (m_mainListener && m_mainListener->GetEnabled())
+	if (Object::IsValidObject(m_mainListener) && m_mainListener->IsActiveAndEnabled())
 	{
 		m_mainListener->UpdateListenerPosition();
 	}
@@ -68,7 +68,7 @@ void AudioManager::UpdateAudioSources()
 {
 	for (auto& source : m_audioSources)
 	{
-		if (source && source->GetEnabled())
+		if (Object::IsValidObject(source) && source->IsActiveAndEnabled())
 		{
 			// 위치 업데이트
 			source->UpdateTransform();

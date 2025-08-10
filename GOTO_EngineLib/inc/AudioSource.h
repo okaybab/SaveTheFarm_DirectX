@@ -44,7 +44,6 @@ namespace GOTOEngine
 
 		void OnEnable();
 		void OnDisable();
-		void OnDestroy();
 
 		void InitializeMemorySound();    // 메모리 기반 사운드 초기화
 		void InitializeStreamSound();    // 스트리밍 사운드 초기화
@@ -58,12 +57,11 @@ namespace GOTOEngine
 
 		// 현재 사용할 사운드 객체 반환
 		ma_sound* GetActiveSound();
-
-	protected:
 		~AudioSource();
-
 	public:
 		AudioSource();
+
+		void Dispose() override;
 
 		void SetClip(AudioClip* clip);
 		AudioClip* GetClip() const { return m_clip; }
@@ -100,7 +98,5 @@ namespace GOTOEngine
 		float GetMaxDistance() const { return m_maxDistance; }
 
 		void UpdateTransform();
-
-		void RegisterMessages();
 	};
 }
