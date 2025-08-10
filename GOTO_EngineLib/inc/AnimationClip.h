@@ -55,6 +55,7 @@ namespace GOTOEngine
 		bool m_isLoop;
 		bool m_isAlpha;
 		float m_duration;
+		float m_animSpeed = 1.0f;
 		std::wstring m_texturePath;
 		std::wstring m_clipName;
 		void Dispose() override;
@@ -63,6 +64,7 @@ namespace GOTOEngine
 		const bool& IsAlpha() const { return m_isAlpha; }
 		const std::vector<AnimationKeyframe*>& GetKeyframes() const { return m_keyframes; }
 		const float& GetDuration() const { return m_duration; }
+		float GetSpeed() const { return m_animSpeed; }
 		const std::wstring& GetClipName() const { return m_clipName; }
 		const std::vector<AnimationKeyframe*>& GetKeyframes() { return m_keyframes; }
 	};

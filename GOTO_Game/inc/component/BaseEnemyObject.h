@@ -171,8 +171,19 @@ namespace GOTOEngine
 			{
 				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
 			}
-
 		}
+		void SetMoveSpeed(float speed)
+		{
+			m_moveSpeed = speed;
+
+			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+
+			for (auto comp : m_movementComponents)
+			{
+				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+			}
+		}
+
 		void SetRandomYPosition(float minY, float maxY)
 		{
 			// 가로 크기 고정 X는 추후에 변동하면 추가
@@ -219,6 +230,11 @@ namespace GOTOEngine
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴
 		}
 		virtual void OnDie(int attackerID) { m_isDie = true;  SetState(E_Enemy_Anim_State::DIE); }
-		virtual void OnDispone() { m_isDeathByDispone = true; SetState(E_Enemy_Anim_State::ESCAPE); }
+		virtual void OnDispone()
+		{ 
+			m_isDeathByDispone = true;
+			SetMoveSpeed(3.0f);
+			SetState(E_Enemy_Anim_State::ESCAPE); 
+		}
 	};
 }

@@ -4,6 +4,7 @@
     "alpha": true,
     "texturePath": "../Resources/artResource/SpriteSheet/Squirrel/Squirrel_Escape.png",
     "duration": 1.75,
+	"speed": 3.0,
     "frames": [
         {
             "sprite": "Squirrel_Escape_0",
