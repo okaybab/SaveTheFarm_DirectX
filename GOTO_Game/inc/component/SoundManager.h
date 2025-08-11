@@ -13,6 +13,7 @@ namespace GOTOEngine
 	public:
     SoundManager()
     {
+		SetExecutionOrder(-1500);
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }

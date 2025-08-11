@@ -26,7 +26,7 @@ namespace GOTOEngine
 		float m_randomDir = 8.0f;
 
 		bool m_jointDestroied = false;
-		int m_hp = 5;
+		int m_hp = 50;
 
 		bool m_isInitialized = false;
 	public:
@@ -118,8 +118,13 @@ namespace GOTOEngine
 
 		void TakeDamage(int attackerID, float damage) override
 		{
-			if(m_hp <= 1)
-				m_rb->AddForce({ -12000.0f,2500000.0f });
+			if (m_hp <= 1)
+			{
+				m_rb->SetMass(8900.0f);
+				m_rb->GetWrapperBody()->GetBody()->angularVelocity = 5.0f;
+				m_rb->AddForce({ -45.0f,320.0f });
+			}
+				
 			else
 				m_rb->AddForce({ -25000.0f,5000000.0f });
 
@@ -130,6 +135,8 @@ namespace GOTOEngine
 
 			if (m_hp <= 0 && !m_jointDestroied)
 			{
+				
+
 				m_jointDestroied = true;
 
 				if (m_jointbody1)

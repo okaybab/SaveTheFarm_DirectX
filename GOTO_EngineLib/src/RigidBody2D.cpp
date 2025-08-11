@@ -79,7 +79,14 @@ void GOTOEngine::RigidBody2D::SetMass(float mass)
 	if (GetWrapperBody() && GetWrapperBody()->m_pBody)
 	{
 		if (mass != FLT_MAX)
+		{
+			auto width = m_wrapperBody->GetBody()->width;
 			m_wrapperBody->GetBody()->mass = mass;
+			m_wrapperBody->GetBody()->invMass = 1.0f / mass;
+			m_wrapperBody->GetBody()->I = mass * (width.x * width.x + width.y * width.y) / 12.0f;
+			m_wrapperBody->GetBody()->invI = 1.0f / m_wrapperBody->GetBody()->I;
+		}
+			
 		else
 		{
 			auto body = m_wrapperBody->GetBody();

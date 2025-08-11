@@ -272,10 +272,6 @@ void GOTOEngine::DefenseModeCameraManager::Awake()
 
 void GOTOEngine::DefenseModeCameraManager::Update()
 {
-    if (INPUT_GET_KEYDOWN(KeyCode::F12))
-        m_isOpen = !m_isOpen;
-
-
     if (m_isOpen)
     {
         m_motionTimer += Mathf::Min(TIME_GET_DELTATIME(), TIME_GET_FIXED_DELTATIME());
