@@ -351,8 +351,8 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
+					enemy->GetComponent<BaseEnemyObject>()->OnDie(player);
 				}
-				EnemySpawnManager::instance->Setp1EnemyAllDestroy();
 
 				auto p1cam = GameObject::Find(L"p1Cam");
 				if (IsValidObject(p1cam))
@@ -382,8 +382,8 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
+					enemy->GetComponent<BaseEnemyObject>()->OnDie(player);
 				}
-				EnemySpawnManager::instance->Setp2EnemyAllDestroy();
 
 				auto p2cam = GameObject::Find(L"p2Cam");
 				if (IsValidObject(p2cam))
