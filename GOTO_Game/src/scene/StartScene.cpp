@@ -14,6 +14,7 @@
 #include "CrosshairMove.h"
 #include "InteractiveTitle.h"
 #include "CrosshairController.h"
+#include "StartAnimal.h"
 
 void StartScene::Initialize()
 {
@@ -93,4 +94,6 @@ void StartScene::Initialize()
 		auto spawner = new GameObject(L"스폰매니저");
 		spawner->AddComponent<EnemySpawnManager>()->SetEGameType(E_Game_Type::TITLE);
 	}
+	auto startanimal = new GameObject(L"스타스애니멀");
+	startanimal->AddComponent<StartAnimal>();
 }
