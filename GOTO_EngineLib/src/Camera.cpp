@@ -45,7 +45,8 @@ void GOTOEngine::Camera::OnDestroy()
 
 void GOTOEngine::Camera::SetDepth(int value)
 {
-	RenderManager::Get()->SetCamSortDirty(); m_depth = value;
+	RenderManager::Get()->SetCamSortDirty(); 
+	m_depth = value;
 }
 
 GOTOEngine::Matrix3x3 GOTOEngine::Camera::GetMatrix()

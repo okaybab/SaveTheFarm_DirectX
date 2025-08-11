@@ -16,6 +16,7 @@
 #include "SoundManager.h"
 #include "CameraMove.h"
 #include "CrosshairMove.h"
+#include "DefenseModeCameraManager.h"
 
 void DefenseScene::Initialize()
 {
@@ -34,6 +35,7 @@ void DefenseScene::Initialize()
 	player1Cam->GetGameObject()->name = L"p1Cam";
 	player1Cam->SetRect({ 0.0f, 0.0f, 0.5f, 1.0f });
 	player1Cam->SetRenderLayer(1 << 0);
+	player1Cam->SetDepth(0);
 	auto player1CamShaker = player1Cam->AddComponent<CameraShaker>();
 	auto player1CrosshairGO = GameObject::Find(L"Player1");
 
@@ -57,14 +59,23 @@ void DefenseScene::Initialize()
 	player2Cam->GetGameObject()->name = L"p2Cam";
 	player2Cam->SetRect({ 0.5f, 0.0f, 0.5f, 1.0f });
 	player2Cam->SetRenderLayer(1 << 0);
+	player2Cam->SetDepth(0);
 	auto player2CamShaker = player2Cam->AddComponent<CameraShaker>();
 	auto player2CrosshairGO = GameObject::Find(L"Player2");
 
 	auto CommonCamGO = Camera::CreateSubCamera();
 	auto CommonCam = CommonCamGO->GetComponent<Camera>();
 	CommonCam->SetRenderLayer(1 << 3);
+	CommonCam->SetDepth(3);
 	CommonCam->SetBackGroundColor({ 0,0,0,0 });
 	CommonCamGO->name = L"commonCam";
+
+	auto BackGroundCamGO = Camera::CreateSubCamera();
+	auto BackGroundCam = BackGroundCamGO->GetComponent<Camera>();
+	BackGroundCam->SetRenderLayer(1 << 0);
+	BackGroundCam->SetDepth(-100);
+	BackGroundCamGO->name = L"backgroundCam";
+	BackGroundCamGO->SetActive(false);
 
 	//auto p2CamEnemyIndicator = new GameObject(L"p2 enemy indicator");
 	//auto p2IndicatorController = p2CamEnemyIndicator->AddComponent<DirIndicatorController>();
@@ -110,4 +121,7 @@ void DefenseScene::Initialize()
 	auto gimmickManager = new GameObject(L"기믹매니저");
 	gimmickManager->AddComponent<GimmickManager2>();
 	EnemySpawnManager::instance->SetEGameType(E_Game_Type::GAME1);
+	
+	auto DefenseModeCamManagerGO = new GameObject(L"cam manager");
+	DefenseModeCamManagerGO->AddComponent<DefenseModeCameraManager>();
 }

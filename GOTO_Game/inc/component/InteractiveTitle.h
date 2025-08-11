@@ -26,7 +26,7 @@ namespace GOTOEngine
 		float m_randomDir = 8.0f;
 
 		bool m_jointDestroied = false;
-		int m_hp = 9999;
+		int m_hp = 5;
 
 		bool m_isInitialized = false;
 	public:
@@ -118,7 +118,11 @@ namespace GOTOEngine
 
 		void TakeDamage(int attackerID, float damage) override
 		{
-			m_rb->AddForce({ -25000.0f,5000000.0f });
+			if(m_hp <= 1)
+				m_rb->AddForce({ -12000.0f,2500000.0f });
+			else
+				m_rb->AddForce({ -25000.0f,5000000.0f });
+
 			//m_rb->AddTorque({ 500.0f });
 			SoundManager::instance->PlaySFX("Hit");
 
