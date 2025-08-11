@@ -93,7 +93,7 @@ void DefenseScene::Initialize()
 	BackgroundGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
 	BackgroundGO->GetTransform()->SetLocalPosition({ 0.0f, 0.0f });
 
-	//¹è°æ Ç®½£ ÀÌ¹ÌÁö
+	//ë°°ê²½ í’€ìˆ² ì´ë¯¸ì§€
 	auto BackgroundBushGO = new GameObject(L"Background");
 	auto BackgdoundBushSprite = BackgroundBushGO->AddComponent<SpriteRenderer>();
 	BackgdoundBushSprite->SetSprite(L"../Resources/artResource/Background/Bakcground_Grassland.png");
@@ -102,7 +102,7 @@ void DefenseScene::Initialize()
 	BackgroundBushGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
 	BackgroundBushGO->GetTransform()->SetLocalPosition({ -989.0f, -186.0f });
 
-	//¸ÞÀÎ Äµ¹ö½º
+	//ë©”ì¸ ìº”ë²„ìŠ¤
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
 	auto gameManager = new GameObject(L"ê²Œìž„ë§¤ë‹ˆì €");
