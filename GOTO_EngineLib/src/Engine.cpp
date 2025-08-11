@@ -99,7 +99,7 @@ void Engine::ProcessFrame()
 
 		AudioManager::Get()->PreloadSceneAudioClips();
 
-		BehaviourManager::Get()->SortBehaviours();
+		BehaviourManager::Get()->AllSortBehaviours();
 		BehaviourManager::Get()->AllBroadCastBehaviourMessage("OnSceneLoaded");
 	}
 

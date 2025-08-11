@@ -19,6 +19,8 @@ namespace GOTOEngine
 	public:
     StartMenu()
     {
+		SetExecutionOrder(150);
+		REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* startButton;
@@ -33,6 +35,11 @@ namespace GOTOEngine
 
 		CrosshairInteractButton* lastP1InteractButton = nullptr;
 		CrosshairInteractButton* lastP2InteractButton = nullptr;
+
+		void Awake()
+		{
+			
+		}
 
 		void Update()
 		{
