@@ -20,7 +20,8 @@ void SoundManager::Awake() {
 			{"Continuous", L"../Resources/Sound/Sound effect/Continuous_sound.wav"},
 			{"Round", L"../Resources/Sound/Sound effect/round_sound.wav"},
 			{"Sling", L"../Resources/Sound/Sound effect/Sling_sound.wav"},
-			{"Warning", L"../Resources/Sound/Sound effect/Warning_sound.mp3"}
+			{"Warning", L"../Resources/Sound/Sound effect/Warning_sound.mp3"},
+			{"Mushroom", L"../Resources/Sound/Sound effect/Mushroom_Sound.wav"}
 		};
 
 		for (const auto& [key, path] : sfxList) {
@@ -40,16 +41,20 @@ void SoundManager::Awake() {
 			sfxSources[key] = source;
 		}
 
-		bgmClips["Battle1"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM1.mp3");
-		//bgmClips["Battle1"]->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
-		bgmClips["Battle1"]->IncreaseRefCount();
-		bgmClips["Battle1"]->SetPreloadAudioData(true);
-		bgmClips["Battle1"]->LoadAudioData();
-		bgmClips["Battle2"] = Resource::Load<AudioClip>(L"../Resources/Sound/BGM/Ingame_BGM2.mp3");
-		//bgmClips["Battle2"]->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
-		bgmClips["Battle2"]->IncreaseRefCount();
-		bgmClips["Battle2"]->SetPreloadAudioData(true);
-		bgmClips["Battle2"]->LoadAudioData();
+		std::vector<std::pair<std::string, std::wstring>> bgmList = {
+			{"Battle1", L"../Resources/Sound/BGM/Ingame_remake.mp3"},
+			{"Title", L"../Resources/Sound/BGM/Title_sound.mp3"},
+			{"Tutorial", L"../Resources/Sound/BGM/Tutorial_Sound.wav"}
+		};
+
+		for (const auto& [key, path] : bgmList) {
+			auto clip = Resource::Load<AudioClip>(path.c_str());
+			clip->SetLoadModeOverride(AudioLoadMode::DecompressOnLoad, true);
+			clip->IncreaseRefCount();
+			clip->SetPreloadAudioData(true);  // 메모리 로딩 활성화
+			clip->LoadAudioData();      // PCM 데이터 메모리에 로딩
+			bgmClips[key] = clip;
+		}
 		auto bgmSourceitem = new GameObject;
 		bgmSourceitem->GetTransform()->SetParent(GetGameObject()->GetTransform());
 		bgmSource = bgmSourceitem->AddComponent<AudioSource>();

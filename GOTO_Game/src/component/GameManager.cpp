@@ -247,6 +247,10 @@ void GameManager::Update() {
 			Destroy(Tutorial->GetGameObject());
 			Tutorial = nullptr;
 		}
+		if (BGMTiming[1] == 120.0f) {
+			SoundManager::instance->PlayBGM("Battle1");
+			BGMTiming[1] = -1.0f;
+		}
 		if (GameTimer > 0.0f) {
 			GameTimer -= TIME_GET_DELTATIME();
 			//*/ 디버깅용 주석
@@ -439,6 +443,10 @@ void GameManager::Update() {
 	}
 	else {
 		if(GameTimer == 0.0f){
+			if (BGMTiming[2] == 0.0f) {
+				SoundManager::instance->StopBGM();
+				BGMTiming[2] = -1.0f;
+			}
 			endingTimer -= TIME_GET_DELTATIME();
 			EnemySpawnManager->Setp1EnemyAllDestroy();
 			EnemySpawnManager->Setp2EnemyAllDestroy();
@@ -478,6 +486,10 @@ void GameManager::Update() {
 			}
 		}
 		else {
+			if (BGMTiming[0] == 120.0f) {
+				SoundManager::instance->PlayBGM("Tutorial");
+				BGMTiming[0] = -1.0f;
+			}
 			if (Tutorial)
 			{
 				p1active = Tutorial->GetButton1Timer() >= Tutorial->GetMaxButtonTimer();
@@ -505,18 +517,6 @@ void GameManager::Update() {
 	minutes = totalSeconds / 60;
 	seconds = totalSeconds % 60;
 	Timetext->text = std::to_wstring(minutes) + L":" + (seconds < 10 ? L"0" : L"") + std::to_wstring(seconds);
-	if (GameTimer <= BGMTiming[0]) {
-		SoundManager::instance->PlayBGM("Battle1");
-		BGMTiming[0] = -1.0f;
-	}
-	if (GameTimer <= BGMTiming[1]) {
-		SoundManager::instance->PlayBGM("Battle2");
-		BGMTiming[1] = -1.0f;
-	}
-	if (GameTimer <= BGMTiming[2]) {
-		SoundManager::instance->LoopBGM(false);
-		BGMTiming[2] = -1.0f;
-	}
 }
 
 void GameManager::PointChange(int player, int point) {
