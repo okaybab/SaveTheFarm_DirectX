@@ -6,6 +6,7 @@
 #include <SoundManager.h>
 #include <RigidBody2D.h>
 #include <Mathf.h>
+#include <random>
 
 namespace GOTOEngine
 {
@@ -18,6 +19,12 @@ namespace GOTOEngine
 		Body* m_jointbody1;
 		Body* m_jointbody2;
 
+		std::random_device rd;
+
+		int m_frameCount = 0;
+
+		float m_randomDir = 8.0f;
+
 		bool m_jointDestroied = false;
 		int m_hp = 9999;
 
@@ -26,6 +33,7 @@ namespace GOTOEngine
     InteractiveTitle()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
+		REGISTER_BEHAVIOUR_MESSAGE(FixedUpdate);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
 
@@ -59,6 +67,26 @@ namespace GOTOEngine
 			m_rb->SetPosition({ 0.0f, 440.0f });
 
 			m_isInitialized = true;
+		}
+
+		void FixedUpdate()
+		{
+			m_frameCount++;
+
+			if (m_frameCount > 280 + (40.0f * (m_randomDir/8.0f)))
+			{
+				m_rb->AddForce({ -2850.0f * m_randomDir, 980.0f  * m_randomDir});
+				if (m_frameCount > 284 + (40.0f  * (m_randomDir / 8.0f)))
+				{
+					std::mt19937 gen(rd());
+					std::uniform_real_distribution<float> distrib(-8.0f, 8.0f);
+					m_frameCount = 0;
+					m_randomDir = distrib(gen);
+					float sign = m_randomDir > 0.0f ? 1.0f : -1.0f;
+					m_randomDir = Mathf::Max(abs(m_randomDir), 0.5f) * sign;
+				}
+			}
+
 		}
 
 		void OnDestroy()

@@ -1,6 +1,8 @@
 #include "WinAPIInputSystem.h"
 #include "InputManager.h" // KeyCode enum을 위해 포함
 #include "XInputGamepadDevice.h"
+#include "Screen.h"
+#include "IWindow.h"
 
 namespace GOTOEngine
 {
@@ -50,8 +52,12 @@ namespace GOTOEngine
     {
         int height = m_clientRect.bottom - m_clientRect.top;
 
+        //(타겟 스크린 사이즈 / 윈도우 클라이언트 사이즈) 비율로 처리하도록 변경
+        float screenFactorX = Screen::GetWidth() / static_cast<float>(RenderManager::Get()->GetWindow()->GetWidth());
+        float screenFactorY = Screen::GetHeight() / static_cast<float>(RenderManager::Get()->GetWindow()->GetHeight());
+
         //유니티 스크린 좌표계로 변환
-        return Vector2{ (float)m_mouseClient.x, (float)(height - m_mouseClient.y) };
+        return Vector2{ (float)m_mouseClient.x * screenFactorX, (float)(height - m_mouseClient.y) * screenFactorY};
     }
 
     bool WinAPIInputSystem::GetKey(KeyCode keyCode)

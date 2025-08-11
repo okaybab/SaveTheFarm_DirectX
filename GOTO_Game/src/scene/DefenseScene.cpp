@@ -42,7 +42,6 @@ void DefenseScene::Initialize()
 	//p1IndicatorController->cam = player1Cam;
 	//p1IndicatorController->id = 0;
 
-
 	//플레이어2 카메라
 	auto player2CamGO = Camera::CreateSubCamera();
 
