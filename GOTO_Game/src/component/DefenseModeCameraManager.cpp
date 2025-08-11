@@ -292,9 +292,14 @@ void GOTOEngine::DefenseModeCameraManager::Update()
 
     float t2 = s_openMotionCurve.Evaluate(t);
     if (t > 0.0f)
+    {
         m_backgroundCam->GetGameObject()->SetActive(true);
+    }
     else
+    {
         m_backgroundCam->GetGameObject()->SetActive(false);
+    }
+        
 
 	if (IsValidObject(m_p1Cam))
 	{
