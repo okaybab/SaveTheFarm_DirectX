@@ -44,11 +44,29 @@ void GOTOEngine::BehaviourManager::SortBehaviours()
 		});
 }
 
+void GOTOEngine::BehaviourManager::AllSortBehaviours()
+{
+	std::sort(m_activeBehaviours.begin(), m_activeBehaviours.end(),
+		[](Behaviour* a, Behaviour* b) {
+			return a->m_executionOrder < b->m_executionOrder;
+		});
+
+	std::sort(m_inactiveBehaviours.begin(), m_inactiveBehaviours.end(),
+		[](Behaviour* a, Behaviour* b) {
+			return a->m_executionOrder < b->m_executionOrder;
+		});
+}
+
 void GOTOEngine::BehaviourManager::InitializeBehaviours()
 {
-	// 임시로 newBehaviours를 수집할 컨테이너 (std::set이 효율적)
-	std::vector<Behaviour*> newBehaviours;
-	std::vector<Behaviour*> changedBehavioursToProcess; // CallBehaviourMessage를 위한 임시 컨테이너
+	// 활성화된 Behaviour를 모으는 컨테이너.
+	// count() 메서드로 O(1)에 존재 여부 확인 가능.
+	std::unordered_set<Behaviour*> changedBehavioursToProcessSet;
+
+	// 이전에 생성되어 활성화된 적 없는 Behaviour를 효율적으로 찾기 위한 set
+	std::unordered_set<Behaviour*> newBehavioursSet;
+
+
 
 	// m_inactiveBehaviours를 순회하며 활성화 객체 처리
 	auto it = m_inactiveBehaviours.begin();
@@ -58,12 +76,12 @@ void GOTOEngine::BehaviourManager::InitializeBehaviours()
 		if (currentBehaviour->IsActiveAndEnabled())
 		{
 			m_activeBehaviours.push_back(currentBehaviour);
-			changedBehavioursToProcess.push_back(currentBehaviour); // OnEnable 호출을 위해 추가
+			changedBehavioursToProcessSet.insert(currentBehaviour); // OnEnable 호출을 위해 추가
 
 			// m_firstCallBehaviours에서 찾고, newBehavioursSet에 추가 및 m_firstCallBehaviours에서 제거
 			if (m_firstCallBehaviours.erase(currentBehaviour) > 0) // 요소가 성공적으로 제거되면
 			{
-				newBehaviours.push_back(currentBehaviour); // 새로운 Behaviour로 간주
+				newBehavioursSet.insert(currentBehaviour); // 새로운 Behaviour로 간주
 			}
 			m_needSort = true;
 
@@ -79,22 +97,27 @@ void GOTOEngine::BehaviourManager::InitializeBehaviours()
 	// 활성화 behaviour 정렬 (필요시에)
 	CheckAndSortBehaviours();
 
-	// Awake 호출 (newBehaviours 사용)
-	for (auto& behaviour : newBehaviours)
+	// 정렬된 m_activeBehaviours 목록을 순회하며 메시지 호출
+	for (auto& behaviour : m_activeBehaviours)
 	{
-		behaviour->CallMessage("Awake");
-	}
+		// 새로 활성화된 Behaviour에 대한 처리만 진행
+		if (changedBehavioursToProcessSet.count(behaviour) > 0)
+		{
+			// Awake 호출 (새로운 객체만)
+			if (newBehavioursSet.count(behaviour) > 0)
+			{
+				behaviour->CallMessage("Awake");
+			}
 
-	// OnEnable 호출 (changedBehavioursToProcess 사용)
-	for (auto& behaviour : changedBehavioursToProcess)
-	{
-		behaviour->CallMessage("OnEnable");
-	}
+			// OnEnable 호출 (새롭게 활성화된 객체만)
+			behaviour->CallMessage("OnEnable");
 
-	// Start 호출 (newBehaviours 사용)
-	for (auto& behaviour : newBehaviours)
-	{
-		behaviour->CallMessage("Start");
+			// Start 호출 (새로운 객체만)
+			if (newBehavioursSet.count(behaviour) > 0)
+			{
+				behaviour->CallMessage("Start");
+			}
+		}
 	}
 }
 

@@ -5,7 +5,6 @@
 #include <SpriteRenderer.h>
 #include <Engine.h>
 #include <InputManager.h>
-#include "SoundManager.h"
 
 #include "FadeInOutFXManager.h"
 
@@ -17,14 +16,11 @@ namespace GOTOEngine
 		bool m_selectStart;
 		bool m_selectExit;
 		bool m_selectDeffense;
-
-		int m_frameCount = 0;
-
-		bool m_BGMPlayed = false;
 	public:
     StartMenu()
     {
-		SetExecutionOrder(0);
+		SetExecutionOrder(150);
+		REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* startButton;
@@ -40,20 +36,13 @@ namespace GOTOEngine
 		CrosshairInteractButton* lastP1InteractButton = nullptr;
 		CrosshairInteractButton* lastP2InteractButton = nullptr;
 
+		void Awake()
+		{
+			
+		}
+
 		void Update()
 		{
-			if(!m_BGMPlayed)
-				m_frameCount++;
-
-			if (m_frameCount > 5 && !m_BGMPlayed)
-			{
-				if (SoundManager::instance)
-				{
-					SoundManager::instance->PlayBGM("Title");
-					m_BGMPlayed = true;
-				}
-			}
-
 			//기다려야 하는 버튼을 누른경우
 			if (m_selectStart || m_selectExit || m_selectDeffense)
 			{

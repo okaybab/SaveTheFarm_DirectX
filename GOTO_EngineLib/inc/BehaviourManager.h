@@ -27,6 +27,7 @@ namespace GOTOEngine
 	
 		// ExcutionOrder에 따라 Behaviour를 정렬하는 함수
 		void SortBehaviours();
+		void AllSortBehaviours();
 	
 		void InitializeBehaviours();
 		

@@ -108,31 +108,52 @@ void GOTOEngine::EnemySpawnManager::OnDestroy()
 
 void GOTOEngine::EnemySpawnManager::Update()
 {
-	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
+	if(m_GameType == GAME1)
 	{
-		CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+		if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
+		{
+			CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+		}
+		if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 생성 (GimmickEnemy)
+		{
+			CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+		}
+		if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 생성 (ItemEnemy)
+		{
+			CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+		}
+		if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 생성 (MoveEnemy)
+		{
+			CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
+		}
+		if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성 (GimmickEnemy)
+		{
+			CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
+		}
+		if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
+		{
+			CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
+		}
 	}
-	if (INPUT_GET_KEYUP(KeyCode::W)) // p1 enemy 생성 (GimmickEnemy)
+	else if (m_GameType == GAME2)
 	{
-		CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+		if (INPUT_GET_KEYDOWN(KeyCode::Q))
+		{
+			CreateDefenseFlyEnemey();
+		}
 	}
-	if (INPUT_GET_KEYUP(KeyCode::E)) // p1 enemy 생성 (ItemEnemy)
-	{
-		CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
-	}
-	if (INPUT_GET_KEYDOWN(KeyCode::I)) // p2 enemy 생성 (MoveEnemy)
-	{
-		CreateEnemy(E_EnemyType::move, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
-	}
-	if (INPUT_GET_KEYDOWN(KeyCode::O)) // p2 enemy 생성 (GimmickEnemy)
-	{
-		CreateEnemy(E_EnemyType::gimmick, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
-	}
-	if (INPUT_GET_KEYUP(KeyCode::P)) // p2 enemy 생성 (ItemEnemy)
-	{
-		CreateEnemy(E_EnemyType::itemspawn, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
-	}
+
 }
+
+void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
+{
+	auto spawner = GetSpawner(L"지상");
+	GameObject* newEnemyObject = new GameObject(L"지상");
+	auto comp = newEnemyObject->AddComponent<MoveEnemy>();
+	comp->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+
+}
+
 // 플레이어에 타입 랜덤 생성
 void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick)
 {
@@ -347,6 +368,8 @@ void GOTOEngine::EnemySpawnManager::Setp2EnemyAllDestroy()
 	}
 	m_p2Enemy.clear();
 }
+
+
 
 template <typename T>
 float GOTOEngine::EnemySpawnManager::GenerateRandom(T min, T max)

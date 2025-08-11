@@ -21,75 +21,127 @@ namespace GOTOEngine
 		E_Move_Enemy_Type m_moveEnemyType;
 		bool m_isGimmick;
 
+		std::vector<SpawnPoint*> m_points;
+		int currentPoint = 0;
+
 	public:
 		void Initialize(std::any param) override
 		{
+			if(EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME1)
+			{
+				if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
+					const ParameterMap& params = *pMap;
+					auto itEnemyType = params.find("EnemyType");
+					if (itEnemyType != params.end()) {
+						if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
+					}
+					auto itBool = params.find("isGimmick");
+					if (itBool != params.end()) {
+						if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isGimmick = *pValue; }
+					}
+				}
+			}
+			else if(EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME2)
+			{
+				
+			}
+		}
+
+		void SetupSpawner(EnemySpawner* spawner, std::any param) override
+		{
+			if (EnemySpawnManager::instance->GetGameType() != E_Game_Type::GAME2)  return;
+
+			__super::SetupSpawner(spawner, param);
+
 			if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
 				const ParameterMap& params = *pMap;
 				auto itEnemyType = params.find("EnemyType");
 				if (itEnemyType != params.end()) {
 					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
 				}
-				auto itBool = params.find("isGimmick");
-				if (itBool != params.end()) {
-					if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isGimmick = *pValue; }
-				}
 			}
+			if (spawner)
+			{
+				m_points = spawner->GetPoints();
+
+				
+				SetCurrentPoint();
+
+			}
+
 		}
+
+		void SetCurrentPoint()
+		{
+			auto data = m_points[currentPoint]->GetSpawnPointData();
+		}
+
 		void Awake()
 		{
 			__super::Awake();
 
-			m_enemyType = E_EnemyType::move;
-			m_isMoveLoop = true;
-
-			switch (m_moveEnemyType)
+			if (EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME1)
 			{
-			case mole:
-				m_moveFlag = 0b0000;
-				m_disPoneTime = 8.0f;
-				GetGameObject()->name = L"두더지";
-				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
-				break;
-			case crow_1:
-				m_moveFlag = 0b0001;
-				m_disPoneTime = 10.0f;
-				m_moveSpeed = 1.3f;
-				GetGameObject()->name = L"까마귀";
-				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
-				break;
-			case crow_2:
-				m_moveFlag = 0b0010;
-				m_disPoneTime = 10.0f;
-				m_moveSpeed = 1.3f;
-				GetGameObject()->name = L"까마귀";
-				SetRandomYPosition(0.15f, 0.4f);
-				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
-				break;
-			}
-			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
-			
-			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
-			controller->SetOnAnimationEnd([this, controller]() {
-				if (m_animState == DIE || m_animState == ESCAPE)
+				m_enemyType = E_EnemyType::move;
+				m_isMoveLoop = true;
+
+				switch (m_moveEnemyType)
 				{
-					controller->SetOnAnimationEnd(nullptr);
-					GameObject::Destroy(GetGameObject());
+				case mole:
+					m_moveFlag = 0b0000;
+					m_disPoneTime = 8.0f;
+					GetGameObject()->name = L"두더지";
+					SetRandomYPosition(-0.3f, -0.1f);
+					GetTransform()->SetLossyScale({ 0.12f, 0.12f });
+					break;
+				case crow_1:
+					m_moveFlag = 0b0001;
+					m_disPoneTime = 10.0f;
+					m_moveSpeed = 1.3f;
+					GetGameObject()->name = L"까마귀";
+					SetRandomYPosition(0.15f, 0.4f);
+					GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+					break;
+				case crow_2:
+					m_moveFlag = 0b0010;
+					m_disPoneTime = 10.0f;
+					m_moveSpeed = 1.3f;
+					GetGameObject()->name = L"까마귀";
+					SetRandomYPosition(0.15f, 0.4f);
+					GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+					break;
 				}
-			});
+				AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
+				AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 
-			auto spriteRect = EnemySpawnManager::instance->GetSprite(GetGameObject()->name)->GetRect();
-			auto localScale = GetTransform()->GetLossyScale();
-			auto collider = AddComponent<Collider2D>();
+				auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+				controller->SetOnAnimationEnd([this, controller]() {
+					if (m_animState == DIE || m_animState == ESCAPE)
+					{
+						controller->SetOnAnimationEnd(nullptr);
+						GameObject::Destroy(GetGameObject());
+					}
+					});
 
-			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
+				auto spriteRect = EnemySpawnManager::instance->GetSprite(GetGameObject()->name)->GetRect();
+				auto localScale = GetTransform()->GetLossyScale();
+				auto collider = AddComponent<Collider2D>();
 
-			SetMovementComponents(0.15f, 0.4f);
+				collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
-			if (m_isGimmick) OnGimmick();
+				SetMovementComponents(0.15f, 0.4f);
+
+				if (m_isGimmick) OnGimmick();
+			}
+			else // E_Game_Type::GAME2
+			{
+
+			}
+		}
+
+		void Update() override
+		{
+
 		}
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
