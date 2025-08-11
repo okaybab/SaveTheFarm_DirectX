@@ -118,8 +118,7 @@ namespace GOTOEngine
 			auto gimmickEffect = new GameObject;
 			gimmickEffect->layer = m_layer;
 			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			// render order 수정해야함
-			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() + 1);
+			gimmickEffect->GetComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
 			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(L"Gimmick3"));
 			gimmickEffect->GetTransform()->SetParent(this->GetTransform(), false);
 			if (m_moveEnemyType == mole) gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 2.3f);
