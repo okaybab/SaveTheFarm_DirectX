@@ -150,8 +150,23 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 {
 	auto spawner = GetSpawner(L"지상");
 	GameObject* newEnemyObject = new GameObject(L"지상");
-	auto comp = newEnemyObject->AddComponent<MoveEnemy>();
-	comp->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+
+
+	
+	ParameterMap params;
+	params["EnemyType"] = static_cast<E_Move_Enemy_Type>(crow_1);
+
+	newEnemyObject->AddComponent<MoveEnemy>();
+	newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
+	newEnemyObject->GetComponent<MoveEnemy>()->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+
+
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+	newEnemyObject->layer = 1;
+
+	m_p1Enemy.push_back(newEnemyObject);
+	m_p2Enemy.push_back(newEnemyObject);
+	
 
 }
 

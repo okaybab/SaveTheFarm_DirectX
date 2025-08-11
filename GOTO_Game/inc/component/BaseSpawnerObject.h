@@ -49,6 +49,7 @@ namespace GOTOEngine
 		void Initialize();
 		void SetupFromJSON(const nlohmann::json& pointInfo);
 		float CalculateCoordinate(const nlohmann::json& pointInfo, const std::string& axisName, float screenDimension);
+		Vector2 GetPosition() { return m_currentPosition; }
 		PointData GetSpawnPointData() const
 		{
 			PointData params;
