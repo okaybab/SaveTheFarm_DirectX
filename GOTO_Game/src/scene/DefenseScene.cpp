@@ -64,6 +64,7 @@ void DefenseScene::Initialize()
 	auto CommonCam = CommonCamGO->GetComponent<Camera>();
 	CommonCam->SetRenderLayer(1 << 3);
 	CommonCam->SetBackGroundColor({ 0,0,0,0 });
+	CommonCamGO->name = L"commonCam";
 
 	//auto p2CamEnemyIndicator = new GameObject(L"p2 enemy indicator");
 	//auto p2IndicatorController = p2CamEnemyIndicator->AddComponent<DirIndicatorController>();
