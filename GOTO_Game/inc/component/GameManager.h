@@ -11,7 +11,7 @@
 
 namespace GOTOEngine
 {
-	class EnemySpawner;
+	class EnemySpawnManager;
 	class TutorialImage;
 	class AnimationCurve;
 	class GameManager : public ScriptBehaviour
@@ -63,7 +63,7 @@ namespace GOTOEngine
 		float p2scoreAniTime = 0.0f;
 		bool p2scoreup = false;
 
-		EnemySpawner* EnemySpawner;
+		EnemySpawnManager* EnemySpawnManager;
 
 	public:
     GameManager()

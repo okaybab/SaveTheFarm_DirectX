@@ -1,6 +1,6 @@
 ﻿#include "GimmickManager.h"
 #include <CrosshairMove.h>
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include <time.h>
 #include "GameManager.h"
 
@@ -140,7 +140,7 @@ void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
 			for (int i = 0; i < 3; i++)
 			{
 				// moveEnemy
-				EnemySpawner::instance->CreateEnemy(static_cast<E_EnemyType>(0), player, true);
+				EnemySpawnManager::instance->CreateEnemy(static_cast<E_EnemyType>(0), player, true);
 			}
 			break;
 		}

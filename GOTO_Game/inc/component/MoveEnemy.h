@@ -70,7 +70,7 @@ namespace GOTOEngine
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
+			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 			
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
@@ -81,7 +81,7 @@ namespace GOTOEngine
 				}
 			});
 
-			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
+			auto spriteRect = EnemySpawnManager::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
@@ -96,12 +96,12 @@ namespace GOTOEngine
 		void OnDie(int attackerID) override
 		{
 			__super::OnDie(attackerID);
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
+			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject(), true);
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 			if (m_layer & 1 << 1)
 			{
 				GameManager::instance->PointChange(1, -1);
@@ -119,7 +119,7 @@ namespace GOTOEngine
 			gimmickEffect->layer = m_layer;
 			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			gimmickEffect->GetComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
-			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(L"Gimmick3"));
+			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(L"Gimmick3"));
 			gimmickEffect->GetTransform()->SetParent(this->GetTransform(), false);
 			if (m_moveEnemyType == mole) gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 2.3f);
 			else gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 1.5f);

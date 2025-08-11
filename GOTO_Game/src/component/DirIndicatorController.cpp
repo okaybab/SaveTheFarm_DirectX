@@ -1,6 +1,6 @@
-#include "DirIndicatorController.h"
+ï»¿#include "DirIndicatorController.h"
 #include "DirIndicatorPrefab.h"
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include "DirIndicator.h"
 #include <Camera.h>
 #include <Transform.h>
@@ -39,11 +39,11 @@ void GOTOEngine::DirIndicatorController::LateUpdate()
 	std::vector<GameObject*>* enemys;
 	if (id == 0)
 	{
-		enemys = EnemySpawner::instance->Getp1Enemy();
+		enemys = EnemySpawnManager::instance->Getp1Enemy();
 	}
 	else
 	{
-		enemys = EnemySpawner::instance->Getp2Enemy();
+		enemys = EnemySpawnManager::instance->Getp2Enemy();
 	}
 
 	auto camPosMin = cam->ViewportToWorldPoint({ 0.0f,0.0f });
@@ -70,7 +70,7 @@ void GOTOEngine::DirIndicatorController::LateUpdate()
 			currentIndicator->target = enemyTransform;
 			currentIndicator->currentCam = cam;
 
-			//°­Á¦ ½ÇÇà - ¾Æ´Ô ·»´õ·¯°¡ ±×³É ±×·Á¹ö¸²
+			//ê°•ì œ ì‹¤í–‰ - ì•„ë‹˜ ë Œë”ëŸ¬ê°€ ê·¸ëƒ¥ ê·¸ë ¤ë²„ë¦¼
 			currentIndicator->LateUpdate();
 		}
 	}

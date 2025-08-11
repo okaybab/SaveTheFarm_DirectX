@@ -2,7 +2,7 @@
 #include "GameManager.h"
 #include "CameraShaker.h"
 #include "BaseEnemyObject.h"
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include "SoundManager.h"
 #include <AnimationCurve.h>
 
@@ -222,7 +222,7 @@ void ItemManager::Update(){
 		p1IceTimer -= TIME_GET_DELTATIME();
 		if (p1IceTimer <= 0.0f) {
 			p1IceTimer = 0.0f;
-			auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+			auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
 			for (auto* enemy : enemies)
 			{
 				if (!IsValidObject(enemy) || enemy->IsDestroyed())
@@ -238,7 +238,7 @@ void ItemManager::Update(){
 		p2IceTimer -= TIME_GET_DELTATIME();
 		if (p2IceTimer <= 0.0f) {
 			p2IceTimer = 0.0f;
-			auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+			auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
 			for (auto* enemy : enemies)
 			{
 				if (!IsValidObject(enemy) || enemy->IsDestroyed())
@@ -341,7 +341,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			if (player == 1) {
 				//P1의 동물리스트 내부 객체 카운트
 				//P1의 동물리스트 내부 객체 전부 삭제
-				auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+				auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
 
 				p1count = enemies.size();
 				for (auto enemy : enemies) {
@@ -352,7 +352,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
 				}
-				EnemySpawner::instance->Setp1EnemyAllDestroy();
+				EnemySpawnManager::instance->Setp1EnemyAllDestroy();
 
 				auto p1cam = GameObject::Find(L"p1Cam");
 				if (IsValidObject(p1cam))
@@ -372,7 +372,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			else {
 				//P2의 동물리스트 내부 객체 카운트
 				//P2의 동물리스트 내부 객체 전부 삭제
-				auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+				auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
 
 				p2count = enemies.size();
 				for (auto enemy : enemies) {
@@ -383,7 +383,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
 				}
-				EnemySpawner::instance->Setp2EnemyAllDestroy();
+				EnemySpawnManager::instance->Setp2EnemyAllDestroy();
 
 				auto p2cam = GameObject::Find(L"p2Cam");
 				if (IsValidObject(p2cam))
@@ -405,7 +405,7 @@ void ItemManager::UseItem(int player, ItemType item)
 			if (player == 1) {
 				//P1의 동물리스트 내부 객체 전부 이동 정지
 				//P1의 동물리스트 내부 객체 전부 디스폰 시간 정지
-				auto& enemies = *EnemySpawner::instance->Getp1Enemy();
+				auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
 
 				for (auto* enemy : enemies)
 				{
@@ -428,7 +428,7 @@ void ItemManager::UseItem(int player, ItemType item)
 				//P2의 동물리스트 내부 객체 전부 이동 정지
 				//P2의 동물리스트 내부 객체 전부 디스폰 시간 정지
 
-				auto& enemies = *EnemySpawner::instance->Getp2Enemy();
+				auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
 
 				for (auto* enemy : enemies)
 				{

@@ -41,7 +41,7 @@ namespace GOTOEngine
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
+			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
@@ -52,7 +52,7 @@ namespace GOTOEngine
 				}
 			});
 
-			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
+			auto spriteRect = EnemySpawnManager::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
@@ -66,13 +66,13 @@ namespace GOTOEngine
 		void OnDie(int attackerID) override
 		{
 			__super::OnDie(attackerID);
-			EnemySpawner::instance->SetDeleteGoldMole();
-			ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawner::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
+			EnemySpawnManager::instance->SetDeleteGoldMole();
+			ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawnManager::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
-			EnemySpawner::instance->SetDeleteGoldMole();
+			EnemySpawnManager::instance->SetDeleteGoldMole();
 		}
 	};
 }

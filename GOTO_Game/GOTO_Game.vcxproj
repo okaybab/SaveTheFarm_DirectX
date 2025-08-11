@@ -165,7 +165,7 @@
     <ClCompile Include="src\component\SoundManager.cpp" />
     <ClCompile Include="src\component\GimmickManager.cpp" />
     <ClCompile Include="src\component\CrosshairMove.cpp" />
-    <ClCompile Include="src\component\EnemySpawner.cpp" />
+    <ClCompile Include="src\component\EnemySpawnerManager.cpp" />
     <ClCompile Include="src\prefab\StartMenuPrefab.cpp" />
     <ClCompile Include="src\prefab\CrosshairPrefab.cpp" />
     <ClCompile Include="src\component\ItemManager.cpp" />
@@ -199,7 +199,7 @@
     <ClInclude Include="inc\component\CrosshairCollide.h" />
     <ClInclude Include="inc\component\CrosshairFire.h" />
     <ClInclude Include="inc\component\CrosshairInteractButton.h" />
-    <ClInclude Include="inc\component\EnemySpawner.h" />
+    <ClInclude Include="inc\component\EnemySpawnManager.h" />
     <ClInclude Include="inc\component\GimmickEnemy.h" />
     <ClInclude Include="inc\component\ItemEnemy.h" />
     <ClInclude Include="inc\component\ItemManager.h" />

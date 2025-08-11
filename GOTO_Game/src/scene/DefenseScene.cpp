@@ -1,4 +1,4 @@
-#include "DefenseScene.h"
+ï»¿#include "DefenseScene.h"
 #include <Camera.h>
 #include <Image.h>
 #include <Canvas.h>
@@ -12,17 +12,17 @@
 #include "GimmickManager2.h"
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include "SoundManager.h"
 #include "CameraMove.h"
 #include "CrosshairMove.h"
 
 void DefenseScene::Initialize()
 {
-	//ÇÃ·¹ÀÌ¾î1 Ä«¸Þ¶ó
+	//í”Œë ˆì´ì–´1 ì¹´ë©”ë¼
 	auto player1CamGO = Camera::CreateMainCamera();
 
-	auto player1CamMoverGO = new GameObject(L"Ä«¸Þ¶ó ÇÚµé·¯");
+	auto player1CamMoverGO = new GameObject(L"ì¹´ë©”ë¼ í•¸ë“¤ëŸ¬");
 	auto player1CamMover = player1CamMoverGO->AddComponent<CameraMove>();
 	player1CamMover->id = 0;
 	player1CamMover->maxMoveLength = 1500;
@@ -43,10 +43,10 @@ void DefenseScene::Initialize()
 	//p1IndicatorController->id = 0;
 
 
-	//ÇÃ·¹ÀÌ¾î2 Ä«¸Þ¶ó
+	//í”Œë ˆì´ì–´2 ì¹´ë©”ë¼
 	auto player2CamGO = Camera::CreateSubCamera();
 
-	auto player2CamMoverGO = new GameObject(L"Ä«¸Þ¶ó ÇÚµé·¯2");
+	auto player2CamMoverGO = new GameObject(L"ì¹´ë©”ë¼ í•¸ë“¤ëŸ¬2");
 	auto player2CamMover = player2CamMoverGO->AddComponent<CameraMove>();
 	player2CamMover->id = 1;
 	player2CamMover->maxMoveLength = 1500;
@@ -71,7 +71,7 @@ void DefenseScene::Initialize()
 	//p2IndicatorController->cam = player2Cam;
 	//p2IndicatorController->id = 1;
 
-		//Ä«¸Þ¶ó ¼¼ÆÃ
+		//ì¹´ë©”ë¼ ì„¸íŒ…
 	auto p1 = GameObject::Find(L"Player1");
 	auto p2 = GameObject::Find(L"Player2");
 
@@ -85,7 +85,7 @@ void DefenseScene::Initialize()
 	}
 
 
-	//¹è°æ ÀÌ¹ÌÁö
+	//ë°°ê²½ ì´ë¯¸ì§€
 	auto BackgroundGO = new GameObject(L"Background");
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Bakcground_wide.png");
@@ -94,11 +94,11 @@ void DefenseScene::Initialize()
 	BackgroundGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
 	BackgroundGO->GetTransform()->SetLocalPosition({ 0.0f, 0.0f });
 
-	//¸ÞÀÎ Äµ¹ö½º
+	//ë©”ì¸ ìº”ë²„ìŠ¤
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
-	auto gameManager = new GameObject(L"°ÔÀÓ¸Å´ÏÀú");
+	auto gameManager = new GameObject(L"ê²Œìž„ë§¤ë‹ˆì €");
 	gameManager->AddComponent<GameManager2>();
-	auto gimmickManager = new GameObject(L"±â¹Í¸Å´ÏÀú");
+	auto gimmickManager = new GameObject(L"ê¸°ë¯¹ë§¤ë‹ˆì €");
 	gimmickManager->AddComponent<GimmickManager2>();
 }

@@ -1,4 +1,4 @@
-#include "PlayScene.h"
+ï»¿#include "PlayScene.h"
 #include <Camera.h>
 #include <Image.h>
 #include <Canvas.h>
@@ -13,17 +13,17 @@
 #include "GimmickManager.h"
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include "SoundManager.h"
 #include "CameraMove.h"
 #include "CrosshairMove.h"
 
 void PlayScene::Initialize()
 {
-	//ÇÃ·¹ÀÌ¾î1 Ä«¸Þ¶ó
+	//í”Œë ˆì´ì–´1 ì¹´ë©”ë¼
 	auto player1CamGO = Camera::CreateMainCamera();
 
-	auto player1CamMoverGO = new GameObject(L"Ä«¸Þ¶ó ÇÚµé·¯");
+	auto player1CamMoverGO = new GameObject(L"ì¹´ë©”ë¼ í•¸ë“¤ëŸ¬");
 	player1CamMoverGO->AddComponent<CameraMove>()->id = 0;
 	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
 
@@ -40,10 +40,10 @@ void PlayScene::Initialize()
 	p1IndicatorController->id = 0;
 
 
-	//ÇÃ·¹ÀÌ¾î2 Ä«¸Þ¶ó
+	//í”Œë ˆì´ì–´2 ì¹´ë©”ë¼
 	auto player2CamGO = Camera::CreateSubCamera();
 
-	auto player2CamMoverGO = new GameObject(L"Ä«¸Þ¶ó ÇÚµé·¯2");
+	auto player2CamMoverGO = new GameObject(L"ì¹´ë©”ë¼ í•¸ë“¤ëŸ¬2");
 	player2CamMoverGO->AddComponent<CameraMove>()->id = 1;
 	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
 
@@ -59,7 +59,7 @@ void PlayScene::Initialize()
 	p2IndicatorController->cam = player2Cam;
 	p2IndicatorController->id = 1;
 
-	//Ä«¸Þ¶ó ¼¼ÆÃ
+	//ì¹´ë©”ë¼ ì„¸íŒ…
 	auto p1 = GameObject::Find(L"Player1");
 	auto p2 = GameObject::Find(L"Player2");
 
@@ -72,21 +72,22 @@ void PlayScene::Initialize()
 		p2->GetComponent<CrosshairMove>()->cam = player2Cam;
 	}
 
-	//¹è°æ ÀÌ¹ÌÁö
+	//ë°°ê²½ ì´ë¯¸ì§€
 	auto BackgroundGO = new GameObject(L"Background");	
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
 	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Background1.png");
 	BackgroundGO->GetTransform()->SetLossyScale({ 0.7f, 0.7f});
+	BackgdoundSprite->SetRenderOrder(-2500);
 
-	//¸ÞÀÎ Äµ¹ö½º
+	//ë©”ì¸ ìº”ë²„ìŠ¤
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
-	auto itemManager = new GameObject(L"¾ÆÀÌÅÛ¸Å´ÏÀú");
+	auto itemManager = new GameObject(L"ì•„ì´í…œë§¤ë‹ˆì €");
 	itemManager->AddComponent<ItemManager>();
-	auto gameManager = new GameObject(L"°ÔÀÓ¸Å´ÏÀú");
+	auto gameManager = new GameObject(L"ê²Œìž„ë§¤ë‹ˆì €");
 	gameManager->AddComponent<GameManager>();
-	auto gimmickManager = new GameObject(L"±â¹Í¸Å´ÏÀú");
+	auto gimmickManager = new GameObject(L"ê¸°ë¯¹ë§¤ë‹ˆì €");
 	gimmickManager->AddComponent<GimmickManager>();
-	auto spawner = new GameObject(L"enemySpawner");
-	spawner->AddComponent<EnemySpawner>();
+	auto spawner = new GameObject(L"ìŠ¤í°ë§¤ë‹ˆì €");
+	spawner->AddComponent<EnemySpawnManager>();
 }

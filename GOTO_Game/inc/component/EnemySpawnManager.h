@@ -20,16 +20,16 @@ namespace GOTOEngine
 		PLAYER_2 = 1 << 2,
 	};
 	enum E_EnemyType;
-	class EnemySpawner : public ScriptBehaviour
+	class EnemySpawnManager : public ScriptBehaviour
 	{
 	public:
-    EnemySpawner()
+    EnemySpawnManager()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
-		static EnemySpawner* instance;
+		static EnemySpawnManager* instance;
 		static std::mt19937 m_gen;
 		static std::mutex m_genMutex;
 
@@ -41,7 +41,7 @@ namespace GOTOEngine
 		std::unordered_map<std::wstring, Sprite*> m_sprites;
 
 	public:
-		virtual ~EnemySpawner() = default;
+		virtual ~EnemySpawnManager() = default;
 
 		void Awake();
 		void Update();

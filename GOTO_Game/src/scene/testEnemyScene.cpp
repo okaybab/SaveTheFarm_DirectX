@@ -9,7 +9,7 @@
 #include <RectTransform.h>
 #include <Screen.h>
 
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "GimmickManager.h"
@@ -100,7 +100,7 @@ void testEnemyScene::Initialize()
 	gameManager->AddComponent<GameManager>();
 	auto gimmickManager = new GameObject(L"기믹매니저");
 	gimmickManager->AddComponent<GimmickManager>();
-	auto spawner = new GameObject(L"enemySpawner");
-	spawner->AddComponent<EnemySpawner>();
+	auto spawner = new GameObject(L"스폰매니저");
+	spawner->AddComponent<EnemySpawnManager>();
 	//*/
 }

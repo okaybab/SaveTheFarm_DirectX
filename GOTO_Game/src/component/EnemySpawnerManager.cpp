@@ -1,4 +1,4 @@
-﻿#include "EnemySpawner.h"
+﻿#include "EnemySpawnManager.h"
 #include "Screen.h"
 
 #include "GameManager.h"
@@ -18,11 +18,11 @@
 
 using namespace GOTOEngine;
 
-EnemySpawner* EnemySpawner::instance = nullptr;
-std::mt19937 EnemySpawner::m_gen(std::random_device{}());
-std::mutex EnemySpawner::m_genMutex;
+EnemySpawnManager* EnemySpawnManager::instance = nullptr;
+std::mt19937 EnemySpawnManager::m_gen(std::random_device{}());
+std::mutex EnemySpawnManager::m_genMutex;
 
-void GOTOEngine::EnemySpawner::Awake()
+void GOTOEngine::EnemySpawnManager::Awake()
 {
 	if (!instance)
 	{
@@ -78,7 +78,7 @@ void GOTOEngine::EnemySpawner::Awake()
 	}
 
 }
-void GOTOEngine::EnemySpawner::OnDestroy()
+void GOTOEngine::EnemySpawnManager::OnDestroy()
 {
 	if (instance == this)
 		instance = nullptr;
@@ -90,7 +90,7 @@ void GOTOEngine::EnemySpawner::OnDestroy()
 	}
 }
 
-void GOTOEngine::EnemySpawner::Update()
+void GOTOEngine::EnemySpawnManager::Update()
 {
 	if (INPUT_GET_KEYDOWN(KeyCode::Q)) // p1 enemy 생성 (MoveEnemy)
 	{
@@ -118,7 +118,7 @@ void GOTOEngine::EnemySpawner::Update()
 	}
 }
 // 플레이어에 타입 랜덤 생성
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick)
+void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -202,7 +202,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, std::uint32_t 
 }
 
 // 설정대로 스폰
-void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player)
+void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -246,7 +246,7 @@ void GOTOEngine::EnemySpawner::CreateEnemy(E_EnemyType enemyType, int detailType
 	}
 }
 
-void GOTOEngine::EnemySpawner::CreateGoleMole()
+void GOTOEngine::EnemySpawnManager::CreateGoleMole()
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -267,7 +267,7 @@ void GOTOEngine::EnemySpawner::CreateGoleMole()
 	m_goldMole = newEnemyObject;
 }
 
-void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack)
+void GOTOEngine::EnemySpawnManager::SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack)
 {  
    if (player & static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1))
    {  
@@ -299,7 +299,7 @@ void GOTOEngine::EnemySpawner::SetDeleteEnemy(std::uint32_t player, GameObject* 
    }  
 }
 
-void GOTOEngine::EnemySpawner::DestroyGoldMole()
+void GOTOEngine::EnemySpawnManager::DestroyGoldMole()
 {
 	if (m_goldMole)
 	{
@@ -308,7 +308,7 @@ void GOTOEngine::EnemySpawner::DestroyGoldMole()
 	}
 }
 
-void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
+void GOTOEngine::EnemySpawnManager::Setp1EnemyAllDestroy()
 {
 	for (GameObject* enemy : m_p1Enemy)
 	{
@@ -319,7 +319,7 @@ void GOTOEngine::EnemySpawner::Setp1EnemyAllDestroy()
 	}
 	m_p1Enemy.clear();
 }
-void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
+void GOTOEngine::EnemySpawnManager::Setp2EnemyAllDestroy()
 {
 	for (GameObject* enemy : m_p2Enemy)
 	{
@@ -332,7 +332,7 @@ void GOTOEngine::EnemySpawner::Setp2EnemyAllDestroy()
 }
 
 template <typename T>
-float GOTOEngine::EnemySpawner::GenerateRandom(T min, T max)
+float GOTOEngine::EnemySpawnManager::GenerateRandom(T min, T max)
 {
 	// 스레드 안전하게 난수 생성
 	std::lock_guard<std::mutex> lock(m_genMutex);

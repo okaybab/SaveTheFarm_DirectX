@@ -1,6 +1,6 @@
-#include "GimmickManager2.h"
+ï»¿#include "GimmickManager2.h"
 #include <CrosshairMove.h>
-//#include "EnemySpawner.h"
+//#include "EnemySpawnManager.h"
 #include "GameManager2.h"
 #include "CrosshairController.h"
 
@@ -30,7 +30,7 @@ void GimmickManager2::Update() {
 		gimmick5Timer -= TIME_GET_DELTATIME();
 		if (gimmick5Timer <= 0.0f) {
 			gimmick5Timer = 0.0f;
-			//ºù°áÇØÁ¦
+			//ë¹™ê²°í•´ì œ
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
@@ -84,13 +84,13 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			}
 			break;
 		case 3:
-			//Àû 3¸¶¸® »ý¼º
+			//ì  3ë§ˆë¦¬ ìƒì„±
 			break;
 		case 4:
-			//ÆøÅº
+			//í­íƒ„
 			break;
 		case 5:
-			//¾óÀ½ÆøÅº
+			//ì–¼ìŒí­íƒ„
 			gimmick5Timer = 2.0f;
 			break;
 		case 6:

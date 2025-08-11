@@ -98,7 +98,7 @@
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
       <Filter>소스 파일\프리팹</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\EnemySpawner.cpp">
+    <ClCompile Include="src\component\EnemySpawnerManager.cpp">
       <Filter>소스 파일\컴포넌트\매니저</Filter>
     </ClCompile>
     <ClCompile Include="src\component\GameManager.cpp">
@@ -214,7 +214,7 @@
     <ClInclude Include="inc\component\ItemManager.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
-    <ClInclude Include="inc\component\EnemySpawner.h">
+    <ClInclude Include="inc\component\EnemySpawnManager.h">
       <Filter>헤더 파일\컴포넌트\매니저</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\GimmickManager.h">

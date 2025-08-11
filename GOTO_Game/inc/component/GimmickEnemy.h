@@ -58,7 +58,7 @@ namespace GOTOEngine
 				break;
 			}
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			AddComponent<Animator>()->SetAnimatorController(EnemySpawner::instance->GetAnimation(GetGameObject()->name));
+			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
@@ -69,7 +69,7 @@ namespace GOTOEngine
 				}
 			});
 			
-			auto spriteRect = EnemySpawner::instance->GetSprite(GetGameObject()->name)->GetRect();
+			auto spriteRect = EnemySpawnManager::instance->GetSprite(GetGameObject()->name)->GetRect();
 			auto localScale = GetTransform()->GetLossyScale();
 			auto collider = AddComponent<Collider2D>();
 
@@ -82,13 +82,13 @@ namespace GOTOEngine
 		void OnDie(int attackerID) override
 		{
 			__super::OnDie(attackerID);
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 			GimmickManager::instance->GimmickOn(m_layer, m_gimmickEnemyType + 1);
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
-			EnemySpawner::instance->SetDeleteEnemy(m_layer, GetGameObject());
+			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 			if (m_layer & 1 << 1)
 			{
 				GameManager::instance->PointChange(1, -1);

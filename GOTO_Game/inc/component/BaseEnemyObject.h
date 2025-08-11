@@ -11,7 +11,7 @@
 
 #include "IAttackAble.h"
 #include "GameManager.h"
-#include "EnemySpawner.h"
+#include "EnemySpawnManager.h"
 
 // move
 #include "BaseMovement.h"
@@ -187,8 +187,8 @@ namespace GOTOEngine
 		void SetRandomYPosition(float minY, float maxY)
 		{
 			// 가로 크기 고정 X는 추후에 변동하면 추가
-			float randomX = EnemySpawner::GenerateRandom(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-			float randomY = Screen::GetHeight() * EnemySpawner::GenerateRandom(minY, maxY);
+			float randomX = EnemySpawnManager::GenerateRandom(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+			float randomY = Screen::GetHeight() * EnemySpawnManager::GenerateRandom(minY, maxY);
 
 			GetTransform()->SetPosition({ randomX, randomY });
 			// OFFSET 경로의 기준선
