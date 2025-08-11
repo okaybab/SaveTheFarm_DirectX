@@ -169,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="src\component\SpawnerObject.cpp">
       <Filter>소스 파일\컴포넌트\몬스터</Filter>
+	</ClCompile>
+    <ClCompile Include="src\component\DefenseModeCameraManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,7 +338,13 @@
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\StartAnimal.h">
-      <Filter>헤더 파일\컴포넌트\UI</Filter>
+		<Filter>헤더 파일\컴포넌트\UI</Filter>
     </ClInclude>
+    <ClInclude Include="inc\component\DefenseModeCameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\AnimateSprite.h">
+      <Filter>헤더 파일</Filter>
+	</ClInclude>
   </ItemGroup>
 </Project>

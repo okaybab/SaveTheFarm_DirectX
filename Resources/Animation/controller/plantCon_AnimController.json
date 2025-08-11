@@ -1,0 +1,30 @@
+{
+    "controllerName": "plantCon",
+    "commonClipPath": "../Resources/Animation/clip/",
+    "parameters": [],
+    "defaultState": "reed1",
+    "states": [
+        {
+            "name": "reed1",
+            "motionName": "reed1",
+            "clipLength": 2.0833332538604738,
+            "loop": true,
+            "transitions": []
+        },
+        {
+            "name": "sunflower1",
+            "motionName": "sunflower1",
+            "clipLength": 2.0833332538604738,
+            "loop": true,
+            "transitions": []
+        },
+        {
+            "name": "sunflower2",
+            "motionName": "sunflower2",
+            "clipLength": 2.0833332538604738,
+            "loop": true,
+            "transitions": []
+        }
+    ],
+    "anyStateTransitions": []
+}

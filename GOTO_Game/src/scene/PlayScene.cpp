@@ -4,6 +4,9 @@
 #include <Canvas.h>
 #include <RectTransform.h>
 #include <SpriteRenderer.h>
+#include <Animator.h>
+#include "CrosshairPrefab.h"
+#include "EnhancedCrosshairFire.h"
 
 #include "ItemManager.h"
 #include "GameManager.h"
@@ -74,15 +77,86 @@ void PlayScene::Initialize()
 	}
 
 	//배경 이미지
-	auto BackgroundGO = new GameObject(L"Background");	
-	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
-	BackgdoundSprite->SetSprite(L"../Resources/artResource/Background/Background1.png");
-	BackgroundGO->GetTransform()->SetLossyScale({ 0.7f, 0.7f});
-	BackgdoundSprite->SetRenderOrder(-2500);
+	auto BackgroundGO1 = new GameObject(L"Background");	
+	auto BackgdoundSprite1 = BackgroundGO1->AddComponent<SpriteRenderer>();
+	BackgdoundSprite1->SetSprite(L"../Resources/artResource/Background/NewBackground_empty.png");
+	BackgdoundSprite1->SetRenderLayer(1 << 1);
+	BackgroundGO1->GetTransform()->SetLossyScale({ 0.7f, 0.7f});
+	BackgdoundSprite1->SetRenderOrder(-2500);
+
+	auto BackgroundGO2 = new GameObject(L"Background");
+	auto BackgdoundSprite2 = BackgroundGO1->AddComponent<SpriteRenderer>();
+	BackgdoundSprite2->SetSprite(L"../Resources/artResource/Background/NewBackground_empty_flip.png");
+	BackgdoundSprite2->SetRenderLayer(1 << 2);
+	BackgroundGO2->GetTransform()->SetLossyScale({ 0.7f, 0.7f });
+	BackgdoundSprite2->SetRenderOrder(-2500);
+
+	//배경 움직이는 그림
+	auto plantAnimationSource = Resource::Load<AnimatorController>(L"../Resources/Animation/controller/plantCon_AnimController.json");
+
+	auto p1Reed1GO = new GameObject(L"Reed");
+	auto p1Reed1Sprite = p1Reed1GO->AddComponent<SpriteRenderer>();
+	p1Reed1Sprite->SetRenderLayer(1 << 1);
+	p1Reed1Sprite->SetRenderOrder(-2499);
+	p1Reed1GO->GetTransform()->SetLossyScale({ 0.89f, 0.89f });
+	p1Reed1GO->GetTransform()->SetPosition({ -760,-185 });
+	auto p1Reed1Animator = p1Reed1GO->AddComponent<Animator>();
+	p1Reed1Animator->SetAnimatorController(plantAnimationSource);
+	p1Reed1Animator->Play(L"reed1");
+
+	auto p1Sunflower1GO = new GameObject(L"Sunflower1");
+	auto p1Sunflower1Sprite = p1Sunflower1GO->AddComponent<SpriteRenderer>();
+	p1Sunflower1Sprite->SetRenderLayer(1 << 1);
+	p1Sunflower1Sprite->SetRenderOrder(-2499);
+	p1Sunflower1GO->GetTransform()->SetLossyScale({ 0.84f, 0.84f });
+	p1Sunflower1GO->GetTransform()->SetPosition({ 810,-145 });
+	auto p1Sunflower1Animator = p1Sunflower1GO->AddComponent<Animator>();
+	p1Sunflower1Animator->SetAnimatorController(plantAnimationSource);
+	p1Sunflower1Animator->Play(L"sunflower1");
+
+	auto p1Sunflower2GO = new GameObject(L"Sunflower2");
+	auto p1Sunflower2Sprite = p1Sunflower2GO->AddComponent<SpriteRenderer>();
+	p1Sunflower2Sprite->SetRenderLayer(1 << 1);
+	p1Sunflower2Sprite->SetRenderOrder(-2499);
+	p1Sunflower2GO->GetTransform()->SetLossyScale({ 0.63f, 0.63f });
+	p1Sunflower2GO->GetTransform()->SetPosition({ 630,-132 });
+	auto p1Sunflower2Animator = p1Sunflower2GO->AddComponent<Animator>();
+	p1Sunflower2Animator->SetAnimatorController(plantAnimationSource);
+	p1Sunflower2Animator->Play(L"sunflower2");
+
+	auto p2Sunflower1GO = new GameObject(L"Sunflower1");
+	auto p2Sunflower1Sprite = p2Sunflower1GO->AddComponent<SpriteRenderer>();
+	p2Sunflower1Sprite->SetRenderLayer(1 << 2);
+	p2Sunflower1Sprite->SetRenderOrder(-2499);
+	p2Sunflower1GO->GetTransform()->SetLossyScale({ 0.84f, 0.84f });
+	p2Sunflower1GO->GetTransform()->SetPosition({ -595,-97 });
+	auto p2Sunflower1Animator = p2Sunflower1GO->AddComponent<Animator>();
+	p2Sunflower1Animator->SetAnimatorController(plantAnimationSource);
+	p2Sunflower1Animator->Play(L"sunflower1");
+
+	auto p2Sunflower2GO = new GameObject(L"Sunflower2");
+	auto p2Sunflower2Sprite = p2Sunflower2GO->AddComponent<SpriteRenderer>();
+	p2Sunflower2Sprite->SetRenderLayer(1 << 2);
+	p2Sunflower2Sprite->SetRenderOrder(-2499);
+	p2Sunflower2GO->GetTransform()->SetLossyScale({ 0.71f, 0.71f });
+	p2Sunflower2GO->GetTransform()->SetPosition({ 760,-180 });
+	auto p2Sunflower2Animator = p2Sunflower2GO->AddComponent<Animator>();
+	p2Sunflower2Animator->SetAnimatorController(plantAnimationSource);
+	p2Sunflower2Animator->Play(L"sunflower2");
+
 
 	//메인 캔버스
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
+
+	//화면 가운데 분할용 선분
+	//auto splitImageGO = new GameObject(L"split img");
+	//auto splitImage = splitImageGO->AddComponent<Image>();
+	//splitImage->GetRectTransform()->SetParent(canvas->GetTransform(), false);
+	//splitImage->SetSprite(L"../Resources/Demo/-5.png");
+	//splitImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f,Screen::GetHeight() * 0.5f });
+	//splitImage->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+
 	auto itemManager = new GameObject(L"아이템매니저");
 	itemManager->AddComponent<ItemManager>();
 	auto gameManager = new GameObject(L"게임매니저");

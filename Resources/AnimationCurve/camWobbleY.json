@@ -1,0 +1,95 @@
+{
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.1815,
+            "value": 1.1404250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.38115,
+            "value": 1.0315250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.62315,
+            "value": 1.1041250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.78045,
+            "value": 0.9589250000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.9922,
+            "value": 1.0617750000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.1192499999999999,
+            "value": 0.9105250000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.2281499999999999,
+            "value": 1.1041250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.3491499999999998,
+            "value": 1.0496750000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.5306499999999998,
+            "value": 1.2916750000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.5911499999999998,
+            "value": 1.1464750000000006,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.694,
+            "value": 1.1767250000000007,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.8,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}
