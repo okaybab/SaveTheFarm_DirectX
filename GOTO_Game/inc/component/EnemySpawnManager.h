@@ -19,7 +19,7 @@ namespace GOTOEngine
 		PLAYER_1 = 1 << 1,
 		PLAYER_2 = 1 << 2,
 	};
-	enum PlayType
+	enum E_Game_Type
 	{
 		TITLE,
 		GAME1,	// 경쟁모드
@@ -37,6 +37,8 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		static EnemySpawnManager* instance;
+		E_Game_Type m_PlayType;
+
 		static std::mt19937 m_gen;
 		static std::mutex m_genMutex;
 
@@ -46,6 +48,8 @@ namespace GOTOEngine
 
 		std::unordered_map<std::wstring, AnimatorController*> m_animControllers;
 		std::unordered_map<std::wstring, Sprite*> m_sprites;
+
+
 
 	public:
 		virtual ~EnemySpawnManager() = default;
@@ -70,6 +74,7 @@ namespace GOTOEngine
 		}
 
 		// Set
+		void SetEGameType(E_Game_Type type) { m_PlayType = type; }
 		void SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack = false);
 		void SetDeleteGoldMole() { m_goldMole = nullptr; }
 		void DestroyGoldMole();
