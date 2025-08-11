@@ -129,7 +129,15 @@ void World::BroadPhase()
 				continue;
 
 			if (bi->isTrigger || bj->isTrigger)
+			{
+				Arbiter MSGArb(bi, bj);
+				ArbiterKey key(bi, bj);
+
+				MSGArb.isMSGOnly = true;
+
 				continue;
+			}
+				
 
 			Arbiter newArb(bi, bj);
 			ArbiterKey key(bi, bj);
@@ -176,6 +184,9 @@ void World::Step(float dt)
 	// Perform pre-steps.
 	for (ArbIter arb = arbiters.begin(); arb != arbiters.end(); ++arb)
 	{
+		if (arb->second.isMSGOnly)
+			continue;
+
 		arb->second.PreStep(inv_dt);
 	}
 
@@ -189,6 +200,9 @@ void World::Step(float dt)
 	{
 		for (ArbIter arb = arbiters.begin(); arb != arbiters.end(); ++arb)
 		{
+			if (arb->second.isMSGOnly)
+				continue;
+
 			arb->second.ApplyImpulse();
 		}
 

@@ -25,8 +25,8 @@ void DefenseScene::Initialize()
 	auto player1CamMoverGO = new GameObject(L"카메라 핸들러");
 	auto player1CamMover = player1CamMoverGO->AddComponent<CameraMove>();
 	player1CamMover->id = 0;
-	player1CamMover->maxMoveLength = 1500;
-	player1CamMover->minMoveLength = -1500;
+	player1CamMover->maxMoveLength = 1000;
+	player1CamMover->minMoveLength = -1000;
 	player1CamMover->moveCrosshair = false;
 	player1CamGO->GetTransform()->SetParent(player1CamMoverGO->GetTransform(), false);
 
@@ -49,8 +49,8 @@ void DefenseScene::Initialize()
 	auto player2CamMoverGO = new GameObject(L"카메라 핸들러2");
 	auto player2CamMover = player2CamMoverGO->AddComponent<CameraMove>();
 	player2CamMover->id = 1;
-	player2CamMover->maxMoveLength = 1500;
-	player2CamMover->minMoveLength = -1500;
+	player2CamMover->maxMoveLength = 1000;
+	player2CamMover->minMoveLength = -1000;
 	player2CamMover->moveCrosshair = false;
 	player2CamGO->GetTransform()->SetParent(player2CamMoverGO->GetTransform(), false);
 
@@ -71,7 +71,7 @@ void DefenseScene::Initialize()
 	//p2IndicatorController->cam = player2Cam;
 	//p2IndicatorController->id = 1;
 
-		//카메라 세팅
+	//카메라 세팅
 	auto p1 = GameObject::Find(L"Player1");
 	auto p2 = GameObject::Find(L"Player2");
 
@@ -84,7 +84,6 @@ void DefenseScene::Initialize()
 		p2->GetComponent<CrosshairMove>()->cam = CommonCam;
 	}
 
-
 	//배경 이미지
 	auto BackgroundGO = new GameObject(L"Background");
 	auto BackgdoundSprite = BackgroundGO->AddComponent<SpriteRenderer>();
@@ -94,7 +93,16 @@ void DefenseScene::Initialize()
 	BackgroundGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
 	BackgroundGO->GetTransform()->SetLocalPosition({ 0.0f, 0.0f });
 
-	//메인 캔버스
+	//��� Ǯ�� �̹���
+	auto BackgroundBushGO = new GameObject(L"Background");
+	auto BackgdoundBushSprite = BackgroundBushGO->AddComponent<SpriteRenderer>();
+	BackgdoundBushSprite->SetSprite(L"../Resources/artResource/Background/Bakcground_Grassland.png");
+	BackgdoundBushSprite->SetRenderLayer((1 << 0));
+	BackgdoundBushSprite->SetRenderOrder(-1200);
+	BackgroundBushGO->GetTransform()->SetLossyScale({ 0.67f, 0.67f });
+	BackgroundBushGO->GetTransform()->SetLocalPosition({ -989.0f, -186.0f });
+
+	//���� ĵ����
 	auto canvas = new GameObject(L"Canvas");
 	canvas->AddComponent<Canvas>();
 	auto gameManager = new GameObject(L"게임매니저");

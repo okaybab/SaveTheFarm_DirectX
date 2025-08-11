@@ -212,26 +212,26 @@ void GOTOEngine::CrosshairController::Awake()
 void GOTOEngine::CrosshairController::Update()
 {
     //디버그 코드
-    if (INPUT_GET_KEYDOWN(KeyCode::F5))
-    {
-        ChangeType(CrosshairType::TriggerGun);
-    }    
-    if (INPUT_GET_KEYDOWN(KeyCode::F6))
-    {
-        ChangeType(CrosshairType::HoldingGun);
-    }    
-    if (INPUT_GET_KEYDOWN(KeyCode::F7))
-    {
-        ChangeType(CrosshairType::MachineGun);
-    }    
-    if (INPUT_GET_KEYDOWN(KeyCode::F8))
-    {
-        ChangeType(CrosshairType::ShotGun);
-    }    
-    if (INPUT_GET_KEYDOWN(KeyCode::F9))
-    {
-        ChangeType(CrosshairType::BigGun);
-    }
+    //if (INPUT_GET_KEYDOWN(KeyCode::F5))
+    //{
+    //    ChangeType(CrosshairType::TriggerGun);
+    //}    
+    //if (INPUT_GET_KEYDOWN(KeyCode::F6))
+    //{
+    //    ChangeType(CrosshairType::HoldingGun);
+    //}    
+    //if (INPUT_GET_KEYDOWN(KeyCode::F7))
+    //{
+    //    ChangeType(CrosshairType::MachineGun);
+    //}    
+    //if (INPUT_GET_KEYDOWN(KeyCode::F8))
+    //{
+    //    ChangeType(CrosshairType::ShotGun);
+    //}    
+    //if (INPUT_GET_KEYDOWN(KeyCode::F9))
+    //{
+    //    ChangeType(CrosshairType::BigGun);
+    //}
 
     //트랜지션 체크 및 애니메이션 처리
     switch (m_type)
