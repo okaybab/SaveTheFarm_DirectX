@@ -240,6 +240,7 @@
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
     <ClInclude Include="inc\component\StartAnimal.h" />
+    <ClInclude Include="inc\component\Starthit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

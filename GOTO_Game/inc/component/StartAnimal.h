@@ -26,9 +26,6 @@ namespace GOTOEngine
 		bool crowhit = false;
 		bool goldhit = false;
 		bool thiefhit = false;
-		float crowhittimer = 0.0f;
-		float goldhittimer = 0.0f;
-		float thiefhittimer = 0.0f;
 
 	public:
 		StartAnimal()
@@ -40,5 +37,8 @@ namespace GOTOEngine
 		void Awake();
 		void Update();
 		void OnDestroy();
+		float crowhittimer = 0.0f;
+		float goldhittimer = 0.0f;
+		float thiefhittimer = 0.0f;
 	};
 }
