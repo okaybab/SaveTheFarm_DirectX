@@ -4,6 +4,7 @@
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
 #include <Animator.h>
+#include <Collider2D.h>
 #include "Screen.h"
 
 namespace GOTOEngine
@@ -11,10 +12,23 @@ namespace GOTOEngine
 	class StartAnimal : public ScriptBehaviour
 	{
 	private:
-		GameObject* crow1;
-		GameObject* crow2;
-		GameObject* mole;
-		Animator* crow;
+		GameObject* crow = new GameObject;
+		GameObject* goldcrow = new GameObject;
+		GameObject* thiefmole = new GameObject;
+		AnimatorController* crowanimator;
+		AnimatorController* goldcrowanimator;
+		AnimatorController* thiefmoleanimator;
+		Sprite* crowdie;
+		Sprite* golddie;
+		Sprite* thiefdie;
+		bool crowup = false;
+		bool thiefleft = false;
+		bool crowhit = false;
+		bool goldhit = false;
+		bool thiefhit = false;
+		float crowhittimer = 0.0f;
+		float goldhittimer = 0.0f;
+		float thiefhittimer = 0.0f;
 
 	public:
 		StartAnimal()

@@ -86,15 +86,6 @@
     <ClCompile Include="src\scene\SampleScene.cpp">
       <Filter>소스 파일\씬</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\GamepadRumbleManager.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\GimmickManager2.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
-    <ClCompile Include="src\component\TutorialImage2.cpp">
-      <Filter>소스 파일\컴포넌트</Filter>
-    </ClCompile>
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
       <Filter>소스 파일\프리팹</Filter>
     </ClCompile>
@@ -160,6 +151,18 @@
     </ClCompile>
     <ClCompile Include="src\prefab\FadeInOutFXManagerPrefab.cpp">
       <Filter>소스 파일\프리팹</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\StartAnimal.cpp">
+      <Filter>소스 파일\컴포넌트\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\TutorialImage2.cpp">
+      <Filter>소스 파일\컴포넌트\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GimmickManager2.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\GamepadRumbleManager.cpp">
+      <Filter>소스 파일\컴포넌트\매니저</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,7 +331,7 @@
     <ClInclude Include="inc\component\BaseSpawnObject.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="StartAnimal.h">
+    <ClInclude Include="inc\component\StartAnimal.h">
       <Filter>헤더 파일\컴포넌트\UI</Filter>
     </ClInclude>
   </ItemGroup>

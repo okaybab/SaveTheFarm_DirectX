@@ -177,6 +177,7 @@
     <ClCompile Include="src\scene\StartScene.cpp" />
     <ClCompile Include="src\component\TutorialImage.cpp" />
     <ClCompile Include="src\component\TutorialImage2.cpp" />
+    <ClCompile Include="src\component\StartAnimal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\BaseSpawnObject.h" />
@@ -234,7 +235,7 @@
     <ClInclude Include="inc\component\TutorialImage.h" />
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
-    <ClInclude Include="StartAnimal.h" />
+    <ClInclude Include="inc\component\StartAnimal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
