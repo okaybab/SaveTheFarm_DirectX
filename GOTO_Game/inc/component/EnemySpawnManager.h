@@ -27,6 +27,7 @@ namespace GOTOEngine
 	};
 
 	enum E_EnemyType;
+	class EnemySpawner;
 	class EnemySpawnManager : public ScriptBehaviour
 	{
 	public:
@@ -48,6 +49,7 @@ namespace GOTOEngine
 
 		std::unordered_map<std::wstring, AnimatorController*> m_animControllers;
 		std::unordered_map<std::wstring, Sprite*> m_sprites;
+		std::unordered_map<std::wstring, EnemySpawner*> m_spawners;
 
 
 

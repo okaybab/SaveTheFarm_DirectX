@@ -8,6 +8,7 @@
 #include <string.h>
 #include <iostream>
 #include <any>
+#include <map>
 
 #include "IAttackAble.h"
 #include "GameManager.h"
@@ -47,6 +48,23 @@ namespace GOTOEngine
 		case E_Enemy_Anim_State::ESCAPE: return L"Escape";
 		default:                         return L"";
 		}
+	}
+
+	inline E_Enemy_Anim_State StringToState(const std::string& stateStr)
+	{
+		static const std::map<std::string, E_Enemy_Anim_State> stateMap = {
+			{"Idle",   E_Enemy_Anim_State::IDLE},
+			{"Move",   E_Enemy_Anim_State::MOVE},
+			{"Die",    E_Enemy_Anim_State::DIE},
+			{"Escape", E_Enemy_Anim_State::ESCAPE}
+		};
+		auto it = stateMap.find(stateStr);
+
+		if (it != stateMap.end())
+		{
+			return it->second;
+		}
+		return E_Enemy_Anim_State::IDLE;
 	}
 
 	class BaseEnemyObject : public ScriptBehaviour,

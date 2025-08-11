@@ -148,6 +148,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\component\SpawnerObject.cpp" />
     <ClCompile Include="src\component\CrosshairController.cpp" />
     <ClCompile Include="src\scene\DefenseScene.cpp" />
     <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp" />
@@ -179,7 +180,7 @@
     <ClCompile Include="src\component\TutorialImage2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\component\BaseSpawnObject.h" />
+    <ClInclude Include="inc\component\SpawnerObject.h" />
     <ClInclude Include="inc\component\CompetEnemy.h" />
     <ClInclude Include="inc\component\CrosshairController.h" />
     <ClInclude Include="inc\component\DirIndicator.h" />

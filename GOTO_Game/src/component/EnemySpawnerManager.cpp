@@ -16,6 +16,9 @@
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
 
+// spawner
+#include "SpawnerObject.h"
+
 using namespace GOTOEngine;
 
 EnemySpawnManager* EnemySpawnManager::instance = nullptr;
@@ -70,6 +73,16 @@ void GOTOEngine::EnemySpawnManager::Awake()
 			m_sprites[key] = sprite;
 		}
 
+		std::vector<std::pair<std::wstring, std::wstring>> spawnList = {
+			{L"지상", L"../Resources/EnemySpawner/SpawnPoint_Fly.json"}
+		};
+		for (const auto& [key, path] : spawnList)
+		{
+			auto spawner = Resource::Load<EnemySpawner>(path.c_str());
+			spawner->IncreaseRefCount();
+			m_spawners[key] = spawner;
+		}
+
 		DontDestroyOnLoad(GetGameObject());
 	}
 	else
@@ -86,6 +99,9 @@ void GOTOEngine::EnemySpawnManager::OnDestroy()
 		it.second->DecreaseRefCount();
 	}
 	for (auto& it : m_sprites) {
+		it.second->DecreaseRefCount();
+	}
+	for (auto& it : m_spawners) {
 		it.second->DecreaseRefCount();
 	}
 }

@@ -1,27 +1,36 @@
 {
-	"pointName": "fly_Points",
+	"spawnName": "fly_Points",
 	"points":[
 		{
-			"point": "point_0",
-			"random_X": true,
-			"random_Y": false,
+			"number": 0,
+			"random_x": true,
+			"random_y": false,
+			"random_x_range":
+			{
+				"min": { "multiple": -0.25, "offset": -420.0 },
+				"max": { "multiple": 0.25, "offset": 420.0 }
+			},
 			"y": 0.5,
 			"speed": 1.0,
 			"state": "Move"
 		},
 		{
-			"point": "point_1",
-			"random_X": false,
-			"random_Y": false,
-			"x": "object",
-			"y": "object",
+			"number": 1,
+			"random_x": false,
+			"random_y": false,
+			"crop": true,
 			"speed": 1.0,
 			"state": "Move"
 		},
 		{
-			"point": "point_2",
-			"random_X": true,
-			"random_Y": false,
+			"number": 2,
+			"random_x": true,
+			"random_y": false,
+			"random_x_range":
+			{
+				"min": { "multiple": -0.25, "offset": -420.0 },
+				"max": { "multiple": 0.25, "offset": 420.0 }
+			},
 			"y": 0.5,
 			"speed": 1.5,
 			"state": "Escape"
