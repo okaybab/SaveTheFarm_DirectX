@@ -19,6 +19,13 @@ namespace GOTOEngine
 		PLAYER_1 = 1 << 1,
 		PLAYER_2 = 1 << 2,
 	};
+	enum PlayType
+	{
+		TITLE,
+		GAME1,	// 경쟁모드
+		GAME2	// 협동모드
+	};
+
 	enum E_EnemyType;
 	class EnemySpawnManager : public ScriptBehaviour
 	{
@@ -69,7 +76,7 @@ namespace GOTOEngine
 
 		//bool CreateEnemy()
 		void CreateEnemy(E_EnemyType enemyType, std::uint32_t player, bool isGimmick = false);
-		void CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player);
+		void CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player, bool isGimmick = false);
 		void CreateGoleMole();
 
 		void Setp1EnemyAllDestroy();

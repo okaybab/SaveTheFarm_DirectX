@@ -15,7 +15,7 @@
 			"random_Y": false,
 			"x": "object",
 			"y": "object",
-			"speed": 2.0,
+			"speed": 1.0,
 			"state": "Move"
 		},
 		{
@@ -23,7 +23,7 @@
 			"random_X": true,
 			"random_Y": false,
 			"y": 0.5,
-			"speed": 2.0,
+			"speed": 1.5,
 			"state": "Escape"
 		}
 	],
