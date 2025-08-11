@@ -23,7 +23,7 @@ namespace GOTOEngine
 		float GimmickTiming = 120.0f;
 		float ItemTiming[6] = { 100.0f, 80.0f, 60.0f, 40.0f, 20.0f, 10.0f };
 		float GoldTiming[2] = { 95.0f, 50.0f };
-		float BGMTiming[3] = { 120.0f, 30.0f, 0.0f };
+		float BGMTiming[3] = { 120.0f, 120.0f, 0.0f};
 		float scoreredTiming = 30.0f;
 
 		Image* scoreboard;

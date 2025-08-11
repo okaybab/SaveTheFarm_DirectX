@@ -124,6 +124,28 @@ void GameManager2::Awake() {
 		winpannel->IncreaseRefCount();
 		losepannel = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/게임 오버 UI 창.png");
 		losepannel->IncreaseRefCount();
+		auto catchobject = new GameObject;
+		catchtext = catchobject->AddComponent<Text>();
+		catchobject->GetTransform()->SetParent(canvas->GetTransform());
+		catchtext->horizontalAlign = TextHoriAlign::Center;
+		catchtext->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		catchtext->size = 60;
+		catchtext->SetFont(L"../Resources/Maplestory Light.ttf");
+		catchtext->SetColor({ 0,0,0,255 });
+		catchtext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.57f, Screen::GetHeight() * 0.67f });
+		catchtext->GetRectTransform()->SetSizeDelta({ 200,100 });
+		auto croptextobject = new GameObject;
+		croptext = croptextobject->AddComponent<Text>();
+		croptextobject->GetTransform()->SetParent(canvas->GetTransform());
+		croptext->horizontalAlign = TextHoriAlign::Center;
+		croptext->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		croptext->size = 60;
+		croptext->SetFont(L"../Resources/Maplestory Light.ttf");
+		croptext->SetColor({ 0,0,0,255 });
+		croptext->GetRectTransform()->SetAnchoredPosition({
+				Screen::GetWidth() * 0.57f, Screen::GetHeight() * 0.56f });
+		croptext->GetRectTransform()->SetSizeDelta({ 200,100 });
 
 		auto barobject1 = new GameObject;
 		barobject1->GetTransform()->SetParent(canvas->GetTransform());
@@ -138,7 +160,13 @@ void GameManager2::Awake() {
 		wavebarin->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.38f, Screen::GetHeight() * 0.08f });
 		wavebarin->GetRectTransform()->SetPivot({ 1.0f,0.5f });
 		wavebarin->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.69f, Screen::GetHeight() * 0.95f });
-		wavebarin->SetSprite(L"../Resources/artResource/UI/Ingame/Wave bar in.png");
+		wave1bar = Resource::Load<Sprite>(L"../Resources/artResource/UI/Ingame/wave 1 bar in.png");
+		wave1bar->IncreaseRefCount();
+		wave2bar = Resource::Load<Sprite>(L"../Resources/artResource/UI/Ingame/wave 2 bar in.png");
+		wave2bar->IncreaseRefCount();
+		wave3bar = Resource::Load<Sprite>(L"../Resources/artResource/UI/Ingame/wave 3 bar in.png");
+		wave3bar->IncreaseRefCount();
+		wavebarin->SetSprite(L"../Resources/artResource/UI/Ingame/wave 1 bar in.png");
 		texRect = wavebarin->GetSprite()->GetTexture()->GetRect();
 		auto wave1checkobject = new GameObject;
 		wave1checkobject->GetTransform()->SetParent(canvas->GetTransform());
@@ -199,6 +227,12 @@ void GameManager2::OnDestroy() {
 		winpannel->DecreaseRefCount();
 	if (IsValidObject(losepannel))
 		losepannel->DecreaseRefCount();
+	if (IsValidObject(wave1bar))
+		wave1bar->DecreaseRefCount();
+	if (IsValidObject(wave2bar))
+		wave2bar->DecreaseRefCount();
+	if (IsValidObject(wave3bar))
+		wave3bar->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
@@ -220,18 +254,21 @@ void GameManager2::Update() {
 			if (GameTimer <= waveTiming[0]) {
 				wave = 1;
 				waveImage->SetSprite(wave1sprite);
+				wavebarin->SetSprite(wave1bar);
 				SoundManager::instance->PlaySFX("Round");
 				waveTiming[0] = -1.0f;
 			}
 			if (GameTimer <= waveTiming[1]) {
 				wave = 2;
 				waveImage->SetSprite(wave2sprite);
+				wavebarin->SetSprite(wave2bar);
 				SoundManager::instance->PlaySFX("Round");
 				waveTiming[1] = -1.0f;
 			}
 			if (GameTimer <= waveTiming[2]) {
 				wave = 3;
 				waveImage->SetSprite(wave3sprite);
+				wavebarin->SetSprite(wave3bar);
 				SoundManager::instance->PlaySFX("Round");
 				waveTiming[2] = -1.0f;
 			}
@@ -369,6 +406,8 @@ void GameManager2::Update() {
 			if (CropGauge > 0 ) {
 				winner = 1;
 				endpannel->SetSprite(winpannel);
+				catchtext->text = std::to_wstring(animalcatch);
+				croptext->text = std::to_wstring(8-CropGauge);
 			}
 			else {
 				winner = 0;

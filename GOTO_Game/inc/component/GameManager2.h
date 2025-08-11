@@ -37,6 +37,8 @@ namespace GOTOEngine
 		Image* endpannel;
 		Sprite* winpannel;
 		Sprite* losepannel;
+		Text* catchtext;
+		Text* croptext;
 
 		Image* wavebarout;
 		Image* wavebarin;
@@ -44,6 +46,9 @@ namespace GOTOEngine
 		Image* wave1check;
 		Image* wave2check;
 		Image* wave3check;
+		Sprite* wave1bar;
+		Sprite* wave2bar;
+		Sprite* wave3bar;
 
 		int itemchange;
 		float NormalTiming = 120.0f;
@@ -75,6 +80,7 @@ namespace GOTOEngine
 		float GameTimer = 180.0f;
 		int CropGauge = 8;
 		float endingTimer = 3.0f;
+		int animalcatch;
 		static GameManager2* instance;
 		bool setactive = false;
 		void Awake();

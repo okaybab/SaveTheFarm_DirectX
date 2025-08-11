@@ -3,6 +3,7 @@
 //#include "EnemySpawnManager.h"
 #include "GameManager2.h"
 #include "CrosshairController.h"
+#include "SoundManager.h"
 
 using namespace GOTOEngine;
 
@@ -94,6 +95,7 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			gimmick5Timer = 2.0f;
 			break;
 		case 6:
+			SoundManager::instance->PlaySFX("Mushroom");
 			if (player == 1) {
 				if (Object::IsValidObject(p1)) {
 					p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::BigGun);
