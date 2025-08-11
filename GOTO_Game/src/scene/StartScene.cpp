@@ -8,6 +8,7 @@
 #include <PhysicsManager.h>
 #include "GamepadRumbleManager.h"
 #include "SoundManager.h"
+#include "EnemySpawnManager.h"
 #include "FadeInOutFXManager.h"
 #include "SpriteRenderer.h"
 #include "CrosshairMove.h"
@@ -82,4 +83,14 @@ void StartScene::Initialize()
 
 	auto soundManager = new GameObject(L"SoundManager");
 	soundManager->AddComponent<SoundManager>();
+
+	if (EnemySpawnManager::instance)
+	{
+		EnemySpawnManager::instance->SetEGameType(E_Game_Type::TITLE);
+	}
+	else
+	{
+		auto spawner = new GameObject(L"스폰매니저");
+		spawner->AddComponent<EnemySpawnManager>()->SetEGameType(E_Game_Type::TITLE);
+	}
 }

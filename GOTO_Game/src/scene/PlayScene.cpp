@@ -8,16 +8,19 @@
 #include "CrosshairPrefab.h"
 #include "EnhancedCrosshairFire.h"
 
-#include "DirIndicatorController.h"
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "GimmickManager.h"
+#include "EnemySpawnManager.h"
+
 #include "CameraShaker.h"
 #include "CrosshairFire.h"
-#include "EnemySpawnManager.h"
 #include "SoundManager.h"
 #include "CameraMove.h"
 #include "CrosshairMove.h"
+#include "CrosshairPrefab.h"
+#include "EnhancedCrosshairFire.h"
+#include "DirIndicatorController.h"
 
 void PlayScene::Initialize()
 {
@@ -160,6 +163,5 @@ void PlayScene::Initialize()
 	gameManager->AddComponent<GameManager>();
 	auto gimmickManager = new GameObject(L"기믹매니저");
 	gimmickManager->AddComponent<GimmickManager>();
-	auto spawner = new GameObject(L"스폰매니저");
-	spawner->AddComponent<EnemySpawnManager>();
+	EnemySpawnManager::instance->SetEGameType(E_Game_Type::GAME1);
 }

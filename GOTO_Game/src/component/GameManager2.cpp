@@ -190,6 +190,35 @@ void GameManager2::Awake() {
 		wave3check->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.58f, Screen::GetHeight() * 0.95f });
 		wave3check->SetSprite(L"../Resources/artResource/UI/Ingame/Wave 3 UI.png");
 
+		auto crop1object = new GameObject;
+		crop1 = crop1object->AddComponent<SpriteRenderer>();
+		crop1->GetTransform()->SetPosition({Screen::GetWidth()*(-0.3f), Screen::GetHeight()*(-0.35f)});
+		crop1->GetTransform()->SetLocalScale({1.0f,1.0f});
+		crop1->SetSprite(L"../Resources/artResource/Sprint/Vegetable1/Vegetable1_4.png");
+		crop1->SetRenderLayer(1 << 0);
+		crop14 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable1/Vegetable1_4.png");
+		crop14->IncreaseRefCount();
+		crop13 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable1/Vegetable1_3.png");
+		crop13->IncreaseRefCount();
+		crop12 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable1/Vegetable1_2.png");
+		crop12->IncreaseRefCount();
+		crop11 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable1/Vegetable1_1.png");
+		crop11->IncreaseRefCount();
+		auto crop2object = new GameObject;
+		crop2 = crop2object->AddComponent<SpriteRenderer>();
+		crop2->GetTransform()->SetPosition({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * (-0.35f) });
+		crop2->GetTransform()->SetLocalScale({1.0f,1.0f});
+		crop2->SetSprite(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_4.png");
+		crop2->SetRenderLayer(1 << 0);
+		crop24 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_4.png");
+		crop24->IncreaseRefCount();
+		crop23 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_3.png");
+		crop23->IncreaseRefCount();
+		crop22 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_2.png");
+		crop22->IncreaseRefCount();
+		crop21 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_1.png");
+		crop21->IncreaseRefCount();
+
 		auto timeitem = new GameObject;
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
 		Timetext = timeitem->AddComponent<Text>();
@@ -233,6 +262,22 @@ void GameManager2::OnDestroy() {
 		wave2bar->DecreaseRefCount();
 	if (IsValidObject(wave3bar))
 		wave3bar->DecreaseRefCount();
+	if (IsValidObject(crop14))
+		crop14->DecreaseRefCount();
+	if (IsValidObject(crop13))
+		crop13->DecreaseRefCount();
+	if (IsValidObject(crop12))
+		crop12->DecreaseRefCount();
+	if (IsValidObject(crop11))
+		crop11->DecreaseRefCount();
+	if (IsValidObject(crop24))
+		crop24->DecreaseRefCount();
+	if (IsValidObject(crop23))
+		crop23->DecreaseRefCount();
+	if (IsValidObject(crop22))
+		crop22->DecreaseRefCount();
+	if (IsValidObject(crop21))
+		crop21->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
@@ -389,7 +434,25 @@ void GameManager2::Update() {
 					warningsoundTiming[i] = -1.0f;
 				}
 			}
+			if (CropGauge == 8 || CropGauge == 7) {
+				crop1->SetSprite(crop14);
+				crop2->SetSprite(crop24);
+			}
+			if (CropGauge == 6 || CropGauge == 5) {
+				crop1->SetSprite(crop13);
+				crop2->SetSprite(crop23);
+			}
+			if (CropGauge == 4 || CropGauge == 3) {
+				crop1->SetSprite(crop12);
+				crop2->SetSprite(crop22);
+			}
+			if (CropGauge == 2 || CropGauge == 1) {
+				crop1->SetSprite(crop11);
+				crop2->SetSprite(crop21);
+			}
 			if (CropGauge == 0) {
+				crop1->SetSprite(nullptr);
+				crop2->SetSprite(nullptr);
 				GameTimer = 0.0f;
 			}
 			if (GameTimer <= 0.0f || INPUT_GET_KEYDOWN(KeyCode::Space)) {

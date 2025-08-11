@@ -109,4 +109,5 @@ void DefenseScene::Initialize()
 	gameManager->AddComponent<GameManager2>();
 	auto gimmickManager = new GameObject(L"기믹매니저");
 	gimmickManager->AddComponent<GimmickManager2>();
+	EnemySpawnManager::instance->SetEGameType(E_Game_Type::GAME1);
 }
