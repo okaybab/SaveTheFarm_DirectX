@@ -37,7 +37,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		static EnemySpawnManager* instance;
-		E_Game_Type m_PlayType;
+		E_Game_Type m_GameType;
 
 		static std::mt19937 m_gen;
 		static std::mutex m_genMutex;
@@ -74,7 +74,7 @@ namespace GOTOEngine
 		}
 
 		// Set
-		void SetEGameType(E_Game_Type type) { m_PlayType = type; }
+		void SetEGameType(E_Game_Type type) { m_GameType = type; }
 		void SetDeleteEnemy(std::uint32_t player, GameObject* enemy, bool _isPlayerAttack = false);
 		void SetDeleteGoldMole() { m_goldMole = nullptr; }
 		void DestroyGoldMole();
