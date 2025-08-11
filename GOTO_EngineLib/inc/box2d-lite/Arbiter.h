@@ -76,6 +76,8 @@ struct Arbiter
 	Contact contacts[MAX_POINTS];
 	int numContacts;
 
+	bool isMSGOnly;
+
 	Body* body1;
 	Body* body2;
 

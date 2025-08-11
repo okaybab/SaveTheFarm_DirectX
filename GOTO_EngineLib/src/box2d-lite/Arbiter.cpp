@@ -13,7 +13,8 @@
 #include "box2d-lite/Body.h"
 #include "box2d-lite/World.h"
 
-Arbiter::Arbiter(Body* b1, Body* b2)
+Arbiter::Arbiter(Body* b1, Body* b2) 
+	: isMSGOnly(false)
 {
 	if (b1 < b2)
 	{
