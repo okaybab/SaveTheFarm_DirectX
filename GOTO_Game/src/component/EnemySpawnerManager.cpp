@@ -1,6 +1,7 @@
 ﻿#include "EnemySpawnManager.h"
 #include "Screen.h"
 
+// manager
 #include "GameManager.h"
 
 // enemy
@@ -17,7 +18,7 @@
 #include "MovementParabolic.h"
 
 // spawner
-#include "SpawnerObject.h"
+#include "BaseSpawnerObject.h"
 
 using namespace GOTOEngine;
 

@@ -1,10 +1,10 @@
-﻿#include "SpawnerObject.h"
-#include <filesystem>
-#include <fstream>
-
-#include <iostream>
+﻿#include "BaseSpawnerObject.h"
 #include "WStringHelper.h"
 #include "Screen.h"
+
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 
 
 using json = nlohmann::json;

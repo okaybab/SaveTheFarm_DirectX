@@ -10,7 +10,10 @@
 #include <any>
 #include <map>
 
+// interface
 #include "IAttackAble.h"
+
+// manager
 #include "GameManager.h"
 #include "SoundManager.h"
 #include "EnemySpawnManager.h"
@@ -23,7 +26,7 @@
 #include "MovementParabolic.h"
 
 // spawner
-#include "SpawnerObject.h"
+#include "BaseSpawnerObject.h"
 
 
 namespace GOTOEngine
