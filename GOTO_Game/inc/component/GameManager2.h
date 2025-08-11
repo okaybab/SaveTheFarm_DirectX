@@ -68,6 +68,17 @@ namespace GOTOEngine
 		float tutorialCheckTime = 0.0f;
 		TutorialImage2* Tutorial;
 
+		SpriteRenderer* crop1;
+		SpriteRenderer* crop2;
+		Sprite* crop14;
+		Sprite* crop13;
+		Sprite* crop12;
+		Sprite* crop11;
+		Sprite* crop24;
+		Sprite* crop23;
+		Sprite* crop22;
+		Sprite* crop21;
+
 	public:
     GameManager2()
     {
