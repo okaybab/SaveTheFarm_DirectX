@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "Resource.h"
 
-#include "EnemySpawnManager.h"
-#include "BaseMovement.h"
-#include "BaseEnemyObject.h"
-
 #include <json.hpp>
 #include <vector>
-#include <any>
 #include <unordered_map>
+#include <any>
+
+#include "EnemySpawnManager.h"
+#include "BaseEnemyObject.h"
+#include "BaseMovement.h"
 
 namespace GOTOEngine
 {
@@ -18,13 +18,13 @@ namespace GOTOEngine
 		float offset = 0.0f;
 	};
 
-
 	using PointData = std::map<std::string, std::any>;
 
-	enum E_Enemy_Anim_State;
 	class SpawnPoint : public Object
 	{
 	private:
+		friend class BaseEnemyObject; // state를 쓰려면 어떻게 해야할까?
+
 		E_Enemy_Anim_State m_state;
 		float m_moveSpeed;
 		int m_renderOrder;
@@ -52,11 +52,10 @@ namespace GOTOEngine
 		PointData GetSpawnPointData() const
 		{
 			PointData params;
-			//params["animState"] = static_cast<E_Enemy_Anim_State>(m_state);
+			params["animState"] = static_cast<E_Enemy_Anim_State>(m_state);
 			params["moveSpeed"] = m_moveSpeed;
 			params["position"] = m_currentPosition;
 			params["renderOrder"] = m_renderOrder;
-
 			return params;
 		}
 	};
@@ -69,10 +68,9 @@ namespace GOTOEngine
 		int moveFlag;
 	public:
 		EnemyMove() : moveFlag(0) {}
-		void SetupFromJSON(const nlohmann::json& flagInfo);
+		void SetupFromJSON(const nlohmann::json& flagInfo) { moveFlag = flagInfo.value("value", 0); }
 		int GetFlag() const { return moveFlag; }
 	};
-
 
 	class EnemySpawner : public Resource
 	{

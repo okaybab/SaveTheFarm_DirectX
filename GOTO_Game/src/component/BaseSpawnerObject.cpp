@@ -6,7 +6,6 @@
 #include <fstream>
 #include <iostream>
 
-
 using json = nlohmann::json;
 
 void GOTOEngine::EnemySpawner::LoadFromFilePath(const std::wstring& filePath)
@@ -145,9 +144,4 @@ float GOTOEngine::SpawnPoint::CalculateCoordinate(const nlohmann::json& pointInf
 	{
 		return pointInfo.value(axisName, 0.0f);
 	}
-}
-
-void GOTOEngine::EnemyMove::SetupFromJSON(const nlohmann::json& flagInfo)
-{
-	moveFlag = flagInfo.value("value", 0);
 }

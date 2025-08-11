@@ -4,6 +4,8 @@
 #include <SpriteRenderer.h>
 #include <Collider2D.h>
 
+#include "BaseSpawnerObject.h"
+
 using ParameterMap = std::map<std::string, std::any>;
 
 namespace GOTOEngine
@@ -74,6 +76,8 @@ namespace GOTOEngine
 		void SetCurrentPoint()
 		{
 			auto data = m_points[currentPoint]->GetSpawnPointData();
+			
+
 		}
 
 		void Awake()

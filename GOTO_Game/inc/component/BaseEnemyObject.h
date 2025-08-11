@@ -25,10 +25,6 @@
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
 
-// spawner
-#include "BaseSpawnerObject.h"
-
-
 namespace GOTOEngine
 {
 	enum E_EnemyType
@@ -74,6 +70,7 @@ namespace GOTOEngine
 		return E_Enemy_Anim_State::IDLE;
 	}
 
+	class EnemySpawner;
 	class BaseEnemyObject : public ScriptBehaviour,
 							public IAttackAble
 	{
