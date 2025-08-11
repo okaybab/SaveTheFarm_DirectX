@@ -179,6 +179,8 @@
     <ClCompile Include="src\component\TutorialImage2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\component\BaseSpawnObject.h" />
+    <ClInclude Include="inc\component\CompetEnemy.h" />
     <ClInclude Include="inc\component\CrosshairController.h" />
     <ClInclude Include="inc\component\DirIndicator.h" />
     <ClInclude Include="inc\component\DirIndicatorController.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="inc\component\MovementUpDown.h" />
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\GameManager.h" />
+    <ClInclude Include="inc\component\SpawnPoint.h" />
     <ClInclude Include="inc\component\StartManager.h" />
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
     <ClInclude Include="inc\interface\IAttackAble.h" />
@@ -231,7 +234,6 @@
     <ClInclude Include="inc\component\TutorialImage.h" />
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
-    <ClInclude Include="inc\CompetEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

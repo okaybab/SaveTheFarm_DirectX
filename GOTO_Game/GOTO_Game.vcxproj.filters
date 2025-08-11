@@ -295,9 +295,6 @@
     <ClInclude Include="inc\interface\ICollideAble.h">
       <Filter>헤더 파일\인터페이스</Filter>
     </ClInclude>
-    <ClInclude Include="inc\CompetEnemy.h">
-      <Filter>헤더 파일\컴포넌트\몬스터</Filter>
-    </ClInclude>
     <ClInclude Include="inc\prefab\FadeInOutFXManagerPrefab.h">
       <Filter>헤더 파일\프리팹</Filter>
     </ClInclude>
@@ -321,6 +318,15 @@
     </ClInclude>
     <ClInclude Include="inc\component\InteractiveTitle.h">
       <Filter>헤더 파일\컴포넌트\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\SpawnPoint.h">
+      <Filter>헤더 파일\컴포넌트\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\CompetEnemy.h">
+      <Filter>헤더 파일\컴포넌트\몬스터</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\component\BaseSpawnObject.h">
+      <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
