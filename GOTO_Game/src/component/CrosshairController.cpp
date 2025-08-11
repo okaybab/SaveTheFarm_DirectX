@@ -201,7 +201,7 @@ void GOTOEngine::CrosshairController::OnSceneLoaded()
 	//일반 모드로 전환 -> 
 }
 
-void GOTOEngine::CrosshairController::Awake()
+void GOTOEngine::CrosshairController::Start()
 {
     OnEnter(m_type);
     fire->onFire.Add([this](int id) { OnCrosshairFire(); });

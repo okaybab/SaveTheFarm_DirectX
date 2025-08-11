@@ -35,7 +35,7 @@ namespace GOTOEngine
     CrosshairController()
     {
         SetExecutionOrder(1);
-        REGISTER_BEHAVIOUR_MESSAGE(Awake);
+        REGISTER_BEHAVIOUR_MESSAGE(Start);
         REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
@@ -57,7 +57,7 @@ namespace GOTOEngine
 		void ChangeType(CrosshairType type);
 
 		void OnSceneLoaded();
-		void Awake();
+		void Start();
 		void Update();
 
 		void OnEnter(CrosshairType type);

@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <Transform.h>
-#include "CrosshairInteractButton.h"
 #include <SpriteRenderer.h>
 #include <Engine.h>
 #include <InputManager.h>
 
+#include "CrosshairInteractButton.h"
+#include "SoundManager.h"
 #include "FadeInOutFXManager.h"
 
 namespace GOTOEngine
@@ -13,14 +14,14 @@ namespace GOTOEngine
 	class StartMenu : public ScriptBehaviour
 	{
 	private:
+		int m_frameCount = 0;
+		bool m_BGMPlayed = false;
 		bool m_selectStart;
 		bool m_selectExit;
 		bool m_selectDeffense;
 	public:
     StartMenu()
     {
-		SetExecutionOrder(150);
-		REGISTER_BEHAVIOUR_MESSAGE(Awake);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* startButton;
@@ -36,13 +37,20 @@ namespace GOTOEngine
 		CrosshairInteractButton* lastP1InteractButton = nullptr;
 		CrosshairInteractButton* lastP2InteractButton = nullptr;
 
-		void Awake()
-		{
-			
-		}
-
 		void Update()
 		{
+			if (!m_BGMPlayed)
+				m_frameCount++;
+
+			if (m_frameCount > 5 && !m_BGMPlayed)
+			{
+				if (SoundManager::instance)
+				{
+					SoundManager::instance->PlayBGM("Title");
+					m_BGMPlayed = true;
+				}
+			}
+
 			//기다려야 하는 버튼을 누른경우
 			if (m_selectStart || m_selectExit || m_selectDeffense)
 			{
