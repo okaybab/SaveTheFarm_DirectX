@@ -13,6 +13,7 @@
 #include "SpriteRenderer.h"
 #include "CrosshairMove.h"
 #include "InteractiveTitle.h"
+#include "CameraShaker.h"
 #include "CrosshairController.h"
 #include "StartAnimal.h"
 
@@ -65,7 +66,7 @@ void StartScene::Initialize()
 
 	titleCol->SetSize({ 750.0f,250.0f });
 	titleRb->SetPosition({ 0.0f,300.0f });
-	titleRb->SetMass({ 290.0f });
+	titleRb->SetMass({ 220.0f });
 
 	Title->AddComponent<InteractiveTitle>();
 
