@@ -202,7 +202,7 @@ void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, std::uint
 }
 
 // 설정대로 스폰
-void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player)
+void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, int detailType, std::uint32_t player, bool isGimmick)
 {
 	if (GameManager::instance == nullptr) return;
 
@@ -214,6 +214,7 @@ void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, int detai
 	{
 		ParameterMap params;
 		params["EnemyType"] = static_cast<E_Move_Enemy_Type>(detailType);
+		params["isGimmick"] = isGimmick;
 
 		newEnemyObject->AddComponent<MoveEnemy>();
 		newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
@@ -279,7 +280,7 @@ void GOTOEngine::EnemySpawnManager::SetDeleteEnemy(std::uint32_t player, GameObj
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2));
+			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_2), true);
 		   }
        }  
    }  
@@ -293,7 +294,7 @@ void GOTOEngine::EnemySpawnManager::SetDeleteEnemy(std::uint32_t player, GameObj
 		   {
 			   E_EnemyType enemyType = static_cast<E_EnemyType>(enemy->GetComponent<BaseEnemyObject>()->BaseEnemyObject::GetType());
 			   int detailType = enemy->GetComponent<BaseEnemyObject>()->GetType();
-			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1));
+			   CreateEnemy(enemyType, detailType, static_cast<std::uint32_t>(EPlayerOwner::PLAYER_1), true);
 		   }
        }  
    }  
