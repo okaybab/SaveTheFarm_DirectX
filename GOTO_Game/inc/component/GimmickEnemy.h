@@ -79,7 +79,7 @@ namespace GOTOEngine
 		}
 
 		int GetType() override { return static_cast<int>(m_gimmickEnemyType); }
-		void OnDie(int attackerID) override
+		void OnDie(int attackerID, bool isGimmick = true) override
 		{
 			__super::OnDie(attackerID);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
