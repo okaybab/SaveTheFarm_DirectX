@@ -145,7 +145,7 @@ namespace GOTOEngine
 					m_moveSpeed = 1.3f;
 					GetGameObject()->name = L"까마귀";
 					SetRandomYPosition(0.15f, 0.4f);
-					GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+					GetTransform()->SetLossyScale({ 0.6f, 0.6f });
 					break;
 				case crow_2:
 					m_moveFlag = 0b0010;
@@ -153,7 +153,7 @@ namespace GOTOEngine
 					m_moveSpeed = 1.3f;
 					GetGameObject()->name = L"까마귀";
 					SetRandomYPosition(0.15f, 0.4f);
-					GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+					GetTransform()->SetLossyScale({ 0.6f, 0.6f });
 					break;
 				}
 				AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
