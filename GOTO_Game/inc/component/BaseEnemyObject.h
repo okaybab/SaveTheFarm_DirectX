@@ -12,6 +12,7 @@
 
 #include "IAttackAble.h"
 #include "GameManager.h"
+#include "SoundManager.h"
 #include "EnemySpawnManager.h"
 
 // move
@@ -20,7 +21,10 @@
 #include "MovementUpDown.h"
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
-#include "SoundManager.h"
+
+// spawner
+#include "SpawnerObject.h"
+
 
 namespace GOTOEngine
 {
@@ -31,7 +35,7 @@ namespace GOTOEngine
 		itemspawn,
 		competition
 	};
-	enum E_Enemy_Anim_State
+	static enum E_Enemy_Anim_State
 	{
 		IDLE,
 		MOVE,
@@ -99,6 +103,9 @@ namespace GOTOEngine
 		// player layer
 		std::uint32_t m_layer = 1;
 
+		// spawner
+		EnemySpawner* m_spawner;
+
 	public:
     BaseEnemyObject()
     {
@@ -108,8 +115,9 @@ namespace GOTOEngine
 		
 	public:
 		virtual void Initialize(std::any param) = 0;
+		virtual void SetupSpawner(EnemySpawner* spawner, std::any param) { m_spawner = spawner; }
 		virtual void Awake() {}
-		void Update()
+		virtual void Update()
 		{
 			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{

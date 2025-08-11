@@ -6,6 +6,7 @@
 #include "WStringHelper.h"
 #include "Screen.h"
 
+
 using json = nlohmann::json;
 
 void GOTOEngine::EnemySpawner::LoadFromFilePath(const std::wstring& filePath)

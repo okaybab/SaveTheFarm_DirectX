@@ -2,11 +2,12 @@
 #include "Resource.h"
 
 #include "EnemySpawnManager.h"
-#include "BaseEnemyObject.h"
 #include "BaseMovement.h"
+#include "BaseEnemyObject.h"
 
 #include <json.hpp>
 #include <vector>
+#include <any>
 #include <unordered_map>
 
 namespace GOTOEngine
@@ -17,6 +18,10 @@ namespace GOTOEngine
 		float offset = 0.0f;
 	};
 
+
+	using PointData = std::map<std::string, std::any>;
+
+	enum E_Enemy_Anim_State;
 	class SpawnPoint : public Object
 	{
 	private:
@@ -41,11 +46,19 @@ namespace GOTOEngine
 		RangeInfo m_randomRangeY_max;
 
 	public:
-		SpawnPoint() = default;
 		void Initialize();
-		Vector2 GetPosition() const { return m_currentPosition; }
 		void SetupFromJSON(const nlohmann::json& pointInfo);
 		float CalculateCoordinate(const nlohmann::json& pointInfo, const std::string& axisName, float screenDimension);
+		PointData GetSpawnPointData() const
+		{
+			PointData params;
+			//params["animState"] = static_cast<E_Enemy_Anim_State>(m_state);
+			params["moveSpeed"] = m_moveSpeed;
+			params["position"] = m_currentPosition;
+			params["renderOrder"] = m_renderOrder;
+
+			return params;
+		}
 	};
 
 	class EnemyMove : public Object
@@ -72,10 +85,10 @@ namespace GOTOEngine
 		std::vector<SpawnPoint*> m_points;
 		std::vector<EnemyMove*> m_moveFlag;
 		std::wstring m_spawnName;
-		
-	public:
 		void Dispose() override;
-		EnemySpawner() = default;
+	public:
+		const std::vector<SpawnPoint*>& GetPoints() { return m_points; }
+		int GetRandomMoveFlag() { return m_moveFlag[EnemySpawnManager::GenerateRandom(0, (int)m_moveFlag.size())]->GetFlag(); }
 	};
 
 }

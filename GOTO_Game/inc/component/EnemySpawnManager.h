@@ -63,6 +63,7 @@ namespace GOTOEngine
 		// Get
 		template <typename T>
 		static float GenerateRandom(T min, T max);
+		E_Game_Type GetGameType() { return m_GameType; }
 		std::vector<GameObject*>* Getp1Enemy() { return &m_p1Enemy; }
 		std::vector<GameObject*>* Getp2Enemy() { return &m_p2Enemy; }
 
@@ -73,6 +74,11 @@ namespace GOTOEngine
 		Sprite* GetSprite(const std::wstring& name) const {
 			auto it = m_sprites.find(name);
 			return (it != m_sprites.end()) ? it->second : nullptr;
+		}
+
+		EnemySpawner* GetSpawner(const std::wstring& name) const {
+			auto it = m_spawners.find(name);
+			return (it != m_spawners.end()) ? it->second : nullptr;
 		}
 
 		// Set
@@ -88,6 +94,10 @@ namespace GOTOEngine
 
 		void Setp1EnemyAllDestroy();
 		void Setp2EnemyAllDestroy();
+
+
+		// 디펜스
+		void CreateDefenseFlyEnemey();
 
 	};
 }
