@@ -66,7 +66,8 @@ void StartScene::Initialize()
 
 	titleCol->SetSize({ 750.0f,250.0f });
 	titleRb->SetPosition({ 0.0f,300.0f });
-	titleRb->SetMass({ 220.0f });
+	titleRb->GetWrapperBody()->GetBody()->mass = 50.0f;
+	//titleRb->SetMass({ 220.0f });
 
 	Title->AddComponent<InteractiveTitle>();
 
