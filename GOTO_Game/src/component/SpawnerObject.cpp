@@ -24,6 +24,15 @@ void GOTOEngine::EnemySpawner::LoadFromFilePath(const std::wstring& filePath)
 			spawnTemplate->SetupFromJSON(pointInfo);
 			m_points.emplace_back(spawnTemplate);
 		}
+		if (jFromFile.contains("moveFlags"))
+		{
+			for (auto& flagInfo : jFromFile["moveFlags"])
+			{
+				EnemyMove* moveTemplate = new EnemyMove();
+				moveTemplate->SetupFromJSON(flagInfo);
+				m_moveFlag.emplace_back(moveTemplate);
+			}
+		}
 	}
 }
 
@@ -135,4 +144,9 @@ float GOTOEngine::SpawnPoint::CalculateCoordinate(const nlohmann::json& pointInf
 	{
 		return pointInfo.value(axisName, 0.0f);
 	}
+}
+
+void GOTOEngine::EnemyMove::SetupFromJSON(const nlohmann::json& flagInfo)
+{
+	moveFlag = flagInfo.value("value", 0);
 }

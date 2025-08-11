@@ -166,7 +166,7 @@
     </ClCompile>
     <ClCompile Include="src\component\GamepadRumbleManager.cpp">
       <Filter>소스 파일\컴포넌트\매니저</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\component\SpawnerObject.cpp">
       <Filter>소스 파일\컴포넌트\몬스터</Filter>
     </ClCompile>
@@ -326,9 +326,6 @@
       <Filter>헤더 파일\컴포넌트\조준점</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\InteractiveTitle.h">
-      <Filter>헤더 파일\컴포넌트\etc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\component\SpawnPoint.h">
       <Filter>헤더 파일\컴포넌트\etc</Filter>
     </ClInclude>
     <ClInclude Include="inc\component\CompetEnemy.h">

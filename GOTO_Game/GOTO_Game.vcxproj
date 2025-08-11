@@ -215,7 +215,6 @@
     <ClInclude Include="inc\component\MovementUpDown.h" />
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\GameManager.h" />
-    <ClInclude Include="inc\component\SpawnPoint.h" />
     <ClInclude Include="inc\component\StartManager.h" />
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
     <ClInclude Include="inc\interface\IAttackAble.h" />

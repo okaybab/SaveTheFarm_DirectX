@@ -40,8 +40,6 @@ namespace GOTOEngine
 		RangeInfo m_randomRangeY_min;
 		RangeInfo m_randomRangeY_max;
 
-		//nlohmann::json m_pointInfoJson;
-
 	public:
 		SpawnPoint() = default;
 		void Initialize();
@@ -56,7 +54,10 @@ namespace GOTOEngine
 		friend class BaseMovement;
 		
 		int moveFlag;
-
+	public:
+		EnemyMove() : moveFlag(0) {}
+		void SetupFromJSON(const nlohmann::json& flagInfo);
+		int GetFlag() const { return moveFlag; }
 	};
 
 
