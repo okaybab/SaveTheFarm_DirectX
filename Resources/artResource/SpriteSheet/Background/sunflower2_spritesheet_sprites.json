@@ -1,0 +1,233 @@
+{
+    "texture": "sunflower2_spritesheet.png",
+    "textureWidth": 1780,
+    "textureHeight": 2700,
+    "textureRenderMode": "Bilinear",
+    "sprites": [
+        {
+            "name": "sunflower2_spritesheet_0",
+            "x": 0.0,
+            "y": 2160.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_1",
+            "x": 356.0,
+            "y": 2160.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_2",
+            "x": 712.0,
+            "y": 2160.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_3",
+            "x": 1068.0,
+            "y": 2160.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_4",
+            "x": 1424.0,
+            "y": 2160.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_5",
+            "x": 0.0,
+            "y": 1620.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_6",
+            "x": 356.0,
+            "y": 1620.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_7",
+            "x": 712.0,
+            "y": 1620.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_8",
+            "x": 1068.0,
+            "y": 1620.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_9",
+            "x": 1424.0,
+            "y": 1620.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_10",
+            "x": 0.0,
+            "y": 1080.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_11",
+            "x": 356.0,
+            "y": 1080.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_12",
+            "x": 712.0,
+            "y": 1080.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_13",
+            "x": 1068.0,
+            "y": 1080.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_14",
+            "x": 1424.0,
+            "y": 1080.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_15",
+            "x": 0.0,
+            "y": 540.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_16",
+            "x": 356.0,
+            "y": 540.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_17",
+            "x": 712.0,
+            "y": 540.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_18",
+            "x": 1068.0,
+            "y": 540.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_19",
+            "x": 1424.0,
+            "y": 540.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_20",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_21",
+            "x": 356.0,
+            "y": 0.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_22",
+            "x": 712.0,
+            "y": 0.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_23",
+            "x": 1068.0,
+            "y": 0.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        },
+        {
+            "name": "sunflower2_spritesheet_24",
+            "x": 1424.0,
+            "y": 0.0,
+            "width": 356.0,
+            "height": 540.0,
+            "pivotX": 0.5,
+            "pivotY": 0.5
+        }
+    ]
+}

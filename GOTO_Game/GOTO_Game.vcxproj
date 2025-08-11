@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\component\SpawnerObject.cpp" />
+    <ClCompile Include="src\component\DefenseModeCameraManager.cpp" />
     <ClCompile Include="src\component\CrosshairController.cpp" />
     <ClCompile Include="src\scene\DefenseScene.cpp" />
     <ClCompile Include="src\prefab\DirIndicatorPrefab.cpp" />
@@ -182,8 +183,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\component\SpawnerObject.h" />
+    <ClInclude Include="inc\component\AnimateSprite.h" />
+    <ClInclude Include="inc\component\BaseSpawnObject.h" />
     <ClInclude Include="inc\component\CompetEnemy.h" />
     <ClInclude Include="inc\component\CrosshairController.h" />
+    <ClInclude Include="inc\component\DefenseModeCameraManager.h" />
     <ClInclude Include="inc\component\DirIndicator.h" />
     <ClInclude Include="inc\component\DirIndicatorController.h" />
     <ClInclude Include="inc\component\GimmickManager2.h" />
@@ -236,6 +240,7 @@
     <ClInclude Include="inc\struct\RumbleAnimationClip.h" />
     <ClInclude Include="inc\component\TutorialImage2.h" />
     <ClInclude Include="inc\component\StartAnimal.h" />
+    <ClInclude Include="inc\component\Starthit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

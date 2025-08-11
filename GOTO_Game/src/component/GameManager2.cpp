@@ -5,6 +5,7 @@
 #include <AnimationCurve.h>
 #include <time.h>
 #include <Texture2D.h>
+#include "DefenseModeCameraManager.h"
 
 using namespace GOTOEngine;
 GameManager2* GameManager2::instance = nullptr;
@@ -308,6 +309,7 @@ void GameManager2::Update() {
 				waveImage->SetSprite(wave2sprite);
 				wavebarin->SetSprite(wave2bar);
 				SoundManager::instance->PlaySFX("Round");
+				DefenseModeCameraManager::instance->Close();
 				waveTiming[1] = -1.0f;
 			}
 			if (GameTimer <= waveTiming[2]) {
@@ -315,6 +317,7 @@ void GameManager2::Update() {
 				waveImage->SetSprite(wave3sprite);
 				wavebarin->SetSprite(wave3bar);
 				SoundManager::instance->PlaySFX("Round");
+				DefenseModeCameraManager::instance->Close();
 				waveTiming[2] = -1.0f;
 			}
 			if ((GameTimer <= 180.0f && GameTimer >= 178.0f) || (GameTimer <= 120.0f && GameTimer >= 118.0f) || (GameTimer <= 60.0f && GameTimer >= 58.0f)) {
@@ -431,6 +434,7 @@ void GameManager2::Update() {
 			for (int i = 0; i < 3; ++i) {
 				if (GameTimer <= warningsoundTiming[i]) {
 					SoundManager::instance->PlaySFX("Warning");
+					DefenseModeCameraManager::instance->Open();
 					warningsoundTiming[i] = -1.0f;
 				}
 			}

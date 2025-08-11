@@ -1,5 +1,6 @@
 #include "StartAnimal.h"
 #include "SoundManager.h"
+#include "Starthit.h"
 
 using namespace GOTOEngine;
 
@@ -28,13 +29,24 @@ void StartAnimal::Awake() {
 	golddie->IncreaseRefCount();
 	thiefdie = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/ThiefMole_die.png");
 	thiefdie->IncreaseRefCount();
-	crow->AddComponent<Collider2D>()->SetSize({ GetTransform()->GetLossyScale()});
-	goldcrow->AddComponent<Collider2D>()->SetSize({ GetTransform()->GetLossyScale()});
-	thiefmole->AddComponent<Collider2D>()->SetSize({ GetTransform()->GetLossyScale()});
+	auto crowrect = crowdie->GetRect();
+	crow->AddComponent<Collider2D>()->SetSize({crowrect.width*0.3f,crowrect.height*0.3f});
+	auto goldrect = golddie->GetRect();
+	goldcrow->AddComponent<Collider2D>()->SetSize({ goldrect.width * 0.3f,goldrect.height * 0.3f });
+	auto thiefrect = thiefdie->GetRect();
+	thiefmole->AddComponent<Collider2D>()->SetSize({ thiefrect.width * 0.12f,thiefrect.height * 0.12f });
 	crow->layer = (1 << 1) | (1 << 2);
 	goldcrow->layer = (1 << 1) | (1 << 2);
 	thiefmole->layer = (1 << 1) | (1 << 2);
-
+	auto crowhitcomp = crow->AddComponent<Starthit>();
+	crowhitcomp->id = 0;
+	crowhitcomp->startanimal = this;
+	auto goldhitcomp = goldcrow->AddComponent<Starthit>();
+	goldhitcomp->id = 1;
+	goldhitcomp->startanimal = this;
+	auto thiefhitcomp = thiefmole->AddComponent<Starthit>();
+	thiefhitcomp->id = 2;
+	thiefhitcomp->startanimal = this;
 }
 
 void StartAnimal::OnDestroy() {

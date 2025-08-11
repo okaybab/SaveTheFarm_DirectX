@@ -1,0 +1,81 @@
+{
+    "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.5475734,
+            "value": 0.704598125000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.9179907,
+            "value": 1.155540925000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.2159350500000001,
+            "value": 1.058910325000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.4897217500000002,
+            "value": 1.219961325000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.8681916,
+            "value": 0.801228725000001,
+            "in_tangent": -0.05,
+            "out_tangent": -0.05,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.2225038,
+            "value": 1.058910325000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.5285007000000004,
+            "value": 0.6965455750000009,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 2.9391807500000002,
+            "value": 1.187751125000001,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 3.18075725,
+            "value": 0.8898067750000009,
+            "in_tangent": 0,
+            "out_tangent": 0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 3.5,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+}

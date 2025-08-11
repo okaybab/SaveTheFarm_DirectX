@@ -235,7 +235,7 @@ void GOTOEngine::RenderManager::Render()
 	//그리고 그 렌더타겟을 스왑체인이나 메인버퍼로 올려주고 플립핑
 	for (const auto& camera : m_cameras)
 	{
-		if (!camera->GetEnabled())
+		if (!camera->IsActiveAndEnabled())
 			continue;
 
 		//카메라 행렬 구하기

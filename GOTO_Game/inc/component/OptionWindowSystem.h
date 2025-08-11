@@ -335,6 +335,7 @@ namespace GOTOEngine
             if (IsValidObject(sliderSprites[m_focusIndex]))
             {
                 if (INPUT_GET_KEYDOWN(KeyCode::LeftArrow)
+                    || INPUT_GET_KEYDOWN(KeyCode::D)
                     || m_XstickPressedLeft[0]
                     || m_XstickPressedLeft[1])
                 {
@@ -343,6 +344,7 @@ namespace GOTOEngine
                 }
 
                 if (INPUT_GET_KEYDOWN(KeyCode::RightArrow)
+                    || INPUT_GET_KEYDOWN(KeyCode::G)
                     || m_XstickPressedRight[0]
                     || m_XstickPressedRight[1])
                 {
