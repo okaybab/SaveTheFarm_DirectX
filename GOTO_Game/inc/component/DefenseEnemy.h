@@ -108,7 +108,7 @@ namespace GOTOEngine
 			GetTransform()->SetPosition(m_StartPos);
 			m_currentPathPosition = m_StartPos;
 
-			GetTransform()->SetLossyScale({ 0.6f, 0.6f });
+			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
@@ -234,6 +234,7 @@ namespace GOTOEngine
 		}
 
 		int GetType() { return static_cast<int>(m_enemyType); }
+		void SetDefenseEnemyType(E_Defense_Enemy_Type type) { m_dEnemyType = type; }
 		void OnDie(int attackerID, bool isGimmick = true) override
 		{
 			__super::OnDie(attackerID);

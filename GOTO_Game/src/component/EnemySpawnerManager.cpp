@@ -77,6 +77,7 @@ void GOTOEngine::EnemySpawnManager::Awake()
 
 		std::vector<std::pair<std::wstring, std::wstring>> spawnList = {
 			{L"공중", L"../Resources/EnemySpawner/SpawnPoint_Fly.json"},
+			{L"공중기믹", L"../Resources/EnemySpawner/SpawnPoint_Fly.json"},
 			{L"지상1기믹", L"../Resources/EnemySpawner/SpawnPoint_GroundGimmick1.json"}
 		};
 		for (const auto& [key, path] : spawnList)
@@ -152,7 +153,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	GameObject* newEnemyObject = new GameObject(L"디펜스");
 
 	ParameterMap params;
-	//*// 공중 (까마귀)
+	/*// 공중 (까마귀)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(fly);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_nomal);
 	params["EnemyName"] = L"까마귀";
@@ -176,7 +177,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	params["EnemyName"] = L"두더지";
 	//*/
 
-	/*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
+	//*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(ground1);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_gimmick);
 	params["EnemyName"] = L"다람쥐";

@@ -1,7 +1,50 @@
 #include "BaseSpawnerObject.h"
 
+#include "DefenseEnemy.h"
+
 namespace GOTOEngine
 {
+	void SetScaleByEnemyType(GameObject* enemyObject, E_Defense_Enemy_Type type)
+	{
+		Vector2 scale = { 0.6f, 0.6f };
+
+		switch (type)
+		{
+		case E_Defense_Enemy_Type::d_mole: // µÎ´õÁö
+			scale = { 0.15f, 0.15f };
+			break;
+		case E_Defense_Enemy_Type::d_crow: // ±î¸¶±Í
+			scale = { 0.6f, 0.6f };
+			break;
+		case E_Defense_Enemy_Type::d_rabbit: // Åä³¢
+			scale = { 0.24f, 0.24f };
+			break;
+		case E_Defense_Enemy_Type::d_squirrel: // ´Ù¶÷Áã
+			scale = { 0.3f, 0.3f };
+			break;
+		case E_Defense_Enemy_Type::d_thiefMole: // µµµÏµÎ´õÁö
+			scale = { 0.15f, 0.15f };
+			break;
+		case E_Defense_Enemy_Type::d_iceCrow: // ¾óÀ½»õ
+			scale = { 0.3f, 0.3f };
+			break;
+		case E_Defense_Enemy_Type::d_bombCrow: // ÆøÅº»õ
+			scale = { 0.3f, 0.3f };
+			break;
+		case E_Defense_Enemy_Type::d_mushCrow: // ¹ö¼¸»õ
+			scale = { 0.3f, 0.3f };
+			break;
+		default:
+			break;
+		}
+
+		if (enemyObject && enemyObject->GetTransform())
+		{
+			enemyObject->GetTransform()->SetLossyScale(scale);
+		}
+	}
+
+
 	std::wstring TypetoString(E_Defense_Enemy_Type type)
 	{
 		switch (type)
@@ -16,6 +59,20 @@ namespace GOTOEngine
 		case E_Defense_Enemy_Type::d_mushCrow:  return L"¹ö¼¸»õ";
 		default:                                return L"";
 		}
+	}
+
+	E_Defense_Enemy_Type GetDefenseEnemyType(const std::wstring& enemyName)
+	{
+		if (enemyName == L"µÎ´õÁö") return E_Defense_Enemy_Type::d_mole;
+		if (enemyName == L"±î¸¶±Í") return E_Defense_Enemy_Type::d_crow;
+		if (enemyName == L"Åä³¢") return E_Defense_Enemy_Type::d_rabbit;
+		if (enemyName == L"´Ù¶÷Áã") return E_Defense_Enemy_Type::d_squirrel;
+		if (enemyName == L"µµµÏµÎ´õÁö") return E_Defense_Enemy_Type::d_thiefMole;
+		if (enemyName == L"¾óÀ½»õ") return E_Defense_Enemy_Type::d_iceCrow;
+		if (enemyName == L"ÆøÅº»õ") return E_Defense_Enemy_Type::d_bombCrow;
+		if (enemyName == L"¹ö¼¸»õ") return E_Defense_Enemy_Type::d_mushCrow;
+
+		return defense_type_count;
 	}
 
 	std::wstring GetDefenseEnemyTypeString(E_Defense_Fly_Type type)
@@ -130,6 +187,12 @@ namespace GOTOEngine
 		if (!enemyName.empty())
 		{
 			newEnemyObject->name = enemyName;
+
+			E_Defense_Enemy_Type dEnemyType = GetDefenseEnemyType(enemyName);
+			if (auto enemyComp = newEnemyObject->GetComponent<DefenseEnemy>())
+			{
+				enemyComp->SetDefenseEnemyType(dEnemyType);
+			}
 		}
 	}
 }

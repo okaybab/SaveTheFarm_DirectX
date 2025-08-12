@@ -54,7 +54,7 @@ namespace GOTOEngine
 				m_disPoneTime = 8.0f;
 				GetGameObject()->name = L"두더지";
 				SetRandomYPosition(-0.3f, -0.1f);
-				GetTransform()->SetLossyScale({ 0.12f, 0.12f });
+				GetTransform()->SetLossyScale({ 0.15f, 0.15f });
 				break;
 			case crow_1:
 				m_moveFlag = 0b0001;

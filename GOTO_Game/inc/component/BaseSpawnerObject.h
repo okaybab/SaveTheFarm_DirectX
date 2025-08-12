@@ -146,6 +146,8 @@ namespace GOTOEngine
 	};
 
 	std::wstring TypetoString(E_Defense_Enemy_Type type);
+	E_Defense_Enemy_Type GetDefenseEnemyType(const std::wstring& enemyName);
+	void SetScaleByEnemyType(GameObject* enemyObject, E_Defense_Enemy_Type type);
 	std::wstring GetDefenseEnemyTypeString(E_Defense_Fly_Type type);
 	std::wstring GetDefenseGimmickTypeString(E_Defense_Gimmick_Type type);
 	std::wstring CreateCombinedString(E_Defense_Fly_Type enemyType, E_Defense_Gimmick_Type gimmickType);
