@@ -135,8 +135,36 @@ namespace GOTOEngine
 		void InitializeMovement()
 		{
 			m_movementComponents.clear();
+			if (m_moveFlag & 0b1001)
+			{
+				if (auto comp = GetComponent<MovementParabolic>())
+				{
+					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+					m_movementComponents.push_back(comp);
+				}
+				else
+				{
+					comp =AddComponent<MovementParabolic>();
+					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					m_movementComponents.push_back(comp);
+				}
+				if (auto comp = GetComponent<MovementLeftRight>())
+				{
+					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+					m_movementComponents.push_back(comp);
+				}
+				else
+				{
+					comp = AddComponent<MovementLeftRight>();
+					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+					m_movementComponents.push_back(comp);
+				}
 
-			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000 (곡선)
+			}
+			else if (m_moveFlag & MOVE_PARABOLIC) // 0b1000 (곡선)
 			{
 				if (auto comp = GetComponent<MovementParabolic>())
 				{
