@@ -148,7 +148,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\component\SpawnerObject.cpp" />
+    <ClCompile Include="src\component\BaseSpawnerObject.cpp" />
     <ClCompile Include="src\component\DefenseModeCameraManager.cpp" />
     <ClCompile Include="src\component\CrosshairController.cpp" />
     <ClCompile Include="src\scene\DefenseScene.cpp" />
@@ -182,9 +182,8 @@
     <ClCompile Include="src\component\StartAnimal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\component\SpawnerObject.h" />
+    <ClInclude Include="inc\component\BaseSpawnerObject.h" />
     <ClInclude Include="inc\component\AnimateSprite.h" />
-    <ClInclude Include="inc\component\BaseSpawnObject.h" />
     <ClInclude Include="inc\component\CompetEnemy.h" />
     <ClInclude Include="inc\component\CrosshairController.h" />
     <ClInclude Include="inc\component\DefenseModeCameraManager.h" />

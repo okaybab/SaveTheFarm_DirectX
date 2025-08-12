@@ -10,7 +10,10 @@
 #include <any>
 #include <map>
 
+// interface
 #include "IAttackAble.h"
+
+// manager
 #include "GameManager.h"
 #include "SoundManager.h"
 #include "EnemySpawnManager.h"
@@ -21,10 +24,6 @@
 #include "MovementUpDown.h"
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
-
-// spawner
-#include "SpawnerObject.h"
-
 
 namespace GOTOEngine
 {
@@ -71,14 +70,13 @@ namespace GOTOEngine
 		return E_Enemy_Anim_State::IDLE;
 	}
 
+	class EnemySpawner;
 	class BaseEnemyObject : public ScriptBehaviour,
 							public IAttackAble
 	{
 	private:
 		// move
-		std::vector<BaseMovement*> m_movementComponents;
-		Vector2 m_currentPathPosition;	// 중심축 위치 변수
-
+		
 	protected:
 		E_EnemyType m_enemyType = E_EnemyType::move;
 		E_Enemy_Anim_State m_animState = E_Enemy_Anim_State::MOVE;
@@ -87,6 +85,8 @@ namespace GOTOEngine
 		int m_moveFlag;
 		bool m_isMoveLoop = true;
 		float m_moveSpeed = 1.0f;
+		Vector2 m_currentPathPosition;	// 중심축 위치 변수
+		std::vector<BaseMovement*> m_movementComponents;
 
 		// hp, score
 		float m_enemyHp = 1.0f;

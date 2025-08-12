@@ -1,6 +1,7 @@
 ﻿#include "EnemySpawnManager.h"
 #include "Screen.h"
 
+// manager
 #include "GameManager.h"
 
 // enemy
@@ -17,7 +18,7 @@
 #include "MovementParabolic.h"
 
 // spawner
-#include "SpawnerObject.h"
+#include "BaseSpawnerObject.h"
 
 using namespace GOTOEngine;
 
@@ -54,17 +55,17 @@ void GOTOEngine::EnemySpawnManager::Awake()
 		}
 
 		std::vector<std::pair<std::wstring, std::wstring>> spriteList = {
-			{L"두더지", L"../Resources/artResource/Sprint/Mole_die.png"},
-			{L"까마귀", L"../Resources/artResource/Sprint/Crow_die.png"},
+			{L"두더지", L"../Resources/artResource/SpriteSheet/Mole/Mole_Die.png"},
+			{L"까마귀", L"../Resources/artResource/SpriteSheet/Crow/Crow_Die.png"},
 
-			{L"토끼", L"../Resources/artResource/Sprint/Rabbit_die.png"},
-			{L"다람쥐", L"../Resources/artResource/Sprint/Squirrel_die.png"},
-			{L"도둑두더지", L"../Resources/artResource/Sprint/ThiefMole_die.png"},
+			{L"토끼", L"../Resources/artResource/SpriteSheet/Rabbit/Rabbit_Die.png"},
+			{L"다람쥐", L"../Resources/artResource/SpriteSheet/Squirrel/Squirrel_Die.png"},
+			{L"도둑두더지", L"../Resources/artResource/SpriteSheet/Mole/ThiefMole_Die.png"},
 			
-			{L"얼음새", L"../Resources/artResource/Sprint/IceCrow_die.png"},
-			{L"폭탄새", L"../Resources/artResource/Sprint/BomCrow_die.png"},
-			{L"황금새", L"../Resources/artResource/Sprint/GoldCrow_die.png"},
-			{L"황금두더지", L"../Resources/artResource/Sprint/GoldMole_die.png"},
+			{L"얼음새", L"../Resources/artResource/SpriteSheet/Crow/IceCrow_Die.png"},
+			{L"폭탄새", L"../Resources/artResource/SpriteSheet/Crow/BombCrow_Die.png"},
+			{L"황금새", L"../Resources/artResource/SpriteSheet/Crow/GoldCrow_Die.png"},
+			{L"황금두더지", L"../Resources/artResource/SpriteSheet/Mole/GoldMole_Die.png"},
 		};
 		for (const auto& [key, path] : spriteList)
 		{
@@ -149,8 +150,23 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 {
 	auto spawner = GetSpawner(L"지상");
 	GameObject* newEnemyObject = new GameObject(L"지상");
-	auto comp = newEnemyObject->AddComponent<MoveEnemy>();
-	comp->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+
+
+	
+	ParameterMap params;
+	params["EnemyType"] = static_cast<E_Move_Enemy_Type>(crow_1);
+
+	newEnemyObject->AddComponent<MoveEnemy>();
+	newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
+	newEnemyObject->GetComponent<MoveEnemy>()->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+
+
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+	newEnemyObject->layer = 1;
+
+	m_p1Enemy.push_back(newEnemyObject);
+	m_p2Enemy.push_back(newEnemyObject);
+	
 
 }
 

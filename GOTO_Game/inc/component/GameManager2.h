@@ -39,6 +39,16 @@ namespace GOTOEngine
 		Sprite* losepannel;
 		Text* catchtext;
 		Text* croptext;
+		Image* focus;
+		Sprite* focusui;
+		Image* retry;
+		Image* totitle;
+		Sprite* retrybutton;
+		Sprite* totitlebutton;
+		int focuschoice = 1;
+		bool pannelopen = false;
+		bool changestart = false;
+		bool reset = false;
 
 		Image* wavebarout;
 		Image* wavebarin;
@@ -79,6 +89,12 @@ namespace GOTOEngine
 		Sprite* crop22;
 		Sprite* crop21;
 
+		bool m_YpressedUpTrigger[2];
+		bool m_YpressedDownTrigger[2];
+
+		bool m_YstickPressedUp[2];
+		bool m_YstickPressedDown[2];
+
 	public:
     GameManager2()
     {
@@ -86,11 +102,11 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
         REGISTER_BEHAVIOUR_MESSAGE(Start);
         REGISTER_BEHAVIOUR_MESSAGE(Update);
+		REGISTER_BEHAVIOUR_MESSAGE(OnSceneLoaded);
     }
 		int winner;
 		float GameTimer = 180.0f;
 		int CropGauge = 8;
-		float endingTimer = 3.0f;
 		int animalcatch;
 		static GameManager2* instance;
 		bool setactive = false;
@@ -98,5 +114,8 @@ namespace GOTOEngine
 		void Start();
 		void Update();
 		void OnDestroy();
+		void OnSceneLoaded();
+		void StickPressedCheck();
+		void StickPressedCheckReset();
 	};
 }

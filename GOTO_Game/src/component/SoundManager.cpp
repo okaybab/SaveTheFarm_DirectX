@@ -21,7 +21,9 @@ void SoundManager::Awake() {
 			{"Round", L"../Resources/Sound/Sound effect/round_sound.wav"},
 			{"Sling", L"../Resources/Sound/Sound effect/Sling_sound.wav"},
 			{"Warning", L"../Resources/Sound/Sound effect/Warning_sound.mp3"},
-			{"Mushroom", L"../Resources/Sound/Sound effect/Mushroom_Sound.wav"}
+			{"Mushroom", L"../Resources/Sound/Sound effect/Mushroom_Sound.wav"},
+			{"ShotBig1P", L"../Resources/Sound/Sound effect/ShotBig1P_sound.wav" },
+			{"ShotBig2P", L"../Resources/Sound/Sound effect/ShotBig2P_sound.wav" }
 		};
 
 		for (const auto& [key, path] : sfxList) {

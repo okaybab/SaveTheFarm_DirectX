@@ -1,5 +1,6 @@
 #include "StartAnimal.h"
 #include "SoundManager.h"
+#include "EnemySpawnManager.h"
 #include "Starthit.h"
 
 using namespace GOTOEngine;
@@ -195,20 +196,20 @@ void StartAnimal::Awake() {
 	crow->AddComponent<Animator>()->SetAnimatorController(crowanimator);
 	goldcrow->AddComponent<Animator>()->SetAnimatorController(goldcrowanimator);
 	thiefmole->AddComponent<Animator>()->SetAnimatorController(thiefmoleanimator);
-	crow->GetTransform()->SetLossyScale({ 0.3f, 0.3f });
+	crow->GetTransform()->SetLossyScale({ 0.6f, 0.6f });
 	goldcrow->GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 	thiefmole->GetTransform()->SetLossyScale({ 0.12f, 0.12f });
 	crow->GetTransform()->SetPosition({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.4f });
 	goldcrow->GetTransform()->SetPosition({ Screen::GetWidth() * ( - 0.3f), Screen::GetHeight() * 0.05f});
 	thiefmole->GetTransform()->SetPosition({ Screen::GetWidth() * 0.2f, Screen::GetHeight() * (-0.3f) });
-	crowdie = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Crow_die.png");
+	crowdie = Resource::Load<Sprite>(L"../Resources/artResource/SpriteSheet/Crow/Crow_Die.png");
 	crowdie->IncreaseRefCount();
 	golddie = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/GoldCrow_die.png");
 	golddie->IncreaseRefCount();
 	thiefdie = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/ThiefMole_die.png");
 	thiefdie->IncreaseRefCount();
 	auto crowrect = crowdie->GetRect();
-	crow->AddComponent<Collider2D>()->SetSize({crowrect.width*0.3f,crowrect.height*0.3f});
+	crow->AddComponent<Collider2D>()->SetSize({crowrect.width * crow->GetTransform()->GetLossyScale().x,crowrect.height * crow->GetTransform()->GetLossyScale().x });
 	auto goldrect = golddie->GetRect();
 	goldcrow->AddComponent<Collider2D>()->SetSize({ goldrect.width * 0.3f,goldrect.height * 0.3f });
 	auto thiefrect = thiefdie->GetRect();

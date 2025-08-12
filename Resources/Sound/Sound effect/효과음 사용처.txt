@@ -40,3 +40,8 @@ Continuous 연사 효과
 
 
 >>>>>>> .r123
+
+ShotBig1P_sound
+ShotBig2P_sound
+
+버섯 사격 사운드 추가 1P 2P 다르게 출력

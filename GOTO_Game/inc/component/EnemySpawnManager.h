@@ -51,8 +51,6 @@ namespace GOTOEngine
 		std::unordered_map<std::wstring, Sprite*> m_sprites;
 		std::unordered_map<std::wstring, EnemySpawner*> m_spawners;
 
-
-
 	public:
 		virtual ~EnemySpawnManager() = default;
 
