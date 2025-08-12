@@ -17,6 +17,7 @@
 #include "CameraMove.h"
 #include "CrosshairMove.h"
 #include "DefenseModeCameraManager.h"
+#include "CrosshairController.h"
 
 void DefenseScene::Initialize()
 {
@@ -89,11 +90,38 @@ void DefenseScene::Initialize()
 
 	if (Object::IsValidObject(p1))
 	{
-		p1->GetComponent<CrosshairMove>()->cam = CommonCam;
+		p1->GetComponent<CrosshairMove>()->cam = CommonCam;		
+		auto collide = p1->GetComponent<CrosshairCollide>();
+		collide->commonCam = CommonCam;
+		collide->p1Cam = player1Cam;
+		collide->p2Cam = player2Cam;
+
+		auto controller = p1->GetComponent<CrosshairController>();
+		for (auto& crosshair : controller->subCrosshairs)
+		{
+			auto subCollide = crosshair->GetComponent<CrosshairCollide>();
+			subCollide->commonCam = CommonCam;
+			subCollide->p1Cam = player1Cam;
+			subCollide->p2Cam = player2Cam;
+		}
 	}
 	if (Object::IsValidObject(p2))
 	{
 		p2->GetComponent<CrosshairMove>()->cam = CommonCam;
+		auto collide = p2->GetComponent<CrosshairCollide>();
+		
+		collide->commonCam = CommonCam;
+		collide->p1Cam = player1Cam;
+		collide->p2Cam = player2Cam;
+
+		auto controller = p2->GetComponent<CrosshairController>();
+		for (auto& crosshair : controller->subCrosshairs)
+		{
+			auto subCollide = crosshair->GetComponent<CrosshairCollide>();
+			subCollide->commonCam = CommonCam;
+			subCollide->p1Cam = player1Cam;
+			subCollide->p2Cam = player2Cam;
+		}
 	}
 
 	//배경 이미지

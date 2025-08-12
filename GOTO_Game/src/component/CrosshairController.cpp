@@ -233,6 +233,11 @@ void GOTOEngine::CrosshairController::Update()
     //    ChangeType(CrosshairType::BigGun);
     //}
 
+    if (INPUT_GET_KEYDOWN(KeyCode::F9))
+    {
+        SCENE_CHANGE_SCENE(L"StartScene");
+    }
+
     //트랜지션 체크 및 애니메이션 처리
     switch (m_type)
     {

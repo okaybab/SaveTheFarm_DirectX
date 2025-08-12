@@ -28,7 +28,7 @@ void GOTOEngine::GameObject::RegisterComponent(Component* comp)
 	m_components.push_back(comp);
 }
 
-void GOTOEngine::GameObject::UnregisterComponent(Component* comp)
+void GOTOEngine::GameObject::UnRegisterComponent(Component* comp)
 {
 	auto it = std::find(m_components.begin(), m_components.end(), comp);
 	if (it != m_components.end()) {
