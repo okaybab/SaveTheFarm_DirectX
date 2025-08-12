@@ -147,6 +147,30 @@ void GameManager2::Awake() {
 		croptext->GetRectTransform()->SetAnchoredPosition({
 				Screen::GetWidth() * 0.57f, Screen::GetHeight() * 0.56f });
 		croptext->GetRectTransform()->SetSizeDelta({ 200,100 });
+		auto focusobject = new GameObject;
+		focusobject->GetTransform()->SetParent(canvas->GetTransform());
+		focus = focusobject->AddComponent<Image>();
+		focus->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.25f, Screen::GetHeight() * 0.1f });
+		focus->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		focus->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.45f });
+		focus->SetSprite(nullptr);
+		focusui = Resource::Load<Sprite>(L"../Resources/Demo/FocusUI.png");
+		auto retryobject = new GameObject;
+		retryobject->GetTransform()->SetParent(canvas->GetTransform());
+		retry = retryobject->AddComponent<Image>();
+		retry->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.1f });
+		retry->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		retry->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.45f });
+		retry->SetSprite(nullptr);
+		retrybutton = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/다시하기.png");
+		auto totitleobject = new GameObject;
+		totitleobject->GetTransform()->SetParent(canvas->GetTransform());
+		totitle = totitleobject->AddComponent<Image>();
+		totitle->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.2f, Screen::GetHeight() * 0.1f });
+		totitle->GetRectTransform()->SetPivot({ 0.5f,0.5f });
+		totitle->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.32f });
+		totitle->SetSprite(nullptr);
+		totitlebutton = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/타이틀로.png");
 
 		auto barobject1 = new GameObject;
 		barobject1->GetTransform()->SetParent(canvas->GetTransform());
@@ -282,6 +306,9 @@ void GameManager2::OnDestroy() {
 }
 
 void GameManager2::Update() {
+	StickPressedCheckReset();
+	StickPressedCheck();
+
 	if (setactive) {
 		if (IsValidObject(Tutorial))
 		{
@@ -469,22 +496,60 @@ void GameManager2::Update() {
 	}
 	else {
 		if (GameTimer == 0.0f) {
-			endingTimer -= TIME_GET_DELTATIME();
-			if (CropGauge > 0 ) {
+			if (CropGauge > 0 && !pannelopen) {
 				winner = 1;
+				focuschoice = 2;
 				endpannel->SetSprite(winpannel);
 				catchtext->text = std::to_wstring(animalcatch);
 				croptext->text = std::to_wstring(8-CropGauge);
+				pannelopen = true;
 			}
-			else {
+			else if(CropGauge<=0 && !pannelopen) {
 				winner = 0;
+				focuschoice = 1;
 				endpannel->SetSprite(losepannel);
+				pannelopen = true;
 			}
-			if (endingTimer <= 0.0f) {
+			focus->SetSprite(focusui);
+			retry->SetSprite(retrybutton);
+			totitle->SetSprite(totitlebutton);
+			if ((INPUT_GET_KEYDOWN(KeyCode::DownArrow) || INPUT_GET_KEYDOWN(KeyCode::F) || m_YstickPressedDown[0]
+				|| m_YstickPressedDown[1]) && focuschoice == 1) {
+				SoundManager::instance->PlaySFX("Button");
+				focuschoice = 2;
+			}
+			if ((INPUT_GET_KEYDOWN(KeyCode::UpArrow) || INPUT_GET_KEYDOWN(KeyCode::R) || m_YstickPressedUp[0]
+				|| m_YstickPressedUp[1]) && focuschoice == 2) {
+				SoundManager::instance->PlaySFX("Button");
+				focuschoice = 1;
+			}
+			if (focuschoice == 1) {
+				focus->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.45f });
+			}
+			else if (focuschoice == 2) {
+				focus->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.32f });
+			}
+			if ((INPUT_GET_KEYDOWN(KeyCode::LeftShift) || INPUT_GET_KEYDOWN(KeyCode::RightShift) || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonSouth)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonR1)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1)) && focuschoice == 1) {
+				SoundManager::instance->PlaySFX("Button");
 				FadeInOutFXManager::instance->FadeOut();
-				if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()) {
-					SCENE_CHANGE_SCENE(L"StartScene");
-				}
+				reset = true;
+			}
+			if ((INPUT_GET_KEYDOWN(KeyCode::LeftShift) || INPUT_GET_KEYDOWN(KeyCode::RightShift) || INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonSouth)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonSouth)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonR1)
+				|| INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1)) && focuschoice == 2) {
+				SoundManager::instance->PlaySFX("Button");
+				FadeInOutFXManager::instance->FadeOut();
+				changestart = true;
+			}
+			if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()&&reset) {
+				SCENE_CHANGE_SCENE(L"DefenseScene");
+			}
+			if (FadeInOutFXManager::instance->IsPerfectlyFadeOut()&&changestart) {
+				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}
 		if (Tutorial)
@@ -508,4 +573,46 @@ void GameManager2::Update() {
 	}
 	totalSeconds = static_cast<int>(floor(GameTimer));
 	Timetext->text = std::to_wstring(totalSeconds);
+}
+
+void GameManager2::OnSceneLoaded() {
+	std::memset(m_YpressedUpTrigger, false, sizeof(m_YpressedUpTrigger));
+	std::memset(m_YpressedDownTrigger, false, sizeof(m_YpressedDownTrigger));
+	StickPressedCheckReset();
+}
+
+void GameManager2::StickPressedCheck()
+{
+	for (int i = 0; i < 2; i++)
+	{
+		auto currentYstick = INPUT_GET_GAMEPAD_AXIS(i, GamepadAxis::LeftStickY);
+		if (!m_YpressedUpTrigger[i] && !m_YpressedDownTrigger[i])
+		{
+			if (currentYstick > 0.89f)
+			{
+				m_YpressedUpTrigger[i] = true;
+				m_YstickPressedUp[i] = true;
+				return;
+			}
+
+			if (currentYstick < -0.89f)
+			{
+				m_YpressedDownTrigger[i] = true;
+				m_YstickPressedDown[i] = true;
+				return;
+			}
+		}
+		else if ((m_YpressedDownTrigger[i] && currentYstick > -0.2f)
+			|| (m_YpressedUpTrigger[i] && currentYstick < 0.2f))
+		{
+			m_YpressedDownTrigger[i] = false;
+			m_YpressedUpTrigger[i] = false;
+		}
+	}
+}
+
+void GameManager2::StickPressedCheckReset()
+{
+	std::memset(m_YstickPressedUp, false, sizeof(m_YstickPressedUp));
+	std::memset(m_YstickPressedDown, false, sizeof(m_YstickPressedDown));
 }
