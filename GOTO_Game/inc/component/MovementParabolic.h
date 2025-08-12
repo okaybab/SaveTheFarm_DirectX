@@ -27,6 +27,7 @@ namespace GOTOEngine
 
     public:
         Delegate<void> OnFlipDirection;
+       
 
     public:
         void Initialize(float _min, float _max)
@@ -53,7 +54,7 @@ namespace GOTOEngine
 
             m_startPos = _startPos;
             m_endPos = _endPos;
-            m_height = 100.0f;
+            m_height = 200.0f;
             m_moveSpeed = 2.0f * speed;
         }
 
@@ -93,6 +94,7 @@ namespace GOTOEngine
                         m_progress = 0.0f;
                         FlipDirection();
                         OnFlipDirection.Invoke();
+                        OnEndPoint.Invoke();
                         std::swap(m_startPos, m_endPos);
                     }
                     else m_progress = 1.0f;

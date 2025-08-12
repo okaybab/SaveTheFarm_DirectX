@@ -183,7 +183,9 @@ namespace GOTOEngine
 			{							
 				m_enemyType = E_EnemyType::move;
 				m_isMoveLoop = false;
+				m_disPoneTime = 30.0f;
 				m_moveFlag = m_spawner->GetRandomMoveFlag();
+				std::cout << "move flag : " << m_moveFlag << std::endl;
 				m_moveSpeed *= 1.3f;
 				GetGameObject()->name = L"까마귀";
 				GetTransform()->SetPosition(m_StartPos);
@@ -217,24 +219,13 @@ namespace GOTOEngine
 
 		void SetUpMovementComponents()
 		{
-			//auto comp = AddComponent<MovementParabolic>();
-			//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
-			//comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-
-			//m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-			//comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
-
-			
-			// 2. spawner에서 모든 적의 플래그를 가져옵니다.
 			auto enemyMoves = m_spawner->GetFlags();
 
-			// 3. for 루프를 돌면서 모든 플래그를 OR 연산으로 합칩니다.
 			for (EnemyMove* enemyMove : enemyMoves)
 			{
 				combinedFlags |= enemyMove->GetFlag();
 			}
 
-			// flag 스크립트	부착
 			if (combinedFlags & MOVE_CIRCULAR) // 0b0100
 			{
 				AddComponent<MoveCircle>()->SetEnabled(m_moveFlag & MOVE_CIRCULAR);
@@ -244,6 +235,7 @@ namespace GOTOEngine
 				auto comp = AddComponent<MovementParabolic>();
 				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
 				comp->OnFlipDirection.Add<MoveEnemy>(this, &MoveEnemy::SetFlipXSprite);
+				comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
 				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
 			}
@@ -254,21 +246,25 @@ namespace GOTOEngine
 					auto comp = AddComponent<MovementLeftRight>();
 					comp->SetEnabled(m_moveFlag & MOVE_LEFT_RIGHT);
 					//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
+					comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
 					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+
 				}
 				if (combinedFlags & MOVE_UP_DOWN) // 0b0010
 				{
 					auto comp = AddComponent<MovementUpDown>();
 					comp->SetEnabled(m_moveFlag & MOVE_UP_DOWN);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
+					comp->Initialize(Screen::GetHeight() * -0.5f, Screen::GetHeight() * 0.5f);
+
 				}
 			}
 
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 		}
-		void InitiaizeMovement()
+		void OnEndEvent()
 		{
-
+			//std::cout << "OnEndEvent()" << std::endl;
 		}
 
 		void Update() override

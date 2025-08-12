@@ -42,6 +42,8 @@ namespace GOTOEngine
         float m_maxBounds = 0.0f;   // 최대 경계
 
         Vector2 m_initializePos;
+    public:
+        Delegate<void> OnEndPoint;
 
     public:
     BaseMovement()
@@ -50,7 +52,7 @@ namespace GOTOEngine
         REGISTER_BEHAVIOUR_MESSAGE(OnDestroy);
     }
         virtual void Awake() {}
-        virtual void OnDestroy() {}
+        virtual void OnDestroy() { OnEndPoint.Clear(); }
 
         virtual void Initialize(int moveFlag, Vector2 initialPos, float speed)
         { 
