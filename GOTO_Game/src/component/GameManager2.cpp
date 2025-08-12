@@ -152,6 +152,7 @@ void GameManager2::Awake() {
 		focus->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.45f });
 		focus->SetSprite(nullptr);
 		focusui = Resource::Load<Sprite>(L"../Resources/Demo/FocusUI.png");
+		focusui->IncreaseRefCount();
 		auto retryobject = new GameObject;
 		retryobject->GetTransform()->SetParent(canvas->GetTransform());
 		retry = retryobject->AddComponent<Image>();
@@ -160,6 +161,7 @@ void GameManager2::Awake() {
 		retry->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.45f });
 		retry->SetSprite(nullptr);
 		retrybutton = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/다시하기.png");
+		retrybutton->IncreaseRefCount();
 		auto totitleobject = new GameObject;
 		totitleobject->GetTransform()->SetParent(canvas->GetTransform());
 		totitle = totitleobject->AddComponent<Image>();
@@ -168,6 +170,7 @@ void GameManager2::Awake() {
 		totitle->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.32f });
 		totitle->SetSprite(nullptr);
 		totitlebutton = Resource::Load<Sprite>(L"../Resources/artResource/UI/Endgame/협동 모드 게임 종료 UI/타이틀로.png");
+		totitlebutton->IncreaseRefCount();
 
 		auto barobject1 = new GameObject;
 		barobject1->GetTransform()->SetParent(canvas->GetTransform());
@@ -305,6 +308,12 @@ void GameManager2::OnDestroy() {
 		crop22->DecreaseRefCount();
 	if (IsValidObject(crop21))
 		crop21->DecreaseRefCount();
+	if (IsValidObject(focusui))
+		focusui->DecreaseRefCount();
+	if (IsValidObject(retrybutton))
+		retrybutton->DecreaseRefCount();
+	if (IsValidObject(totitlebutton))
+		totitlebutton->DecreaseRefCount();
 }
 
 void GameManager2::Update() {
