@@ -24,6 +24,13 @@
             "clipLength": 1.0166666507720948,
             "loop": false,
             "transitions": []
+        },
+		{
+            "name": "Dispone",
+            "motionName": "Crow_Dispone",
+            "clipLength": 1.0166666507720948,
+            "loop": false,
+            "transitions": []
         }
     ],
     "anyStateTransitions": []

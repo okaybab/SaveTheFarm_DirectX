@@ -98,7 +98,7 @@ namespace GOTOEngine
 				}
 			}
 
-			if (currentPoint + 1 != m_points.size())
+			if (currentPoint < m_points.size() - 1)
 			{
 				m_EndPos = m_points[currentPoint + 1]->GetPosition();
 			}
@@ -106,7 +106,6 @@ namespace GOTOEngine
 			{
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
-
 		}
 
 		void Awake()
@@ -118,6 +117,7 @@ namespace GOTOEngine
 			m_enemyType = E_EnemyType::move;
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
+			//m_moveSpeed = 0.05f;
 			m_moveFlag = m_spawner->GetRandomMoveFlag();
 			GetGameObject()->name = L"까마귀";
 			GetTransform()->SetPosition(m_StartPos);
@@ -128,13 +128,9 @@ namespace GOTOEngine
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
-			if (controller == nullptr) { std::cout << "" << std::endl; return; }
-
 			controller->SetOnAnimationEnd([this, controller]() {
-				if (m_animState == DIE || m_animState == ESCAPE)
+				if (m_animState == DIE || m_animState == DISPONE)
 				{
-					if (m_isCrop) return;
-
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());
 				}
@@ -200,47 +196,55 @@ namespace GOTOEngine
 
 		void InitializeMovement()
 		{
-			if (combinedFlags & MOVE_CIRCULAR) // 0b0100
-			{
-				GetComponent<MoveCircle>()->SetEnabled(m_moveFlag & MOVE_CIRCULAR);
-			}
-			if (combinedFlags & MOVE_PARABOLIC) // 0b1000
-			{
-				auto comp = GetComponent<MovementParabolic>();
-				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
+			m_movementComponents.clear();
 
-				std::cout << "m_StartPos.x :: " << m_StartPos.x << "m_StartPos.y :: " << m_StartPos.y << std::endl;
-				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
-
-				if (!(combinedFlags & MOVE_PARABOLIC && combinedFlags & MOVE_LEFT_RIGHT && combinedFlags & MOVE_UP_DOWN)) // 1011 == 1000
+			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
+			{
+				if (auto comp = GetComponent<MoveCircle>())
 				{
-					if (combinedFlags & MOVE_LEFT_RIGHT) // 0b0001
-					{
-						auto comp = AddComponent<MovementLeftRight>();
-						comp->SetEnabled(m_moveFlag & MOVE_LEFT_RIGHT);
-						//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
-						comp->testInitialize(m_moveSpeed);
-						comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
-					}
+					m_movementComponents.push_back(comp);
 				}
 			}
+
+			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			{
+				if (auto comp = GetComponent<MovementParabolic>())
+				{
+					m_movementComponents.push_back(comp);
+					comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
+					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+				}
+			}
+
+			if (m_moveFlag & MOVE_LEFT_RIGHT)
+			{
+				if (auto comp = GetComponent<MovementLeftRight>())
+				{
+					m_movementComponents.push_back(comp);
+					comp->testInitialize(m_moveSpeed);
+					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+				}
+			}
+
 		}
 
 		void OnEndEvent()
 		{
-			if (m_points.empty() || currentPoint >= m_points.size() - 1)
+			if (currentPoint < m_points.size() - 1)
+			{
+				currentPoint++;
+			}
+			else
 			{
 				return;
 			}
-
-			std::cout << "OnEndEvent()" << std::endl;
+			
 			t = 0.0f;
-
-			currentPoint++;
 
 			SetCurrentPoint();
 
-			m_moveFlag = m_spawner->GetRandomMoveFlag();
+			if (m_isCrop) m_moveFlag = 0b0000;
+			else m_moveFlag = m_spawner->GetRandomMoveFlag();
 
 			m_StartPos = GetGameObject()->GetTransform()->GetPosition();
 			m_currentPathPosition = m_StartPos;
@@ -253,6 +257,9 @@ namespace GOTOEngine
 
 		void Update() override
 		{
+
+			__super::Update();
+
 			if (m_isCrop)
 			{
 				cropTime -= TIME_GET_DELTATIME();
@@ -260,29 +267,26 @@ namespace GOTOEngine
 				if (cropTime <= 0.0f)
 				{
 					m_isCrop = false;
-					SetState(ESCAPE);
+					m_moveFlag = m_spawner->GetRandomMoveFlag();
+					InitializeMovement();
 				}
-
-				return;
 			}
-
-			__super::Update();
-
-			if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)
+			else
 			{
-				//*/ m_StartPos와 m_EndPos 사이의 t 비율만큼의 위치를 계산합니다.
-				t += TIME_GET_DELTATIME() * m_moveSpeed;
-				m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
-				m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
-				//*/
-
-				if ((m_currentPathPosition - m_EndPos).Magnitude() < 10.0f) //x,y endpos에 거의 가까우면?
+				if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)
 				{
-					OnEndEvent();
+					t += TIME_GET_DELTATIME() * m_moveSpeed;
+					m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
+					m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
+
+					if ((m_currentPathPosition - m_EndPos).Magnitude() < 1.0f)
+					{
+						OnEndEvent();
+					}
 				}
 			}
+			
 		}
-
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
 		void OnDie(int attackerID, bool isGimmick = true) override
@@ -293,20 +297,8 @@ namespace GOTOEngine
 		void OnDispone() override
 		{
 			__super::OnDispone();
+			SetState(E_Enemy_Anim_State::DISPONE);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
-			if (m_gameType == E_Game_Type::GAME1)
-			{
-				if (m_layer & 1 << 1)
-				{
-					GameManager::instance->PointChange(1, -1);
-					GameManager::instance->P1Lost++;
-				}
-				else if (m_layer & 1 << 2)
-				{
-					GameManager::instance->PointChange(2, -1);
-					GameManager::instance->P2Lost++;
-				}
-			}
 		}
 		void OnGimmick()
 		{

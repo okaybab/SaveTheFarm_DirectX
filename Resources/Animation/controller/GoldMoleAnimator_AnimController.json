@@ -24,6 +24,13 @@
             "clipLength": 1.75,
             "loop": false,
             "transitions": []
+        },
+        {
+            "name": "Dispone",
+            "motionName": "GoldMole_Escape",
+            "clipLength": 1.75,
+            "loop": false,
+            "transitions": []
         }
     ],
     "anyStateTransitions": []

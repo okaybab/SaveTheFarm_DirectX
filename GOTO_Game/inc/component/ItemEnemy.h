@@ -66,7 +66,7 @@ namespace GOTOEngine
 
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
-				if (m_animState == DIE || m_animState == ESCAPE)
+				if (m_animState == DIE || m_animState == DISPONE)
 				{
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());

@@ -2,7 +2,6 @@
 	"spawnName": "fly_Points",
 	"points":[
 		{
-			"number": 0,
 			"random_x": true,
 			"random_y": false,
 			"random_x_range":
@@ -15,15 +14,13 @@
 			"state": "Move"
 		},
 		{
-			"number": 1,
 			"random_x": false,
 			"random_y": false,
 			"crop": true,
 			"speed": 1.0,
-			"state": "Move"
+			"state": "Escape"
 		},
 		{
-			"number": 3,
 			"random_x": true,
 			"random_y": false,
 			"random_x_range":
@@ -33,7 +30,7 @@
 			},
 			"y": 0.5,
 			"speed": 1.5,
-			"state": "Escape"
+			"state": "Dispone"
 		}
 	],
 	"moveFlags":[

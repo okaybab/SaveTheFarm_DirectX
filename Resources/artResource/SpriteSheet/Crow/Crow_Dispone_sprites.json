@@ -5,7 +5,7 @@
     "textureRenderMode": "Bilinear",
     "sprites": [
         {
-            "name": "Crow_Escape_0",
+            "name": "Crow_Dispose_0",
             "x": 76.0,
             "y": 1218.0,
             "width": 307.0,
@@ -14,7 +14,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_1",
+            "name": "Crow_Dispose_1",
             "x": 456.0,
             "y": 1215.0,
             "width": 373.0,
@@ -23,7 +23,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_2",
+            "name": "Crow_Dispose_2",
             "x": 851.0,
             "y": 1212.0,
             "width": 417.0,
@@ -32,7 +32,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_3",
+            "name": "Crow_Dispose_3",
             "x": 1293.0,
             "y": 1210.0,
             "width": 405.0,
@@ -41,7 +41,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_4",
+            "name": "Crow_Dispose_4",
             "x": 1704.0,
             "y": 1211.0,
             "width": 417.0,
@@ -50,7 +50,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_5",
+            "name": "Crow_Dispose_5",
             "x": 18.0,
             "y": 816.0,
             "width": 383.0,
@@ -59,7 +59,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_6",
+            "name": "Crow_Dispose_6",
             "x": 505.0,
             "y": 817.0,
             "width": 296.0,
@@ -68,7 +68,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_7",
+            "name": "Crow_Dispose_7",
             "x": 931.0,
             "y": 819.0,
             "width": 285.0,
@@ -77,7 +77,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_8",
+            "name": "Crow_Dispose_8",
             "x": 1346.0,
             "y": 821.0,
             "width": 324.0,
@@ -86,7 +86,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_9",
+            "name": "Crow_Dispose_9",
             "x": 1716.0,
             "y": 822.0,
             "width": 405.0,
@@ -95,7 +95,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_10",
+            "name": "Crow_Dispose_10",
             "x": 6.0,
             "y": 427.0,
             "width": 417.0,
@@ -104,7 +104,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_11",
+            "name": "Crow_Dispose_11",
             "x": 447.0,
             "y": 424.0,
             "width": 397.0,
@@ -113,7 +113,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_12",
+            "name": "Crow_Dispose_12",
             "x": 931.0,
             "y": 422.0,
             "width": 305.0,
@@ -122,7 +122,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_13",
+            "name": "Crow_Dispose_13",
             "x": 1355.0,
             "y": 420.0,
             "width": 276.0,
@@ -131,7 +131,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_14",
+            "name": "Crow_Dispose_14",
             "x": 1779.0,
             "y": 418.0,
             "width": 281.0,
@@ -140,7 +140,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_15",
+            "name": "Crow_Dispose_15",
             "x": 78.0,
             "y": 19.0,
             "width": 312.0,
@@ -149,7 +149,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_16",
+            "name": "Crow_Dispose_16",
             "x": 449.0,
             "y": 17.0,
             "width": 394.0,
@@ -158,7 +158,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_17",
+            "name": "Crow_Dispose_17",
             "x": 858.0,
             "y": 15.0,
             "width": 415.0,
@@ -167,7 +167,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_18",
+            "name": "Crow_Dispose_18",
             "x": 1301.0,
             "y": 17.0,
             "width": 391.0,
@@ -176,7 +176,7 @@
             "pivotY": 0.5
         },
         {
-            "name": "Crow_Escape_19",
+            "name": "Crow_Dispose_19",
             "x": 1759.0,
             "y": 22.0,
             "width": 344.0,
