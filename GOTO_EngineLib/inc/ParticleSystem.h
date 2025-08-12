@@ -90,6 +90,8 @@ namespace GOTOEngine
         std::vector<Particle> m_particlePool;        // 파티클 풀
         std::vector<Particle*> m_activeParticles;    // 활성화된 파티클 포인터들
 
+        bool m_loop;
+
         // 파티클 설정
         float m_particleLifeTime;                    // 파티클 생명 시간 (활성 상태 유지 시간)
         float m_fadeOutTime;                         // 파티클 사라지는 시간
