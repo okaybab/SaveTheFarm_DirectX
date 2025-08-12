@@ -86,6 +86,9 @@ namespace GOTOEngine
 
 		RadialSpriteRenderer* gageSprite;
 
+		std::string p1fireSFXClipname = "Shot1P";
+		std::string p2fireSFXClipname = "Shot2P";
+
 		ParticleSystem* dropParticleSys;
 		TextRenderer* strText;
 		ButtonAnimation* physAnimation;  //사실 버튼 애니메이션이 아닙니다.. 물리를 사용하는 애니메이션인데 버튼에만 쓰려고 클래스 이름을 지어놓았다가 낭패를 본 케이스입니다.. 물리애니메이션이에요
