@@ -90,7 +90,9 @@ namespace GOTOEngine
         std::vector<Particle> m_particlePool;        // 파티클 풀
         std::vector<Particle*> m_activeParticles;    // 활성화된 파티클 포인터들
 
+        // 루프 추적
         bool m_loop;
+        bool m_hasPlayedOnce;
 
         // 파티클 설정
         float m_particleLifeTime;                    // 파티클 생명 시간 (활성 상태 유지 시간)
@@ -162,6 +164,7 @@ namespace GOTOEngine
         {
             m_isPlaying = true;
             m_spawnTimer = 0;
+            m_hasPlayedOnce = false;
         }
 
         // 파티클 시스템 정지
@@ -325,6 +328,9 @@ namespace GOTOEngine
         Vector2 GetGravity() const { return m_gravity; }
 
         // 상태 조회
+        bool GetLoop() const { return m_loop; }
+        void SetLoop(bool loop) { m_loop = loop; }
+        
         bool IsPlaying() const { return m_isPlaying; }
         int GetActiveParticleCount() const { return m_activeParticles.size(); }
 	};

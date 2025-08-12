@@ -226,6 +226,55 @@ void StartAnimal::Awake() {
 	auto thiefhitcomp = thiefmole->AddComponent<Starthit>();
 	thiefhitcomp->id = 2;
 	thiefhitcomp->startanimal = this;
+
+    crowParticle = crow->AddComponent<ParticleSystem>();
+    goldParticle = goldcrow->AddComponent<ParticleSystem>();
+    thiefParticle = thiefmole->AddComponent<ParticleSystem>();
+
+    crowParticle->SetGravity({ 0,0 });
+    crowParticle->SetEmissionAngleDegrees(360.0f);
+    crowParticle->SetSpawnInterval(0.016f);
+    crowParticle->SetLoop(false);
+    crowParticle->SetSprite(L"../Resources/Demo/start.png");
+    crowParticle->SetMaxAngularVelocityDegrees(224.0f);
+    crowParticle->SetMinAngularVelocityDegrees(188.0f);
+    crowParticle->SetParticlesPerSpawn(5);
+    crowParticle->SetParticleLifeTime(0.2f);
+    crowParticle->SetFadeOutTime(0.45f);
+    crowParticle->SetFadeMode(ParticleFadeMode::Shrink);
+    crowParticle->SetMaxSpeed(320.0f);
+    crowParticle->SetMinSpeed(220.0f);
+    crowParticle->SetRenderOrder(crow->GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
+
+    goldParticle->SetGravity({ 0,0 });
+    goldParticle->SetEmissionAngleDegrees(360.0f);
+    goldParticle->SetSpawnInterval(0.016f);
+    goldParticle->SetLoop(false);
+    goldParticle->SetSprite(L"../Resources/Demo/start.png");
+    goldParticle->SetMaxAngularVelocityDegrees(224.0f);
+    goldParticle->SetMinAngularVelocityDegrees(188.0f);
+    goldParticle->SetParticlesPerSpawn(5);
+    goldParticle->SetParticleLifeTime(0.2f);
+    goldParticle->SetFadeOutTime(0.45f);
+    goldParticle->SetFadeMode(ParticleFadeMode::Shrink);
+    goldParticle->SetMaxSpeed(320.0f);
+    goldParticle->SetMinSpeed(220.0f);
+    goldParticle->SetRenderOrder(goldcrow->GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
+
+    thiefParticle->SetGravity({ 0,0 });
+    thiefParticle->SetEmissionAngleDegrees(360.0f);
+    thiefParticle->SetSpawnInterval(0.016f);
+    thiefParticle->SetLoop(false);
+    thiefParticle->SetSprite(L"../Resources/Demo/start.png");
+    thiefParticle->SetMaxAngularVelocityDegrees(224.0f);
+    thiefParticle->SetMinAngularVelocityDegrees(188.0f);
+    thiefParticle->SetParticlesPerSpawn(5);
+    thiefParticle->SetParticleLifeTime(0.2f);
+    thiefParticle->SetFadeOutTime(0.45f);
+    thiefParticle->SetFadeMode(ParticleFadeMode::Shrink);
+    thiefParticle->SetMaxSpeed(320.0f);
+    thiefParticle->SetMinSpeed(220.0f);
+    thiefParticle->SetRenderOrder(thiefmole->GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
 }
 
 void StartAnimal::OnDestroy() {
@@ -299,8 +348,10 @@ void StartAnimal::Update() {
 		crow->GetComponent<Animator>()->SetEnabled(false);
 		crow->GetComponent<SpriteRenderer>()->SetSprite(crowdie);
 		crowhittimer -= TIME_GET_DELTATIME();
+        
+        auto wobbleTimer = Mathf::Max(0.0f, crowhittimer - 0.35f) / 0.65f;
 
-        crow->GetTransform()->SetLocalPosition({ crowSavedPos.x + (1.0f - wobbleXValue) * crowhittimer * 45.0f,crowSavedPos.y + (1.0f - wobbleYValue) * crowhittimer * 45.0f });
+        crow->GetTransform()->SetLocalPosition({ crowSavedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,crowSavedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 
 		if (crowhittimer <= 0.0f) {
 			crowhittimer = 0.0f;
@@ -315,7 +366,9 @@ void StartAnimal::Update() {
 		goldcrow->GetComponent<SpriteRenderer>()->SetSprite(golddie);
 		goldhittimer -= TIME_GET_DELTATIME();
 
-        goldcrow->GetTransform()->SetLocalPosition({ goldcrowSavedPos.x + (1.0f - wobbleXValue) * goldhittimer * 45.0f,goldcrowSavedPos.y + (1.0f - wobbleYValue) * goldhittimer * 45.0f });
+        auto wobbleTimer = Mathf::Max(0.0f, goldhittimer - 0.35f) / 0.65f;
+
+        goldcrow->GetTransform()->SetLocalPosition({ goldcrowSavedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,goldcrowSavedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 
 		if (goldhittimer <= 0.0f) {
 			goldhittimer = 0.0f;
@@ -329,7 +382,9 @@ void StartAnimal::Update() {
 		thiefmole->GetComponent<SpriteRenderer>()->SetSprite(thiefdie);
 		thiefhittimer -= TIME_GET_DELTATIME();
 
-        thiefmole->GetTransform()->SetLocalPosition({ thiefmoleSvaedPos.x + (1.0f - wobbleXValue) * thiefhittimer * 45.0f,thiefmoleSvaedPos.y + (1.0f - wobbleYValue) * thiefhittimer * 45.0f });
+        auto wobbleTimer = Mathf::Max(0.0f, thiefhittimer - 0.35f) / 0.65f;
+
+        thiefmole->GetTransform()->SetLocalPosition({ thiefmoleSvaedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,thiefmoleSvaedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 
 		if (thiefhittimer <= 0.0f) {
 			thiefmole->GetComponent<Animator>()->SetEnabled(true);
