@@ -41,11 +41,16 @@ void StartScene::Initialize()
 	if (Object::IsValidObject(p1))
 	{
 		p1->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
+		//p1->GetComponent<CrosshairCollide>()->commonCam = nullptr;
+		//p1->GetComponent<CrosshairCollide>()->p1Cam = nullptr;
+		//p1->GetComponent<CrosshairCollide>()->p2Cam = nullptr;
+		p1->GetComponent<CrosshairCollide>()->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
 		p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::TriggerGun);
 	}
 	if (Object::IsValidObject(p2))
 	{
 		p2->GetComponent<CrosshairMove>()->cam = mainCam->GetComponent<Camera>();
+		p2->GetComponent<CrosshairCollide>()->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
 		p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::TriggerGun);
 	}
 

@@ -147,8 +147,10 @@ namespace GOTOEngine
 
 			if (IsValidObject(p1Cam))
 			{
-				inP1CamPos = p1Cam->ScreenToWorldPoint(colScreenPos);
-				isColInP1Cam = (inP1CamPos.x - collideHalfSizeX) < m_middlePosX;
+				inP1CamPos = { colScreenPos.x - 480.0f + p1Cam->GetTransform()->GetPosition().x,colScreenPos.y - 540.0f + p1Cam->GetTransform()->GetPosition().y};
+				isColInP1Cam = (colScreenPos.x - collideHalfSizeX) < m_middlePosX;
+				if(id == 1)
+					std::cout << inP1CamPos.x << std::endl;
 			}
 
 			//p1 cam 영역 콜라이드
@@ -163,8 +165,8 @@ namespace GOTOEngine
 
 			if (IsValidObject(p2Cam))
 			{
-				inP2CamPos = p2Cam->ScreenToWorldPoint(colScreenPos);
-				isColInP2Cam = (inP2CamPos.x + collideHalfSizeX) >= m_middlePosX;
+				inP2CamPos = { colScreenPos.x - 1440.0f + p2Cam->GetTransform()->GetPosition().x,colScreenPos.y - 540.0f + p2Cam->GetTransform()->GetPosition().y };
+				isColInP2Cam = (colScreenPos.x + collideHalfSizeX) >= m_middlePosX;
 			}
 
 			//p2 cam 영역 콜라이드

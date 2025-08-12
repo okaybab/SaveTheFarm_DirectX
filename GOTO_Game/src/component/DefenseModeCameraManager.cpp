@@ -249,9 +249,9 @@ void GOTOEngine::DefenseModeCameraManager::Awake()
 			m_p1GO = p1GO;
 		}
 		auto p2GO = GameObject::Find(L"Player2");
-		if (IsValidObject(p1GO))
+		if (IsValidObject(p2GO))
 		{
-			m_p2GO = p1GO;
+			m_p2GO = p2GO;
 		}
 		
 		if (IsValidObject(m_p1GO))
@@ -291,11 +291,13 @@ void GOTOEngine::DefenseModeCameraManager::Update()
     {
         m_backgroundCam->GetGameObject()->SetActive(true);
         m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
+        m_p2CrossCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
     }
     else
     {
         m_backgroundCam->GetGameObject()->SetActive(false);
         m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
+        m_p2CrossCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
     }
         
 

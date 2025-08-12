@@ -89,11 +89,19 @@ void DefenseScene::Initialize()
 
 	if (Object::IsValidObject(p1))
 	{
-		p1->GetComponent<CrosshairMove>()->cam = CommonCam;
+		p1->GetComponent<CrosshairMove>()->cam = CommonCam;		
+		auto collide = p1->GetComponent<CrosshairCollide>();
+		collide->commonCam = CommonCam;
+		collide->p1Cam = player1Cam;
+		collide->p2Cam = player2Cam;
 	}
 	if (Object::IsValidObject(p2))
 	{
 		p2->GetComponent<CrosshairMove>()->cam = CommonCam;
+		auto collide = p2->GetComponent<CrosshairCollide>();
+		collide->commonCam = CommonCam;
+		collide->p1Cam = player1Cam;
+		collide->p2Cam = player2Cam;
 	}
 
 	//배경 이미지
