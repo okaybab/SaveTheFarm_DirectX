@@ -76,8 +76,8 @@ void GOTOEngine::EnemySpawnManager::Awake()
 		}
 
 		std::vector<std::pair<std::wstring, std::wstring>> spawnList = {
-			{L"공중", L"../Resources/EnemySpawner/SpawnPoint_Fly.json"}//,
-			//{L"지상기믹", L"../Resources/EnemySpawner/SpawnPoint_GroundGimmick.json"}
+			{L"공중", L"../Resources/EnemySpawner/SpawnPoint_Fly.json"},
+			{L"지상기믹", L"../Resources/EnemySpawner/SpawnPoint_GroundGimmick.json"}
 		};
 		for (const auto& [key, path] : spawnList)
 		{
@@ -150,32 +150,16 @@ void GOTOEngine::EnemySpawnManager::Update()
 void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 {
 	//*// 공중 기믹
-	auto spawner = GetSpawner(L"공중");
-	GameObject* newEnemyObject = new GameObject(L"공중");
+	GameObject* newEnemyObject = new GameObject(L"디펜스");
 
 	ParameterMap params;
 	params["EnemyType"] = static_cast<E_Defense_Enemy_Type>(fly);
+	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_nomal);
 
 	newEnemyObject->AddComponent<DefenseEnemy>();
 	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<DefenseEnemy>()->SetupSpawner(spawner, static_cast<E_Defense_Enemy_Type>(fly));
-	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-	newEnemyObject->layer = 1;
-	//*/
-
-	/*/
-	auto spawner = GetSpawner(L"공중");
-	GameObject* newEnemyObject = new GameObject(L"공중");
-
-	ParameterMap params;
-	params["지상기믹"] = static_cast<E_Defense_Enemy_Type>(fly);
-
-	newEnemyObject->AddComponent<DefenseEnemy>();
-	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<DefenseEnemy>()->SetupSpawner(spawner, static_cast<E_Defense_Enemy_Type>(fly));
-
-	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-	newEnemyObject->layer = 1;
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 1) | (1 << 2));
+	newEnemyObject->layer = (1 << 1) | (1 << 2);
 	//*/
 
 	m_p1Enemy.push_back(newEnemyObject);

@@ -119,7 +119,6 @@ namespace GOTOEngine
 		
 	public:
 		virtual void Initialize(std::any param) = 0;
-		virtual void SetupSpawner(EnemySpawner* spawner, std::any param) { m_spawner = spawner; }
 		virtual void Awake() {}
 		virtual void Update()
 		{

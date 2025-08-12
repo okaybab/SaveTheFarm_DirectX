@@ -14,17 +14,57 @@ namespace GOTOEngine
 	enum E_Defense_Enemy_Type
 	{
 		fly,
-		defense_type_count
+		ground
 	};
+
+	enum E_Defense_Gimmick_Type
+	{
+		defense_nomal,
+		defense_gimmick
+	};
+
+	std::wstring GetDefenseEnemyTypeString(E_Defense_Enemy_Type type)
+	{
+		static const std::map<E_Defense_Enemy_Type, std::wstring> typeMap = {
+			{E_Defense_Enemy_Type::fly, L"공중"},
+			{E_Defense_Enemy_Type::ground, L"지상"}
+		};
+
+		auto it = typeMap.find(type);
+		if (it != typeMap.end())
+		{
+			return it->second;
+		}
+		return L"";
+	}
+
+	std::wstring GetDefenseGimmickTypeString(E_Defense_Gimmick_Type type)
+	{
+		static const std::map<E_Defense_Gimmick_Type, std::wstring> typeMap = {
+			{E_Defense_Gimmick_Type::defense_nomal, L""},
+			{E_Defense_Gimmick_Type::defense_gimmick, L"기믹"}
+		};
+
+		auto it = typeMap.find(type);
+		if (it != typeMap.end())
+		{
+			return it->second;
+		}
+		return L"";
+	}
+	std::wstring CreateCombinedString(E_Defense_Enemy_Type enemyType, E_Defense_Gimmick_Type gimmickType)
+		{ return (GetDefenseEnemyTypeString(enemyType) + GetDefenseGimmickTypeString(gimmickType)); }
 
 	class DefenseEnemy : public BaseEnemyObject
 	{
-		E_Move_Enemy_Type m_moveEnemyType;
+		E_Game_Type m_gameType;
+		E_Defense_Enemy_Type m_enemyType;
+		E_Defense_Gimmick_Type m_gimmickType;
 		bool m_isGimmick;
 		bool m_isCrop;
 
 		std::vector<SpawnPoint*> m_points;
-		int currentPoint = 0;
+		int m_currentPoint = 0;
 
 		Vector2 m_StartPos;
 		Vector2 m_EndPos;
@@ -34,9 +74,6 @@ namespace GOTOEngine
 		float t = 0;
 		float cropTime = 3.0f;
 
-
-		E_Game_Type m_gameType;
-
 	public:
 		void Initialize(std::any param) override
 		{
@@ -44,33 +81,26 @@ namespace GOTOEngine
 				const ParameterMap& params = *pMap;
 				auto itEnemyType = params.find("EnemyType");
 				if (itEnemyType != params.end()) {
-					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
+					if (const auto pValue = std::any_cast<E_Defense_Enemy_Type>(&itEnemyType->second)) { m_enemyType = *pValue; }
 				}
-			}	
-		}
-
-		void SetupSpawner(EnemySpawner* spawner, std::any param) override
-		{
-			__super::SetupSpawner(spawner, param);
-
-			if (const auto pMap = std::any_cast<ParameterMap>(&param)) {
-				const ParameterMap& params = *pMap;
-				auto itEnemyType = params.find("EnemyType");
-				if (itEnemyType != params.end()) {
-					if (const auto pValue = std::any_cast<E_Move_Enemy_Type>(&itEnemyType->second)) { m_moveEnemyType = *pValue; }
+				auto itGimmickType = params.find("GimmickType");
+				if (itGimmickType != params.end()) {
+					if (const auto pValue = std::any_cast<E_Defense_Gimmick_Type>(&itGimmickType->second)) { m_gimmickType = *pValue; }
 				}
 			}
-			if (spawner)
+			GetGameObject()->name = CreateCombinedString(m_enemyType, m_gimmickType);
+			m_spawner = EnemySpawnManager::instance->GetSpawner(GetGameObject()->name);
+			if (m_spawner)
 			{
-				m_points = spawner->GetPoints();
-				spawner->Initialize();
+				m_points = m_spawner->GetPoints();
+				m_spawner->Initialize();
 				SetCurrentPoint();
 			}
 		}
 
 		void SetCurrentPoint()
 		{
-			std::any data = m_points[currentPoint]->GetSpawnPointData();
+			std::any data = m_points[m_currentPoint]->GetSpawnPointData();
 
 			if (const auto pMap = std::any_cast<PointData>(&data)) {
 				const ParameterMap& params = *pMap;
@@ -85,8 +115,6 @@ namespace GOTOEngine
 				auto itVector2 = params.find("position");
 				if (itVector2 != params.end()) {
 					if (const auto pValue = std::any_cast<Vector2>(&itVector2->second)) { m_StartPos = *pValue; }
-
-					std::cout << "m_StartPosx : " << m_StartPos.x << "m_StartPos.y : " << m_StartPos.y << std::endl;
 				}
 				auto itInt = params.find("renderOrder");
 				if (itInt != params.end()) {
@@ -98,9 +126,13 @@ namespace GOTOEngine
 				}
 			}
 
-			if (currentPoint < m_points.size() - 1)
+			m_moveFlag = m_spawner->GetRandomMoveFlag();
+
+			if (m_currentPoint < m_points.size() - 1)
 			{
-				m_EndPos = m_points[currentPoint + 1]->GetPosition();
+				m_EndPos = m_points[m_currentPoint + 1]->GetPosition();
+				std::cout << "@@@@@ m_moveFlag : " << m_moveFlag << std::endl;
+				std::cout << " m_EndPos. x : " << m_EndPos.x << "  m_EndPos.y : " << m_EndPos.y << std::endl;
 			}
 			else
 			{
@@ -113,12 +145,9 @@ namespace GOTOEngine
 			__super::Awake();
 
 			m_gameType = EnemySpawnManager::instance->GetGameType();
-
-			m_enemyType = E_EnemyType::move;
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
-			//m_moveSpeed = 0.05f;
-			m_moveFlag = m_spawner->GetRandomMoveFlag();
+			
 			GetGameObject()->name = L"까마귀";
 			GetTransform()->SetPosition(m_StartPos);
 			m_currentPathPosition = m_StartPos;
@@ -156,10 +185,6 @@ namespace GOTOEngine
 				combinedFlags |= enemyMove->GetFlag();
 			}
 
-			if (combinedFlags & MOVE_CIRCULAR) // 0b0100
-			{
-				AddComponent<MoveCircle>()->SetEnabled(m_moveFlag & MOVE_CIRCULAR);
-			}
 			if (combinedFlags & MOVE_PARABOLIC) // 0b1000
 			{
 				auto comp = AddComponent<MovementParabolic>();
@@ -198,13 +223,6 @@ namespace GOTOEngine
 		{
 			m_movementComponents.clear();
 
-			if (m_moveFlag & MOVE_CIRCULAR) // 0b0100
-			{
-				if (auto comp = GetComponent<MoveCircle>())
-				{
-					m_movementComponents.push_back(comp);
-				}
-			}
 
 			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
 			{
@@ -230,9 +248,9 @@ namespace GOTOEngine
 
 		void OnEndEvent()
 		{
-			if (currentPoint < m_points.size() - 1)
+			if (m_currentPoint < m_points.size() - 1)
 			{
-				currentPoint++;
+				m_currentPoint++;
 			}
 			else
 			{
@@ -288,7 +306,7 @@ namespace GOTOEngine
 			
 		}
 
-		int GetType() { return static_cast<int>(m_moveEnemyType); }
+		int GetType() { return static_cast<int>(m_enemyType); }
 		void OnDie(int attackerID, bool isGimmick = true) override
 		{
 			__super::OnDie(attackerID);
@@ -302,19 +320,7 @@ namespace GOTOEngine
 		}
 		void OnGimmick()
 		{
-			auto gimmickEffect = new GameObject;
-			gimmickEffect->layer = m_layer;
-			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
-			gimmickEffect->GetComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
-			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(L"Gimmick3"));
-			gimmickEffect->GetTransform()->SetParent(this->GetTransform(), false);
-			if (m_moveEnemyType == mole) gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 2.3f);
-			else gimmickEffect->GetTransform()->SetLossyScale(GetTransform()->GetLocalScale() * 1.5f);
 
-			auto controller = gimmickEffect->GetComponent<Animator>()->GetRuntimeAnimatorController();
-			controller->SetOnAnimationEnd([this, gimmickEffect]() {
-				GameObject::Destroy(gimmickEffect);
-			});
 		}
 	};
 }
