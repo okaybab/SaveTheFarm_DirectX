@@ -36,12 +36,12 @@
 	"moveFlags":[
 		{
 			"flag": "0b1000",
-			"_comment": "포물선",
+			"_comment": "곡선",
 			"value": 8
 		},
 		{
 			"flag": "0b0011",
-			"_comment": "직선",
+			"_comment": "물결",
 			"value": 3
 		}
 	]

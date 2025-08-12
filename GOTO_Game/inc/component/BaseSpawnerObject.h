@@ -4,11 +4,11 @@
 #include <json.hpp>
 #include <vector>
 #include <unordered_map>
+#include <cstdlib>
 #include <any>
 
 #include "EnemySpawnManager.h"
 #include "BaseEnemyObject.h"
-#include "BaseMovement.h"
 
 namespace GOTOEngine
 {
@@ -65,13 +65,31 @@ namespace GOTOEngine
 	class EnemyMove : public Object
 	{
 	private:
-		friend class BaseMovement;
-		
+
+		std::wstring enemyType;
 		int moveFlag;
+
 	public:
 		EnemyMove() : moveFlag(0) {}
-		void SetupFromJSON(const nlohmann::json& flagInfo) { moveFlag = flagInfo.value("value", 0); }
+		void SetupFromJSON(const nlohmann::json& flagInfo)
+		{ 
+			moveFlag = flagInfo.value("value", 0);
+			std::string enemyTypeStr = flagInfo.value("enemyType", "");
+			size_t strLength = enemyTypeStr.length();
+			if (strLength > 0)
+			{
+				std::vector<wchar_t> wstrBuffer(strLength + 1);
+				size_t convertedChars = 0;
+				mbstowcs_s(&convertedChars, &wstrBuffer[0], wstrBuffer.size(), enemyTypeStr.c_str(), _TRUNCATE);
+				enemyType = &wstrBuffer[0];
+			}
+			else
+			{
+				enemyType = L"";
+			}
+		}
 		int GetFlag() const { return moveFlag; }
+		std::wstring GetEnemyType() const { return enemyType; }
 	};
 
 	class EnemySpawner : public Resource
@@ -85,13 +103,15 @@ namespace GOTOEngine
 		std::vector<SpawnPoint*> m_points;
 		std::vector<EnemyMove*> m_moveFlag;
 		std::wstring m_spawnName;
-		bool m_flagFix;
+		bool m_isFixFlag;
 		void Dispose() override;
 	public:
 		const std::vector<SpawnPoint*>& GetPoints() { return m_points; }
 		const std::vector<EnemyMove*>& GetFlags() { return m_moveFlag; }
-		int GetRandomMoveFlag() { return m_moveFlag[EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1)]->GetFlag(); }
+		int GetRandomMoveFlag() const;
+		int GetFixFlagEnemyType(const std::wstring& enemyType) const;
+		int GetMoveFlag(const std::wstring& enemyType) const;
 		void Initialize() { for (auto move : m_points) move->Initialize(); }
 	};
 
-}
+}//return m_moveFlag[EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1)]->GetFlag(); 

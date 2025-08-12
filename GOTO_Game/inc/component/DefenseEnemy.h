@@ -85,7 +85,6 @@ namespace GOTOEngine
 		Vector2 m_EndPos;
 
 		int m_renderOrder;
-		int combinedFlags = 0;
 		float t = 0;
 		float cropTime = 3.0f;
 
@@ -110,12 +109,6 @@ namespace GOTOEngine
 				m_points = m_spawner->GetPoints();
 				m_spawner->Initialize();
 				SetCurrentPoint();
-			}
-
-			auto enemyMoves = m_spawner->GetFlags();
-			for (EnemyMove* enemyMove : enemyMoves)
-			{
-				combinedFlags |= enemyMove->GetFlag();
 			}
 		}
 
@@ -147,7 +140,7 @@ namespace GOTOEngine
 				}
 			}
 
-			m_moveFlag = m_spawner->GetRandomMoveFlag();
+			m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
 
 			if (m_currentPoint < m_points.size() - 1)
 			{
@@ -170,7 +163,7 @@ namespace GOTOEngine
 			m_disPoneTime = 30.0f;
 			
 			// GetGameObject()->name = L"까마귀";
-			GetGameObject()->name = L"토끼";
+			GetGameObject()->name = L"까마귀";
 			GetTransform()->SetPosition(m_StartPos);
 			m_currentPathPosition = m_StartPos;
 
@@ -256,7 +249,7 @@ namespace GOTOEngine
 			SetCurrentPoint();
 
 			if (m_isCrop) m_moveFlag = 0b0000;
-			else m_moveFlag = m_spawner->GetRandomMoveFlag();
+			else m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
 
 			m_StartPos = GetGameObject()->GetTransform()->GetPosition();
 			m_currentPathPosition = m_StartPos;
@@ -278,7 +271,7 @@ namespace GOTOEngine
 				if (cropTime <= 0.0f)
 				{
 					m_isCrop = false;
-					m_moveFlag = m_spawner->GetRandomMoveFlag();
+					m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
 					InitializeMovement();
 				}
 			}

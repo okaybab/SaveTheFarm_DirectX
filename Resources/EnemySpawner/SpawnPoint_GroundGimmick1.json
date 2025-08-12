@@ -1,6 +1,6 @@
 {
-	"spawnName": "groundGimmick_Points",
-	"flagFix": true,
+	"spawnName": "groundGimmick1_Points",
+	"fixFlag": true,
 	"points":[
 		{
 			"random_x": true,
@@ -40,14 +40,22 @@
 	],
 	"moveFlags":[
 		{
-			"flag": "0b1000",
+			"flag": "0b1001",
 			"_comment": "포물선",
-			"value": 8
+			"value": 9,
+			"enemyType": "토끼"
 		},
 		{
-			"flag": "0b0011",
-			"_comment": "직선",
-			"value": 3
+			"flag": "0b1001",
+			"_comment": "포물선",
+			"value": 9,
+			"enemyType": "다람쥐"
+		},
+		{
+			"flag": "0b1000",
+			"_comment": "곡선",
+			"value": 8,
+			"enemyType": "도둑두더지"
 		}
 	]
 }

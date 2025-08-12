@@ -18,6 +18,8 @@ void GOTOEngine::EnemySpawner::LoadFromFilePath(const std::wstring& filePath)
 		inFile.close();
 		m_spawnName = STR_TO_WSTR(jFromFile["spawnName"]);
 
+		m_isFixFlag = jFromFile.value("fixFlag", false);
+
 		for (auto& pointInfo : jFromFile["points"])
 		{
 			SpawnPoint* spawnTemplate = new SpawnPoint();
@@ -43,6 +45,47 @@ void GOTOEngine::EnemySpawner::Dispose()
 		DestroyImmediate(point);
 	}
 	m_points.clear();
+	for (auto flag : m_moveFlag)
+	{
+		DestroyImmediate(flag);
+	}
+	m_moveFlag.clear();
+}
+
+int GOTOEngine::EnemySpawner::GetRandomMoveFlag() const
+{
+	if (m_moveFlag.empty()) {
+		return 0; // 컨테이너가 비어있으면 기본값 반환
+	}
+	int randomIndex = EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1);
+	return m_moveFlag[randomIndex]->GetFlag();
+}
+
+int GOTOEngine::EnemySpawner::GetFixFlagEnemyType(const std::wstring& enemyType) const
+{
+	auto it = std::find_if(	m_moveFlag.begin(),
+							m_moveFlag.end(),
+							[enemyType](const EnemyMove* enemyMove) 
+	{ return enemyMove->GetEnemyType() == enemyType; });
+
+	if (it != m_moveFlag.end())
+	{
+		return (*it)->GetFlag();
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int GOTOEngine::EnemySpawner::GetMoveFlag(const std::wstring& enemyType) const
+{
+	if (m_isFixFlag) {
+		return GetFixFlagEnemyType(enemyType);
+	}
+	else {
+		return GetRandomMoveFlag();
+	}
 }
 
 void GOTOEngine::SpawnPoint::Initialize()
