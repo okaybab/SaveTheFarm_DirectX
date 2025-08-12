@@ -18,6 +18,9 @@ namespace GOTOEngine
 		CrosshairCollide* m_p1CrossCol = nullptr;
 		CrosshairCollide* m_p2CrossCol = nullptr;
 
+		std::vector<CrosshairCollide*> m_p1SubCrossCol;
+		std::vector<CrosshairCollide*> m_p2SubCrossCol;
+
 		float m_wobbleStrength = 0.0f;
 
 		static AnimationCurve s_openMotionCurve;

@@ -1,5 +1,6 @@
 #include "DefenseModeCameraManager.h"
 #include "CrosshairCollide.h"
+#include "CrosshairController.h"
 
 #include <Camera.h>
 
@@ -257,11 +258,23 @@ void GOTOEngine::DefenseModeCameraManager::Awake()
 		if (IsValidObject(m_p1GO))
 		{
 			m_p1CrossCol = m_p1GO->GetComponent<CrosshairCollide>();
+            auto p1CrossCon = m_p1GO->GetComponent<CrosshairController>();
+
+            for (auto& subCross : p1CrossCon->subCrosshairs)
+            {
+                m_p1SubCrossCol.push_back(subCross->GetComponent<CrosshairCollide>());
+            }
 		}
 
 		if (IsValidObject(m_p2GO))
 		{
 			m_p2CrossCol = m_p2GO->GetComponent<CrosshairCollide>();
+            auto p2CrossCon = m_p2GO->GetComponent<CrosshairController>();
+
+            for (auto& subCross : p2CrossCon->subCrosshairs)
+            {
+                m_p2SubCrossCol.push_back(subCross->GetComponent<CrosshairCollide>());
+            }
 		}
 	}
 	else
@@ -292,12 +305,28 @@ void GOTOEngine::DefenseModeCameraManager::Update()
         m_backgroundCam->GetGameObject()->SetActive(true);
         m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
         m_p2CrossCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
+        for (auto& subCol : m_p1SubCrossCol)
+        {
+            subCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
+        }
+        for (auto& subCol : m_p2SubCrossCol)
+        {
+            subCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
+        }
     }
     else
     {
         m_backgroundCam->GetGameObject()->SetActive(false);
         m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
         m_p2CrossCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
+        for (auto& subCol : m_p1SubCrossCol)
+        {
+            subCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
+        }
+        for (auto& subCol : m_p2SubCrossCol)
+        {
+            subCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
+        }
     }
         
 

@@ -48,14 +48,17 @@ void GOTOEngine::Animator::SetAnimatorController(AnimatorController* controller)
 {
 	if (m_controller != controller)
 	{
+		if (m_runtimeController)
+			DestroyImmediate(m_runtimeController);
+
 		if (controller)
 		{
-			if (m_runtimeController)
-				DestroyImmediate(m_runtimeController);
-
 			m_runtimeController = new RuntimeAnimatorController(controller);
-
 			controller->IncreaseRefCount();
+		}
+		else
+		{
+			m_runtimeController = nullptr;
 		}
 			
 		if (m_controller)
