@@ -187,6 +187,7 @@
     <ClInclude Include="inc\component\CompetEnemy.h" />
     <ClInclude Include="inc\component\CrosshairController.h" />
     <ClInclude Include="inc\component\DefenseModeCameraManager.h" />
+    <ClInclude Include="inc\component\DefenseEnemy.h" />
     <ClInclude Include="inc\component\DirIndicator.h" />
     <ClInclude Include="inc\component\DirIndicatorController.h" />
     <ClInclude Include="inc\component\GimmickManager2.h" />

@@ -32,14 +32,16 @@ namespace GOTOEngine
 		move,
 		gimmick,
 		itemspawn,
-		competition
+		competition,
+		defense
 	};
 	static enum E_Enemy_Anim_State
 	{
 		IDLE,
 		MOVE,
 		DIE,
-		ESCAPE
+		ESCAPE,
+		DISPOSE
 	};
 	inline std::wstring StateToString(E_Enemy_Anim_State state)
 	{

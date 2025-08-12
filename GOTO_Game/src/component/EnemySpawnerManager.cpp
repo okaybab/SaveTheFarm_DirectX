@@ -10,6 +10,7 @@
 #include "GimmickEnemy.h"
 #include "ItemEnemy.h"
 #include "CompetEnemy.h"
+#include "DefenseEnemy.h"
 
 // move
 #include "MovementLeftRight.h"
@@ -143,7 +144,6 @@ void GOTOEngine::EnemySpawnManager::Update()
 			CreateDefenseFlyEnemey();
 		}
 	}
-
 }
 
 void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
@@ -154,11 +154,11 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 
 	
 	ParameterMap params;
-	params["EnemyType"] = static_cast<E_Move_Enemy_Type>(crow_1);
+	params["EnemyType"] = static_cast<E_Defense_Enemy_Type>(fly);
 
-	newEnemyObject->AddComponent<MoveEnemy>();
-	newEnemyObject->GetComponent<MoveEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<MoveEnemy>()->SetupSpawner(spawner, static_cast<E_Move_Enemy_Type>(crow_1));
+	newEnemyObject->AddComponent<DefenseEnemy>();
+	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
+	newEnemyObject->GetComponent<DefenseEnemy>()->SetupSpawner(spawner, static_cast<E_Defense_Enemy_Type>(fly));
 
 
 	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
