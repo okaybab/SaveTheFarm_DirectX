@@ -16,7 +16,7 @@ GOTOEngine::ParticleSystem::ParticleSystem()
     m_emissionDirection(3.14159f * 0.5f), m_emissionAngle(3.14159f), // 기본: 위쪽 반원
     m_emissionTangentLength(1.0f),
     m_gravity(0, -200.0f), m_spawnTimer(0), m_isPlaying(false), m_particleCommonSprite(nullptr),
-    gen(rd()), dis(0.0f, 1.0f)
+    gen(rd()), dis(0.0f, 1.0f), m_loop(true)
 {
     // 파티클 풀 초기화 (기본 25개)
     m_particlePool.resize(m_maxParticleCount);
@@ -50,6 +50,12 @@ void GOTOEngine::ParticleSystem::SpawnParticles(float deltaTime)
 
     if (m_spawnTimer >= m_spawnInterval)
     {
+        /*if (!m_loop)
+        {
+            Stop();
+            return;
+        }*/
+
         m_spawnTimer -= m_spawnInterval;
 
         // 설정된 개수만큼 파티클 생성

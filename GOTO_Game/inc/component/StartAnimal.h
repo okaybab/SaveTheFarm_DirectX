@@ -5,6 +5,7 @@
 #include <SpriteRenderer.h>
 #include <Animator.h>
 #include <Collider2D.h>
+#include <AnimationCurve.h>
 #include "Screen.h"
 
 namespace GOTOEngine
@@ -26,7 +27,12 @@ namespace GOTOEngine
 		bool crowhit = false;
 		bool goldhit = false;
 		bool thiefhit = false;
+		static AnimationCurve wobbleXCurve;
+		static AnimationCurve wobbleYCurve;
 
+		Vector2 crowSavedPos;
+		Vector2 goldcrowSavedPos;
+		Vector2 thiefmoleSvaedPos;
 	public:
 		StartAnimal()
 		{

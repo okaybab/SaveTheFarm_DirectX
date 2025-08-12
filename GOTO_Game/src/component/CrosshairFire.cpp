@@ -494,9 +494,9 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
     }
 
     if (id == 0)
-        SoundManager::instance->PlaySFX("Shot1P");
+        SoundManager::instance->PlaySFX(p1fireSFXClipname);
     else
-        SoundManager::instance->PlaySFX("Shot2P");
+        SoundManager::instance->PlaySFX(p2fireSFXClipname);
 
     if (IsValidObject(physAnimation))
     {
@@ -645,9 +645,9 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             }
 
             if (id == 0)
-                SoundManager::instance->PlaySFX("Shot1P");
+                SoundManager::instance->PlaySFX(p1fireSFXClipname);
             else
-                SoundManager::instance->PlaySFX("Shot2P");
+                SoundManager::instance->PlaySFX(p2fireSFXClipname);
 
             m_strCount = 0;
 
@@ -732,9 +732,9 @@ void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
     }
 
     if (id == 0)
-        SoundManager::instance->PlaySFX("Continuous");
+        SoundManager::instance->PlaySFX(p1fireSFXClipname);
     else
-        SoundManager::instance->PlaySFX("Continuous");
+        SoundManager::instance->PlaySFX(p2fireSFXClipname);
 
     if (IsValidObject(physAnimation))
     {

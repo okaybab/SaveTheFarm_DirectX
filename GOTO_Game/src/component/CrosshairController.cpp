@@ -401,6 +401,8 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
     case CrosshairType::MachineGun:
     {
         fire->ChangeMode(CrosshairFireMode::FullAuto);
+        fire->p1fireSFXClipname = "Continuous";
+        fire->p2fireSFXClipname = "Continuous";
         bulletImageTransforms[0]->GetGameObject()->SetActive(true);
         bulletImageTransforms[0]->SetLocalPosition({ -19.0f, -65.0f });
         m_bulletCount = 30;
@@ -431,6 +433,8 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
     }
     case CrosshairType::BigGun:
     {
+        fire->p1fireSFXClipname = "ShotBig1P";
+        fire->p2fireSFXClipname = "ShotBig2P";
         m_coolTime = 10.0f;
         m_animationDone = false;
         m_animationTime = 0.0f;
@@ -454,6 +458,8 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
     case CrosshairType::HoldingGun:
         break;
     case CrosshairType::MachineGun:
+        fire->p1fireSFXClipname = "Shot1P";
+        fire->p2fireSFXClipname = "Shot2P";
         bulletImageTransforms[0]->GetGameObject()->SetActive(false);
         text->GetGameObject()->SetActive(false);
         break;
@@ -482,6 +488,8 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
         break;
     }
     case CrosshairType::BigGun:
+        fire->p1fireSFXClipname = "Shot1P";
+        fire->p2fireSFXClipname = "Shot2P";
         fire->damage = 1;
         collide->SetColSize(m_colSize);
         GetTransform()->SetLocalScale({1.0f,1.0f});
