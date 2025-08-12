@@ -818,10 +818,6 @@ void GOTOEngine::CrosshairFire::OnSceneLoaded()
     if(camGO)
         m_shaker = camGO->GetComponent<CameraShaker>();
 
-    if (!m_shaker)
-    {
-        m_shaker = FindObjectByType<CameraShaker>();
-    }
 }
 
 GOTOEngine::CrosshairFireMode& GOTOEngine::operator++(CrosshairFireMode& state)

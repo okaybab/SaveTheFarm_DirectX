@@ -28,7 +28,7 @@ void GOTOEngine::GameObject::RegisterComponent(Component* comp)
 	m_components.push_back(comp);
 }
 
-void GOTOEngine::GameObject::UnregisterComponent(Component* comp)
+void GOTOEngine::GameObject::UnRegisterComponent(Component* comp)
 {
 	auto it = std::find(m_components.begin(), m_components.end(), comp);
 	if (it != m_components.end()) {
@@ -95,8 +95,6 @@ void GOTOEngine::GameObject::EnsureRectTransform()
 		auto parent = m_transform->GetParent();
 		auto childs = m_transform->m_childs;
 
-		if (IsValidObject(parent))
-			parent->RemoveChild(m_transform);
 		delete m_transform;
 		rectTransform = new RectTransform();
 		m_transform = rectTransform;

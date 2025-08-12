@@ -17,7 +17,7 @@ namespace GOTOEngine
 		{ 
 			if (IsValidObject(m_gameObject))
 			{
-				m_gameObject->UnregisterComponent(this);
+				m_gameObject->UnRegisterComponent(this);
 				m_gameObject = nullptr;
 			}
 		}

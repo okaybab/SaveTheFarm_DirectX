@@ -30,7 +30,7 @@ namespace GOTOEngine
 		
 		void InitInstance();
 		void RegisterComponent(Component* comp);
-		void UnregisterComponent(Component* comp);
+		void UnRegisterComponent(Component* comp);
 		void UpdateActiveInHierarchy();
 
 		void Dispose() override;
