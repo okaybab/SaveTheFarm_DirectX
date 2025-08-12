@@ -23,7 +23,7 @@
 			"state": "Move"
 		},
 		{
-			"number": 2,
+			"number": 3,
 			"random_x": true,
 			"random_y": false,
 			"random_x_range":
@@ -41,6 +41,11 @@
 			"flag": "0b1000",
 			"_comment": "포물선",
 			"value": 8
+		},
+		{
+			"flag": "0b0011",
+			"_comment": "직선",
+			"value": 3
 		}
 	]
 }

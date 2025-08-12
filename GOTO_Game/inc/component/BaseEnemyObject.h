@@ -225,6 +225,11 @@ namespace GOTOEngine
 			auto spriterenderer = GetComponent<SpriteRenderer>();
 			if (spriterenderer) spriterenderer->SetFlipX(!spriterenderer->GetFlipX());
 		}
+		void SetFlipXSprite(bool flip)
+		{
+			auto spriterenderer = GetComponent<SpriteRenderer>();
+			if (spriterenderer) spriterenderer->SetFlipX(flip);
+		}
 		void SetEnemyFrozen(bool _frozen)
 		{
 			m_isFrozen = _frozen;

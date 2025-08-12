@@ -57,6 +57,7 @@ namespace GOTOEngine
 			params["moveSpeed"] = m_moveSpeed;
 			params["position"] = m_currentPosition;
 			params["renderOrder"] = m_renderOrder;
+			params["crop"] = m_isCrop;
 			return params;
 		}
 	};

@@ -15,6 +15,9 @@ namespace GOTOEngine
         float m_distance = 5.0f;
         float m_frequency = 1.0f; // 진동 수
 
+        float m_offsetTime = 0.0f;
+        float m_length = 30.0f; // 흔들림의 폭
+
 		float m_maxY;
 		float m_minY;
 
@@ -32,11 +35,6 @@ namespace GOTOEngine
 
             m_moveSpeed = 140.0f * speed;
 
-        }
-        void Awake() override
-        {
-            __super::Awake();
-       
             m_role = E_Move_Role::PATH;
 
             if (m_flag & MOVE_LEFT_RIGHT && m_flag & MOVE_WAVE)
@@ -46,8 +44,37 @@ namespace GOTOEngine
                 m_distance = 1.0f;
             }
         }
+        void testInitialize(int moveFlag, float speed)
+        {
+            m_offsetTime = 0.0f;
+            m_flag = moveFlag;
+            m_moveSpeed = 0.05;
+            m_role = E_Move_Role::OFFSET;
+            m_length = 200.0f;
+            m_frequency = 3.0f;
+        }
+
+        void Awake() override
+        {
+            __super::Awake();
+       
+        }
         Vector2 Move(float deltaTime) override
         {
+            if (m_role == E_Move_Role::OFFSET)
+            {
+                //  m_offsetTime 변수를 추가하여 시간을 누적시킵니다.
+                // Initialize에서 0으로 초기화하면 됩니다.
+                m_offsetTime += deltaTime;
+
+                //  'm_length'만큼 상하로 반복하는 오프셋을 계산합니다.
+                // m_frequency는 흔들림의 속도를 조절하는 변수입니다.
+                float offsetY = sin(m_offsetTime * m_frequency) * m_length;
+
+                // Y축 오프셋만 반환합니다.
+                return Vector2(0, offsetY);
+            }
+
             if (m_isLoop)
             {
 				Vector2 currentPos = GetGameObject()->GetTransform()->GetPosition();

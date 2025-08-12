@@ -23,6 +23,7 @@ namespace GOTOEngine
 	{
 		E_Move_Enemy_Type m_moveEnemyType;
 		bool m_isGimmick;
+		bool m_isCrop;
 
 		std::vector<SpawnPoint*> m_points;
 		int currentPoint = 0;
@@ -33,6 +34,8 @@ namespace GOTOEngine
 		int m_renderOrder;
 		int combinedFlags = 0;
 		float t = 0;
+		float cropTime = 3.0f;
+
 
 		E_Game_Type m_gameType;
 
@@ -84,7 +87,6 @@ namespace GOTOEngine
 				spawner->Initialize();
 				
 				SetCurrentPoint();
-
 			}
 
 		}
@@ -106,16 +108,26 @@ namespace GOTOEngine
 				auto itVector2 = params.find("position");
 				if (itVector2 != params.end()) {
 					if (const auto pValue = std::any_cast<Vector2>(&itVector2->second)) { m_StartPos = *pValue; }
+
+					std::cout << "m_StartPosx : " << m_StartPos.x << "m_StartPos.y : " << m_StartPos.y << std::endl;
 				}
 				auto itInt = params.find("renderOrder");
 				if (itInt != params.end()) {
 					if (const auto pValue = std::any_cast<int>(&itInt->second)) { m_renderOrder = *pValue; }
+				}
+				auto itBool = params.find("crop");
+				if (itBool != params.end()) {
+					if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isCrop = *pValue; }
 				}
 			}
 
 			if (currentPoint + 1 != m_points.size())
 			{
 				m_EndPos = m_points[currentPoint + 1]->GetPosition();
+			}
+			else
+			{
+				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
 
 		}
@@ -185,8 +197,6 @@ namespace GOTOEngine
 				m_isMoveLoop = false;
 				m_disPoneTime = 30.0f;
 				m_moveFlag = m_spawner->GetRandomMoveFlag();
-				std::cout << "move flag : " << m_moveFlag << std::endl;
-				m_moveSpeed *= 1.3f;
 				GetGameObject()->name = L"까마귀";
 				GetTransform()->SetPosition(m_StartPos);
 				m_currentPathPosition = m_StartPos;
@@ -201,6 +211,8 @@ namespace GOTOEngine
 				controller->SetOnAnimationEnd([this, controller]() {
 					if (m_animState == DIE || m_animState == ESCAPE)
 					{
+						if (m_isCrop) return;
+
 						controller->SetOnAnimationEnd(nullptr);
 						GameObject::Destroy(GetGameObject());
 					}
@@ -234,7 +246,7 @@ namespace GOTOEngine
 			{
 				auto comp = AddComponent<MovementParabolic>();
 				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
-				comp->OnFlipDirection.Add<MoveEnemy>(this, &MoveEnemy::SetFlipXSprite);
+				//comp->OnFlipDirection.Add<MoveEnemy>(this, &MoveEnemy::SetFlipXSprite);
 				comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
 				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
@@ -248,35 +260,105 @@ namespace GOTOEngine
 					//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
 					comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
 					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-
+					comp->testInitialize(m_moveSpeed);
+					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
 				}
-				if (combinedFlags & MOVE_UP_DOWN) // 0b0010
-				{
-					auto comp = AddComponent<MovementUpDown>();
-					comp->SetEnabled(m_moveFlag & MOVE_UP_DOWN);
-					comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetHeight() * -0.5f, Screen::GetHeight() * 0.5f);
-
-				}
+				//if (combinedFlags & MOVE_UP_DOWN) // 0b0010
+				//{
+				//	auto comp = AddComponent<MovementUpDown>();
+				//	comp->SetEnabled(m_moveFlag & MOVE_UP_DOWN);
+				//	comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
+				//	comp->Initialize(Screen::GetHeight() * -0.5f, Screen::GetHeight() * 0.5f);
+				//	comp->testInitialize(m_moveFlag, m_moveSpeed);
+				//}
 			}
 
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 		}
+
+		void InitializeMovement()
+		{
+			if (combinedFlags & MOVE_CIRCULAR) // 0b0100
+			{
+				GetComponent<MoveCircle>()->SetEnabled(m_moveFlag & MOVE_CIRCULAR);
+			}
+			if (combinedFlags & MOVE_PARABOLIC) // 0b1000
+			{
+				auto comp = GetComponent<MovementParabolic>();
+				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
+
+				std::cout << "m_StartPos.x :: " << m_StartPos.x << "m_StartPos.y :: " << m_StartPos.y << std::endl;
+				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+
+				if (!(combinedFlags & MOVE_PARABOLIC && combinedFlags & MOVE_LEFT_RIGHT && combinedFlags & MOVE_UP_DOWN)) // 1011 == 1000
+				{
+					if (combinedFlags & MOVE_LEFT_RIGHT) // 0b0001
+					{
+						auto comp = AddComponent<MovementLeftRight>();
+						comp->SetEnabled(m_moveFlag & MOVE_LEFT_RIGHT);
+						//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
+						comp->testInitialize(m_moveSpeed);
+						comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+					}
+				}
+			}
+		}
+
 		void OnEndEvent()
 		{
-			//std::cout << "OnEndEvent()" << std::endl;
+			if(m_points.empty() || currentPoint >= m_points.size()-1)
+			{
+				return;
+			}
+
+			std::cout << "OnEndEvent()" << std::endl;
+			t = 0.0f;
+
+			currentPoint++;
+
+			SetCurrentPoint();
+
+			m_moveFlag = m_spawner->GetRandomMoveFlag();
+
+			m_StartPos = GetGameObject()->GetTransform()->GetPosition();
+			m_currentPathPosition = m_StartPos;
+
+			SetFlipXSprite(m_currentPathPosition.x > m_EndPos.x);
+
+			InitializeMovement();
+			SetState(m_animState);
 		}
 
 		void Update() override
 		{
+			if (m_isCrop)
+			{
+				cropTime -= TIME_GET_DELTATIME();
+
+				if (cropTime <= 0.0f) 
+				{ 
+					m_isCrop = false;
+					SetState(ESCAPE);
+				}
+
+				return;
+			}
+
 			__super::Update();
-			
-			//t += TIME_GET_DELTATIME() * m_moveSpeed;
-			//*/
-			// m_StartPos와 m_EndPos 사이의 t 비율만큼의 위치를 계산합니다.
-			//m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
-			//m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
-			//*/
+
+			if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)
+			{
+				//*/ m_StartPos와 m_EndPos 사이의 t 비율만큼의 위치를 계산합니다.
+				t += TIME_GET_DELTATIME() * m_moveSpeed;
+				m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
+				m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
+				//*/
+
+				if ((m_currentPathPosition - m_EndPos).Magnitude() < 10.0f) //x,y endpos에 거의 가까우면?
+				{				
+					OnEndEvent();		
+				}
+			}
 		}
 	
 
