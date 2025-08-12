@@ -153,7 +153,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	GameObject* newEnemyObject = new GameObject(L"디펜스");
 
 	ParameterMap params;
-	params["EnemyType"] = static_cast<E_Defense_Enemy_Type>(fly);
+	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(fly);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_nomal);
 
 	newEnemyObject->AddComponent<DefenseEnemy>();

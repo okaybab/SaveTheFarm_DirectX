@@ -11,7 +11,7 @@ using ParameterMap = std::map<std::string, std::any>;
 
 namespace GOTOEngine
 {
-	enum E_Defense_Enemy_Type
+	enum E_Defense_Fly_Type
 	{
 		fly,
 		ground
@@ -23,13 +23,25 @@ namespace GOTOEngine
 		defense_gimmick
 	};
 
-
-
-	std::wstring GetDefenseEnemyTypeString(E_Defense_Enemy_Type type)
+	enum E_Defense_Enemy_Type
 	{
-		static const std::map<E_Defense_Enemy_Type, std::wstring> typeMap = {
-			{E_Defense_Enemy_Type::fly, L"공중"},
-			{E_Defense_Enemy_Type::ground, L"지상"}
+		d_mole,
+		d_crow,
+		d_rabbit,
+		d_squirrel,
+		d_thiefMole,
+		d_iceCrow,
+		d_bombCrow,
+		d_mushCrow,
+		defense_type_count
+	};
+
+
+	std::wstring GetDefenseEnemyTypeString(E_Defense_Fly_Type type)
+	{
+		static const std::map<E_Defense_Fly_Type, std::wstring> typeMap = {
+			{E_Defense_Fly_Type::fly, L"공중"},
+			{E_Defense_Fly_Type::ground, L"지상"}
 		};
 
 		auto it = typeMap.find(type);
@@ -54,14 +66,15 @@ namespace GOTOEngine
 		}
 		return L"";
 	}
-	std::wstring CreateCombinedString(E_Defense_Enemy_Type enemyType, E_Defense_Gimmick_Type gimmickType)
+	std::wstring CreateCombinedString(E_Defense_Fly_Type enemyType, E_Defense_Gimmick_Type gimmickType)
 		{ return (GetDefenseEnemyTypeString(enemyType) + GetDefenseGimmickTypeString(gimmickType)); }
 
 	class DefenseEnemy : public BaseEnemyObject
 	{
 		E_Game_Type m_gameType;
-		E_Defense_Enemy_Type m_enemyType;
+		E_Defense_Fly_Type m_enemyType;
 		E_Defense_Gimmick_Type m_gimmickType;
+		E_Defense_Enemy_Type m_dEnemyType;
 		bool m_isGimmick;
 		bool m_isCrop;
 
@@ -83,7 +96,7 @@ namespace GOTOEngine
 				const ParameterMap& params = *pMap;
 				auto itEnemyType = params.find("EnemyType");
 				if (itEnemyType != params.end()) {
-					if (const auto pValue = std::any_cast<E_Defense_Enemy_Type>(&itEnemyType->second)) { m_enemyType = *pValue; }
+					if (const auto pValue = std::any_cast<E_Defense_Fly_Type>(&itEnemyType->second)) { m_enemyType = *pValue; }
 				}
 				auto itGimmickType = params.find("GimmickType");
 				if (itGimmickType != params.end()) {
@@ -104,7 +117,6 @@ namespace GOTOEngine
 			{
 				combinedFlags |= enemyMove->GetFlag();
 			}
-
 		}
 
 		void SetCurrentPoint()
@@ -152,10 +164,13 @@ namespace GOTOEngine
 			__super::Awake();
 
 			m_gameType = EnemySpawnManager::instance->GetGameType();
+
+
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
 			
-			GetGameObject()->name = L"까마귀";
+			// GetGameObject()->name = L"까마귀";
+			GetGameObject()->name = L"토끼";
 			GetTransform()->SetPosition(m_StartPos);
 			m_currentPathPosition = m_StartPos;
 

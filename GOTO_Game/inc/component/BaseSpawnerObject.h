@@ -85,6 +85,7 @@ namespace GOTOEngine
 		std::vector<SpawnPoint*> m_points;
 		std::vector<EnemyMove*> m_moveFlag;
 		std::wstring m_spawnName;
+		bool m_flagFix;
 		void Dispose() override;
 	public:
 		const std::vector<SpawnPoint*>& GetPoints() { return m_points; }

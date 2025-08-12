@@ -1,5 +1,6 @@
 {
 	"spawnName": "groundGimmick_Points",
+	"flagFix": true,
 	"points":[
 		{
 			"random_x": true,
@@ -35,6 +36,18 @@
 			"random_y": false,
 			"speed": 0.0,
 			"state": "Dispone"
+		}
+	],
+	"moveFlags":[
+		{
+			"flag": "0b1000",
+			"_comment": "포물선",
+			"value": 8
+		},
+		{
+			"flag": "0b0011",
+			"_comment": "직선",
+			"value": 3
 		}
 	]
 }
