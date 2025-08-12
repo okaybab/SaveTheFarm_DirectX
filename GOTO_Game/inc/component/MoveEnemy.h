@@ -80,7 +80,7 @@ namespace GOTOEngine
 			if (spawner)
 			{
 				m_points = spawner->GetPoints();
-
+				spawner->Initialize();
 				
 				SetCurrentPoint();
 
@@ -91,7 +91,7 @@ namespace GOTOEngine
 		void SetCurrentPoint()
 		{
 			std::any data = m_points[currentPoint]->GetSpawnPointData();
-		
+			
 			if (const auto pMap = std::any_cast<PointData>(&data)) {
 				const ParameterMap& params = *pMap;
 				auto itAnimState = params.find("animState");
@@ -179,23 +179,22 @@ namespace GOTOEngine
 				if (m_isGimmick) OnGimmick();
 			}
 			else // E_Game_Type::GAME2
-			{
-				//std::cout << "Move Awake" << std::endl;
-				
-				/*/
+			{							
 				m_enemyType = E_EnemyType::move;
 				m_isMoveLoop = false;
 				m_moveFlag = m_spawner->GetRandomMoveFlag();
 				m_moveSpeed *= 1.3f;
 				GetGameObject()->name = L"까마귀";
-
 				GetTransform()->SetPosition(m_StartPos);
 				m_currentPathPosition = m_StartPos;
-				GetTransform()->SetLossyScale({ 0.3f, 0.3f });
 
-				AddComponent<SpriteRenderer>()->SetRenderLayer(1);
+				GetTransform()->SetLossyScale({ 0.6f, 0.6f });
+				
+				AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
 				AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 				auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
+				if (controller == nullptr) { std::cout << "" << std::endl; return; }
+				
 				controller->SetOnAnimationEnd([this, controller]() {
 					if (m_animState == DIE || m_animState == ESCAPE)
 					{
@@ -210,39 +209,25 @@ namespace GOTOEngine
 				collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
 				SetUpMovementComponents();
-				//*/
-
-
 			}
 		}
 
 		void SetUpMovementComponents()
 		{
 			auto comp = AddComponent<MovementParabolic>();
-			//comp->OnFlipDirection.Add(this, &BaseEnemyObject::SetFlipXSprite);
+			//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
 			comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-
-			for (auto comp : m_movementComponents)
-			{
-				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
-			}
+			comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
 		}
 
-		/*/
+		//*/
 		void Update() override
 		{
 			__super::Update();
 			
-			t += TIME_GET_DELTATIME() * m_moveSpeed;
-
-			// m_StartPos와 m_EndPos 사이의 t 비율만큼의 위치를 계산합니다.
-			m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
-			m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
-				
-			__super::Update();
-			
+			//t += TIME_GET_DELTATIME() * m_moveSpeed;
 			
 		}
 		//*/
@@ -257,15 +242,18 @@ namespace GOTOEngine
 		{
 			__super::OnDispone();
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
-			if (m_layer & 1 << 1)
+			if(m_gameType == E_Game_Type::GAME1)
 			{
-				GameManager::instance->PointChange(1, -1);
-				GameManager::instance->P1Lost++;
-			}
-			else if (m_layer & 1 << 2)
-			{
-				GameManager::instance->PointChange(2, -1);
-				GameManager::instance->P2Lost++;
+				if (m_layer & 1 << 1)
+				{
+					GameManager::instance->PointChange(1, -1);
+					GameManager::instance->P1Lost++;
+				}
+				else if (m_layer & 1 << 2)
+				{
+					GameManager::instance->PointChange(2, -1);
+					GameManager::instance->P2Lost++;
+				}
 			}
 		}
 		void OnGimmick()

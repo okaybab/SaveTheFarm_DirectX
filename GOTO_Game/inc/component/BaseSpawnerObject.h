@@ -23,7 +23,7 @@ namespace GOTOEngine
 	class SpawnPoint : public Object
 	{
 	private:
-		friend class BaseEnemyObject; // state를 쓰려면 어떻게 해야할까?
+		friend class BaseEnemyObject;
 
 		E_Enemy_Anim_State m_state;
 		float m_moveSpeed;
@@ -48,7 +48,7 @@ namespace GOTOEngine
 	public:
 		void Initialize();
 		void SetupFromJSON(const nlohmann::json& pointInfo);
-		float CalculateCoordinate(const nlohmann::json& pointInfo, const std::string& axisName, float screenDimension);
+		float CalculateCoordinate(const nlohmann::json& pointInfo, const std::string& axisName, float screenDimension, RangeInfo& minInfo, RangeInfo& maxInfo);
 		Vector2 GetPosition() { return m_currentPosition; }
 		PointData GetSpawnPointData() const
 		{
@@ -87,7 +87,8 @@ namespace GOTOEngine
 		void Dispose() override;
 	public:
 		const std::vector<SpawnPoint*>& GetPoints() { return m_points; }
-		int GetRandomMoveFlag() { return m_moveFlag[EnemySpawnManager::GenerateRandom(0, (int)m_moveFlag.size())]->GetFlag(); }
+		int GetRandomMoveFlag() { return m_moveFlag[EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1)]->GetFlag(); }
+		void Initialize() { for (auto move : m_points) move->Initialize(); }
 	};
 
 }
