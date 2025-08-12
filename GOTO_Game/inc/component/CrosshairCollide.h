@@ -174,6 +174,11 @@ namespace GOTOEngine
 			}
 		}
 
+		void ChangeCollideMode(CrosshairCollideMode mode)
+		{
+			m_mode = mode;
+		}
+
 		void CollectOverlapInfo(const Vector2& position, const Vector2& size, int targetLayerMask)
 		{
 			auto objects = PHYSICS_OVERLAP_BOX2D(position, size);

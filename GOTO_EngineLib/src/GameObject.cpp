@@ -95,6 +95,8 @@ void GOTOEngine::GameObject::EnsureRectTransform()
 		auto parent = m_transform->GetParent();
 		auto childs = m_transform->m_childs;
 
+		if (IsValidObject(parent))
+			parent->RemoveChild(m_transform);
 		delete m_transform;
 		rectTransform = new RectTransform();
 		m_transform = rectTransform;

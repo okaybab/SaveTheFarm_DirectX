@@ -290,10 +290,12 @@ void GOTOEngine::DefenseModeCameraManager::Update()
     if (t > 0.0f)
     {
         m_backgroundCam->GetGameObject()->SetActive(true);
+        m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::CrossScreen);
     }
     else
     {
         m_backgroundCam->GetGameObject()->SetActive(false);
+        m_p1CrossCol->ChangeCollideMode(CrosshairCollideMode::LocalScreen);
     }
         
 
