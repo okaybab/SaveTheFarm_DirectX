@@ -23,6 +23,8 @@ namespace GOTOEngine
 		defense_gimmick
 	};
 
+
+
 	std::wstring GetDefenseEnemyTypeString(E_Defense_Enemy_Type type)
 	{
 		static const std::map<E_Defense_Enemy_Type, std::wstring> typeMap = {
@@ -96,6 +98,13 @@ namespace GOTOEngine
 				m_spawner->Initialize();
 				SetCurrentPoint();
 			}
+
+			auto enemyMoves = m_spawner->GetFlags();
+			for (EnemyMove* enemyMove : enemyMoves)
+			{
+				combinedFlags |= enemyMove->GetFlag();
+			}
+
 		}
 
 		void SetCurrentPoint()
@@ -131,8 +140,6 @@ namespace GOTOEngine
 			if (m_currentPoint < m_points.size() - 1)
 			{
 				m_EndPos = m_points[m_currentPoint + 1]->GetPosition();
-				std::cout << "@@@@@ m_moveFlag : " << m_moveFlag << std::endl;
-				std::cout << " m_EndPos. x : " << m_EndPos.x << "  m_EndPos.y : " << m_EndPos.y << std::endl;
 			}
 			else
 			{
@@ -172,78 +179,50 @@ namespace GOTOEngine
 
 			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
 
-			SetUpMovementComponents();
+			InitializeMovement();
 			
-		}
-
-		void SetUpMovementComponents()
-		{
-			auto enemyMoves = m_spawner->GetFlags();
-
-			for (EnemyMove* enemyMove : enemyMoves)
-			{
-				combinedFlags |= enemyMove->GetFlag();
-			}
-
-			if (combinedFlags & MOVE_PARABOLIC) // 0b1000
-			{
-				auto comp = AddComponent<MovementParabolic>();
-				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
-				//comp->OnFlipDirection.Add<MoveEnemy>(this, &MoveEnemy::SetFlipXSprite);
-				comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
-			}
-			if (!(combinedFlags & MOVE_PARABOLIC && combinedFlags & MOVE_LEFT_RIGHT && combinedFlags & MOVE_UP_DOWN)) // 1011 == 1000
-			{
-				if (combinedFlags & MOVE_LEFT_RIGHT) // 0b0001
-				{
-					auto comp = AddComponent<MovementLeftRight>();
-					comp->SetEnabled(m_moveFlag & MOVE_LEFT_RIGHT);
-					//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
-					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-					comp->testInitialize(m_moveSpeed);
-					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
-				}
-				//if (combinedFlags & MOVE_UP_DOWN) // 0b0010
-				//{
-				//	auto comp = AddComponent<MovementUpDown>();
-				//	comp->SetEnabled(m_moveFlag & MOVE_UP_DOWN);
-				//	comp->OnEndPoint.Add<MoveEnemy>(this, &MoveEnemy::OnEndEvent);
-				//	comp->Initialize(Screen::GetHeight() * -0.5f, Screen::GetHeight() * 0.5f);
-				//	comp->testInitialize(m_moveFlag, m_moveSpeed);
-				//}
-			}
-
-			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
 		}
 
 		void InitializeMovement()
 		{
 			m_movementComponents.clear();
 
-
-			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000
+			if (m_moveFlag & MOVE_PARABOLIC) // 0b1000 (곡선)
 			{
 				if (auto comp = GetComponent<MovementParabolic>())
 				{
-					m_movementComponents.push_back(comp);
 					comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
 					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+					m_movementComponents.push_back(comp);
+				}
+				else
+				{
+					comp = AddComponent<MovementParabolic>();
+					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+					m_movementComponents.push_back(comp);
 				}
 			}
 
-			if (m_moveFlag & MOVE_LEFT_RIGHT)
+			if (m_moveFlag & MOVE_LEFT_RIGHT) // 물결
 			{
 				if (auto comp = GetComponent<MovementLeftRight>())
 				{
-					m_movementComponents.push_back(comp);
 					comp->testInitialize(m_moveSpeed);
 					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+					m_movementComponents.push_back(comp);
+				}
+				else
+				{
+					comp = AddComponent<MovementLeftRight>();
+					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					comp->testInitialize(m_moveSpeed);
+					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+					m_movementComponents.push_back(comp);
 				}
 			}
-
 		}
 
 		void OnEndEvent()
@@ -275,7 +254,6 @@ namespace GOTOEngine
 
 		void Update() override
 		{
-
 			__super::Update();
 
 			if (m_isCrop)
