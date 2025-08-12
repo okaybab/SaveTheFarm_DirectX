@@ -6,6 +6,7 @@
 #include <Animator.h>
 #include <Collider2D.h>
 #include <AnimationCurve.h>
+#include <ParticleSystem.h>
 #include "Screen.h"
 
 namespace GOTOEngine
@@ -46,5 +47,9 @@ namespace GOTOEngine
 		float crowhittimer = 0.0f;
 		float goldhittimer = 0.0f;
 		float thiefhittimer = 0.0f;
+
+		ParticleSystem* crowParticle;
+		ParticleSystem* goldParticle;
+		ParticleSystem* thiefParticle;
 	};
 }

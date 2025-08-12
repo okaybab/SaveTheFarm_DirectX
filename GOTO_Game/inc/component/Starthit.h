@@ -15,12 +15,15 @@ namespace GOTOEngine {
 			SoundManager::instance->PlaySFX("Hit");
 			if (id == 0) {
 				startanimal->crowhittimer = 1.0f;
+				startanimal->crowParticle->Play();
 			}
 			else if (id == 1) {
 				startanimal->goldhittimer = 1.0f;
+				startanimal->goldParticle->Play();
 			}
 			else if (id == 2) {
 				startanimal->thiefhittimer = 1.0f;
+				startanimal->thiefParticle->Play();
 			}
 		}
 		StartAnimal* startanimal;
