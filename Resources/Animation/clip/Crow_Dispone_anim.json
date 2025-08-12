@@ -1,9 +1,10 @@
 {
-    "clipName": "Crow_Escape",
-    "loop": true,
-    "alpha": false,
+    "clipName": "Crow_Dispone",
+    "loop": false,
+    "alpha": true,
+	"speed": 3.0,
     "texturePath": "../Resources/artResource/SpriteSheet/Crow/Crow_Escape.png",
-    "duration": 1.6666667461395264,
+    "duration": 1.75,
     "frames": [
         {
             "sprite": "Crow_Escape_0",
@@ -13,97 +14,102 @@
         {
             "sprite": "Crow_Escape_1",
             "time": 0.0833333358168602,
-            "alpha": 1.0
+            "alpha": 0.9927499890327454
         },
         {
             "sprite": "Crow_Escape_2",
             "time": 0.1666666716337204,
-            "alpha": 1.0
+            "alpha": 0.972000002861023
         },
         {
             "sprite": "Crow_Escape_3",
             "time": 0.25,
-            "alpha": 1.0
+            "alpha": 0.9392499923706055
         },
         {
             "sprite": "Crow_Escape_4",
             "time": 0.3333333432674408,
-            "alpha": 1.0
+            "alpha": 0.8959999680519104
         },
         {
             "sprite": "Crow_Escape_5",
             "time": 0.4166666865348816,
-            "alpha": 1.0
+            "alpha": 0.84375
         },
         {
             "sprite": "Crow_Escape_6",
             "time": 0.5,
-            "alpha": 1.0
+            "alpha": 0.7839999794960022
         },
         {
             "sprite": "Crow_Escape_7",
             "time": 0.5833333730697632,
-            "alpha": 1.0
+            "alpha": 0.7182499170303345
         },
         {
             "sprite": "Crow_Escape_8",
             "time": 0.6666666865348816,
-            "alpha": 1.0
+            "alpha": 0.6479999423027039
         },
         {
             "sprite": "Crow_Escape_9",
             "time": 0.75,
-            "alpha": 1.0
+            "alpha": 0.5747499465942383
         },
         {
             "sprite": "Crow_Escape_10",
             "time": 0.8333333730697632,
-            "alpha": 1.0
+            "alpha": 0.4999999403953552
         },
         {
             "sprite": "Crow_Escape_11",
             "time": 0.9166666865348816,
-            "alpha": 1.0
+            "alpha": 0.4252498745918274
         },
         {
             "sprite": "Crow_Escape_12",
             "time": 1.0,
-            "alpha": 1.0
+            "alpha": 0.3519998788833618
         },
         {
             "sprite": "Crow_Escape_13",
             "time": 1.0833333730697632,
-            "alpha": 1.0
+            "alpha": 0.28174978494644167
         },
         {
             "sprite": "Crow_Escape_14",
             "time": 1.1666667461395264,
-            "alpha": 1.0
+            "alpha": 0.21599972248077393
         },
         {
             "sprite": "Crow_Escape_15",
             "time": 1.25,
-            "alpha": 1.0
+            "alpha": 0.15624988079071046
         },
         {
             "sprite": "Crow_Escape_16",
             "time": 1.3333333730697632,
-            "alpha": 1.0
+            "alpha": 0.10399985313415528
         },
         {
             "sprite": "Crow_Escape_17",
             "time": 1.4166667461395264,
-            "alpha": 1.0
+            "alpha": 0.06074976921081543
         },
         {
             "sprite": "Crow_Escape_18",
             "time": 1.5,
-            "alpha": 1.0
+            "alpha": 0.027999818325042726
         },
         {
             "sprite": "Crow_Escape_19",
             "time": 1.5833333730697632,
-            "alpha": 1.0
+            "alpha": 0.007249712944030762
+        },
+        {
+            "sprite": "Crow_Escape_0",
+            "time": 1.6666666269302369,
+            "alpha": 0.0
         }
     ],
     "events": []

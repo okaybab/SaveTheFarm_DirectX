@@ -20,7 +20,7 @@
 			"random_y": false,
 			"crop": true,
 			"speed": 1.0,
-			"state": "Move"
+			"state": "Escape"
 		},
 		{
 			"number": 3,
@@ -33,7 +33,7 @@
 			},
 			"y": 0.5,
 			"speed": 1.5,
-			"state": "Escape"
+			"state": "Dispone"
 		}
 	],
 	"moveFlags":[
@@ -41,11 +41,6 @@
 			"flag": "0b1000",
 			"_comment": "포물선",
 			"value": 8
-		},
-		{
-			"flag": "0b0011",
-			"_comment": "직선",
-			"value": 3
 		}
 	]
 }

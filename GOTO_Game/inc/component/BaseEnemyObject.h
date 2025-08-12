@@ -41,7 +41,7 @@ namespace GOTOEngine
 		MOVE,
 		DIE,
 		ESCAPE,
-		DISPOSE
+		DISPONE
 	};
 	inline std::wstring StateToString(E_Enemy_Anim_State state)
 	{
@@ -51,6 +51,7 @@ namespace GOTOEngine
 		case E_Enemy_Anim_State::MOVE:   return L"Move";
 		case E_Enemy_Anim_State::DIE:    return L"Die";
 		case E_Enemy_Anim_State::ESCAPE: return L"Escape";
+		case E_Enemy_Anim_State::DISPONE: return L"Dispone";
 		default:                         return L"";
 		}
 	}
@@ -61,7 +62,8 @@ namespace GOTOEngine
 			{"Idle",   E_Enemy_Anim_State::IDLE},
 			{"Move",   E_Enemy_Anim_State::MOVE},
 			{"Die",    E_Enemy_Anim_State::DIE},
-			{"Escape", E_Enemy_Anim_State::ESCAPE}
+			{"Escape", E_Enemy_Anim_State::ESCAPE},
+			{"Dispone", E_Enemy_Anim_State::DISPONE}
 		};
 		auto it = stateMap.find(stateStr);
 
@@ -123,6 +125,7 @@ namespace GOTOEngine
 		{
 			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{
+				std::cout << "m_moveFlag : " << m_moveFlag << std::endl;
 				return;
 			}
 
@@ -270,7 +273,10 @@ namespace GOTOEngine
 		{ 
 			m_isDeathByDispone = true;
 			SetMoveSpeed(3.0f);
-			SetState(E_Enemy_Anim_State::ESCAPE); 
+			if (EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME2)
+				SetState(E_Enemy_Anim_State::DISPONE); 
+			else
+				SetState(E_Enemy_Anim_State::ESCAPE);
 		}
 	};
 }
