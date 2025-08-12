@@ -87,6 +87,7 @@ namespace GOTOEngine
 		void Dispose() override;
 	public:
 		const std::vector<SpawnPoint*>& GetPoints() { return m_points; }
+		const std::vector<EnemyMove*>& GetFlags() { return m_moveFlag; }
 		int GetRandomMoveFlag() { return m_moveFlag[EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1)]->GetFlag(); }
 		void Initialize() { for (auto move : m_points) move->Initialize(); }
 	};

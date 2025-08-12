@@ -31,6 +31,7 @@ namespace GOTOEngine
 		Vector2 m_EndPos;
 
 		int m_renderOrder;
+		int combinedFlags = 0;
 		float t = 0;
 
 		E_Game_Type m_gameType;
@@ -208,29 +209,80 @@ namespace GOTOEngine
 
 				collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
+				if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
+
 				SetUpMovementComponents();
 			}
 		}
 
 		void SetUpMovementComponents()
 		{
-			auto comp = AddComponent<MovementParabolic>();
+			//auto comp = AddComponent<MovementParabolic>();
 			//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
-			comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+			//comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+
+			//m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
+			//comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+
+			
+			// 2. spawner에서 모든 적의 플래그를 가져옵니다.
+			auto enemyMoves = m_spawner->GetFlags();
+
+			// 3. for 루프를 돌면서 모든 플래그를 OR 연산으로 합칩니다.
+			for (EnemyMove* enemyMove : enemyMoves)
+			{
+				combinedFlags |= enemyMove->GetFlag();
+			}
+
+			// flag 스크립트	부착
+			if (combinedFlags & MOVE_CIRCULAR) // 0b0100
+			{
+				AddComponent<MoveCircle>()->SetEnabled(m_moveFlag & MOVE_CIRCULAR);
+			}
+			if (combinedFlags & MOVE_PARABOLIC) // 0b1000
+			{
+				auto comp = AddComponent<MovementParabolic>();
+				comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
+				comp->OnFlipDirection.Add<MoveEnemy>(this, &MoveEnemy::SetFlipXSprite);
+				comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+				comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+			}
+			if (!(combinedFlags & MOVE_PARABOLIC && combinedFlags & MOVE_LEFT_RIGHT && combinedFlags & MOVE_UP_DOWN)) // 1011 == 1000
+			{
+				if (combinedFlags & MOVE_LEFT_RIGHT) // 0b0001
+				{
+					auto comp = AddComponent<MovementLeftRight>();
+					comp->SetEnabled(m_moveFlag & MOVE_LEFT_RIGHT);
+					//comp->OnFlipDirection.Add(this, &MoveEnemy::SetFlipXSprite);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+				}
+				if (combinedFlags & MOVE_UP_DOWN) // 0b0010
+				{
+					auto comp = AddComponent<MovementUpDown>();
+					comp->SetEnabled(m_moveFlag & MOVE_UP_DOWN);
+					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+				}
+			}
 
 			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-			comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
+		}
+		void InitiaizeMovement()
+		{
+
 		}
 
-		//*/
 		void Update() override
 		{
 			__super::Update();
 			
 			//t += TIME_GET_DELTATIME() * m_moveSpeed;
-			
+			//*/
+			// m_StartPos와 m_EndPos 사이의 t 비율만큼의 위치를 계산합니다.
+			//m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
+			//m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
+			//*/
 		}
-		//*/
+	
 
 		int GetType() { return static_cast<int>(m_moveEnemyType); }
 		void OnDie(int attackerID, bool isGimmick = true) override
