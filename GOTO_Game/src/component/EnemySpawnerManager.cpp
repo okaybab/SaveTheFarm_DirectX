@@ -44,6 +44,7 @@ void GOTOEngine::EnemySpawnManager::Awake()
 			{L"얼음새", L"../Resources/Animation/controller/IceCrowAnimator_AnimController.json"},
 			{L"폭탄새", L"../Resources/Animation/controller/BombCrowAnimator_AnimController.json"},
 			{L"황금새", L"../Resources/Animation/controller/GoldCrowAnimator_AnimController.json"},
+			{L"버섯새", L"../Resources/Animation/controller/MushCrowAnimator_AnimController.json"},
 			{L"황금두더지", L"../Resources/Animation/controller/GoldMoleAnimator_AnimController.json"},
 
 			{L"Gimmick3", L"../Resources/Animation/controller/Gimmick3_Animator_AnimController.json"}
@@ -66,6 +67,7 @@ void GOTOEngine::EnemySpawnManager::Awake()
 			{L"얼음새", L"../Resources/artResource/SpriteSheet/Crow/IceCrow_Die.png"},
 			{L"폭탄새", L"../Resources/artResource/SpriteSheet/Crow/BombCrow_Die.png"},
 			{L"황금새", L"../Resources/artResource/SpriteSheet/Crow/GoldCrow_Die.png"},
+			{L"버섯새", L"../Resources/artResource/SpriteSheet/Crow/MushCrow_Die.png"},
 			{L"황금두더지", L"../Resources/artResource/SpriteSheet/Mole/GoldMole_Die.png"},
 		};
 		for (const auto& [key, path] : spriteList)

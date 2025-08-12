@@ -154,7 +154,7 @@ namespace GOTOEngine
 				}
 			}
 
-			if (m_moveFlag & MOVE_LEFT_RIGHT) // 물결
+			if (!(m_moveFlag & MOVE_PARABOLIC && m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)) // 물결
 			{
 				if (auto comp = GetComponent<MovementLeftRight>())
 				{
