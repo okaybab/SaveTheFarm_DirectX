@@ -248,9 +248,12 @@ namespace GOTOEngine
 		}
 		void OnBulletDie(int attackerID)
 		{
-			GameManager::instance->PointChange(attackerID + 1, 1);
-			int& point = attackerID == 0 ? GameManager::instance->P1Catch : GameManager::instance->P2Catch;
-			point++;
+			if(EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME1)
+			{
+				GameManager::instance->PointChange(attackerID + 1, 1);
+				int& point = attackerID == 0 ? GameManager::instance->P1Catch : GameManager::instance->P2Catch;
+				point++;
+			}
 			SoundManager::instance->PlaySFX("Hit");
 
 			OnDie(attackerID + 1); // player는 0, 1값으로 들어옴

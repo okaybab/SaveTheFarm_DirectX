@@ -46,6 +46,17 @@ namespace GOTOEngine
                 m_endPos = Vector2(m_maxX * m_flipDirection, initialPos.y);
             }
         }
+        void Initialize(Vector2 initialPos, Vector2 _startPos, Vector2 _endPos, float speed)
+        {
+            m_initializePos = initialPos;
+            m_role = E_Move_Role::PATH;
+
+            m_startPos = _startPos;
+            m_endPos = _endPos;
+            m_height = 100.0f;
+            m_moveSpeed = 2.0f * speed;
+        }
+
         void Awake() override
         {
             __super::Awake();
@@ -73,7 +84,7 @@ namespace GOTOEngine
             {
             case E_Move_Role::PATH:
             {
-                // 진행도 progress 
+                // 진행도 progress
                 m_progress += deltaTime / m_moveSpeed;
                 if (m_progress > 1.0f)
                 {
@@ -87,15 +98,12 @@ namespace GOTOEngine
                     else m_progress = 1.0f;
                 }
 
-                // 수평 위치(x) 계산 
-                float currentX = m_startPos.x + (m_endPos.x - m_startPos.x) * m_progress;
-                // 수직 위치(y) 아래 방향 포물선 계산 
-                // y = -4 * h * ( x - x^2 )
-                float parabolicY = -4 * m_height * (m_progress - m_progress * m_progress);
-                // 이번 프레임 목표 위치 계산
-                Vector2 targetPos = Vector2(currentX, m_startPos.y + parabolicY);
+                float linearX = m_startPos.x + (m_endPos.x - m_startPos.x) * m_progress;
+                float linearY = m_startPos.y + (m_endPos.y - m_startPos.y) * m_progress;
 
-                // 현재 위치에서 목표 위치로의 이동량 반환
+                float parabolicOffset = -4 * m_height * (m_progress - m_progress * m_progress);
+
+                Vector2 targetPos = Vector2(linearX, linearY + parabolicOffset);
                 return targetPos - GetGameObject()->GetTransform()->GetPosition();
             }
             break;
