@@ -114,4 +114,41 @@ namespace GOTOEngine
 		void Initialize() { for (auto move : m_points) move->Initialize(); }
 	};
 
-}//return m_moveFlag[EnemySpawnManager::instance->GenerateRandom(0, (int)m_moveFlag.size() - 1)]->GetFlag(); 
+
+	// DefenseEnemyHelper.cpp
+	using ParameterMap = std::map<std::string, std::any>;
+	enum E_Defense_Fly_Type
+	{
+		fly,
+		ground1,
+		ground2,
+		defense_fly_type_count
+	};
+
+	enum E_Defense_Gimmick_Type
+	{
+		defense_nomal,
+		defense_gimmick,
+		defense_gimmick_type_count
+	};
+
+	enum E_Defense_Enemy_Type
+	{
+		d_mole,
+		d_crow,
+		d_rabbit,
+		d_squirrel,
+		d_thiefMole,
+		d_iceCrow,
+		d_bombCrow,
+		d_mushCrow,
+		defense_type_count
+	};
+
+	std::wstring TypetoString(E_Defense_Enemy_Type type);
+	std::wstring GetDefenseEnemyTypeString(E_Defense_Fly_Type type);
+	std::wstring GetDefenseGimmickTypeString(E_Defense_Gimmick_Type type);
+	std::wstring CreateCombinedString(E_Defense_Fly_Type enemyType, E_Defense_Gimmick_Type gimmickType);
+	std::wstring GetRandomNameFromVector(const std::vector<std::wstring>& names);
+	void CreateEnemyWithRandomName(const ParameterMap& params, GameObject* newEnemyObject);
+}

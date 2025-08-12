@@ -11,64 +11,6 @@ using ParameterMap = std::map<std::string, std::any>;
 
 namespace GOTOEngine
 {
-	enum E_Defense_Fly_Type
-	{
-		fly,
-		ground
-	};
-
-	enum E_Defense_Gimmick_Type
-	{
-		defense_nomal,
-		defense_gimmick
-	};
-
-	enum E_Defense_Enemy_Type
-	{
-		d_mole,
-		d_crow,
-		d_rabbit,
-		d_squirrel,
-		d_thiefMole,
-		d_iceCrow,
-		d_bombCrow,
-		d_mushCrow,
-		defense_type_count
-	};
-
-
-	std::wstring GetDefenseEnemyTypeString(E_Defense_Fly_Type type)
-	{
-		static const std::map<E_Defense_Fly_Type, std::wstring> typeMap = {
-			{E_Defense_Fly_Type::fly, L"공중"},
-			{E_Defense_Fly_Type::ground, L"지상"}
-		};
-
-		auto it = typeMap.find(type);
-		if (it != typeMap.end())
-		{
-			return it->second;
-		}
-		return L"";
-	}
-
-	std::wstring GetDefenseGimmickTypeString(E_Defense_Gimmick_Type type)
-	{
-		static const std::map<E_Defense_Gimmick_Type, std::wstring> typeMap = {
-			{E_Defense_Gimmick_Type::defense_nomal, L""},
-			{E_Defense_Gimmick_Type::defense_gimmick, L"기믹"}
-		};
-
-		auto it = typeMap.find(type);
-		if (it != typeMap.end())
-		{
-			return it->second;
-		}
-		return L"";
-	}
-	std::wstring CreateCombinedString(E_Defense_Fly_Type enemyType, E_Defense_Gimmick_Type gimmickType)
-		{ return (GetDefenseEnemyTypeString(enemyType) + GetDefenseGimmickTypeString(gimmickType)); }
-
 	class DefenseEnemy : public BaseEnemyObject
 	{
 		E_Game_Type m_gameType;
@@ -101,9 +43,11 @@ namespace GOTOEngine
 				if (itGimmickType != params.end()) {
 					if (const auto pValue = std::any_cast<E_Defense_Gimmick_Type>(&itGimmickType->second)) { m_gimmickType = *pValue; }
 				}
+				// 타입에 맞는 이름 생성 params["EnemyName"] 가 없으면 랜덤으로 설정
+				CreateEnemyWithRandomName(params, GetGameObject());
 			}
-			GetGameObject()->name = CreateCombinedString(m_enemyType, m_gimmickType);
-			m_spawner = EnemySpawnManager::instance->GetSpawner(GetGameObject()->name);
+			std::wstring type = CreateCombinedString(m_enemyType, m_gimmickType);
+			m_spawner = EnemySpawnManager::instance->GetSpawner(type);
 			if (m_spawner)
 			{
 				m_points = m_spawner->GetPoints();
@@ -158,12 +102,9 @@ namespace GOTOEngine
 
 			m_gameType = EnemySpawnManager::instance->GetGameType();
 
-
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
 			
-			// GetGameObject()->name = L"까마귀";
-			GetGameObject()->name = L"까마귀";
 			GetTransform()->SetPosition(m_StartPos);
 			m_currentPathPosition = m_StartPos;
 

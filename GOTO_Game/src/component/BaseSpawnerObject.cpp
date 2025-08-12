@@ -6,6 +6,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "DefenseEnemy.h"
+
 using json = nlohmann::json;
 
 void GOTOEngine::EnemySpawner::LoadFromFilePath(const std::wstring& filePath)
