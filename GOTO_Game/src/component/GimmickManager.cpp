@@ -3,6 +3,7 @@
 #include "EnemySpawnManager.h"
 #include <time.h>
 #include "GameManager.h"
+#include "SoundManager.h"
 
 using namespace GOTOEngine;
 
@@ -94,6 +95,7 @@ void GimmickManager::GimmickOn(std::uint32_t player, int gimmick) {
 		switch (gimmick)
 		{
 		case 1:   //반전술식
+			SoundManager::instance->PlaySFX("Gimic1");
 			if (player & 1 << 1) {
 				CrosshairMove::reverseInput2 = true;
 				p1gimmick1Timer = timelimit;

@@ -32,14 +32,16 @@ namespace GOTOEngine
 		move,
 		gimmick,
 		itemspawn,
-		competition
+		competition,
+		defense
 	};
 	static enum E_Enemy_Anim_State
 	{
 		IDLE,
 		MOVE,
 		DIE,
-		ESCAPE
+		ESCAPE,
+		DISPOSE
 	};
 	inline std::wstring StateToString(E_Enemy_Anim_State state)
 	{
@@ -224,6 +226,11 @@ namespace GOTOEngine
 		{
 			auto spriterenderer = GetComponent<SpriteRenderer>();
 			if (spriterenderer) spriterenderer->SetFlipX(!spriterenderer->GetFlipX());
+		}
+		void SetFlipXSprite(bool flip)
+		{
+			auto spriterenderer = GetComponent<SpriteRenderer>();
+			if (spriterenderer) spriterenderer->SetFlipX(flip);
 		}
 		void SetEnemyFrozen(bool _frozen)
 		{

@@ -3,9 +3,9 @@
 #include "SoundManager.h"
 #include "FadeInOutFXManager.h"
 #include <AnimationCurve.h>
-#include <time.h>
 #include <Texture2D.h>
 #include "DefenseModeCameraManager.h"
+#include "CrosshairController.h"
 
 using namespace GOTOEngine;
 GameManager2* GameManager2::instance = nullptr;
@@ -15,9 +15,6 @@ void GameManager2::Awake() {
 	{
 		instance = this;
 		auto canvas = GameObject::Find(L"Canvas");
-
-		srand(time(NULL));
-		itemchange = rand() % 4 + 1;
 
 		auto TutorialObject = new GameObject;
 		Tutorial = TutorialObject->AddComponent<TutorialImage2>();
@@ -243,6 +240,11 @@ void GameManager2::Awake() {
 		crop22->IncreaseRefCount();
 		crop21 = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/Vegetable2/Vegetable2_1.png");
 		crop21->IncreaseRefCount();
+
+		auto p1 = GameObject::Find(L"Player1");
+		auto p2 = GameObject::Find(L"Player2");
+		p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::HoldingGun);
+		p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::HoldingGun);
 
 		auto timeitem = new GameObject;
 		timeitem->GetTransform()->SetParent(canvas->GetTransform());
@@ -496,6 +498,11 @@ void GameManager2::Update() {
 	}
 	else {
 		if (GameTimer == 0.0f) {
+			if (BGMTiming[2] == 0.0f) {
+				SoundManager::instance->StopBGM();
+				SoundManager::instance->PlaySFX("GameOver");
+				BGMTiming[2] = -1.0f;
+			}
 			if (CropGauge > 0 && !pannelopen) {
 				winner = 1;
 				focuschoice = 2;
@@ -552,23 +559,29 @@ void GameManager2::Update() {
 				SCENE_CHANGE_SCENE(L"StartScene");
 			}
 		}
-		if (Tutorial)
-		{
-			p1active = Tutorial->GetButton1Timer() >= Tutorial->GetMaxButtonTimer();
-			p2active = Tutorial->GetButton2Timer() >= Tutorial->GetMaxButtonTimer();
-		}
+		else {
+			if (BGMTiming[0] == 120.0f) {
+				SoundManager::instance->PlayBGM("Tutorial");
+				BGMTiming[0] = -1.0f;
+			}
+			if (Tutorial)
+			{
+				p1active = Tutorial->GetButton1Timer() >= Tutorial->GetMaxButtonTimer();
+				p2active = Tutorial->GetButton2Timer() >= Tutorial->GetMaxButtonTimer();
+			}
 
-		if (p1active && p2active && tutorialCheckTime == 0.0f) {
-			tutorialCheckTime = TIME_GET_TOTALTIME() + 0.45f;
-		}
-		if (tutorialCheckTime != 0.0f && tutorialCheckTime < TIME_GET_TOTALTIME())
-		{
-			setactive = true;
-		}
-		//*/ 디버깅용 스페이스 바
-		if (INPUT_GET_KEYDOWN(KeyCode::Space))
-		{
-			setactive = true;
+			if (p1active && p2active && tutorialCheckTime == 0.0f) {
+				tutorialCheckTime = TIME_GET_TOTALTIME() + 0.45f;
+			}
+			if (tutorialCheckTime != 0.0f && tutorialCheckTime < TIME_GET_TOTALTIME())
+			{
+				setactive = true;
+			}
+			//*/ 디버깅용 스페이스 바
+			if (INPUT_GET_KEYDOWN(KeyCode::Space))
+			{
+				setactive = true;
+			}
 		}
 	}
 	totalSeconds = static_cast<int>(floor(GameTimer));

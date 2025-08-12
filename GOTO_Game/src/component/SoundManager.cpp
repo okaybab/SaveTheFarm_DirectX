@@ -23,7 +23,9 @@ void SoundManager::Awake() {
 			{"Warning", L"../Resources/Sound/Sound effect/Warning_sound.mp3"},
 			{"Mushroom", L"../Resources/Sound/Sound effect/Mushroom_Sound.wav"},
 			{"ShotBig1P", L"../Resources/Sound/Sound effect/ShotBig1P_sound.wav" },
-			{"ShotBig2P", L"../Resources/Sound/Sound effect/ShotBig2P_sound.wav" }
+			{"ShotBig2P", L"../Resources/Sound/Sound effect/ShotBig2P_sound.wav" },
+			{"GameOver", L"../Resources/Sound/Sound effect/gameover.wav" },
+			{"Gimic1", L"../Resources/Sound/Sound effect/gimic_1_ soundeffect.wav" }
 		};
 
 		for (const auto& [key, path] : sfxList) {

@@ -209,7 +209,7 @@ void StartAnimal::Awake() {
 	thiefdie = Resource::Load<Sprite>(L"../Resources/artResource/Sprint/ThiefMole_die.png");
 	thiefdie->IncreaseRefCount();
 	auto crowrect = crowdie->GetRect();
-	crow->AddComponent<Collider2D>()->SetSize({crowrect.width * crow->GetTransform()->GetLossyScale().x,crowrect.height * crow->GetTransform()->GetLossyScale().x });
+	crow->AddComponent<Collider2D>()->SetSize({crowrect.width * crow->GetTransform()->GetLossyScale().x,crowrect.height * crow->GetTransform()->GetLossyScale().y });
 	auto goldrect = golddie->GetRect();
 	goldcrow->AddComponent<Collider2D>()->SetSize({ goldrect.width * 0.3f,goldrect.height * 0.3f });
 	auto thiefrect = thiefdie->GetRect();
