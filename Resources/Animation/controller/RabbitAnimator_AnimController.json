@@ -24,6 +24,13 @@
             "clipLength": 1.6666667461395264,
             "loop": false,
             "transitions": []
+        },
+		{
+            "name": "Dispone",
+            "motionName": "Rabbit_Escape",
+            "clipLength": 1.6666667461395264,
+            "loop": false,
+            "transitions": []
         }
     ],
     "anyStateTransitions": []

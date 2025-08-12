@@ -1,0 +1,40 @@
+{
+	"spawnName": "groundGimmick_Points",
+	"points":{
+		{
+			"random_x": true,
+			"random_y": false,
+			"random_x_range":
+			{
+				"min": { "multiple": -0.25, "offset": -420.0 },
+				"max": { "multiple": -0.25, "offset": -420.0 }
+			},
+			"y": 0.0,
+			"speed": 1.0,
+			"state": "Move",
+			"renderOrder": -1300
+		},
+		{
+			"random_x": false,
+			"random_y": false,
+			"x": 0.0,
+			"y": 0.0,
+			"speed": 1.0,
+			"renderOrder": 0,
+			"state": "Move"
+		}
+		{
+			"random_x": false,
+			"random_y": false,
+			"crop": true,
+			"speed": 1.0,
+			"state": "Escape"
+		},
+		{
+			"random_x": false,
+			"random_y": false,
+			"speed": 0.0,
+			"state": "Dispone"
+		}
+	}
+}

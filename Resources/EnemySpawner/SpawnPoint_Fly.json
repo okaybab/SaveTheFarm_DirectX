@@ -2,7 +2,6 @@
 	"spawnName": "fly_Points",
 	"points":[
 		{
-			"number": 0,
 			"random_x": true,
 			"random_y": false,
 			"random_x_range":
@@ -15,7 +14,6 @@
 			"state": "Move"
 		},
 		{
-			"number": 1,
 			"random_x": false,
 			"random_y": false,
 			"crop": true,
@@ -23,7 +21,6 @@
 			"state": "Escape"
 		},
 		{
-			"number": 3,
 			"random_x": true,
 			"random_y": false,
 			"random_x_range":
@@ -41,6 +38,11 @@
 			"flag": "0b1000",
 			"_comment": "포물선",
 			"value": 8
+		},
+		{
+			"flag": "0b0011",
+			"_comment": "직선",
+			"value": 3
 		}
 	]
 }

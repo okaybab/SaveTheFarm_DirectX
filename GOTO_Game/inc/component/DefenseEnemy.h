@@ -297,6 +297,7 @@ namespace GOTOEngine
 		void OnDispone() override
 		{
 			__super::OnDispone();
+			SetState(E_Enemy_Anim_State::DISPONE);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 		}
 		void OnGimmick()

@@ -272,10 +272,7 @@ namespace GOTOEngine
 		{ 
 			m_isDeathByDispone = true;
 			SetMoveSpeed(3.0f);
-			if (EnemySpawnManager::instance->GetGameType() == E_Game_Type::GAME2)
-				SetState(E_Enemy_Anim_State::DISPONE); 
-			else
-				SetState(E_Enemy_Anim_State::ESCAPE);
+			SetState(E_Enemy_Anim_State::DISPONE);
 		}
 	};
 }
