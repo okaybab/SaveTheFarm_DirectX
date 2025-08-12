@@ -223,11 +223,22 @@ void ItemManager::Update(){
 		if (p1IceTimer <= 0.0f) {
 			p1IceTimer = 0.0f;
 			auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
-			for (auto* enemy : enemies)
+
+			std::vector<GameObject*> enemiesToFrozen;
+			for (auto enemy : enemies) {
+				enemiesToFrozen.push_back(enemy);
+			}
+
+			for (auto enemy : enemiesToFrozen)
 			{
-				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+				if (enemy == nullptr) {
 					continue;
-				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+				}
+
+				BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+				if (enemyComp != nullptr) {
+					enemyComp->SetEnemyFrozen(false);
+				}
 			}
 			//itemparticle1->SetCommonSprite(nullptr);
 			itemparticle1->Stop();
@@ -239,11 +250,22 @@ void ItemManager::Update(){
 		if (p2IceTimer <= 0.0f) {
 			p2IceTimer = 0.0f;
 			auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
-			for (auto* enemy : enemies)
+
+			std::vector<GameObject*> enemiesToFrozen;
+			for (auto enemy : enemies) {
+				enemiesToFrozen.push_back(enemy);
+			}
+
+			for (auto enemy : enemiesToFrozen)
 			{
-				if (!IsValidObject(enemy) || enemy->IsDestroyed())
+				if (enemy == nullptr) {
 					continue;
-				enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(false);
+				}
+
+				BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+				if (enemyComp != nullptr) {
+					enemyComp->SetEnemyFrozen(false);
+				}
 			}
 			//itemparticle2->SetCommonSprite(nullptr);
 			itemparticle2->Stop();
@@ -342,16 +364,30 @@ void ItemManager::UseItem(int player, ItemType item)
 				//P1의 동물리스트 내부 객체 카운트
 				//P1의 동물리스트 내부 객체 전부 삭제
 				auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
-
 				p1count = enemies.size();
+
+				std::vector<GameObject*> enemiesToDie;
 				for (auto enemy : enemies) {
+					enemiesToDie.push_back(enemy);
+				}
+
+				for (auto enemy : enemiesToDie) {
+
+					if (enemy == nullptr) {
+						continue;
+					}
+
 					auto bombeffect = new GameObject;
 					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
-					enemy->GetComponent<BaseEnemyObject>()->OnDie(player, false);
+
+					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+					if (enemyComp != nullptr) {
+						enemyComp->OnDie(player, false);
+					}
 				}
 
 				auto p1cam = GameObject::Find(L"p1Cam");
@@ -373,16 +409,30 @@ void ItemManager::UseItem(int player, ItemType item)
 				//P2의 동물리스트 내부 객체 카운트
 				//P2의 동물리스트 내부 객체 전부 삭제
 				auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
-
 				p2count = enemies.size();
+
+				std::vector<GameObject*> enemiesToDie;
 				for (auto enemy : enemies) {
+					enemiesToDie.push_back(enemy);
+				}
+
+				for (auto enemy : enemiesToDie) {
+
+					if (enemy == nullptr) {
+						continue;
+					}
+
 					auto bombeffect = new GameObject;
 					bombeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					bombeffect->GetTransform()->SetLocalScale({ 0.5f, 0.5f });
 					bombeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
 					bombeffect->AddComponent<Animator>()->SetAnimatorController(bombanimator);
 					Destroy(bombeffect, 0.583f);
-					enemy->GetComponent<BaseEnemyObject>()->OnDie(player, false);
+
+					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+					if (enemyComp != nullptr) {
+						enemyComp->OnDie(player, false);
+					}
 				}
 
 				auto p2cam = GameObject::Find(L"p2Cam");
@@ -407,10 +457,17 @@ void ItemManager::UseItem(int player, ItemType item)
 				//P1의 동물리스트 내부 객체 전부 디스폰 시간 정지
 				auto& enemies = *EnemySpawnManager::instance->Getp1Enemy();
 
-				for (auto* enemy : enemies)
+				std::vector<GameObject*> enemiesToFrozen;
+				for (auto enemy : enemies) {
+					enemiesToFrozen.push_back(enemy);
+				}
+
+				for (auto enemy : enemiesToFrozen)
 				{
-					if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					if (enemy == nullptr) {
 						continue;
+					}
+
 					auto iceeffect = new GameObject;
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
 					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
@@ -418,8 +475,13 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
 					Destroy(iceeffect, 5.0f);
-					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+
+					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+					if (enemyComp != nullptr) {
+						enemyComp->SetEnemyFrozen(true);
+					}
 				}
+
 				SoundManager::instance->PlaySFX("IceBomb");
 				itemparticle1->Play();
 				p1IceTimer = timelimit;
@@ -430,10 +492,16 @@ void ItemManager::UseItem(int player, ItemType item)
 
 				auto& enemies = *EnemySpawnManager::instance->Getp2Enemy();
 
-				for (auto* enemy : enemies)
+				std::vector<GameObject*> enemiesToFrozen;
+				for (auto enemy : enemies) {
+					enemiesToFrozen.push_back(enemy);
+				}
+
+				for (auto enemy : enemies)
 				{
-					if (!IsValidObject(enemy) || enemy->IsDestroyed())
+					if (enemy == nullptr) {
 						continue;
+					}
 
 					auto iceeffect = new GameObject;
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
@@ -442,8 +510,12 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
 					Destroy(iceeffect, 5.0f);
-					enemy->GetComponent<BaseEnemyObject>()->SetEnemyFrozen(true);
+					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
+					if (enemyComp != nullptr) {
+						enemyComp->SetEnemyFrozen(true);
+					}
 				}
+
 				SoundManager::instance->PlaySFX("IceBomb");
 				itemparticle2->Play();
 				p2IceTimer = timelimit;
