@@ -4,6 +4,7 @@
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
 #include <InputManager.h>
+#include <ParticleSystem.h>
 #include "Canvas.h"
 #include "Image.h"
 #include "RectTransform.h"
@@ -15,7 +16,9 @@ namespace GOTOEngine
 	{
 	private:
 		float gimmick5Timer = 0.0f;
-
+		Sprite* iced;
+		Sprite* snow;
+		ParticleSystem* itemparticle;
 	public:
     GimmickManager2()
     {

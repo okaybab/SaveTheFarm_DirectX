@@ -14,6 +14,26 @@ void GimmickManager2::Awake()
 	if (!instance)
 	{
 		instance = this;
+		iced = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_Iced.png");
+		iced->IncreaseRefCount();
+		auto snowobject = new GameObject;
+		snowobject->GetTransform()->SetLocalPosition({ 0.0f,Screen::GetHeight() / 2 });
+		itemparticle = snowobject->AddComponent<ParticleSystem>();
+		itemparticle->SetMaxParticleCount(100);
+		itemparticle->SetRenderLayer((1 << 0));
+		itemparticle->SetFadeOutTime(2.0f);
+		itemparticle->SetParticlesPerSpawn(3);
+		itemparticle->SetEmissionTangentLength(Screen::GetWidth());
+		itemparticle->SetGravity({ 0.0f,-300.0f });
+		itemparticle->SetEmissionShape(EmissionShape::Rectangle);
+		itemparticle->SetRenderOrder(2500);
+		itemparticle->SetMinScale(0.005f);
+		itemparticle->SetMaxScale(0.02f);
+		itemparticle->SetSpawnInterval(0.2f);
+		itemparticle->SetEmissionDirectionDegrees(270.0f);
+		snow = Resource::Load<Sprite>(L"../Resources/artResource/UI/Item/Icebomb_effect.png");
+		snow->IncreaseRefCount();
+		itemparticle->SetCommonSprite(snow);
 	}
 	else
 	{
@@ -24,6 +44,10 @@ void GimmickManager2::Awake()
 void GimmickManager2::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	if (IsValidObject(iced))
+		iced->DecreaseRefCount();
+	if (IsValidObject(snow))
+		snow->DecreaseRefCount();
 }
 
 void GimmickManager2::Update() {
@@ -32,6 +56,7 @@ void GimmickManager2::Update() {
 		if (gimmick5Timer <= 0.0f) {
 			gimmick5Timer = 0.0f;
 			//빙결해제
+			itemparticle->Stop();
 		}
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha1)) {
@@ -92,6 +117,7 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			break;
 		case 5:
 			//얼음폭탄
+			itemparticle->Play();
 			gimmick5Timer = 2.0f;
 			break;
 		case 6:
