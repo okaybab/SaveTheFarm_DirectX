@@ -125,7 +125,6 @@ namespace GOTOEngine
 		{
 			if (m_isDie || m_isFrozen || m_moveFlag & 0b0000 )
 			{
-				std::cout << "m_moveFlag : " << m_moveFlag << std::endl;
 				return;
 			}
 
