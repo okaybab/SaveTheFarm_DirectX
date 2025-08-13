@@ -374,7 +374,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 				for (auto enemy : enemiesToDie) {
 
-					if (enemy == nullptr) {
+					if (IsValidObject(enemy) || enemy->IsDestroyed()) {
 						continue;
 					}
 
@@ -419,7 +419,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 				for (auto enemy : enemiesToDie) {
 
-					if (enemy == nullptr) {
+					if (IsValidObject(enemy) || enemy->IsDestroyed()) {
 						continue;
 					}
 
