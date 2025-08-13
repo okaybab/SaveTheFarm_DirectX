@@ -112,16 +112,15 @@ void GOTOEngine::EnemySpawnManager::OnDestroy()
 	}
 }
 
-
 void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 {
 	GameObject* newEnemyObject = new GameObject(L"디펜스");
 
 	ParameterMap params;
-	//*// 공중 (까마귀)
+	/*// 공중 (까마귀)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(fly);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_nomal);
-	params["EnemyName"] = L"까마귀";
+	//params["EnemyName"] = static_cast<std::wstring>(L"까마귀");
 	//*/
 
 	/*// 공중기믹 (얼음새, 폭탄새, 버섯새)
@@ -142,7 +141,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	params["EnemyName"] = L"두더지";
 	//*/
 
-	/*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
+	//*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(ground1);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_gimmick);
 	params["EnemyName"] = static_cast<std::wstring>(L"다람쥐");
@@ -157,9 +156,9 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 
 	newEnemyObject->AddComponent<DefenseEnemy>();
 	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-	newEnemyObject->layer = 1;
-
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 0 ) | (1 << 1) | (1 << 2));
+	newEnemyObject->layer = (1 << 0) | (1 << 1) | (1 << 2);
+	//(1 << 1) | (1 << 2)
 
 	m_p1Enemy.push_back(newEnemyObject);
 	m_p2Enemy.push_back(newEnemyObject);
@@ -177,8 +176,8 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseEnemey(int wave, E_Defense_Fly_
 
 	newEnemyObject->AddComponent<DefenseEnemy>();
 	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
-	newEnemyObject->layer = 1;
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 0) | (1 << 1) | (1 << 2));
+	newEnemyObject->layer = (1 << 0) | (1 << 1) | (1 << 2);
 
 	m_p1Enemy.push_back(newEnemyObject);
 	m_p2Enemy.push_back(newEnemyObject);
@@ -228,7 +227,7 @@ void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, std::uint
 {
 	if (GameManager::instance == nullptr) return;
 
-	//*// 설정대로 스폰 (디버그 용)
+	/*// 설정대로 스폰 (디버그 용)
 	GameObject* newEnemyObject = (enemyType == competition)? nullptr : new GameObject(L"Enemy");
 	switch(enemyType)
 	{
@@ -263,7 +262,7 @@ void GOTOEngine::EnemySpawnManager::CreateEnemy(E_EnemyType enemyType, std::uint
 	if (!newEnemyObject) return;
 	//*/
 
-	/*// 랜덤 스폰
+	//*// 랜덤 스폰
 	GameObject* newEnemyObject = new GameObject(L"Enemy");
 	switch (enemyType)
 	{

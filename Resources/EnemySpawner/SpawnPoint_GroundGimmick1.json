@@ -1,13 +1,13 @@
-{
+﻿{
 	"spawnName": "groundGimmick1_Points",
 	"fixFlag": true,
 	"points":[
 		{
 			"random_x": false,
 			"random_y": false,
-			"x": -0.3,
-			"y": 0.0,
-			"speed": 1.0,
+			"x": -1.0,
+			"y": -0.8,
+			"speed": 3.5,
 			"state": "Move",
 			"renderOrder": -1300
 		},
@@ -16,7 +16,7 @@
 			"random_y": false,
 			"x": 0.0,
 			"y": 0.0,
-			"speed": 1.0,
+			"speed": 2.0,
 			"state": "Move",
 			"renderOrder": 0
 		},
@@ -58,9 +58,9 @@
 			"enemyType": "다람쥐"
 		},
 		{
-			"flag": "0b1000",
-			"_comment": "곡선",
-			"value": 8,
+			"flag": "0b0001",
+			"_comment": "직선",
+			"value": 1,
 			"enemyType": "도둑두더지"
 		}
 	]

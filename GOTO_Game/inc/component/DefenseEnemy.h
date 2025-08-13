@@ -152,7 +152,8 @@ namespace GOTOEngine
 				}
 				// MOVE_UP_DOWN 플래그를 사용하여 OFFSET 모드로 초기화
 				// 이 Initialize 함수에서 m_moveSpeed가 적절하게 설정되어야 함
-				parabolicComp->Initialize(MOVE_LEFT_RIGHT, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+				float bounceHeight = 100.0f;
+				parabolicComp->testInitialize(bounceHeight);
 				m_movementComponents.push_back(parabolicComp);
 			}
 			// 0b1000: 긴 포물선 (단일 컴포넌트로 처리)
@@ -174,9 +175,6 @@ namespace GOTOEngine
 			// 0b0011: 지그재그 (MovementLeftRight + MovementUpDown)
 			else if ((m_moveFlag & MOVE_LEFT_RIGHT) && (m_moveFlag & MOVE_UP_DOWN))
 			{
-				std::cout << "(m_moveFlag & MOVE_LEFT_RIGHT) && (m_moveFlag & MOVE_UP_DOWN)" << std::endl;
-
-
 				// 1. 중심축 이동을 위한 MovementLinearPath 컴포넌트 추가
 				if (auto linearComp = GetComponent<MovementLinearPath>())
 				{
@@ -193,9 +191,9 @@ namespace GOTOEngine
 					m_movementComponents.push_back(linearComp);
 				}
 
-				float wobbleWidth = 200.0f;     // 좌우 흔들림 폭
+				float wobbleWidth = 50.0f;     // 좌우 흔들림 폭
 				float wobbleSpeed = 4.0f;      // 좌우 흔들림 속도
-				float verticalBob = 30.0f;     // 상하 흔들림 폭
+				float verticalBob = 15.0f;     // 상하 흔들림 폭
 				float verticalBobSpeed = 3.0f; // 상하 흔들림 속도
 
 
@@ -230,6 +228,18 @@ namespace GOTOEngine
 					m_movementComponents.push_back(udComp);
 				}
 				//*/
+			}
+			else if (m_moveFlag & MOVE_LEFT_RIGHT) // 0b0001
+			{
+				auto linearPathComp = GetComponent<MovementLinearPath>();
+				if (!linearPathComp)
+				{
+					linearPathComp = AddComponent<MovementLinearPath>();
+					linearPathComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+				}
+				// 컴포넌트의 Initialize는 한 번만 호출
+				linearPathComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
+				m_movementComponents.push_back(linearPathComp);
 			}
 		}
 
