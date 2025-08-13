@@ -209,6 +209,54 @@ void GameManager::Awake(){
         }
     ]
 })" });
+		auto warningitem = new GameObject;
+		warningitem->GetTransform()->SetParent(canvas->GetTransform());
+		warningImage = warningitem->AddComponent<Image>();
+		warningImage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.5f });
+		warningImage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
+		warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight() });
+		warningImage->SetSprite(nullptr);
+		warningsprite = Resource::Load<Sprite>(L"../Resources/artResource/UI/Warring/WARNING_2.png");
+		warningsprite->IncreaseRefCount();
+		warninganimation = new AnimationCurve({ R"({
+     "keyframes": [
+        {
+            "time": 0.0,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 1.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.25,
+            "value": 0.8,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 0
+        },
+        {
+            "time": 0.5,
+            "value": 1.0,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 0.75,
+            "value": 0.8,
+            "in_tangent": 0.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        },
+        {
+            "time": 1.0,
+            "value": 1.0,
+            "in_tangent": 1.0,
+            "out_tangent": 0.0,
+            "tangent_mode": 1
+        }
+    ]
+})" });
 
 		srand(time(NULL));
 		p1itemchange = rand() % 4 + 1;
@@ -230,6 +278,9 @@ void GOTOEngine::GameManager::Start()
 void GameManager::OnDestroy() {
 	if (instance == this)
 		instance = nullptr;
+	delete(warninganimation);
+	if (IsValidObject(warningsprite))
+		warningsprite->DecreaseRefCount();
 	if (IsValidObject(winpannel))
 		winpannel->DecreaseRefCount();
 	if (IsValidObject(losepannel))
@@ -430,8 +481,22 @@ void GameManager::Update() {
 			}
 			if (GameTimer <= scoreredTiming) {
 				Timetext->SetColor({ 255,0,0,255 });
+				SoundManager::instance->PlaySFX("Warning");
 				fever = true;
 				scoreredTiming = -1.0f;
+			}
+			if (GameTimer <= 30.0f && GameTimer > 29.0f) {
+				warningImage->SetSprite(warningsprite);
+				warningAniTime += TIME_GET_DELTATIME();
+				if (warningAniTime > 1.0f) {
+					warningAniTime = 0.0f;
+				}
+				float animValue = warninganimation->Evaluate(warningAniTime);
+				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() + animValue * 100.0f, Screen::GetHeight() + animValue * 100.0f });
+			}
+			else {
+				warningImage->SetSprite(nullptr);
+				warningImage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth(), Screen::GetHeight() });
 			}
 
 			if (p1scoreup) {

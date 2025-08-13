@@ -50,6 +50,11 @@ namespace GOTOEngine
 		Text* p1timetext;
 		Text* p2timetext;
 
+		Image* warningImage;
+		Sprite* warningsprite;
+		AnimationCurve* warninganimation;
+		float warningAniTime = 0.0f;
+
 		int p1itemchange;
 		int p2itemchange;
 
