@@ -326,6 +326,10 @@ void GameManager2::Update() {
 			Destroy(Tutorial->GetGameObject());
 			Tutorial = nullptr;
 		}
+		if (BGMTiming[1] == 120.0f) {
+			SoundManager::instance->PlayBGM("Battle2");
+			BGMTiming[1] = -1.0f;
+		}
 		if (GameTimer > 0.0f) {
 			GameTimer -= TIME_GET_DELTATIME();
 			if ((GameTimer <= 140.0f && GameTimer > 120.0f) || (GameTimer <= 80.0f && GameTimer > 60.0f) || (GameTimer <=20.0f && GameTimer> 0.0f)) {
@@ -507,13 +511,13 @@ void GameManager2::Update() {
 	}
 	else {
 		if (GameTimer == 0.0f) {
-			if (BGMTiming[2] == 0.0f) {
-				SoundManager::instance->StopBGM();
-				SoundManager::instance->PlaySFX("GameOver");
-				BGMTiming[2] = -1.0f;
-			}
 			if (CropGauge > 0 && !pannelopen) {
 				winner = 1;
+				if (BGMTiming[2] == 0.0f) {
+					SoundManager::instance->StopBGM();
+					SoundManager::instance->PlaySFX("GameWin");
+					BGMTiming[2] = -1.0f;
+				}
 				focuschoice = 2;
 				endpannel->SetSprite(winpannel);
 				catchtext->text = std::to_wstring(animalcatch);
@@ -522,6 +526,11 @@ void GameManager2::Update() {
 			}
 			else if(CropGauge<=0 && !pannelopen) {
 				winner = 0;
+				if (BGMTiming[2] == 0.0f) {
+					SoundManager::instance->StopBGM();
+					SoundManager::instance->PlaySFX("GameOver");
+					BGMTiming[2] = -1.0f;
+				}
 				focuschoice = 1;
 				endpannel->SetSprite(losepannel);
 				pannelopen = true;
