@@ -349,7 +349,7 @@ void StartAnimal::Update() {
 		crow->GetComponent<SpriteRenderer>()->SetSprite(crowdie);
 		crowhittimer -= TIME_GET_DELTATIME();
         
-        auto wobbleTimer = Mathf::Max(0.0f, crowhittimer - 0.35f) / 0.65f;
+        auto wobbleTimer = Mathf::Max(0.0f, crowhittimer - 0.4f) / 0.6f;
 
         crow->GetTransform()->SetLocalPosition({ crowSavedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,crowSavedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 
@@ -366,7 +366,7 @@ void StartAnimal::Update() {
 		goldcrow->GetComponent<SpriteRenderer>()->SetSprite(golddie);
 		goldhittimer -= TIME_GET_DELTATIME();
 
-        auto wobbleTimer = Mathf::Max(0.0f, goldhittimer - 0.35f) / 0.65f;
+        auto wobbleTimer = Mathf::Max(0.0f, goldhittimer - 0.4f) / 0.6f;
 
         goldcrow->GetTransform()->SetLocalPosition({ goldcrowSavedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,goldcrowSavedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 
@@ -382,7 +382,7 @@ void StartAnimal::Update() {
 		thiefmole->GetComponent<SpriteRenderer>()->SetSprite(thiefdie);
 		thiefhittimer -= TIME_GET_DELTATIME();
 
-        auto wobbleTimer = Mathf::Max(0.0f, thiefhittimer - 0.35f) / 0.65f;
+        auto wobbleTimer = Mathf::Max(0.0f, thiefhittimer - 0.4f) / 0.6f;
 
         thiefmole->GetTransform()->SetLocalPosition({ thiefmoleSvaedPos.x + (1.0f - wobbleXValue) * wobbleTimer * 45.0f,thiefmoleSvaedPos.y + (1.0f - wobbleYValue) * wobbleTimer * 45.0f });
 

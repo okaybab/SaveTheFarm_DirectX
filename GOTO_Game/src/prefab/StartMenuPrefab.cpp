@@ -108,9 +108,9 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	defenseButtonText->rect = { 0,0,850,400 };
 
 	//버튼 콜라이더 추가
-	auto defenseButtonP1ColGO = new GameObject(L"StartButtonP1Col");
+	auto defenseButtonP1ColGO = new GameObject(L"DefenseButtonP1Col");
 	auto defenseButtonP1Col = defenseButtonP1ColGO->AddComponent<Collider2D>();
-	auto defenseButtonP2ColGO = new GameObject(L"StartButtonP2Col");
+	auto defenseButtonP2ColGO = new GameObject(L"DefenseButtonP2Col");
 	auto defenseButtonP2Col = defenseButtonP2ColGO->AddComponent<Collider2D>();
 
 	auto defenseInteractButtonP1 = defenseButtonP1ColGO->AddComponent<CrosshairInteractButton>();

@@ -42,9 +42,6 @@ namespace GOTOEngine
 			interactedTime = TIME_GET_TOTALTIME();
 			onInteract.Invoke();
 			SoundManager::instance->PlaySFX("Hit");
-#ifdef _DEBUG
-			std::wcout << GetGameObject()->name << std::endl;
-#endif
 		}
 
 		void OnCollide(GameObject* obj) override
