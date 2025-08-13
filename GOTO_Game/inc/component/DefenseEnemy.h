@@ -100,6 +100,11 @@ namespace GOTOEngine
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
 
+			if (m_animState == ESCAPE)
+			{
+				GameManager2::instance->CropGauge--;
+			}
+
 			InitializeMovement();
 		}
 
@@ -271,11 +276,6 @@ namespace GOTOEngine
 
 			InitializeMovement();
 			SetState(m_animState);
-
-			if (m_animState == ESCAPE)
-			{
-				GameManager2::instance->CropGauge--;
-			}
 		}
 
 		void Update() override
@@ -303,6 +303,7 @@ namespace GOTOEngine
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject(), isGimmick);
 			GameManager2::instance->animalcatch++;
 
+			if (attackerID != 1 && attackerID != 2) return;
 			if (m_dEnemyType == E_Defense_Enemy_Type::d_rabbit)
 			{
 				GimmickManager2::instance->GimmickOn(attackerID, 1);
@@ -310,6 +311,22 @@ namespace GOTOEngine
 			if (m_dEnemyType == E_Defense_Enemy_Type::d_squirrel)
 			{
 				GimmickManager2::instance->GimmickOn(attackerID, 2);
+			}
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_thiefMole)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 3);
+			}
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_bombCrow)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 4);
+			}
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_iceCrow)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 5);
+			}
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_mushCrow)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 6);
 			}
 
 		}
