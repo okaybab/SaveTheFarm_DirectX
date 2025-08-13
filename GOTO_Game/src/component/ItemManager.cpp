@@ -474,6 +474,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+					iceeffect->GetComponent<SpriteRenderer>()->SetRenderOrder(50);
 					Destroy(iceeffect, 5.0f);
 
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
@@ -509,6 +510,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
+					iceeffect->GetComponent<SpriteRenderer>()->SetRenderOrder(50);
 					Destroy(iceeffect, 5.0f);
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
 					if (enemyComp != nullptr) {

@@ -24,6 +24,7 @@ void SoundManager::Awake() {
 			{"Mushroom", L"../Resources/Sound/Sound effect/Mushroom_Sound.wav"},
 			{"ShotBig1P", L"../Resources/Sound/Sound effect/ShotBig1P_sound.wav" },
 			{"ShotBig2P", L"../Resources/Sound/Sound effect/ShotBig2P_sound.wav" },
+			{"GameWin", L"../Resources/Sound/Sound effect/gamewin.mp3" },
 			{"GameOver", L"../Resources/Sound/Sound effect/gameover.wav" },
 			{"Gimic1", L"../Resources/Sound/Sound effect/gimic_1_ soundeffect.wav" }
 		};
@@ -47,7 +48,8 @@ void SoundManager::Awake() {
 
 		std::vector<std::pair<std::string, std::wstring>> bgmList = {
 			{"Battle1", L"../Resources/Sound/BGM/Ingame_remake.mp3"},
-			{"Title", L"../Resources/Sound/BGM/Title_sound.mp3"},
+			{"Battle2", L"../Resources/Sound/BGM/Ingame2_remake.mp3"},
+			{"Title", L"../Resources/Sound/BGM/Title_sound.wav"},
 			{"Tutorial", L"../Resources/Sound/BGM/Tutorial_Sound.wav"}
 		};
 
