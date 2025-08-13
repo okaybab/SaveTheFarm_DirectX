@@ -53,11 +53,6 @@ namespace GOTOEngine
 				m_spawner->Initialize();
 				SetCurrentPoint();
 			}
-			GetTransform()->SetPosition(m_StartPos);
-			m_currentPathPosition = m_StartPos;
-
-			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
-			InitializeMovement();
 		}
 
 		void SetCurrentPoint()
@@ -98,6 +93,8 @@ namespace GOTOEngine
 			{
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
+
+			InitializeMovement();
 		}
 
 		void Awake()
@@ -109,6 +106,9 @@ namespace GOTOEngine
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
 		
+			//GetTransform()->SetPosition(m_StartPos);
+			//m_currentPathPosition = m_StartPos;
+
 			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
@@ -117,8 +117,6 @@ namespace GOTOEngine
 			controller->SetOnAnimationEnd([this, controller]() {
 				if (m_animState == DIE || m_animState == DISPONE)
 				{
-					std::cout << "SetOnAnimationEnd" << std::endl;
-
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());
 				}
@@ -128,6 +126,7 @@ namespace GOTOEngine
 			auto collider = AddComponent<Collider2D>();
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
+			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
 		}
 
 		void InitializeMovement()
