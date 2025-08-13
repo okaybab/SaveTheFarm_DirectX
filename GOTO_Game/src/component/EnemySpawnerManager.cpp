@@ -166,6 +166,25 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	
 }
 
+void GOTOEngine::EnemySpawnManager::CreateDefenseEnemey(int wave, E_Defense_Fly_Type flyType, E_Defense_Gimmick_Type gimmickType)
+{
+	GameObject* newEnemyObject = new GameObject(L"디펜스");
+
+	ParameterMap params;
+	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(flyType);
+	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(gimmickType);
+	params["wave"] = wave;
+
+	newEnemyObject->AddComponent<DefenseEnemy>();
+	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 1) | (1 << 2));
+	newEnemyObject->layer = (1 << 1) | (1 << 2);
+
+	m_p1Enemy.push_back(newEnemyObject);
+	m_p2Enemy.push_back(newEnemyObject);
+
+}
+
 void GOTOEngine::EnemySpawnManager::Update()
 {
 	if (m_GameType == GAME1)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
@@ -13,6 +13,7 @@ namespace GOTOEngine
 {
 	class AnimationCurve;
 	class TutorialImage2;
+	class EnemySpawnManager;
 	class GameManager2 : public ScriptBehaviour
 	{
 	private:
@@ -93,6 +94,8 @@ namespace GOTOEngine
 
 		bool m_YstickPressedUp[2];
 		bool m_YstickPressedDown[2];
+
+		EnemySpawnManager* EnemySpawnManager;
 
 	public:
     GameManager2()
