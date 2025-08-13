@@ -39,6 +39,9 @@ namespace GOTOEngine
         {
             __super::Initialize(moveFlag, initialPos, speed);
 
+            m_moveSpeed = 2.0f * speed;
+
+
             const int MASK = MOVE_LEFT_RIGHT | MOVE_UP_DOWN;
             int relevant_bits = m_flag & MASK; // XOR
 
@@ -46,12 +49,10 @@ namespace GOTOEngine
             {
                 m_role = E_Move_Role::OFFSET;
                 m_flipXY = m_flag & MOVE_UP_DOWN;
-                m_moveSpeed = 0.08f * speed;
             }
             else // 1000 or 1011
             {
                 m_role = E_Move_Role::PATH;
-                m_moveSpeed = 2.0f * speed;
             }
 
             if (m_role == E_Move_Role::PATH)
@@ -60,7 +61,6 @@ namespace GOTOEngine
                 m_endPos = Vector2(m_maxX * m_flipDirection, initialPos.y);
             }
 
-            m_progress = 0.0f;
         }
         void Initialize(Vector2 initialPos, Vector2 _startPos, Vector2 _endPos, float speed)
         {
