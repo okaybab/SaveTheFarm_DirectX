@@ -35,8 +35,7 @@ void GOTOEngine::Animator::Dispose()
 		m_controller = nullptr; 
 	}
 
-	if (IsValidObject(m_runtimeController)
-		&& !m_runtimeController->IsDestroyed())
+	if (IsValidObject(m_runtimeController))
 	{
 		DestroyImmediate(m_runtimeController);
 		m_runtimeController = nullptr;
@@ -48,7 +47,7 @@ void GOTOEngine::Animator::SetAnimatorController(AnimatorController* controller)
 {
 	if (m_controller != controller)
 	{
-		if (m_runtimeController)
+		if (IsValidObject(m_runtimeController))
 			DestroyImmediate(m_runtimeController);
 
 		if (controller)
@@ -63,6 +62,8 @@ void GOTOEngine::Animator::SetAnimatorController(AnimatorController* controller)
 			
 		if (m_controller)
 			m_controller->DecreaseRefCount();
+
+		m_controller = controller;
 	}
 }
 

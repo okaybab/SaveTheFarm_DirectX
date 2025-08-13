@@ -43,8 +43,6 @@ void Scene::Clear()
 	//½ÇÁ¦ ÆÄ±«
 	for (auto& go : m_gameObjects)
 	{
-		if (!Object::IsValidObject(go))
-			continue;
 		Object::DestroyImmediate(go);
 	}
 
