@@ -149,8 +149,6 @@ namespace GOTOEngine
 			{
 				inP1CamPos = { colScreenPos.x - 480.0f + p1Cam->GetTransform()->GetPosition().x,colScreenPos.y - 540.0f + p1Cam->GetTransform()->GetPosition().y};
 				isColInP1Cam = (colScreenPos.x - collideHalfSizeX) < m_middlePosX;
-				if(id == 1)
-					std::cout << inP1CamPos.x << std::endl;
 			}
 
 			//p1 cam 영역 콜라이드
