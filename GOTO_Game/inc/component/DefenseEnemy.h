@@ -121,6 +121,7 @@ namespace GOTOEngine
 
 				if (m_animState == DIE || m_animState == DISPONE)
 				{
+					EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());
 				}
@@ -262,7 +263,7 @@ namespace GOTOEngine
 
 			if (m_animState == ESCAPE)
 			{
-				OnDispone();
+				m_isDeathByDispone = true;
 			}
 
 			m_currentPoint++;
