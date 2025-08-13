@@ -331,13 +331,13 @@ void GameManager::Update() {
 				}
 				NormalfeverTiming -= 2.5f;
 			}
-			if (GimmickfeverTiming - GameTimer >= 7.5f) {
+			if (GimmickfeverTiming - GameTimer >= 9.0f) {
 				//기믹 몬스터 랜덤 생성
 				if (fever) {
 					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
 					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 2);;
 				}
-				GimmickfeverTiming -= 7.5f;
+				GimmickfeverTiming -= 9.0f;
 			}
 			
 			if (GameTimer <= ItemTiming[0]) {
