@@ -18,14 +18,14 @@ namespace GOTOEngine
 		bool m_BGMPlayed = false;
 		bool m_selectStart;
 		bool m_selectExit;
-		bool m_selectDeffense;
+		//bool m_selectDeffense;
 	public:
     StartMenu()
     {
         REGISTER_BEHAVIOUR_MESSAGE(Update);
     }
 		Transform* startButton;
-		Transform* defenseButton;
+		//Transform* defenseButton;
 		Transform* optionsButton;
 		Transform* exitButton;
 
@@ -52,13 +52,13 @@ namespace GOTOEngine
 			}
 
 			//기다려야 하는 버튼을 누른경우
-			if (m_selectStart || m_selectExit || m_selectDeffense)
+			if (m_selectStart || m_selectExit )//|| m_selectDeffense)
 			{
 				if (m_selectStart && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
 					SCENE_CHANGE_SCENE(L"PlayScene");
 
-				if (m_selectDeffense && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
-					SCENE_CHANGE_SCENE(L"DefenseScene");
+				//if (m_selectDeffense && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
+				//	SCENE_CHANGE_SCENE(L"DefenseScene");
 
 				if (m_selectExit && FadeInOutFXManager::instance->IsPerfectlyFadeOut())
 					ENGINE_QUIT();
@@ -72,11 +72,11 @@ namespace GOTOEngine
 				m_selectStart = true;
 			}
 
-			if (INPUT_GET_KEYDOWN(KeyCode::F2))
-			{
-				FadeInOutFXManager::instance->FadeOut();
-				m_selectDeffense = true;
-			}
+			//if (INPUT_GET_KEYDOWN(KeyCode::F2))
+			//{
+			//	FadeInOutFXManager::instance->FadeOut();
+			//	m_selectDeffense = true;
+			//}
 
 			//*/
 
@@ -156,12 +156,12 @@ namespace GOTOEngine
 					m_selectStart = true;
 					FadeInOutFXManager::instance->FadeOut();
 				}
-				else if (currentP1InteractButtons->parentButton == defenseButton)
-				{
-					// 디펜스 모드 시작 로직
-					m_selectDeffense = true;
-					FadeInOutFXManager::instance->FadeOut();
-				}
+				//else if (currentP1InteractButtons->parentButton == defenseButton)
+				//{
+				//	// 디펜스 모드 시작 로직
+				//	m_selectDeffense = true;
+				//	FadeInOutFXManager::instance->FadeOut();
+				//}
 				else if (currentP1InteractButtons->parentButton == optionsButton)
 				{
 					// 옵션 메뉴 로직
