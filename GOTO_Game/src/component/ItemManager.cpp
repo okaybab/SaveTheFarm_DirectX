@@ -232,12 +232,12 @@ void ItemManager::Update(){
 
 			for (auto enemy : enemiesToFrozen)
 			{
-				if (enemy == nullptr) {
+				if (!IsValidObject(enemy) || enemy->IsDestroyed()) {
 					continue;
 				}
 
 				BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-				if (enemyComp != nullptr) {
+				if (IsValidObject(enemyComp) && !enemyComp->IsDestroyed()) {
 					enemyComp->SetEnemyFrozen(false);
 				}
 			}
@@ -259,12 +259,12 @@ void ItemManager::Update(){
 
 			for (auto enemy : enemiesToFrozen)
 			{
-				if (enemy == nullptr) {
+				if (!IsValidObject(enemy) || enemy->IsDestroyed()) {
 					continue;
 				}
 
 				BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-				if (enemyComp != nullptr) {
+				if (IsValidObject(enemyComp) && !enemyComp->IsDestroyed()) {
 					enemyComp->SetEnemyFrozen(false);
 				}
 			}
@@ -386,7 +386,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					Destroy(bombeffect, 0.583f);
 
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-					if (enemyComp != nullptr) {
+					if (IsValidObject(enemyComp) && !enemyComp->IsDestroyed()) {
 						enemyComp->OnDie(player, false);
 					}
 				}
@@ -431,7 +431,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					Destroy(bombeffect, 0.583f);
 
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-					if (enemyComp != nullptr) {
+					if (IsValidObject(enemyComp) && !enemyComp->IsDestroyed()) {
 						enemyComp->OnDie(player, false);
 					}
 				}
@@ -465,7 +465,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 				for (auto enemy : enemiesToFrozen)
 				{
-					if (enemy == nullptr) {
+					if (!IsValidObject(enemy) || enemy->IsDestroyed()) {
 						continue;
 					}
 
@@ -479,7 +479,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					Destroy(iceeffect, 5.0f);
 
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-					if (enemyComp != nullptr) {
+					if (IsValidObject(enemyComp) && !enemy->IsDestroyed()) {
 						enemyComp->SetEnemyFrozen(true);
 					}
 				}
@@ -501,7 +501,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 				for (auto enemy : enemies)
 				{
-					if (enemy == nullptr) {
+					if (!IsValidObject(enemy) || enemy->IsDestroyed()) {
 						continue;
 					}
 
@@ -514,7 +514,7 @@ void ItemManager::UseItem(int player, ItemType item)
 					iceeffect->GetComponent<SpriteRenderer>()->SetRenderOrder(50);
 					Destroy(iceeffect, 5.0f);
 					BaseEnemyObject* enemyComp = enemy->GetComponent<BaseEnemyObject>();
-					if (enemyComp != nullptr) {
+					if (IsValidObject(enemyComp) && !enemy->IsDestroyed()) {
 						enemyComp->SetEnemyFrozen(true);
 					}
 				}
