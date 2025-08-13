@@ -39,7 +39,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	startButtonText->SetRenderOrder(1);
 	startButtonText->size = 156;
 	startButtonText->color = { 0,0,0,255 };
-	startButtonText->text = L"경쟁 모드";
+	startButtonText->text = L"게임 시작";
 	startButtonText->rect = { 0,0,850,400 };
 	
 	//버튼 콜라이더 추가
