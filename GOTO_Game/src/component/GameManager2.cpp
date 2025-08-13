@@ -322,7 +322,7 @@ void GameManager2::Update() {
 			Destroy(Tutorial->GetGameObject());
 			Tutorial = nullptr;
 		}
-		if (BGMTiming[1] == 120.0f) {
+		if (BGMTiming[1] == 180.0f) {
 			SoundManager::instance->PlayBGM("Battle2");
 			BGMTiming[1] = -1.0f;
 		}
@@ -518,6 +518,9 @@ void GameManager2::Update() {
 			if (GameTimer <= 0.0f || INPUT_GET_KEYDOWN(KeyCode::Space)) {
 				GameTimer = 0.0f;
 			}
+			if (INPUT_GET_KEYDOWN(KeyCode::B)) {
+				CropGauge = 1000;
+			}
 		}
 		else if (GameTimer == 0.0f) {
 			setactive = false;
@@ -592,7 +595,7 @@ void GameManager2::Update() {
 			}
 		}
 		else {
-			if (BGMTiming[0] == 120.0f) {
+			if (BGMTiming[0] == 180.0f) {
 				SoundManager::instance->PlayBGM("Tutorial");
 				BGMTiming[0] = -1.0f;
 			}
