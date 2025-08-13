@@ -18,7 +18,7 @@
 			"random_y": false,
 			"crop": true,
 			"speed": 1.0,
-			"state": "Escape"
+			"state": "Move"
 		},
 		{
 			"random_x": true,

@@ -29,7 +29,7 @@ namespace GOTOEngine
 		Vector2 m_EndPos;
 
 		int m_renderOrder;
-		float cropTime = 3.0f;
+		float cropTime = 1.5f;
 
 	public:
 		void Initialize(std::any param) override
@@ -98,11 +98,6 @@ namespace GOTOEngine
 			else
 			{
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
-			}
-
-			if (m_animState == ESCAPE)
-			{
-				GameManager2::instance->CropGauge--;
 			}
 
 			InitializeMovement();
@@ -265,6 +260,11 @@ namespace GOTOEngine
 				return;
 			}
 
+			if (m_animState == ESCAPE)
+			{
+				OnDispone();
+			}
+
 			m_currentPoint++;
 
 			SetCurrentPoint();
@@ -276,6 +276,7 @@ namespace GOTOEngine
 
 			InitializeMovement();
 			SetState(m_animState);
+
 		}
 
 		void Update() override
@@ -289,6 +290,8 @@ namespace GOTOEngine
 				if (cropTime <= 0.0f)
 				{
 					m_isCrop = false;
+					SetState(ESCAPE);
+					if(!m_isDie) GameManager2::instance->CropGauge--;
 					m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
 					InitializeMovement();
 				}
