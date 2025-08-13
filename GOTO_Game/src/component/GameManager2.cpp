@@ -375,12 +375,15 @@ void GameManager2::Update() {
 				if (!warningon) {
 					if (wave == 1) {
 						//1번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(1, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 					else if (wave == 2) {
 						//2번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(2, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 					else if (wave == 3) {
 						//3번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(3, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 				}
 				NormalTiming -= 2.0f;
@@ -423,12 +426,15 @@ void GameManager2::Update() {
 				if (warningon) {
 					if (wave == 1) {
 						//1번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(1, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 					else if (wave == 2) {
 						//2번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(2, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 					else if (wave == 3) {
 						//3번 웨이브 일반몬스터
+						EnemySpawnManager->CreateDefenseEnemey(3, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal);
 					}
 				}
 				NormalWarningTiming -= 1.0f;
