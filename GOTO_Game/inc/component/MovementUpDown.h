@@ -44,14 +44,12 @@ namespace GOTOEngine
                 m_distance = 1.0f;
             }
         }
-        void testInitialize(int moveFlag, float speed)
+        void testInitialize(float length, float frequency)
         {
             m_offsetTime = 0.0f;
-            m_flag = moveFlag;
-            m_moveSpeed = 0.05;
+            m_length = length;
+            m_frequency = frequency;
             m_role = E_Move_Role::OFFSET;
-            m_length = 200.0f;
-            m_frequency = 3.0f;
         }
 
         void Awake() override
@@ -63,6 +61,7 @@ namespace GOTOEngine
         {
             if (m_role == E_Move_Role::OFFSET)
             {
+
                 //  m_offsetTime 변수를 추가하여 시간을 누적시킵니다.
                 // Initialize에서 0으로 초기화하면 됩니다.
                 m_offsetTime += deltaTime;

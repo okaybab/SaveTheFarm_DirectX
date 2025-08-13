@@ -106,9 +106,6 @@ namespace GOTOEngine
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
 		
-			//GetTransform()->SetPosition(m_StartPos);
-			//m_currentPathPosition = m_StartPos;
-
 			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
@@ -177,6 +174,9 @@ namespace GOTOEngine
 			// 0b0011: 지그재그 (MovementLeftRight + MovementUpDown)
 			else if ((m_moveFlag & MOVE_LEFT_RIGHT) && (m_moveFlag & MOVE_UP_DOWN))
 			{
+				std::cout << "(m_moveFlag & MOVE_LEFT_RIGHT) && (m_moveFlag & MOVE_UP_DOWN)" << std::endl;
+
+
 				// 1. 중심축 이동을 위한 MovementLinearPath 컴포넌트 추가
 				if (auto linearComp = GetComponent<MovementLinearPath>())
 				{
@@ -193,35 +193,43 @@ namespace GOTOEngine
 					m_movementComponents.push_back(linearComp);
 				}
 
+				float wobbleWidth = 200.0f;     // 좌우 흔들림 폭
+				float wobbleSpeed = 4.0f;      // 좌우 흔들림 속도
+				float verticalBob = 30.0f;     // 상하 흔들림 폭
+				float verticalBobSpeed = 3.0f; // 상하 흔들림 속도
+
+
 				// 2. 흔들림(오프셋)을 위한 MovementLeftRight 컴포넌트 추가
 				// MovementLeftRight::CalculateOffsetDirection(m_StartPos, m_EndPos)를 사용해 흔들림 방향을 설정
 				if (auto lrComp = GetComponent<MovementLeftRight>())
 				{
-					lrComp->testInitialize(m_moveSpeed);
+					lrComp->testInitialize(wobbleWidth, wobbleSpeed);
 					lrComp->CalculateOffsetDirection(m_StartPos, m_EndPos);
 					m_movementComponents.push_back(lrComp);
 				}
 				else
 				{
 					lrComp = AddComponent<MovementLeftRight>();
-					lrComp->testInitialize(m_moveSpeed);
+					lrComp->testInitialize(wobbleWidth, wobbleSpeed);
 					lrComp->CalculateOffsetDirection(m_StartPos, m_EndPos);
 					m_movementComponents.push_back(lrComp);
 				}
 
 				// MovementUpDown 컴포넌트도 필요하다면 동일하게 추가
 				// 현재 코드에선 MovementUpDown이 상하 오프셋 역할
+				//*//
 				if (auto udComp = GetComponent<MovementUpDown>())
 				{
-					udComp->testInitialize(m_moveFlag, m_moveSpeed);
+					udComp->testInitialize(verticalBob, verticalBobSpeed);
 					m_movementComponents.push_back(udComp);
 				}
 				else
 				{
 					udComp = AddComponent<MovementUpDown>();
-					udComp->testInitialize(m_moveFlag, m_moveSpeed);
+					udComp->testInitialize(verticalBob, verticalBobSpeed);
 					m_movementComponents.push_back(udComp);
 				}
+				//*/
 			}
 		}
 

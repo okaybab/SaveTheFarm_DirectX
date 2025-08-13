@@ -40,11 +40,11 @@ namespace GOTOEngine
             m_moveSpeed = 80.0f * speed;
             m_role = E_Move_Role::PATH;
         }
-        void testInitialize(float speed)
+        void testInitialize(float length, float frequency)
         {
-            m_moveSpeed = speed;
-            m_length = 30.0f;
-            m_frequency = 10.0f;
+            m_offsetTime = 0.0f;
+            m_length = length;
+            m_frequency = frequency;
             m_role = E_Move_Role::OFFSET;
         }
 
