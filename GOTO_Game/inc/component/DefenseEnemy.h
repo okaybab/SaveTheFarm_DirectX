@@ -311,6 +311,8 @@ namespace GOTOEngine
 		void SetDefenseEnemyType(E_Defense_Enemy_Type type) { m_dEnemyType = type; }
 		void OnDie(int attackerID, bool isGimmick = true) override
 		{
+			if (m_isDeathByDispone || m_isDie) return;
+
 			__super::OnDie(attackerID);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject(), isGimmick);
 			GameManager2::instance->animalcatch++;
