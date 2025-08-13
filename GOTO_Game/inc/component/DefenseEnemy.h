@@ -112,6 +112,7 @@ namespace GOTOEngine
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
 		
+			m_currentPathPosition = m_StartPos;
 			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
@@ -133,7 +134,7 @@ namespace GOTOEngine
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 			
-			if (m_currentPathPosition.x > m_EndPos.x && m_currentPathPosition.x > 0.0) SetFlipXSprite();
+			SetFlipXSprite(m_currentPathPosition.x > m_EndPos.x);
 
 			if (m_isGimmick) OnGimmick();
 		}
