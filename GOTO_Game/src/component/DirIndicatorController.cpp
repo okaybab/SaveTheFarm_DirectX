@@ -31,6 +31,9 @@ void GOTOEngine::DirIndicatorController::LateUpdate()
 		|| cam->IsDestroyed())
 		return;
 
+	if (IsDestroyed())
+		return;
+
 	for (auto& indicator : m_indicators)
 	{
 		indicator->GetGameObject()->SetActive(false);
