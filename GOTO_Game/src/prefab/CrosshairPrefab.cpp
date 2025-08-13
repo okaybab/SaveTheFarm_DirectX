@@ -126,6 +126,28 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	crosshairCon->fire = crosshairFire;
 	crosshairCon->text = ControllerText;
 
+	auto arconSpriteGO = new GameObject(L"도토리 연사 아이콘");
+	auto arconSprtie = arconSpriteGO->AddComponent<SpriteRenderer>();
+	arconSprtie->SetSprite(L"../Resources/Demo/arcon.png");
+	arconSprtie->SetRenderLayer((1 << (id + 1)) | (1 << 3));
+	arconSprtie->SetRenderOrder(1000 - (id * 2) - 1);
+	arconSpriteGO->GetTransform()->SetParent(GO->GetTransform(),false);
+	arconSpriteGO->GetTransform()->SetLocalScale({ 0.78f,0.78f });
+	arconSpriteGO->GetTransform()->SetLocalPosition({ -30.0,-71.0f });
+	crosshairCon->acornSpriteTransform = arconSpriteGO->GetTransform();
+	arconSpriteGO->SetActive(false);
+
+	auto infiniteSpriteGO = new GameObject(L"무한 연사 아이콘");
+	auto infiniteSprtie = infiniteSpriteGO->AddComponent<SpriteRenderer>();
+	infiniteSprtie->SetSprite(L"../Resources/Demo/infinite.png");
+	infiniteSprtie->SetRenderLayer((1 << (id + 1)) | (1 << 3));
+	infiniteSprtie->SetRenderOrder(1000 - (id * 2) - 1);
+	infiniteSpriteGO->GetTransform()->SetParent(GO->GetTransform(), false);
+	infiniteSpriteGO->GetTransform()->SetLocalScale({ 1.0f,1.0f });
+	infiniteSpriteGO->GetTransform()->SetLocalPosition({ 34.0,-70.0f });
+	crosshairCon->infiniteSpriteTransform = infiniteSpriteGO->GetTransform();
+	infiniteSpriteGO->SetActive(false);
+
 	for (int i = 0; i < 3; i++)
 	{
 		auto subCrosshairGO = CreateSubCrosshair(id);
