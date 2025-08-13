@@ -281,8 +281,8 @@ void StartAnimal::Awake() {
     tostartobject->GetTransform()->SetParent(canvas->GetTransform());
     startimage = tostartobject->AddComponent<Image>();
     startimage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
-    startimage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.55f });
-    startimage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.05f });
+    startimage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.03f });
+    startimage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.18f, Screen::GetHeight() * 0.03f });
     startimage->SetSprite(L"../Resources/artResource/UI/Title/gui_SHOT!(RB) TO START!.png");
 }
 
@@ -401,14 +401,21 @@ void StartAnimal::Update() {
 			thiefhit = false;
 		}
 	}
-	imagetimer += TIME_GET_DELTATIME();
-    if (imagetimer >= 0.0f && imagetimer < 0.5f) {
-        startimage->SetEnabled(true);
-    }
-    else if (imagetimer >= 0.5f && imagetimer < 1.0f) {
+	imagetimer += Mathf::Min( TIME_GET_FIXED_DELTATIME(), TIME_GET_DELTATIME());
+    if (imagetimer >= 0.0f && imagetimer < 5.0f) {
         startimage->SetEnabled(false);
     }
-    else {
+    else if (imagetimer >= 5.0f && imagetimer < 5.5f) {
+        startimage->SetEnabled(true);
+    }
+    else if (imagetimer >= 5.5f && imagetimer < 6.0f) {
+        startimage->SetEnabled(false);
+    }
+    else if(imagetimer>=5.5f) {
+        imagetimer = 5.0f;
+    }
+    if (INPUT_GET_KEYDOWN(KeyCode::LeftShift) || INPUT_GET_KEYDOWN(KeyCode::RightShift)
+        ||INPUT_GET_GAMEPAD_BUTTONDOWN(0, GamepadButton::ButtonR1)||INPUT_GET_GAMEPAD_BUTTONDOWN(1, GamepadButton::ButtonR1)) {
         imagetimer = 0.0f;
     }
 }
