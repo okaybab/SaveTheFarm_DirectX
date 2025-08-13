@@ -256,6 +256,8 @@ void GOTOEngine::CrosshairController::Update()
         text->text = L"X " + std::to_wstring(m_bulletCount);
 
         break;
+    case CrosshairType::MachineGunInfinite:
+        break;
     case CrosshairType::ShotGun:
     {
         float deltaTime = TIME_GET_DELTATIME();
@@ -419,6 +421,13 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
         text->text = L"X " + std::to_wstring(m_bulletCount);
         break;
     }
+    case CrosshairType::MachineGunInfinite:
+    {
+        fire->ChangeMode(CrosshairFireMode::FullAuto);
+        fire->p1fireSFXClipname = "Continuous";
+        fire->p2fireSFXClipname = "Continuous";
+        break;
+    }
     case CrosshairType::ShotGun:
     {
         m_animationDone = false;
@@ -465,6 +474,7 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
     case CrosshairType::HoldingGun:
         break;
     case CrosshairType::MachineGun:
+    case CrosshairType::MachineGunInfinite:
         fire->p1fireSFXClipname = "Shot1P";
         fire->p2fireSFXClipname = "Shot2P";
         bulletImageTransforms[0]->GetGameObject()->SetActive(false);

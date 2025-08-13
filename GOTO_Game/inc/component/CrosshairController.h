@@ -14,6 +14,7 @@ namespace GOTOEngine
 		TriggerGun = 0,
 		HoldingGun,
 		MachineGun,
+		MachineGunInfinite,
 		ShotGun,
 		BigGun
 	};

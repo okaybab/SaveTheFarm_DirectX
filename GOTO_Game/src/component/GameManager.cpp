@@ -9,6 +9,7 @@
 #include "SoundManager.h"
 #include <time.h>
 #include <AnimationCurve.h>
+#include <CrosshairController.h>
 
 using namespace GOTOEngine;
 GameManager* GameManager::instance = nullptr;
@@ -482,6 +483,19 @@ void GameManager::Update() {
 			if (GameTimer <= scoreredTiming) {
 				Timetext->SetColor({ 255,0,0,255 });
 				SoundManager::instance->PlaySFX("Warning");
+
+				auto p1GO = GameObject::Find(L"Player1");
+				if (IsValidObject(p1GO))
+				{
+					p1GO->GetComponent<CrosshairController>()->ChangeType(CrosshairType::MachineGunInfinite);
+				}
+
+				auto p2GO = GameObject::Find(L"Player2");
+				if (IsValidObject(p2GO))
+				{
+					p2GO->GetComponent<CrosshairController>()->ChangeType(CrosshairType::MachineGunInfinite);
+				}
+
 				fever = true;
 				scoreredTiming = -1.0f;
 			}
