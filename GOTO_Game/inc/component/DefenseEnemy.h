@@ -88,7 +88,7 @@ namespace GOTOEngine
 					if (const auto pValue = std::any_cast<bool>(&itBool->second)) { m_isCrop = *pValue; }
 				}
 			}
-
+			
 			m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
 
 			if (m_currentPoint < m_points.size() - 1)
@@ -115,6 +115,7 @@ namespace GOTOEngine
 			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
+			GetComponent<SpriteRenderer>()->SetRenderOrder(m_renderOrder);
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
@@ -132,7 +133,7 @@ namespace GOTOEngine
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 			
-			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
+			if (m_currentPathPosition.x > m_EndPos.x && m_currentPathPosition.x > 0.0) SetFlipXSprite();
 
 			if (m_isGimmick) OnGimmick();
 		}
@@ -269,6 +270,7 @@ namespace GOTOEngine
 			m_currentPoint++;
 
 			SetCurrentPoint();
+			GetComponent<SpriteRenderer>()->SetRenderOrder(m_renderOrder);
 
 			if (m_isCrop) m_moveFlag = 0b0000;
 			else m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
