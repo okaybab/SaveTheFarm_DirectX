@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ScriptBehaviour.h>
 #include <RenderManager.h>
 #include <SpriteRenderer.h>
@@ -13,13 +13,13 @@ namespace GOTOEngine
 {
 	class AnimationCurve;
 	class TutorialImage2;
+	class EnemySpawnManager;
 	class GameManager2 : public ScriptBehaviour
 	{
 	private:
 		bool p1active = false;
 		bool p2active = false;
 
-		Text* Timetext;
 		Image* warningImage;
 		Sprite* warningsprite;
 
@@ -28,7 +28,6 @@ namespace GOTOEngine
 		Sprite* wave2sprite;
 		Sprite* wave3sprite;
 
-		int totalSeconds;
 		AnimationCurve* warninganimation;
 		float warningAniTime = 0.0f;
 		AnimationCurve* waveanimation;
@@ -60,12 +59,12 @@ namespace GOTOEngine
 		Sprite* wave2bar;
 		Sprite* wave3bar;
 
-		float NormalTiming = 120.0f;
-		float GimmickTiming = 120.0f;
-		float Gimmick2Timing = 120.0f;
-		float NormalWarningTiming = 120.0f;
-		float GimmickWarningTiming = 120.0f;
-		float Gimmick2WarningTiming = 120.0f;
+		float NormalTiming = 180.0f;
+		float GimmickTiming = 180.0f;
+		float Gimmick2Timing = 180.0f;
+		float NormalWarningTiming = 180.0f;
+		float GimmickWarningTiming = 180.0f;
+		float Gimmick2WarningTiming = 180.0f;
 
 		int wave = 0;
 		float waveTiming[3] = { 180.0f, 120.0f, 60.0f };
@@ -93,6 +92,8 @@ namespace GOTOEngine
 
 		bool m_YstickPressedUp[2];
 		bool m_YstickPressedDown[2];
+
+		EnemySpawnManager* EnemySpawnManager;
 
 	public:
     GameManager2()

@@ -27,6 +27,8 @@ namespace GOTOEngine
 	};
 
 	enum E_EnemyType;
+	enum E_Defense_Fly_Type;
+	enum E_Defense_Gimmick_Type;
 	class EnemySpawner;
 	class EnemySpawnManager : public ScriptBehaviour
 	{
@@ -96,6 +98,7 @@ namespace GOTOEngine
 
 		// 디펜스
 		void CreateDefenseFlyEnemey();
+		void CreateDefenseEnemey(int wave, E_Defense_Fly_Type flyType, E_Defense_Gimmick_Type gimmickType);
 
 	};
 }

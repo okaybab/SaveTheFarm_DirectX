@@ -24,6 +24,7 @@
 #include "MovementUpDown.h"
 #include "MovementCircle.h"
 #include "MovementParabolic.h"
+#include "MovementLinearPath.h"
 
 namespace GOTOEngine
 {

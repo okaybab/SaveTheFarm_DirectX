@@ -355,5 +355,8 @@
     <ClInclude Include="inc\component\DefenseEnemy.h">
       <Filter>헤더 파일\컴포넌트\몬스터</Filter>
     </ClInclude>
+    <ClInclude Include="inc\MovementLinearPath.h">
+      <Filter>헤더 파일\컴포넌트\몬스터</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
