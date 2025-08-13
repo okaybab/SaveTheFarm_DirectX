@@ -118,7 +118,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	GameObject* newEnemyObject = new GameObject(L"디펜스");
 
 	ParameterMap params;
-	/*// 공중 (까마귀)
+	//*// 공중 (까마귀)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(fly);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_nomal);
 	params["EnemyName"] = L"까마귀";
@@ -142,7 +142,7 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseFlyEnemey()
 	params["EnemyName"] = L"두더지";
 	//*/
 
-	//*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
+	/*// 지상1기믹 (토끼, 다람쥐, 도둑두더지)
 	params["EnemyType"] = static_cast<E_Defense_Fly_Type>(ground1);
 	params["GimmickType"] = static_cast<E_Defense_Gimmick_Type>(defense_gimmick);
 	params["EnemyName"] = static_cast<std::wstring>(L"다람쥐");

@@ -28,7 +28,7 @@ namespace GOTOEngine
             m_progress += deltaTime / m_moveSpeed;
             if (m_progress >= 1.0f)
             {
-                m_progress = 1.0f;
+                m_progress = 0.0f;
                 OnEndPoint.Invoke(); // 델리게이트 호출
             }
             // Lerp를 이용해 다음 위치 계산

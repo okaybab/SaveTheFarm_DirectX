@@ -27,7 +27,6 @@ namespace GOTOEngine
 		Vector2 m_EndPos;
 
 		int m_renderOrder;
-		float t = 0;
 		float cropTime = 3.0f;
 
 	public:
@@ -54,6 +53,11 @@ namespace GOTOEngine
 				m_spawner->Initialize();
 				SetCurrentPoint();
 			}
+			GetTransform()->SetPosition(m_StartPos);
+			m_currentPathPosition = m_StartPos;
+
+			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
+			InitializeMovement();
 		}
 
 		void SetCurrentPoint()
@@ -94,9 +98,6 @@ namespace GOTOEngine
 			{
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
-
-
-
 		}
 
 		void Awake()
@@ -107,10 +108,7 @@ namespace GOTOEngine
 
 			m_isMoveLoop = false;
 			m_disPoneTime = 30.0f;
-			
-			GetTransform()->SetPosition(m_StartPos);
-			m_currentPathPosition = m_StartPos;
-
+		
 			SetScaleByEnemyType(GetGameObject(), m_dEnemyType);
 
 			AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
@@ -119,6 +117,8 @@ namespace GOTOEngine
 			controller->SetOnAnimationEnd([this, controller]() {
 				if (m_animState == DIE || m_animState == DISPONE)
 				{
+					std::cout << "SetOnAnimationEnd" << std::endl;
+
 					controller->SetOnAnimationEnd(nullptr);
 					GameObject::Destroy(GetGameObject());
 				}
@@ -128,11 +128,6 @@ namespace GOTOEngine
 			auto collider = AddComponent<Collider2D>();
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
-
-			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
-
-			InitializeMovement();
-			
 		}
 
 		void InitializeMovement()
@@ -147,9 +142,9 @@ namespace GOTOEngine
 				if (!linearPathComp)
 				{
 					linearPathComp = AddComponent<MovementLinearPath>();
-					// 컴포넌트가 새로 생성될 때만 델리게이트를 바인딩
 					linearPathComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
 				}
+				// 컴포넌트의 Initialize는 한 번만 호출
 				linearPathComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
 				m_movementComponents.push_back(linearPathComp);
 
@@ -160,7 +155,8 @@ namespace GOTOEngine
 					parabolicComp = AddComponent<MovementParabolic>();
 				}
 				// MOVE_UP_DOWN 플래그를 사용하여 OFFSET 모드로 초기화
-				parabolicComp->Initialize(MOVE_UP_DOWN, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+				// 이 Initialize 함수에서 m_moveSpeed가 적절하게 설정되어야 함
+				parabolicComp->Initialize(MOVE_LEFT_RIGHT, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
 				m_movementComponents.push_back(parabolicComp);
 			}
 			// 0b1000: 긴 포물선 (단일 컴포넌트로 처리)
@@ -175,7 +171,6 @@ namespace GOTOEngine
 				{
 					comp = AddComponent<MovementParabolic>();
 					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					//comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
 					m_movementComponents.push_back(comp);
 				}
@@ -240,14 +235,10 @@ namespace GOTOEngine
 
 			m_currentPoint++;
 
-
 			SetCurrentPoint();
 
 			if (m_isCrop) m_moveFlag = 0b0000;
 			else m_moveFlag = m_spawner->GetMoveFlag(GetGameObject()->name);
-
-			m_StartPos = GetGameObject()->GetTransform()->GetPosition();
-			m_currentPathPosition = m_StartPos;
 
 			SetFlipXSprite(m_currentPathPosition.x > m_EndPos.x);
 
