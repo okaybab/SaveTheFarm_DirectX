@@ -7,6 +7,7 @@
 #include <Collider2D.h>
 #include <AnimationCurve.h>
 #include <ParticleSystem.h>
+#include <Image.h>
 #include "Screen.h"
 
 namespace GOTOEngine
@@ -34,6 +35,9 @@ namespace GOTOEngine
 		Vector2 crowSavedPos;
 		Vector2 goldcrowSavedPos;
 		Vector2 thiefmoleSvaedPos;
+
+		Image* startimage;
+		float imagetimer = 0.0f;
 	public:
 		StartAnimal()
 		{
