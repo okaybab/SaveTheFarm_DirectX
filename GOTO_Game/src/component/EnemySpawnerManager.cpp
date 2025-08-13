@@ -177,8 +177,8 @@ void GOTOEngine::EnemySpawnManager::CreateDefenseEnemey(int wave, E_Defense_Fly_
 
 	newEnemyObject->AddComponent<DefenseEnemy>();
 	newEnemyObject->GetComponent<DefenseEnemy>()->Initialize(params);
-	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer((1 << 1) | (1 << 2));
-	newEnemyObject->layer = (1 << 1) | (1 << 2);
+	newEnemyObject->GetComponent<BaseEnemyObject>()->SetEnemyLayer(1);
+	newEnemyObject->layer = 1;
 
 	m_p1Enemy.push_back(newEnemyObject);
 	m_p2Enemy.push_back(newEnemyObject);

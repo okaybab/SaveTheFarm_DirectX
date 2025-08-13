@@ -251,15 +251,6 @@ void GameManager2::Awake() {
 		auto p2 = GameObject::Find(L"Player2");
 		p1->GetComponent<CrosshairController>()->ChangeType(CrosshairType::HoldingGun);
 		p2->GetComponent<CrosshairController>()->ChangeType(CrosshairType::HoldingGun);
-
-		auto timeitem = new GameObject;
-		timeitem->GetTransform()->SetParent(canvas->GetTransform());
-		Timetext = timeitem->AddComponent<Text>();
-		Timetext->horizontalAlign = TextHoriAlign::Center;
-		Timetext->GetRectTransform()->SetAnchoredPosition({
-				Screen::GetWidth() * 0.1f, Screen::GetHeight() * 0.88f });
-		Timetext->size = 43;
-		Timetext->SetColor({ 0,0,0,255 });
 	}
 	else
 	{
@@ -619,8 +610,6 @@ void GameManager2::Update() {
 			}
 		}
 	}
-	totalSeconds = static_cast<int>(floor(GameTimer));
-	Timetext->text = std::to_wstring(totalSeconds);
 }
 
 void GameManager2::OnSceneLoaded() {
