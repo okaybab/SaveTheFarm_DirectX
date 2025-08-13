@@ -1,9 +1,10 @@
 ﻿#include "GimmickManager2.h"
 #include <CrosshairMove.h>
-//#include "EnemySpawnManager.h"
+#include "EnemySpawnManager.h"
 #include "GameManager2.h"
 #include "CrosshairController.h"
 #include "SoundManager.h"
+#include "BaseSpawnerObject.h"
 
 using namespace GOTOEngine;
 
@@ -66,7 +67,7 @@ void GimmickManager2::Update() {
 		GimmickOn(1, 2);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha3)) {
-		GimmickOn(1, 6);
+		GimmickOn(1, 3);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha6)) {
 		GimmickOn(2, 1);
@@ -75,7 +76,7 @@ void GimmickManager2::Update() {
 		GimmickOn(2, 2);
 	}
 	if (INPUT_GET_KEYDOWN(KeyCode::Alpha8)) {
-		GimmickOn(2, 6);
+		GimmickOn(2, 3);
 	}
 };
 
@@ -111,6 +112,9 @@ void GimmickManager2::GimmickOn(int player, int gimmick) {
 			break;
 		case 3:
 			//적 3마리 생성
+			EnemySpawnManager::instance->CreateDefenseEnemey(1, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal, true);
+			EnemySpawnManager::instance->CreateDefenseEnemey(1, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal, true);
+			EnemySpawnManager::instance->CreateDefenseEnemey(1, E_Defense_Fly_Type::fly, E_Defense_Gimmick_Type::defense_nomal, true);
 			break;
 		case 4:
 			//폭탄

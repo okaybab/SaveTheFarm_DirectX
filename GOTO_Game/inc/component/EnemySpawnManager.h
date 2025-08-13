@@ -98,7 +98,7 @@ namespace GOTOEngine
 
 		// 디펜스
 		void CreateDefenseFlyEnemey();
-		void CreateDefenseEnemey(int wave, E_Defense_Fly_Type flyType, E_Defense_Gimmick_Type gimmickType);
+		void CreateDefenseEnemey(int wave, E_Defense_Fly_Type flyType, E_Defense_Gimmick_Type gimmickType, bool isGimmick = true );
 
 	};
 }

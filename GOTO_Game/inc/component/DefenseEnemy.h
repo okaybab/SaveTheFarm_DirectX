@@ -6,6 +6,8 @@
 #include "Mathf.h"
 
 #include "BaseSpawnerObject.h"
+#include "GameManager2.h"
+#include "GimmickManager2.h"
 
 using ParameterMap = std::map<std::string, std::any>;
 
@@ -41,6 +43,10 @@ namespace GOTOEngine
 				auto itGimmickType = params.find("GimmickType");
 				if (itGimmickType != params.end()) {
 					if (const auto pValue = std::any_cast<E_Defense_Gimmick_Type>(&itGimmickType->second)) { m_gimmickType = *pValue; }
+				}
+				auto itGimmickBool = params.find("Gimmick");
+				if (itGimmickBool != params.end()) {
+					if (const auto pValue = std::any_cast<bool>(&itGimmickBool->second)) { m_isGimmick = *pValue; }
 				}
 				// 타입에 맞는 이름 생성 params["EnemyName"] 가 없으면 랜덤으로 설정
 				CreateEnemyWithRandomName(params, GetGameObject());
@@ -112,6 +118,7 @@ namespace GOTOEngine
 			AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(GetGameObject()->name));
 			auto controller = GetComponent<Animator>()->GetRuntimeAnimatorController();
 			controller->SetOnAnimationEnd([this, controller]() {
+
 				if (m_animState == DIE || m_animState == DISPONE)
 				{
 					controller->SetOnAnimationEnd(nullptr);
@@ -123,7 +130,10 @@ namespace GOTOEngine
 			auto collider = AddComponent<Collider2D>();
 
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
+			
 			if (m_currentPathPosition.x > m_EndPos.x) SetFlipXSprite();
+
+			if (m_isGimmick) OnGimmick();
 		}
 
 		void InitializeMovement()
@@ -261,6 +271,11 @@ namespace GOTOEngine
 
 			InitializeMovement();
 			SetState(m_animState);
+
+			if (m_animState == ESCAPE)
+			{
+				GameManager2::instance->CropGauge--;
+			}
 		}
 
 		void Update() override
@@ -286,16 +301,35 @@ namespace GOTOEngine
 		{
 			__super::OnDie(attackerID);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject(), isGimmick);
+			GameManager2::instance->animalcatch++;
+
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_rabbit)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 1);
+			}
+			if (m_dEnemyType == E_Defense_Enemy_Type::d_squirrel)
+			{
+				GimmickManager2::instance->GimmickOn(attackerID, 2);
+			}
+
 		}
 		void OnDispone() override
 		{
 			__super::OnDispone();
-			SetState(E_Enemy_Anim_State::DISPONE);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 		}
 		void OnGimmick()
 		{
-
+			auto gimmickEffect = new GameObject;
+			gimmickEffect->layer = m_layer;
+			gimmickEffect->AddComponent<SpriteRenderer>()->SetRenderLayer(m_layer);
+			gimmickEffect->GetComponent<SpriteRenderer>()->SetRenderOrder(GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
+			gimmickEffect->AddComponent<Animator>()->SetAnimatorController(EnemySpawnManager::instance->GetAnimation(L"Gimmick3"));
+			gimmickEffect->GetTransform()->SetParent(this->GetTransform(), false);
+			auto controller = gimmickEffect->GetComponent<Animator>()->GetRuntimeAnimatorController();
+			controller->SetOnAnimationEnd([this, gimmickEffect]() {
+				GameObject::Destroy(gimmickEffect);
+			});
 		}
 	};
 }
