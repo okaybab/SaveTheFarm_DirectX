@@ -16,6 +16,7 @@
 #include "CameraShaker.h"
 #include "CrosshairController.h"
 #include "StartAnimal.h"
+#include <Canvas.h>
 
 void StartScene::Initialize()
 {
@@ -103,4 +104,8 @@ void StartScene::Initialize()
 	}
 	auto startanimal = new GameObject(L"스타스애니멀");
 	startanimal->AddComponent<StartAnimal>();
+
+	//메인 캔버스
+	auto canvas = new GameObject(L"Canvas");
+	canvas->AddComponent<Canvas>();
 }

@@ -275,6 +275,15 @@ void StartAnimal::Awake() {
     thiefParticle->SetMaxSpeed(320.0f);
     thiefParticle->SetMinSpeed(220.0f);
     thiefParticle->SetRenderOrder(thiefmole->GetComponent<SpriteRenderer>()->GetRenderOrder() - 1);
+
+    auto canvas = GameObject::Find(L"Canvas");
+    auto tostartobject = new GameObject;
+    tostartobject->GetTransform()->SetParent(canvas->GetTransform());
+    startimage = tostartobject->AddComponent<Image>();
+    startimage->GetRectTransform()->SetPivot({ 0.5f, 0.5f });
+    startimage->GetRectTransform()->SetAnchoredPosition({ Screen::GetWidth() * 0.5f, Screen::GetHeight() * 0.55f });
+    startimage->GetRectTransform()->SetSizeDelta({ Screen::GetWidth() * 0.3f, Screen::GetHeight() * 0.05f });
+    startimage->SetSprite(L"../Resources/artResource/UI/Title/gui_SHOT!(RB) TO START!.png");
 }
 
 void StartAnimal::OnDestroy() {
@@ -392,7 +401,14 @@ void StartAnimal::Update() {
 			thiefhit = false;
 		}
 	}
-	if (INPUT_GET_KEYDOWN(KeyCode::Alpha3)) {
-		crowhittimer = 1.0f;
-	}
+	imagetimer += TIME_GET_DELTATIME();
+    if (imagetimer >= 0.0f && imagetimer < 0.5f) {
+        startimage->SetEnabled(true);
+    }
+    else if (imagetimer >= 0.5f && imagetimer < 1.0f) {
+        startimage->SetEnabled(false);
+    }
+    else {
+        imagetimer = 0.0f;
+    }
 }
