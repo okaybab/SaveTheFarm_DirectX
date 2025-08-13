@@ -256,15 +256,36 @@ void GameManager::Update() {
 			//*/ 디버깅용 주석
 			if (NormalTiming - GameTimer >= 5.0f) {
 				//일반 몬스터 랜덤 생성
-				EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 1);
-				EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 2);
+				if (!fever) {
+					EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 1);
+					EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 2);
+				}
 				NormalTiming -= 5.0f;
 			}
 			if (GimmickTiming - GameTimer >= 15.0f) {
 				//기믹 몬스터 랜덤 생성
-				EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
-				EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 2);
-				GimmickTiming -= 15.0f;
+				if (!fever) {
+					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
+					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 2);
+					GimmickTiming -= 15.0f;
+				}
+			}
+
+			if (NormalfeverTiming - GameTimer >= 2.5f) {
+				//일반 몬스터 랜덤 생성
+				if (fever) {
+					EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 1);
+					EnemySpawnManager->CreateEnemy(E_EnemyType::move, 1 << 2);
+				}
+				NormalfeverTiming -= 2.5f;
+			}
+			if (GimmickfeverTiming - GameTimer >= 7.5f) {
+				//기믹 몬스터 랜덤 생성
+				if (fever) {
+					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
+					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 2);;
+				}
+				GimmickfeverTiming -= 7.5f;
 			}
 			
 			if (GameTimer <= ItemTiming[0]) {
@@ -409,6 +430,7 @@ void GameManager::Update() {
 			}
 			if (GameTimer <= scoreredTiming) {
 				Timetext->SetColor({ 255,0,0,255 });
+				fever = true;
 				scoreredTiming = -1.0f;
 			}
 
