@@ -152,7 +152,7 @@ namespace GOTOEngine
 				}
 				// MOVE_UP_DOWN 플래그를 사용하여 OFFSET 모드로 초기화
 				// 이 Initialize 함수에서 m_moveSpeed가 적절하게 설정되어야 함
-				float bounceHeight = 100.0f;
+				float bounceHeight = 10.0f;
 				parabolicComp->testInitialize(bounceHeight);
 				m_movementComponents.push_back(parabolicComp);
 			}

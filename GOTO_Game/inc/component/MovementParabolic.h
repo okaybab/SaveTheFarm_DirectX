@@ -82,7 +82,7 @@ namespace GOTOEngine
             m_height = 200.0f;
             m_moveSpeed = 2.0f * speed;
         }
-        void testInitialize(float jumpHeight, float gravity = 980.0f)
+        void testInitialize(float jumpHeight, float gravity = 50.0f)
         {
             m_role = E_Move_Role::OFFSET; // 이 컴포넌트는 오프셋 역할
             m_isGravity = true;

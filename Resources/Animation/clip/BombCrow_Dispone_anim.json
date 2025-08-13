@@ -1,7 +1,8 @@
 {
-    "clipName": "BombCrow_Escape",
-    "loop": true,
-    "alpha": false,
+    "clipName": "BombCrow_Dispone",
+    "loop": false,
+    "alpha": true,
+	"speed": 3.0,
     "texturePath": "../Resources/artResource/SpriteSheet/Crow/BombCrow_Escape.png",
     "duration": 1.75,
     "frames": [

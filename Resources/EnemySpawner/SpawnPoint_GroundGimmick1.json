@@ -6,7 +6,7 @@
 			"random_x": false,
 			"random_y": false,
 			"x": -1.0,
-			"y": -0.8,
+			"y": -0.2,
 			"speed": 3.5,
 			"state": "Move",
 			"renderOrder": -1300
@@ -58,8 +58,8 @@
 			"enemyType": "다람쥐"
 		},
 		{
-			"flag": "0b0001",
-			"_comment": "직선",
+			"flag": "0b1001",
+			"_comment": "곡선",
 			"value": 1,
 			"enemyType": "도둑두더지"
 		}

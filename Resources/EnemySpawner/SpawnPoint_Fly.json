@@ -28,7 +28,7 @@
 				"min": { "multiple": -0.5, "offset": -420.0 },
 				"max": { "multiple": 0.5, "offset": 420.0 }
 			},
-			"y": 0.5,
+			"y": 0.4,
 			"speed": 1.5,
 			"state": "Dispone"
 		}

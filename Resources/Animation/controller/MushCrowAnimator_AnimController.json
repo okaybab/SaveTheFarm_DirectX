@@ -27,7 +27,7 @@
         },
         {
             "name": "Dispone",
-            "motionName": "MushCrow_Escape",
+            "motionName": "MushCrow_Dispone",
             "clipLength": 1.75,
             "loop": false,
             "transitions": []

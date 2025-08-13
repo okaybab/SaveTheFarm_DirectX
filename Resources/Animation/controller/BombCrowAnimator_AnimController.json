@@ -27,7 +27,7 @@
         },
 		{
             "name": "Dispone",
-            "motionName": "BombCrow_Escape",
+            "motionName": "BombCrow_Dispone",
             "clipLength": 1.75,
             "loop": false,
             "transitions": []

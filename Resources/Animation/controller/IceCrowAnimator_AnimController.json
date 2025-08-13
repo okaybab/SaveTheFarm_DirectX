@@ -27,7 +27,7 @@
         },
         {
             "name": "Dispone",
-            "motionName": "IceCrow_Escape",
+            "motionName": "IceCrow_Dispone",
             "clipLength": 1.75,
             "loop": false,
             "transitions": []

@@ -1,8 +1,7 @@
 {
     "clipName": "IceCrow_Escape",
-    "loop": false,
-    "alpha": true,
-	"speed": 3.0,
+    "loop": true,
+    "alpha": false,
     "texturePath": "../Resources/artResource/SpriteSheet/Crow/IceCrow_Escape.png",
     "duration": 1.75,
     "frames": [
