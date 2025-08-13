@@ -103,7 +103,7 @@ void GOTOEngine::ObjectDestructionManager::Update()
 
 void GOTOEngine::ObjectDestructionManager::Clear()
 {
-	_CrtCheckMemory();
+	//_CrtCheckMemory();
 #ifdef _DEBUG_DESTRUCTION
 	bool debugStart = false;
 	if(!m_pendingDeleteObjects.empty())
