@@ -804,9 +804,10 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
 void GOTOEngine::CrosshairFire::OnSceneLoaded()
 {
     auto camGO = id == 0 ? GameObject::Find(L"p1Cam") : GameObject::Find(L"p2Cam");
-    if(camGO)
+    if (camGO)
         m_shaker = camGO->GetComponent<CameraShaker>();
-
+    else
+        m_shaker = nullptr;
 }
 
 GOTOEngine::CrosshairFireMode& GOTOEngine::operator++(CrosshairFireMode& state)
