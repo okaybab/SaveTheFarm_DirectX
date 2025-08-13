@@ -29,7 +29,5 @@ void GOTOEngine::DirIndicator::LateUpdate()
 		float angleInDegrees = angleInRadians * Mathf::Rad2Deg;
 
 		GetTransform()->SetLocalRotation(angleInDegrees);
-
-		auto s = GetTransform()->GetWorldMatrix();
 	}
 }

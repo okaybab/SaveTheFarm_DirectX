@@ -7,11 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <psapi.h>                // GetProcessMemoryInfo, PROCESS_MEMORY_COUNTERS_EX
+#include <psapi.h>
 #pragma comment(lib, "psapi.lib")
-//#ifdef _DEBUG
-//#include <iostream>
-//#endif
 
 using namespace GOTOEngine;
 
@@ -25,28 +22,135 @@ bool D2DRenderAPI::Initialize(IWindow* window)
 	// D3D11 디바이스 생성
 	D3D_FEATURE_LEVEL featureLevel;
 	D3D_FEATURE_LEVEL levels[] = { D3D_FEATURE_LEVEL_11_0 };
-	D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
+	HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
 		D3D11_CREATE_DEVICE_BGRA_SUPPORT, levels, 1,
 		D3D11_SDK_VERSION, m_d3dDevice.GetAddressOf(), &featureLevel, nullptr);
+	if (FAILED(hr))
+		return false;
 
-	// D2D 팩토리 및 디바이스
+	// D2D 팩토리 생성
 	D2D1_FACTORY_OPTIONS options = {};
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, options, m_d2dFactory.GetAddressOf());
+#ifdef _DEBUG
+	options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
+#endif
 
+	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, options, m_d2dFactory.GetAddressOf());
+	if (FAILED(hr))
+		return false;
+
+	// 최신 Factory로 업캐스팅 시도
+	hr = m_d2dFactory.As(&m_d2dFactoryAdvanced);
+	if (FAILED(hr))
+	{
+		m_d2dFactoryAdvanced = nullptr;
+		m_useAdvancedFeatures = false;
+		OutputDebugStringA("Using basic D2D Factory\n");
+	}
+	else
+	{
+		m_useAdvancedFeatures = true;
+		OutputDebugStringA("Using advanced D2D Factory\n");
+	}
+
+	// DXGI 디바이스 설정
 	ComPtr<IDXGIDevice> dxgiDevice;
-	m_d3dDevice.As(&dxgiDevice);
+	hr = m_d3dDevice.As(&dxgiDevice);
+	if (FAILED(hr))
+		return false;
+
+	hr = dxgiDevice.As(&m_dxgiDevice);
+	if (FAILED(hr))
+	{
+		m_dxgiDevice = dxgiDevice;
+	}
+
 	ComPtr<IDXGIAdapter> dxgiAdapter;
-	m_d3dDevice.As(&m_dxgiDevice);
-	m_dxgiDevice->GetAdapter(dxgiAdapter.GetAddressOf());
-	dxgiAdapter.As(&m_dxgiAdapter);
+	hr = m_dxgiDevice->GetAdapter(dxgiAdapter.GetAddressOf());
+	if (FAILED(hr))
+		return false;
 
-	ComPtr<ID2D1Device7> d2dDevice;
-	m_d2dFactory->CreateDevice((dxgiDevice.Get()), d2dDevice.GetAddressOf());
-	d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, m_d2dContext.GetAddressOf());
+	m_dxgiAdapter = dxgiAdapter;
 
-	ComPtr<IDXGIFactory7> dxgiFactory;
-	CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
+	// 최신 DXGI 어댑터로 업캐스팅 시도
+	hr = dxgiAdapter.As(&m_dxgiAdapterAdvanced);
+	if (SUCCEEDED(hr))
+	{
+		// VRAM 쿼리 지원 여부 확인
+		DXGI_QUERY_VIDEO_MEMORY_INFO testMemInfo = {};
+		hr = m_dxgiAdapterAdvanced->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &testMemInfo);
+		m_supportsVRAMQuery = SUCCEEDED(hr);
+	}
+	else
+	{
+		m_dxgiAdapterAdvanced = nullptr;
+		m_supportsVRAMQuery = false;
+	}
 
+	// D2D Device 생성 (기본 팩토리로만 가능)
+	ComPtr<ID2D1Device> d2dDevice;
+	if (m_d2dFactoryAdvanced)
+	{
+		hr = m_d2dFactoryAdvanced->CreateDevice(dxgiDevice.Get(), d2dDevice.GetAddressOf());
+	}
+	else
+	{
+		// ID2D1Factory1이 필요함
+		ComPtr<ID2D1Factory1> factory1;
+		hr = m_d2dFactory.As(&factory1);
+		if (SUCCEEDED(hr))
+		{
+			hr = factory1->CreateDevice(dxgiDevice.Get(), d2dDevice.GetAddressOf());
+		}
+		else
+		{
+			OutputDebugStringA("Cannot create D2D Device - ID2D1Factory1 not available\n");
+			return false;
+		}
+	}
+
+	if (FAILED(hr))
+		return false;
+
+	// DeviceContext 생성
+	hr = d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, m_d2dContext.GetAddressOf());
+	if (FAILED(hr))
+		return false;
+
+	// 최신 DeviceContext로 업캐스팅 시도
+	hr = m_d2dContext.As(&m_d2dContextAdvanced);
+	if (SUCCEEDED(hr))
+	{
+		// SpriteBatch 지원 여부 확인
+		ComPtr<ID2D1SpriteBatch> testSpriteBatch;
+		hr = m_d2dContextAdvanced->CreateSpriteBatch(testSpriteBatch.GetAddressOf());
+		m_supportsSpriteBatch = SUCCEEDED(hr);
+
+		if (m_supportsSpriteBatch)
+		{
+			OutputDebugStringA("SpriteBatch supported\n");
+		}
+		else
+		{
+			OutputDebugStringA("SpriteBatch creation failed\n");
+		}
+	}
+	else
+	{
+		m_d2dContextAdvanced = nullptr;
+		m_supportsSpriteBatch = false;
+		OutputDebugStringA("Advanced DeviceContext not available\n");
+	}
+
+	// DXGI Factory 생성
+	ComPtr<IDXGIFactory> baseFactory;
+	hr = CreateDXGIFactory1(IID_PPV_ARGS(&baseFactory));
+	if (FAILED(hr))
+		return false;
+
+	ComPtr<IDXGIFactory2> dxgiFactory2;
+	hr = baseFactory.As(&dxgiFactory2);
+	if (FAILED(hr))
+		return false;
 
 	// SwapChain 생성
 	DXGI_SWAP_CHAIN_DESC1 scDesc = {};
@@ -54,24 +158,58 @@ bool D2DRenderAPI::Initialize(IWindow* window)
 	scDesc.Height = m_window->GetHeight();
 	scDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	scDesc.SampleDesc.Count = 1;
+	scDesc.SampleDesc.Quality = 0;
 	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scDesc.BufferCount = 2;
 	scDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	dxgiFactory->CreateSwapChainForHwnd(m_d3dDevice.Get(), static_cast<HWND>(m_window->GetNativeHandle()), &scDesc, nullptr, nullptr, m_swapChain.GetAddressOf());
+	scDesc.Flags = 0;
+
+	hr = dxgiFactory2->CreateSwapChainForHwnd(
+		m_d3dDevice.Get(),
+		static_cast<HWND>(m_window->GetNativeHandle()),
+		&scDesc,
+		nullptr,
+		nullptr,
+		m_swapChain.GetAddressOf()
+	);
+	if (FAILED(hr))
+		return false;
+
+	// Alt+Enter 비활성화
+	dxgiFactory2->MakeWindowAssociation(static_cast<HWND>(m_window->GetNativeHandle()), DXGI_MWA_NO_ALT_ENTER);
 
 	// 백버퍼를 타겟으로 설정
 	ComPtr<IDXGISurface> backBuffer;
-	m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+	hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+	if (FAILED(hr))
+		return false;
+
 	D2D1_BITMAP_PROPERTIES1 bmpProps = D2D1::BitmapProperties1(
 		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
 		D2D1::PixelFormat(scDesc.Format, D2D1_ALPHA_MODE_PREMULTIPLIED)
 	);
-	m_d2dContext->CreateBitmapFromDxgiSurface(backBuffer.Get(), &bmpProps, m_renderTarget.GetAddressOf());
+
+	hr = m_d2dContext->CreateBitmapFromDxgiSurface(backBuffer.Get(), &bmpProps, m_renderTarget.GetAddressOf());
+	if (FAILED(hr))
+		return false;
+
 	m_d2dContext->SetTarget(m_renderTarget.Get());
 
-	m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_solidColorBrush);
+	hr = m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_solidColorBrush);
+	if (FAILED(hr))
+		return false;
 
-	m_d2dContext->CreateSpriteBatch(m_spriteBatch.GetAddressOf());
+	// SpriteBatch 생성 시도 (지원되는 경우만)
+	if (m_supportsSpriteBatch && m_d2dContextAdvanced)
+	{
+		hr = m_d2dContextAdvanced->CreateSpriteBatch(m_spriteBatch.GetAddressOf());
+		if (FAILED(hr))
+		{
+			m_supportsSpriteBatch = false;
+			m_spriteBatch = nullptr;
+		}
+	}
+
 	return true;
 }
 
@@ -82,12 +220,16 @@ void D2DRenderAPI::Release()
 
 	m_d3dDevice = nullptr;
 	m_dxgiAdapter = nullptr;
+	m_dxgiAdapterAdvanced = nullptr;
 	m_dxgiDevice = nullptr;
 	m_swapChain = nullptr;
 	m_d2dContext = nullptr;
+	m_d2dContextAdvanced = nullptr;
 	m_renderTarget = nullptr;
 	m_d2dFactory = nullptr;
+	m_d2dFactoryAdvanced = nullptr;
 	m_solidColorBrush = nullptr;
+	m_spriteBatch = nullptr;
 }
 
 void D2DRenderAPI::ChangeBufferSize(int newWidth, int newHeight)
@@ -101,7 +243,7 @@ void D2DRenderAPI::ChangeBufferSize(int newWidth, int newHeight)
 
 	// SwapChain 버퍼 크기 변경
 	HRESULT hr = m_swapChain->ResizeBuffers(
-		2, // 버퍼 개수 (CreateSwapChainForHwnd에서 설정한 값과 같아야 함)
+		2, // 버퍼 개수
 		newWidth,
 		newHeight,
 		DXGI_FORMAT_B8G8R8A8_UNORM,
@@ -146,7 +288,6 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 {
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
-	float screenHeight = static_cast<float>(m_window->GetHeight());
 
 	D2D1_RECT_F dstRect = D2D1::RectF(
 		0,
@@ -174,97 +315,15 @@ void GOTOEngine::D2DRenderAPI::DrawBitmap(const IRenderBitmap* bitmap, const Mat
 		break;
 	}
 
-	// 색상 변경이 필요한지 확인 (RGB가 모두 255가 아니거나 알파가 255가 아닌 경우)
-	//bool needColorEffect = (color.R != 255 || color.G != 255 || color.B != 255 || color.A != 255);
+	m_d2dContext->SetTransform(d2dTransform);
 
-	//if (needColorEffect)
-	//{
-	//	// Color Matrix Effect 사용
-	//	ID2D1Effect* pColorMatrixEffect = nullptr;
-	//	HRESULT hr = m_d2dContext->CreateEffect(CLSID_D2D1ColorMatrix, &pColorMatrixEffect);
-
-	//	if (SUCCEEDED(hr))
-	//	{
-	//		// 색상 매트릭스 설정
-	//		float rTint = static_cast<float>(color.R) / 255.0f;
-	//		float gTint = static_cast<float>(color.G) / 255.0f;
-	//		float bTint = static_cast<float>(color.B) / 255.0f;
-	//		float alpha = static_cast<float>(color.A) / 255.0f;
-
-	//		D2D1_MATRIX_5X4_F colorMatrix = {
-	//			rTint, 0, 0, 0,        // R 채널
-	//			0, gTint, 0, 0,        // G 채널
-	//			0, 0, bTint, 0,        // B 채널
-	//			0, 0, 0, alpha,        // A 채널
-	//			0, 0, 0, 0             // 오프셋
-	//		};
-
-	//		pColorMatrixEffect->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, colorMatrix);
-	//		pColorMatrixEffect->SetInput(0, d2dBitmap);
-
-	//		ID2D1Image* pOutputImage = nullptr;
-	//		pColorMatrixEffect->GetOutput(&pOutputImage);
-
-	//		if (pOutputImage)
-	//		{
-	//			// DrawImage는 픽셀 좌표를 직접 사용 (UV 변환 불필요)
-	//			// 하지만 스케일링을 위해서는 transform을 사용해야 함
-
-	//			if (useScreenPos)
-	//			{
-	//				// 스케일 계산
-	//				float scaleX = (dstRect.right - dstRect.left) / (srcRect.right - srcRect.left);
-	//				float scaleY = (dstRect.bottom - dstRect.top) / (srcRect.bottom - srcRect.top);
-
-	//				// 새로운 transform 계산 (기존 transform * 스케일 + 위치)
-	//				D2D1_MATRIX_3X2_F scaleTransform = D2D1::Matrix3x2F::Scale(scaleX, scaleY);
-	//				D2D1_MATRIX_3X2_F translateTransform = D2D1::Matrix3x2F::Translation(
-	//					dstRect.left - srcRect.left * scaleX,
-	//					dstRect.top - srcRect.top * scaleY
-	//				);
-
-	//				D2D1_MATRIX_3X2_F finalTransform = scaleTransform * translateTransform * d2dTransform;
-	//				m_d2dContext->SetTransform(finalTransform);
-	//			}
-	//			
-	//			// DrawImage에서는 srcRect를 픽셀 좌표로 직접 사용
-	//			m_d2dContext->DrawImage(
-	//				pOutputImage,
-	//				D2D1::Point2F(srcRect.left, srcRect.top), // 소스 위치
-	//				srcRect,                                   // 소스 사각형 (픽셀 좌표)
-	//				D2D1_INTERPOLATION_MODE_LINEAR
-	//			);
-
-	//			pOutputImage->Release();
-	//		}
-
-	//		pColorMatrixEffect->Release();
-	//	}
-	//	else
-	//	{
-	//		// Effect 생성 실패시 기본 DrawBitmap 사용 (색상 틴트 없이)
-	//		m_d2dContext->DrawBitmap(
-	//			d2dBitmap,
-	//			&dstRect,
-	//			(static_cast<float>(color.A) / 255.0f),
-	//			mode,
-	//			&srcRect
-	//		);
-	//	}
-	//}
-	//else
-	{
-		m_d2dContext->SetTransform(d2dTransform);
-
-		// 색상 변경이 필요없는 경우 기존 방식 사용
-		m_d2dContext->DrawBitmap(
-			d2dBitmap,
-			&dstRect,
-			(static_cast<float>(color.A) / 255.0f),
-			mode,
-			&srcRect
-		);
-	}
+	m_d2dContext->DrawBitmap(
+		d2dBitmap,
+		&dstRect,
+		(static_cast<float>(color.A) / 255.0f),
+		mode,
+		&srcRect
+	);
 
 	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 }
@@ -295,7 +354,7 @@ void D2DRenderAPI::DrawString(const wchar_t* string, const Rect& rect, const IRe
 		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 		break;
 	case 0:
-		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER); 
+		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 		break;
 	case 1:
 		textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
@@ -315,17 +374,12 @@ void D2DRenderAPI::DrawString(const wchar_t* string, const Rect& rect, const IRe
 		break;
 	}
 
-	float screenHeight = static_cast<float>(m_window->GetHeight());
-
 	D2D1_RECT_F layoutRect = D2D1::RectF(0.0f, 0.0f, rect.width, rect.height);
-
-
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 
 	m_d2dContext->SetTransform(d2dTransform);
-
-	//m_solidColorBrush->SetColor(D2D1::ColorF(0.0f, 0.0f, 0.0f,0.0f));
 	m_d2dContext->DrawText(string, static_cast<UINT32>(wcslen(string)), textFormat, &layoutRect, m_solidColorBrush.Get());
+
 #ifdef _DEBUG
 	m_d2dContext->DrawRectangle(layoutRect, m_solidColorBrush.Get());
 #endif
@@ -342,10 +396,6 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 
 	auto d2dTransform = ConvertToD2DMatrix(mat);
 
-	float screenHeight = static_cast<float>(m_window->GetHeight());
-
-	auto col = D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f);
-
 	D2D1_RECT_F dstRect = D2D1::RectF(
 		0,
 		0,
@@ -355,7 +405,6 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 
 	m_d2dContext->SetTransform(d2dTransform);
 	m_solidColorBrush->SetColor(D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f));
-
 
 	if (fill) {
 		m_d2dContext->FillRectangle(dstRect, m_solidColorBrush.Get());
@@ -369,10 +418,21 @@ void GOTOEngine::D2DRenderAPI::DrawRect(const Rect& rect, bool fill, const Matri
 
 void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size_t count, const std::vector<Matrix3x3>& mats, const Rect& destRect, const Rect& sourceRect, const std::vector<Color>& colors, TextureFiltering filter)
 {
-	m_d2dContext->SetTransform(D2D1::IdentityMatrix());
+	// SpriteBatch가 지원되지 않는 경우 개별 DrawBitmap 호출로 대체
+	if (!m_supportsSpriteBatch || !m_spriteBatch || !m_d2dContextAdvanced)
+	{
+		for (size_t i = 0; i < count; ++i)
+		{
+			DrawBitmap(bitmap, mats[i], destRect, sourceRect, colors[i], filter);
+		}
+		return;
+	}
 
-	D2D1_ANTIALIAS_MODE originalAntialiasMode = m_d2dContext->GetAntialiasMode();
-	m_d2dContext->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+	// SpriteBatch가 지원되는 경우 기존 로직 사용
+	m_d2dContextAdvanced->SetTransform(D2D1::IdentityMatrix());
+
+	D2D1_ANTIALIAS_MODE originalAntialiasMode = m_d2dContextAdvanced->GetAntialiasMode();
+	m_d2dContextAdvanced->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 	m_spriteBatch->Clear();
 
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
@@ -383,7 +443,6 @@ void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size
 	std::vector<D2D1_MATRIX_3X2_F> d2dTransforms(count);
 
 	auto d2dDestY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
-	float screenHeight = static_cast<float>(m_window->GetHeight());
 
 	for (size_t i = 0; i < count; ++i)
 	{
@@ -419,14 +478,14 @@ void GOTOEngine::D2DRenderAPI::DrawSpriteBatch(const IRenderBitmap* bitmap, size
 		break;
 	}
 
-	m_d2dContext->DrawSpriteBatch(
+	m_d2dContextAdvanced->DrawSpriteBatch(
 		m_spriteBatch.Get(),
 		0, count,
 		d2dBitmap,
 		mode,
 		D2D1_SPRITE_OPTIONS_NONE);
 
-	m_d2dContext->SetAntialiasMode(originalAntialiasMode);
+	m_d2dContextAdvanced->SetAntialiasMode(originalAntialiasMode);
 }
 
 void D2DRenderAPI::SetViewport(Rect rect)
@@ -436,17 +495,15 @@ void D2DRenderAPI::SetViewport(Rect rect)
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 
 	m_clipRect = D2D1::RectF(
-		rect.x * screenWidth,                           // 좌측 x 좌표 (픽셀)
-		(1.0f - (rect.y + rect.height)) * screenHeight, // 상단 y 좌표 (픽셀)
-		(rect.x + rect.width) * screenWidth,            // 우측 x 좌표 (픽셀)
-		(1.0f - rect.y) * screenHeight                  // 하단 y 좌표 (픽셀)
+		rect.x * screenWidth,
+		(1.0f - (rect.y + rect.height)) * screenHeight,
+		(rect.x + rect.width) * screenWidth,
+		(1.0f - rect.y) * screenHeight
 	);
 
 	m_d2dContext->PushAxisAlignedClip(
 		m_clipRect,
 		D2D1_ANTIALIAS_MODE_ALIASED
-		// D2D1_ANTIALIAS_MODE_PER_PRIMITIVE // 클립 경계에 안티앨리어싱 적용
-		// D2D1_ANTIALIAS_MODE_ALIASED // 픽셀 완벽한 클리핑이 필요한 경우 (성능상 이점 있을 수 있음)
 	);
 }
 
@@ -481,16 +538,13 @@ IRenderBitmap* GOTOEngine::D2DRenderAPI::CreateRenderBitmap(std::wstring filePat
 	);
 	if (FAILED(hr)) return nullptr;
 
-	// ⑤ Direct2D 비트맵 속성 (premultiplied alpha, B8G8R8A8_UNORM)
 	D2D1_BITMAP_PROPERTIES1 bmpProps = D2D1::BitmapProperties1(
 		D2D1_BITMAP_OPTIONS_NONE,
 		D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED)
 	);
 
 	ComPtr<ID2D1Bitmap1> bitmap;
-
 	hr = m_d2dContext->CreateBitmapFromWicBitmap(converter.Get(), &bmpProps, bitmap.GetAddressOf());
-
 	if (FAILED(hr)) return nullptr;
 
 	return new D2DBitmap(bitmap);
@@ -498,68 +552,180 @@ IRenderBitmap* GOTOEngine::D2DRenderAPI::CreateRenderBitmap(std::wstring filePat
 
 IRenderFont* GOTOEngine::D2DRenderAPI::CreateRenderFontFromFilePath(std::wstring filePath)
 {
-	IDWriteFactory3* dwriteFactory = DWriteHelper::GetFactory();
+	IDWriteFactory* dwriteFactory = DWriteHelper::GetFactory();
 	if (!dwriteFactory)
 		return nullptr;
 
-	// 1. FontSetBuilder (IDWriteFontSetBuilder1) 생성
-	ComPtr<IDWriteFontSetBuilder> baseBuilder;
-	HRESULT hr = dwriteFactory->CreateFontSetBuilder(&baseBuilder);
-	if (FAILED(hr)) return nullptr;
+	// 고급 기능을 사용할 수 있는 경우에만 파일 기반 폰트 로딩 시도
+	if (m_useAdvancedFeatures && m_d2dFactoryAdvanced)
+	{
+		// IDWriteFactory3로 업캐스팅 시도
+		ComPtr<IDWriteFactory3> dwriteFactory3;
+		HRESULT hr = dwriteFactory->QueryInterface(IID_PPV_ARGS(&dwriteFactory3));
+		if (SUCCEEDED(hr))
+		{
+			OutputDebugStringA("Attempting advanced font loading...\n");
 
-	ComPtr<IDWriteFontSetBuilder1> fontSetBuilder;
-	hr = baseBuilder.As(&fontSetBuilder);
-	if (FAILED(hr)) return nullptr;
+			// FontSetBuilder 사용한 고급 폰트 로딩
+			ComPtr<IDWriteFontSetBuilder> baseBuilder;
+			hr = dwriteFactory3->CreateFontSetBuilder(&baseBuilder);
+			if (SUCCEEDED(hr))
+			{
+				// IDWriteFontSetBuilder1로 업캐스팅
+				ComPtr<IDWriteFontSetBuilder1> fontSetBuilder;
+				hr = baseBuilder.As(&fontSetBuilder);
+				if (SUCCEEDED(hr))
+				{
+					// FontFile 생성
+					ComPtr<IDWriteFontFile> fontFile;
+					hr = dwriteFactory->CreateFontFileReference(filePath.c_str(), nullptr, &fontFile);
+					if (SUCCEEDED(hr))
+					{
+						// FontFile을 FontSetBuilder에 추가
+						hr = fontSetBuilder->AddFontFile(fontFile.Get());
+						if (SUCCEEDED(hr))
+						{
+							// FontSet 생성
+							ComPtr<IDWriteFontSet> fontSet;
+							hr = fontSetBuilder->CreateFontSet(&fontSet);
+							if (SUCCEEDED(hr))
+							{
+								// FontCollection 생성
+								ComPtr<IDWriteFontCollection1> fontCollection;
+								hr = dwriteFactory3->CreateFontCollectionFromFontSet(fontSet.Get(), &fontCollection);
+								if (SUCCEEDED(hr))
+								{
+									// FontFamily 가져오기
+									ComPtr<IDWriteFontFamily1> fontFamily;
+									hr = fontCollection->GetFontFamily(0, &fontFamily);
+									if (SUCCEEDED(hr))
+									{
+										// 폰트 패밀리 이름 추출
+										ComPtr<IDWriteLocalizedStrings> familyNames;
+										hr = fontFamily->GetFamilyNames(&familyNames);
+										if (SUCCEEDED(hr))
+										{
+											UINT32 index = 0;
+											BOOL exists = FALSE;
 
-	// 2. FontFile 생성
-	ComPtr<IDWriteFontFile> fontFile;
-	hr = dwriteFactory->CreateFontFileReference(filePath.c_str(), nullptr, &fontFile);
-	if (FAILED(hr)) return nullptr;
+											// 영어 이름 우선 검색
+											hr = familyNames->FindLocaleName(L"en-us", &index, &exists);
+											if (!exists)
+											{
+												// 영어가 없으면 첫 번째 이름 사용
+												index = 0;
+											}
 
-	// 3. FontFile을 FontSetBuilder에 추가
-	hr = fontSetBuilder->AddFontFile(fontFile.Get());
-	if (FAILED(hr)) return nullptr;
+											UINT32 length = 0;
+											hr = familyNames->GetStringLength(index, &length);
+											if (SUCCEEDED(hr))
+											{
+												std::wstring fontFamilyName(length + 1, L'\0');
+												hr = familyNames->GetString(index, &fontFamilyName[0], length + 1);
+												if (SUCCEEDED(hr))
+												{
+													fontFamilyName.resize(length);
 
-	// 4. FontSet 생성
-	ComPtr<IDWriteFontSet> fontSet;
-	hr = fontSetBuilder->CreateFontSet(&fontSet);
-	if (FAILED(hr)) return nullptr;
+													// D2DFont 객체 생성 및 고급 정보 설정
+													D2DFont* d2dFont = new D2DFont(fontFamilyName);
+													d2dFont->m_fontCollection = fontCollection;
+													d2dFont->m_fontFile = fontFile;
 
-	// 5. FontCollection 생성
-	ComPtr<IDWriteFontCollection1> fontCollection;
-	hr = dwriteFactory->CreateFontCollectionFromFontSet(fontSet.Get(), &fontCollection);
-	if (FAILED(hr)) return nullptr;
+													OutputDebugStringA("Advanced font loading successful!\n");
+													std::string debugMsg = "Font family: " + std::string(fontFamilyName.begin(), fontFamilyName.end()) + "\n";
+													OutputDebugStringA(debugMsg.c_str());
 
-	// 6. FontFamily 이름 추출
-	ComPtr<IDWriteFontFamily1> fontFamily;
-	hr = fontCollection->GetFontFamily(0, &fontFamily);
-	if (FAILED(hr)) return nullptr;
+													return d2dFont;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							OutputDebugStringA("Failed to add font file to FontSetBuilder\n");
+						}
+					}
+					else
+					{
+						OutputDebugStringA("Failed to create font file reference\n");
+					}
+				}
+				else
+				{
+					OutputDebugStringA("Failed to cast to IDWriteFontSetBuilder1\n");
+				}
+			}
+			else
+			{
+				OutputDebugStringA("Failed to create FontSetBuilder\n");
+			}
+		}
+		else
+		{
+			OutputDebugStringA("IDWriteFactory3 not available for advanced font loading\n");
+		}
+	}
+	else
+	{
+		OutputDebugStringA("Advanced features not available, trying basic font file loading...\n");
 
-	ComPtr<IDWriteLocalizedStrings> familyNames;
-	hr = fontFamily->GetFamilyNames(&familyNames);
-	if (FAILED(hr)) return nullptr;
+		// 기본적인 폰트 파일 로딩 시도 (제한적)
+		ComPtr<IDWriteFontFile> fontFile;
+		HRESULT hr = dwriteFactory->CreateFontFileReference(filePath.c_str(), nullptr, &fontFile);
+		if (SUCCEEDED(hr))
+		{
+			// 폰트 파일 유효성 검사
+			BOOL isSupportedFontType = FALSE;
+			DWRITE_FONT_FILE_TYPE fontFileType;
+			DWRITE_FONT_FACE_TYPE fontFaceType;
+			UINT32 numberOfFaces = 0;
 
-	UINT32 index = 0;
-	BOOL exists = FALSE;
-	hr = familyNames->FindLocaleName(L"en-us", &index, &exists);
-	if (!exists) index = 0;
+			hr = fontFile->Analyze(&isSupportedFontType, &fontFileType, &fontFaceType, &numberOfFaces);
+			if (SUCCEEDED(hr) && isSupportedFontType && numberOfFaces > 0)
+			{
+				// FontFace 생성 시도
+				ComPtr<IDWriteFontFace> fontFace;
+				hr = dwriteFactory->CreateFontFace(fontFaceType, 1, fontFile.GetAddressOf(), 0, DWRITE_FONT_SIMULATIONS_NONE, &fontFace);
+				if (SUCCEEDED(hr))
+				{
+					// 기본 폰트 이름으로 생성 (실제 폰트 이름을 가져오기 어려움)
+					std::wstring baseName = filePath.substr(filePath.find_last_of(L"/\\") + 1);
+					if (baseName.find(L'.') != std::wstring::npos)
+					{
+						baseName = baseName.substr(0, baseName.find_last_of(L'.'));
+					}
 
-	UINT32 length = 0;
-	hr = familyNames->GetStringLength(index, &length);
-	if (FAILED(hr)) return nullptr;
+					D2DFont* d2dFont = new D2DFont(baseName);
+					d2dFont->m_fontFile = fontFile;
 
-	std::wstring fontFamilyName(length + 1, L'\0');
-	hr = familyNames->GetString(index, &fontFamilyName[0], length + 1);
-	if (FAILED(hr)) return nullptr;
+					OutputDebugStringA("Basic font file loading successful\n");
+					std::string debugMsg = "Font file: " + std::string(baseName.begin(), baseName.end()) + "\n";
+					OutputDebugStringA(debugMsg.c_str());
 
-	fontFamilyName.resize(length);
+					return d2dFont;
+				}
+				else
+				{
+					OutputDebugStringA("Failed to create font face from font file\n");
+				}
+			}
+			else
+			{
+				OutputDebugStringA("Font file is not supported or invalid\n");
+			}
+		}
+		else
+		{
+			OutputDebugStringA("Failed to create font file reference\n");
+		}
+	}
 
-	// 7. D2DFont 생성 및 반환
-	D2DFont* d2dFont = new D2DFont(fontFamilyName);
-	d2dFont->m_fontCollection = fontCollection;
-	d2dFont->m_fontFile = fontFile; // IDWriteFontFile으로 설정됨
-
-	return d2dFont;
+	// 모든 시도가 실패한 경우 기본 시스템 폰트로 대체
+	OutputDebugStringA("All font loading attempts failed, falling back to system font\n");
+	return CreateRenderFontFromOS(L"Segoe UI");
 }
 
 void D2DRenderAPI::DrawRadialFillBitmap(
@@ -584,12 +750,9 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 
 	auto d2dBitmap = static_cast<D2DBitmap*>(const_cast<IRenderBitmap*>(bitmap))->GetRaw();
 	auto d2dTransform = ConvertToD2DMatrix(mat);
-	float screenHeight = static_cast<float>(m_window->GetHeight());
 
-	// DrawRect와 동일한 방식으로 변환 행렬 적용
 	m_d2dContext->SetTransform(d2dTransform);
 
-	// 목적지 사각형 설정 (DrawRect와 동일한 로직)
 	D2D1_RECT_F dstRect = D2D1::RectF(
 		0,
 		0,
@@ -597,18 +760,15 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 		destRect.height
 	);
 
-	// pathGeometry용 중심점과 반지름 계산 (dstRect 기준)
 	float centerX = (dstRect.left + dstRect.right) * 0.5f;
 	float centerY = (dstRect.top + dstRect.bottom) * 0.5f;
 	float radius = min(dstRect.right - dstRect.left, dstRect.bottom - dstRect.top) * 0.5f;
 
-	// 각도를 라디안으로 변환
 	float startRad = (startAngle - 90.0f) * (M_PI / 180.0f);
 	float sweepAngle = 360.0f * fillAmount;
 	if (!clockwise) sweepAngle = -sweepAngle;
 	float endRad = startRad + (sweepAngle * M_PI / 180.0f);
 
-	// 기하학적 경로 생성
 	ComPtr<ID2D1PathGeometry> pathGeometry;
 	ComPtr<ID2D1GeometrySink> geometrySink;
 	HRESULT hr = m_d2dFactory->CreatePathGeometry(&pathGeometry);
@@ -617,7 +777,6 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	hr = pathGeometry->Open(&geometrySink);
 	if (FAILED(hr)) return;
 
-	// 부채꼴 생성 (dstRect 좌표계 기준)
 	D2D1_POINT_2F startPoint = {
 		centerX + radius * cosf(startRad),
 		centerY + radius * sinf(startRad)
@@ -645,12 +804,10 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 	hr = geometrySink->Close();
 	if (FAILED(hr)) return;
 
-	// Layer 생성
 	ComPtr<ID2D1Layer> layer;
 	hr = m_d2dContext->CreateLayer(&layer);
 	if (FAILED(hr)) return;
 
-	// 소스 사각형 설정 (Unity → D2D 텍스처 좌표계 변환)
 	auto d2dSourceY = bitmap->GetHeight() - sourceRect.y - sourceRect.height;
 	D2D1_RECT_F srcRect = D2D1::RectF(
 		sourceRect.x,
@@ -659,7 +816,6 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 		d2dSourceY + sourceRect.height
 	);
 
-	// 필터링 모드 설정
 	D2D1_BITMAP_INTERPOLATION_MODE mode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR;
 	switch (filter)
 	{
@@ -671,7 +827,6 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 		break;
 	}
 
-	// Layer로 클리핑하여 그리기
 	m_d2dContext->PushLayer(
 		D2D1::LayerParameters(
 			D2D1::InfiniteRect(),
@@ -685,7 +840,6 @@ void D2DRenderAPI::DrawRadialFillBitmap(
 		layer.Get()
 	);
 
-	// 이미지 그리기
 	m_d2dContext->DrawBitmap(
 		d2dBitmap,
 		&dstRect,
@@ -703,8 +857,6 @@ void GOTOEngine::D2DRenderAPI::DrawRectSimple(const Rect& rect, bool fill, Color
 
 	float screenHeight = static_cast<float>(m_window->GetHeight());
 	m_solidColorBrush->SetColor(D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f));
-
-	auto col = D2D1::ColorF(static_cast<float>(color.R) / 255.0f, static_cast<float>(color.G) / 255.0f, static_cast<float>(color.B) / 255.0f, static_cast<float>(color.A) / 255.0f);
 
 	D2D1_RECT_F dstRect = D2D1::RectF(
 		rect.x,
@@ -726,18 +878,11 @@ void GOTOEngine::D2DRenderAPI::DrawRectSimple(const Rect& rect, bool fill, Color
 IRenderFont* GOTOEngine::D2DRenderAPI::CreateRenderFontFromOS(std::wstring fontName)
 {
 	IDWriteFactory* dwriteFactory = DWriteHelper::GetFactory();
-	// DWriteHelper가 초기화되지 않은 경우 종료
 	if (!dwriteFactory)
-	{
 		return nullptr;
-	}
 
-	// 시스템 폰트 컬렉션 가져오기
 	ComPtr<IDWriteFontCollection> systemFontCollection;
-	HRESULT hr = dwriteFactory->GetSystemFontCollection(
-		systemFontCollection.GetAddressOf()
-	);
-
+	HRESULT hr = dwriteFactory->GetSystemFontCollection(systemFontCollection.GetAddressOf());
 	if (FAILED(hr))
 		return nullptr;
 
@@ -764,16 +909,15 @@ IRenderFont* GOTOEngine::D2DRenderAPI::CreateRenderFontFromOS(std::wstring fontN
 			return nullptr;
 	}
 
-	// D2DFont 객체 생성 (시스템 폰트의 경우 fontFile과 fontCollection은 nullptr)
+	// D2DFont 객체 생성
 	D2DFont* d2dFont = new D2DFont(fontName);
-
 	return d2dFont;
 }
 
 void D2DRenderAPI::SwapBuffer()
 {
 	m_d2dContext->EndDraw();
-    m_swapChain->Present(m_vSyncInterval, 0); // vsync 켜고 1 프레임 기다림
+	m_swapChain->Present(m_vSyncInterval, 0);
 }
 
 D2DRenderAPI::~D2DRenderAPI()
@@ -806,18 +950,56 @@ RenderAPIMemoryStatus GOTOEngine::D2DRenderAPI::CollectMemoryUsage()
 {
 	RenderAPIMemoryStatus status;
 
-	DXGI_QUERY_VIDEO_MEMORY_INFO memInfo = {};
-	m_dxgiAdapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &memInfo);
-	status.vramUsage = FormatBytes(memInfo.CurrentUsage);
+	// VRAM 정보 쿼리 시도 (지원되는 경우만)
+	if (m_supportsVRAMQuery && m_dxgiAdapterAdvanced)
+	{
+		DXGI_QUERY_VIDEO_MEMORY_INFO memInfo = {};
+		HRESULT hr = m_dxgiAdapterAdvanced->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &memInfo);
+		if (SUCCEEDED(hr))
+		{
+			status.vramUsage = FormatBytes(memInfo.CurrentUsage);
+		}
+		else
+		{
+			status.vramUsage = "Query failed";
+		}
+	}
+	else
+	{
+		status.vramUsage = "Not supported on this Windows version";
+	}
 
 	HANDLE hProcess = GetCurrentProcess();
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 	pmc.cb = sizeof(PROCESS_MEMORY_COUNTERS_EX);
 
 	// 현재 프로세스의 메모리 사용 정보 조회
-	GetProcessMemoryInfo(hProcess, (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
-	status.dramUsage = FormatBytes(pmc.WorkingSetSize);
-	status.pageFileUsage = FormatBytes(pmc.PagefileUsage - pmc.WorkingSetSize);
+	if (GetProcessMemoryInfo(hProcess, (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
+	{
+		status.dramUsage = FormatBytes(pmc.WorkingSetSize);
+		status.pageFileUsage = FormatBytes(pmc.PagefileUsage - pmc.WorkingSetSize);
+	}
+	else
+	{
+		status.dramUsage = "N/A";
+		status.pageFileUsage = "N/A";
+	}
 
 	return status;
+}
+
+// 기능 지원 여부를 확인할 수 있는 헬퍼 함수들
+bool D2DRenderAPI::SupportsSpriteBatch() const
+{
+	return m_supportsSpriteBatch;
+}
+
+bool D2DRenderAPI::SupportsVRAMQuery() const
+{
+	return m_supportsVRAMQuery;
+}
+
+bool D2DRenderAPI::SupportsAdvancedFeatures() const
+{
+	return m_useAdvancedFeatures;
 }

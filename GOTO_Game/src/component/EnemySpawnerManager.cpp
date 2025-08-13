@@ -357,9 +357,10 @@ void GOTOEngine::EnemySpawnManager::CreateGoleMole()
 {
 	if (GameManager::instance == nullptr) return;
 
-	if (m_goldMole)
+	if (IsValidObject(m_goldMole)
+		&& !m_goldMole->IsDestroyed())
 	{ 
-		GameObject::Destroy(m_goldMole); 
+		GameObject::DestroyImmediate(m_goldMole); 
 		m_goldMole = nullptr;
 	}
 
@@ -408,7 +409,7 @@ void GOTOEngine::EnemySpawnManager::SetDeleteEnemy(std::uint32_t player, GameObj
 
 void GOTOEngine::EnemySpawnManager::DestroyGoldMole()
 {
-	if (m_goldMole)
+	if (IsValidObject(m_goldMole) && !m_goldMole->IsDestroyed())
 	{
 		GameObject::Destroy(m_goldMole);
 		m_goldMole = nullptr;

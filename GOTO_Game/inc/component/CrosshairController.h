@@ -55,6 +55,9 @@ namespace GOTOEngine
 
 		Transform* bulletImageTransforms[5] { nullptr };
 
+		Transform* acornSpriteTransform = nullptr;
+		Transform* infiniteSpriteTransform = nullptr;
+
 		void ChangeType(CrosshairType type);
 
 		void OnSceneLoaded();

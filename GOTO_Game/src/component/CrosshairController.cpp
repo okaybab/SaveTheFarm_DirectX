@@ -233,12 +233,12 @@ void GOTOEngine::CrosshairController::Update()
     //    ChangeType(CrosshairType::BigGun);
     //}
 
-#ifdef _DEBUG
-    if (INPUT_GET_KEYDOWN(KeyCode::F9))
-    {
-        SCENE_GET_CURRENTSCENE()->PrintCurrentGameObjects();
-    }
-#endif
+//#ifdef _DEBUG
+//    if (INPUT_GET_KEYDOWN(KeyCode::F9))
+//    {
+//        SCENE_GET_CURRENTSCENE()->PrintCurrentGameObjects();
+//    }
+//#endif
 
     //트랜지션 체크 및 애니메이션 처리
     switch (m_type)
@@ -423,6 +423,9 @@ void GOTOEngine::CrosshairController::OnEnter(CrosshairType type)
     }
     case CrosshairType::MachineGunInfinite:
     {
+        acornSpriteTransform->GetGameObject()->SetActive(true);
+        infiniteSpriteTransform->GetGameObject()->SetActive(true);
+
         fire->ChangeMode(CrosshairFireMode::FullAuto);
         fire->p1fireSFXClipname = "Continuous";
         fire->p2fireSFXClipname = "Continuous";
@@ -475,6 +478,8 @@ void GOTOEngine::CrosshairController::OnExit(CrosshairType type)
         break;
     case CrosshairType::MachineGun:
     case CrosshairType::MachineGunInfinite:
+        acornSpriteTransform->GetGameObject()->SetActive(false);
+        infiniteSpriteTransform->GetGameObject()->SetActive(false);
         fire->p1fireSFXClipname = "Shot1P";
         fire->p2fireSFXClipname = "Shot2P";
         bulletImageTransforms[0]->GetGameObject()->SetActive(false);
