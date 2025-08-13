@@ -131,15 +131,18 @@ namespace GOTOEngine
 
 			if (m_rb)
 			{
-				auto box2dBody = m_rb->GetWrapperBody()->GetBody();
+				if (m_rb->GetWrapperBody())
+				{
+					auto box2dBody = m_rb->GetWrapperBody()->GetBody();
 
-				m_initPosition = box2dBody->position;
-				m_initRotation = box2dBody->rotation;
-				m_initFriciton = box2dBody->friction;
-				m_initMass = box2dBody->mass;
-				m_initInvMass = box2dBody->invMass;
-				m_initInertia = box2dBody->I;
-				m_initInvInertia = box2dBody->invI;
+					m_initPosition = box2dBody->position;
+					m_initRotation = box2dBody->rotation;
+					m_initFriciton = box2dBody->friction;
+					m_initMass = box2dBody->mass;
+					m_initInvMass = box2dBody->invMass;
+					m_initInertia = box2dBody->I;
+					m_initInvInertia = box2dBody->invI;
+				}
 			}
 
 			ResetBodyAndCreateJoint();
