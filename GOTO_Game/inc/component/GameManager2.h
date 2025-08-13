@@ -68,7 +68,7 @@ namespace GOTOEngine
 
 		int wave = 0;
 		float waveTiming[3] = { 180.0f, 120.0f, 60.0f };
-		float BGMTiming[3] = { 120.0f, 120.0f, 0.0f };
+		float BGMTiming[3] = { 180.0f, 180.0f, 0.0f };
 		float warningsoundTiming[3] = {141.0f, 81.0f, 21.0f};
 
 		bool warningon = false;
