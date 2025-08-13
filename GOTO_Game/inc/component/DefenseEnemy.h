@@ -147,15 +147,15 @@ namespace GOTOEngine
 			if ((m_moveFlag & MOVE_PARABOLIC) && (m_moveFlag & MOVE_LEFT_RIGHT))
 			{
 				// MovementLinearPath 컴포넌트 초기화 및 델리게이트 바인딩
-				auto linearPathComp = GetComponent<MovementLinearPath>();
-				if (!linearPathComp)
-				{
-					linearPathComp = AddComponent<MovementLinearPath>();
-					linearPathComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-				}
-				// 컴포넌트의 Initialize는 한 번만 호출
-				linearPathComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
-				m_movementComponents.push_back(linearPathComp);
+				//auto linearPathComp = GetComponent<MovementLinearPath>();
+				//if (!linearPathComp)
+				//{
+				//	linearPathComp = AddComponent<MovementLinearPath>();
+				//	linearPathComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+				//}
+				//// 컴포넌트의 Initialize는 한 번만 호출
+				//linearPathComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
+				//m_movementComponents.push_back(linearPathComp);
 
 				// MovementParabolic 컴포넌트 초기화
 				auto parabolicComp = GetComponent<MovementParabolic>();
@@ -165,7 +165,7 @@ namespace GOTOEngine
 				}
 				// MOVE_UP_DOWN 플래그를 사용하여 OFFSET 모드로 초기화
 				// 이 Initialize 함수에서 m_moveSpeed가 적절하게 설정되어야 함
-				float bounceHeight = 10.0f;
+				float bounceHeight = 200.0f;
 				parabolicComp->testInitialize(bounceHeight);
 				m_movementComponents.push_back(parabolicComp);
 			}
@@ -203,12 +203,17 @@ namespace GOTOEngine
 					linearComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
 					m_movementComponents.push_back(linearComp);
 				}
+				
+				//float wobbleWidth = 50.0f;     // 좌우 흔들림 폭
+				//float wobbleSpeed = 4.0f;      // 좌우 흔들림 속도
+				//float verticalBob = 15.0f;     // 상하 흔들림 폭
+				//float verticalBobSpeed = 3.0f; // 상하 흔들림 속도
+				
 
 				float wobbleWidth = 50.0f;     // 좌우 흔들림 폭
 				float wobbleSpeed = 4.0f;      // 좌우 흔들림 속도
-				float verticalBob = 15.0f;     // 상하 흔들림 폭
-				float verticalBobSpeed = 3.0f; // 상하 흔들림 속도
-
+				float verticalBob = 30.0f;     // 상하 흔들림 폭
+				float verticalBobSpeed = 6.0f; // 상하 흔들림 속도
 
 				// 2. 흔들림(오프셋)을 위한 MovementLeftRight 컴포넌트 추가
 				// MovementLeftRight::CalculateOffsetDirection(m_StartPos, m_EndPos)를 사용해 흔들림 방향을 설정

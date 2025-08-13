@@ -46,13 +46,13 @@
 	],
 	"moveFlags":[
 		{
-			"flag": "0b1001",
+			"flag": "0b0011",
 			"_comment": "포물선",
-			"value": 9,
+			"value": 3,
 			"enemyType": "토끼"
 		},
 		{
-			"flag": "0b1001",
+			"flag": "0b011",
 			"_comment": "포물선",
 			"value": 9,
 			"enemyType": "다람쥐"
@@ -60,7 +60,7 @@
 		{
 			"flag": "0b1001",
 			"_comment": "곡선",
-			"value": 1,
+			"value": 9,
 			"enemyType": "도둑두더지"
 		}
 	]
