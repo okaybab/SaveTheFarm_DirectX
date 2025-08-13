@@ -27,7 +27,7 @@
         },
         {
             "name": "Dispone",
-            "motionName": "Squirrel_Escape",
+            "motionName": "Squirrel_Dispone",
             "clipLength": 1.75,
             "loop": false,
             "transitions": []

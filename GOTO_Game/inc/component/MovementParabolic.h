@@ -27,7 +27,7 @@ namespace GOTOEngine
 
     public:
         Delegate<void> OnFlipDirection;
-       
+        Delegate<void> OnEndPoint;
 
     public:
         void Initialize(float _min, float _max)
@@ -46,6 +46,20 @@ namespace GOTOEngine
                 m_startPos = Vector2(m_minX * m_flipDirection, initialPos.y);
                 m_endPos = Vector2(m_maxX * m_flipDirection, initialPos.y);
             }
+
+            const int MASK = MOVE_LEFT_RIGHT | MOVE_UP_DOWN;
+            int relevant_bits = m_flag & MASK; // XOR
+
+            if (relevant_bits != 0 && relevant_bits != MASK) // 1001 or 1010
+            {
+                m_role = E_Move_Role::OFFSET;
+                m_flipXY = m_flag & MOVE_UP_DOWN;
+            }
+            else // 1000 or 1011
+            {
+                m_role = E_Move_Role::PATH;
+            }
+
         }
         void Initialize(Vector2 initialPos, Vector2 _startPos, Vector2 _endPos, float speed)
         {
@@ -63,23 +77,13 @@ namespace GOTOEngine
         void Awake() override
         {
             __super::Awake();
-            const int MASK = MOVE_LEFT_RIGHT | MOVE_UP_DOWN;
-            int relevant_bits = m_flag & MASK; // XOR
-
-            if (relevant_bits != 0 && relevant_bits != MASK) // 1001 or 1010
-            {
-                m_role = E_Move_Role::OFFSET;
-                m_flipXY = m_flag & MOVE_UP_DOWN;
-            }
-            else // 1000 or 1011
-            {
-                m_role = E_Move_Role::PATH;
-            }
+            
         }
         void OnDestroy() override
         {
             __super::OnDestroy();
             OnFlipDirection.Clear();
+            OnEndPoint.Clear();
         }
         Vector2 Move(float deltaTime) override
         {

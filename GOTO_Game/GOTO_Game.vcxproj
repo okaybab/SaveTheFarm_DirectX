@@ -221,6 +221,7 @@
     <ClInclude Include="inc\component\OptionWindowSystem.h" />
     <ClInclude Include="inc\component\GameManager.h" />
     <ClInclude Include="inc\component\StartManager.h" />
+    <ClInclude Include="inc\MovementLinearPath.h" />
     <ClInclude Include="inc\prefab\DirIndicatorPrefab.h" />
     <ClInclude Include="inc\interface\IAttackAble.h" />
     <ClInclude Include="inc\interface\ICollideAble.h" />

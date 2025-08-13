@@ -94,6 +94,9 @@ namespace GOTOEngine
 			{
 				m_EndPos = m_points[m_points.size() - 1]->GetPosition();
 			}
+
+
+
 		}
 
 		void Awake()
@@ -135,40 +138,36 @@ namespace GOTOEngine
 		void InitializeMovement()
 		{
 			m_movementComponents.clear();
-			if (m_moveFlag & 0b1001)
-			{
-				if (auto comp = GetComponent<MovementParabolic>())
-				{
-					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
-					m_movementComponents.push_back(comp);
-				}
-				else
-				{
-					comp =AddComponent<MovementParabolic>();
-					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-					m_movementComponents.push_back(comp);
-				}
-				if (auto comp = GetComponent<MovementLeftRight>())
-				{
-					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
-					m_movementComponents.push_back(comp);
-				}
-				else
-				{
-					comp = AddComponent<MovementLeftRight>();
-					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-					comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
-					m_movementComponents.push_back(comp);
-				}
 
+			// 0b1001: 통통 튀는 포물선 + 대각선 이동
+			if ((m_moveFlag & MOVE_PARABOLIC) && (m_moveFlag & MOVE_LEFT_RIGHT))
+			{
+				// MovementLinearPath 컴포넌트 초기화 및 델리게이트 바인딩
+				auto linearPathComp = GetComponent<MovementLinearPath>();
+				if (!linearPathComp)
+				{
+					linearPathComp = AddComponent<MovementLinearPath>();
+					// 컴포넌트가 새로 생성될 때만 델리게이트를 바인딩
+					linearPathComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+				}
+				linearPathComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
+				m_movementComponents.push_back(linearPathComp);
+
+				// MovementParabolic 컴포넌트 초기화
+				auto parabolicComp = GetComponent<MovementParabolic>();
+				if (!parabolicComp)
+				{
+					parabolicComp = AddComponent<MovementParabolic>();
+				}
+				// MOVE_UP_DOWN 플래그를 사용하여 OFFSET 모드로 초기화
+				parabolicComp->Initialize(MOVE_UP_DOWN, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
+				m_movementComponents.push_back(parabolicComp);
 			}
-			else if (m_moveFlag & MOVE_PARABOLIC) // 0b1000 (곡선)
+			// 0b1000: 긴 포물선 (단일 컴포넌트로 처리)
+			else if (m_moveFlag & MOVE_PARABOLIC)
 			{
 				if (auto comp = GetComponent<MovementParabolic>())
 				{
-					comp->SetEnabled(m_moveFlag & MOVE_PARABOLIC);
 					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
 					m_movementComponents.push_back(comp);
 				}
@@ -176,44 +175,71 @@ namespace GOTOEngine
 				{
 					comp = AddComponent<MovementParabolic>();
 					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
+					//comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
 					comp->Initialize(GetGameObject()->GetTransform()->GetPosition(), m_StartPos, m_EndPos, m_moveSpeed);
 					m_movementComponents.push_back(comp);
 				}
 			}
-
-			if (!(m_moveFlag & MOVE_PARABOLIC && m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)) // 물결
+			// 0b0011: 지그재그 (MovementLeftRight + MovementUpDown)
+			else if ((m_moveFlag & MOVE_LEFT_RIGHT) && (m_moveFlag & MOVE_UP_DOWN))
 			{
-				if (auto comp = GetComponent<MovementLeftRight>())
+				// 1. 중심축 이동을 위한 MovementLinearPath 컴포넌트 추가
+				if (auto linearComp = GetComponent<MovementLinearPath>())
 				{
-					comp->testInitialize(m_moveSpeed);
-					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
-					m_movementComponents.push_back(comp);
+					linearComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
+					// 이동이 완료되면 OnEndEvent를 호출하도록 델리게이트 바인딩
+					// linearComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					m_movementComponents.push_back(linearComp);
 				}
 				else
 				{
-					comp = AddComponent<MovementLeftRight>();
-					comp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
-					comp->Initialize(Screen::GetWidth() * -0.25f - 420.0f, Screen::GetWidth() * 0.25f + 420.0f);
-					comp->testInitialize(m_moveSpeed);
-					comp->CalculateOffsetDirection(m_StartPos, m_EndPos);
-					m_movementComponents.push_back(comp);
+					linearComp = AddComponent<MovementLinearPath>();
+					linearComp->Initialize(m_StartPos, m_EndPos, m_moveSpeed);
+					linearComp->OnEndPoint.Add<DefenseEnemy>(this, &DefenseEnemy::OnEndEvent);
+					m_movementComponents.push_back(linearComp);
+				}
+
+				// 2. 흔들림(오프셋)을 위한 MovementLeftRight 컴포넌트 추가
+				// MovementLeftRight::CalculateOffsetDirection(m_StartPos, m_EndPos)를 사용해 흔들림 방향을 설정
+				if (auto lrComp = GetComponent<MovementLeftRight>())
+				{
+					lrComp->testInitialize(m_moveSpeed);
+					lrComp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+					m_movementComponents.push_back(lrComp);
+				}
+				else
+				{
+					lrComp = AddComponent<MovementLeftRight>();
+					lrComp->testInitialize(m_moveSpeed);
+					lrComp->CalculateOffsetDirection(m_StartPos, m_EndPos);
+					m_movementComponents.push_back(lrComp);
+				}
+
+				// MovementUpDown 컴포넌트도 필요하다면 동일하게 추가
+				// 현재 코드에선 MovementUpDown이 상하 오프셋 역할
+				if (auto udComp = GetComponent<MovementUpDown>())
+				{
+					udComp->testInitialize(m_moveFlag, m_moveSpeed);
+					m_movementComponents.push_back(udComp);
+				}
+				else
+				{
+					udComp = AddComponent<MovementUpDown>();
+					udComp->testInitialize(m_moveFlag, m_moveSpeed);
+					m_movementComponents.push_back(udComp);
 				}
 			}
 		}
 
 		void OnEndEvent()
 		{
-			if (m_currentPoint < m_points.size() - 1)
-			{
-				m_currentPoint++;
-			}
-			else
+			if (m_currentPoint >= m_points.size() - 1)
 			{
 				return;
 			}
-			
-			t = 0.0f;
+
+			m_currentPoint++;
+
 
 			SetCurrentPoint();
 
@@ -244,21 +270,6 @@ namespace GOTOEngine
 					InitializeMovement();
 				}
 			}
-			else
-			{
-				if (m_moveFlag & MOVE_LEFT_RIGHT && m_moveFlag & MOVE_UP_DOWN)
-				{
-					t += TIME_GET_DELTATIME() * m_moveSpeed;
-					m_currentPathPosition.x = Mathf::Lerp(m_StartPos.x, m_EndPos.x, t);
-					m_currentPathPosition.y = Mathf::Lerp(m_StartPos.y, m_EndPos.y, t);
-
-					if ((m_currentPathPosition - m_EndPos).Magnitude() < 1.0f)
-					{
-						OnEndEvent();
-					}
-				}
-			}
-			
 		}
 
 		int GetType() { return static_cast<int>(m_enemyType); }
