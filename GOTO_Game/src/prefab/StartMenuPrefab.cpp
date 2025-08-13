@@ -159,7 +159,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto optionsButtonGO = new GameObject(L"OptionsButton");
 	optionsButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->optionsButton = optionsButtonGO->GetTransform();
-	startMenu->optionsButton->SetLocalPosition({ 0.0f, -240.0f });
+	startMenu->optionsButton->SetLocalPosition({ 0.0f, -235.0f });
 	optionsButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Title/gui_02_plank_yellow.png");
 	optionsButtonGO->GetTransform()->SetLocalScale({ 0.2f,0.2f });
 	auto optionsButtonAnimation = optionsButtonGO->AddComponent<ButtonAnimation>();
@@ -223,7 +223,7 @@ GameObject* StartMenuPrefab::CreateStartMenu()
 	auto exitButtonGO = new GameObject(L"ExitButton");
 	exitButtonGO->GetTransform()->SetParent(GO->GetTransform());
 	startMenu->exitButton = exitButtonGO->GetTransform();
-	startMenu->exitButton->SetLocalPosition({ 0.0f, -370.0f });
+	startMenu->exitButton->SetLocalPosition({ 0.0f, -360.0f });
 	exitButtonGO->AddComponent<SpriteRenderer>()->SetSprite(L"../Resources/artResource/UI/Title/gui_02_plank_yellow.png");
 	exitButtonGO->GetTransform()->SetLocalScale({ 0.2f,0.2f });
 	auto exitButtonAnimation = exitButtonGO->AddComponent<ButtonAnimation>();
