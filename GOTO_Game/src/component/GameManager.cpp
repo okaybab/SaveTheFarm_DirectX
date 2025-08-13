@@ -445,7 +445,7 @@ void GameManager::Update() {
 		if(GameTimer == 0.0f){
 			if (BGMTiming[2] == 0.0f) {
 				SoundManager::instance->StopBGM();
-				SoundManager::instance->PlaySFX("GameOver");
+				SoundManager::instance->PlaySFX("GameWin");
 				BGMTiming[2] = -1.0f;
 			}
 			endingTimer -= TIME_GET_DELTATIME();
