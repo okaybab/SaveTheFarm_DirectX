@@ -80,12 +80,16 @@ namespace GOTOEngine
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 			
 			SetMovementComponents(0.15f, 0.4f);
+
+			if (m_currentPathPosition.x > Screen::GetWidth() * 0.2f) SetFlipDirect();
 		}
 
 		int GetType() { return static_cast<int>(m_itemEnemyType); }
 
 		void OnDie(int attackerID, bool isGimmick = true) override
 		{
+			if (m_isDeathByDispone || m_isDie) return;
+
 			__super::OnDie(attackerID);
 			EnemySpawnManager::instance->SetDeleteEnemy(m_layer, GetGameObject());
 			ItemManager::instance->AddItem(m_layer, m_itemType);

@@ -59,12 +59,16 @@ namespace GOTOEngine
 			collider->SetSize({ spriteRect.width * localScale.x , spriteRect.height * localScale.y });
 
 			SetMovementComponents(0.15f, 0.4f);
+
+			if (m_currentPathPosition.x > Screen::GetWidth() * 0.2f) SetFlipDirect();
 		}
 
 		int GetType() { return static_cast<int>(m_competEnemyType); }
 
 		void OnDie(int attackerID, bool isGimmick = true) override
 		{
+			if (m_isDeathByDispone || m_isDie) return;
+
 			__super::OnDie(attackerID);
 			EnemySpawnManager::instance->SetDeleteGoldMole();
 			ItemManager::instance->UseItem(attackerID, static_cast<ItemType>(EnemySpawnManager::GenerateRandom(0, static_cast<int>(ItemType::Item_Count) - 1)));

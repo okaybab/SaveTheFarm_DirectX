@@ -206,12 +206,18 @@ namespace GOTOEngine
 		{
 			m_moveSpeed = speed;
 
-			m_movementComponents = GetGameObject()->GetComponents<BaseMovement>();
-
 			for (auto comp : m_movementComponents)
 			{
 				comp->Initialize(m_moveFlag, GetGameObject()->GetTransform()->GetPosition(), m_moveSpeed);
 			}
+		}
+		void SetFlipDirect()
+		{
+			for (auto comp : m_movementComponents)
+			{
+				comp->FlipDirection();
+			}
+			SetFlipXSprite();
 		}
 
 		void SetRandomYPosition(float minY, float maxY)
@@ -223,6 +229,8 @@ namespace GOTOEngine
 			GetTransform()->SetPosition({ randomX, randomY });
 			// OFFSET 경로의 기준선
 			m_currentPathPosition = { randomX, randomY };
+
+
 		}
 		void SetFlipXSprite()
 		{
