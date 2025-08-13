@@ -33,8 +33,10 @@ namespace GOTOEngine
 			}
 			ResourceManager::Get()->UnRegisterResource(this);
 #ifdef _DEBUG
+
+			auto typestring = std::string{ typeid(*this).name() };
 			auto runtimePath = m_filePath == L"" ? ("Runtime Instance - ID : " + std::to_string(GetInstanceID())) : "";
-			std::cout << "resource unloaded - " << this << " : " << runtimePath.c_str() << WStringHelper::wstring_to_string(m_filePath).c_str() << std::endl;
+			std::cout << "resource unloaded - " << typestring << " : " << runtimePath.c_str() << WStringHelper::wstring_to_string(m_filePath).c_str() << std::endl;
 #endif
 		}
 

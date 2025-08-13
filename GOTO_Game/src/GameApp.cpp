@@ -17,7 +17,7 @@
 
 void StartEngineLoop()
 {
-	ENGINE_INIT(1920, 1080, L"D2D Game");
+	ENGINE_INIT(1920, 1080, L"농장을 지켜라");
 
 	//씬 할당 및 추가
 	SCENE_ADD_SCENE<PlayScene>(L"PlayScene");

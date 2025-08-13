@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "WStringHelper.h"
 
 using namespace GOTOEngine;
 
@@ -42,10 +43,38 @@ void Scene::Clear()
 	//½ÇÁ¦ ÆÄ±«
 	for (auto& go : m_gameObjects)
 	{
-		if (!Object::IsValidObject(go))
-			continue;
 		Object::DestroyImmediate(go);
 	}
 
+#ifdef _DEBUG_DESTRUCTION
+	std::cout << "Clearing Scene Name : " << WStringHelper::wstring_to_string(m_sceneName) << std::endl;
+	std::cout << " - cleared obj : " << m_gameObjects.size() << std::endl;
+	for (auto& sceneGameObj : m_gameObjects)
+	{
+		std::cout << "  =>  ID [ " << sceneGameObj->GetInstanceID() << " ] " << std::endl;
+		std::cout << "  =>  Name [ " << WStringHelper::wstring_to_string(sceneGameObj->name) << " ] " << std::endl;
+
+		for (auto& comp : sceneGameObj->GetAllComponents())
+		{
+			std::cout << "      =>>  Comp [ " << WStringHelper::wstring_to_string(comp->name) << " | " << typeid(*comp).name() << "] " << std::endl;
+		}
+	}
+#endif //_DEBUG_DESTRUCTION
 	m_gameObjects.clear();
+}
+
+void GOTOEngine::Scene::PrintCurrentGameObjects()
+{
+	std::cout << "Print Current Objects's Scene Name : " << WStringHelper::wstring_to_string(m_sceneName) << std::endl;
+	std::cout << " - current objects : " << m_gameObjects.size() << std::endl;
+	for (auto& sceneGameObj : m_gameObjects)
+	{
+		std::cout << "  =>  ID [ " << sceneGameObj->GetInstanceID() << " ] " << std::endl;
+		std::cout << "  =>  Name [ " << WStringHelper::wstring_to_string(sceneGameObj->name) << " ] " << std::endl;
+
+		for (auto& comp : sceneGameObj->GetAllComponents())
+		{
+			std::cout << "      =>>  Comp [ " << WStringHelper::wstring_to_string(comp->name) << " | " << typeid(*comp).name() << " ] " << std::endl;
+		}
+	}
 }

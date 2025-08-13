@@ -96,6 +96,8 @@ void DefenseScene::Initialize()
 		collide->p1Cam = player1Cam;
 		collide->p2Cam = player2Cam;
 
+		p1->GetTransform()->SetPosition({ -480,0.0f });
+
 		auto controller = p1->GetComponent<CrosshairController>();
 		for (auto& crosshair : controller->subCrosshairs)
 		{
@@ -113,6 +115,8 @@ void DefenseScene::Initialize()
 		collide->commonCam = CommonCam;
 		collide->p1Cam = player1Cam;
 		collide->p2Cam = player2Cam;
+
+		p2->GetTransform()->SetPosition({ 480,0.0f });
 
 		auto controller = p2->GetComponent<CrosshairController>();
 		for (auto& crosshair : controller->subCrosshairs)

@@ -481,8 +481,6 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
     bool isHit = false;
     for (auto* obj : m_collider->GetCollideObjects())
     {
-        std::wcout << obj->name << std::endl;
-
         for (auto* comp : obj->GetAllComponents())
         {
             if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
@@ -512,10 +510,6 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
         if (m_shaker)
             m_shaker->ShakeCamera(24, 55, 8);
     }
-
-#ifdef _DEBUG
-    std::cout << "Crosshair Fire! : " << id << std::endl;
-#endif
 }
 
 void GOTOEngine::CrosshairFire::HoldModeUdpate()
@@ -612,9 +606,6 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             {
                 if (loopCount == 0)
                     break;
-
-                std::wcout << obj->name << std::endl;
-
                 for (auto* comp : obj->GetAllComponents())
                 {
                     bool isHit = false;
@@ -719,8 +710,6 @@ void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
     bool isHit = false;
     for (auto* obj : m_collider->GetCollideObjects())
     {
-        std::wcout << obj->name << std::endl;
-
         for (auto* comp : obj->GetAllComponents())
         {
             if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
@@ -815,9 +804,10 @@ void GOTOEngine::CrosshairFire::OnExit(CrosshairFireMode mode)
 void GOTOEngine::CrosshairFire::OnSceneLoaded()
 {
     auto camGO = id == 0 ? GameObject::Find(L"p1Cam") : GameObject::Find(L"p2Cam");
-    if(camGO)
+    if (camGO)
         m_shaker = camGO->GetComponent<CameraShaker>();
-
+    else
+        m_shaker = nullptr;
 }
 
 GOTOEngine::CrosshairFireMode& GOTOEngine::operator++(CrosshairFireMode& state)

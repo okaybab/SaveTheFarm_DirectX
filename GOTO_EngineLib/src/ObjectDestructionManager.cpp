@@ -103,11 +103,37 @@ void GOTOEngine::ObjectDestructionManager::Update()
 
 void GOTOEngine::ObjectDestructionManager::Clear()
 {
+	//_CrtCheckMemory();
+#ifdef _DEBUG_DESTRUCTION
+	bool debugStart = false;
+	if(!m_pendingDeleteObjects.empty())
+	{
+		debugStart = true;
+		std::cout << std::endl;
+		std::cout << " || Object Clear Start || - pending delete object count : " << m_pendingDeleteObjects.size() << std::endl;
+	}
+#endif // _DEBUG_DESTRUCTION
+
 	for (auto& obj : m_pendingDeleteObjects)
 	{
+#ifdef _DEBUG_DESTRUCTION
+		std::cout << "<==================================>" << std::endl;
+		std::cout << " Instance ID - " << obj->GetInstanceID() << std::endl;
+		std::cout << " Adress - " << obj << std::endl;
+		std::cout << " Type - " << typeid(*obj).name() << std::endl;
+		std::cout << "<==================================>" << std::endl;
+#endif // _DEBUG_DESTRUCTION
 		delete obj; // 실제 파괴
 	}
 	m_pendingDeleteObjects.clear(); // 파괴된 오브젝트 목록 초기화
+
+#ifdef _DEBUG_DESTRUCTION
+	if (debugStart)
+	{
+		std::cout << " || Object Clear End ||" << std::endl;
+		std::cout << std::endl;
+	}
+#endif // _DEBUG_DESTRUCTION
 }
 
 void GOTOEngine::ObjectDestructionManager::ShutDown()
