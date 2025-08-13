@@ -319,8 +319,8 @@ void GameManager::Update() {
 				if (!fever) {
 					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 1);
 					EnemySpawnManager->CreateEnemy(E_EnemyType::gimmick, 1 << 2);
-					GimmickTiming -= 15.0f;
 				}
+				GimmickTiming -= 15.0f;
 			}
 
 			if (NormalfeverTiming - GameTimer >= 2.5f) {
