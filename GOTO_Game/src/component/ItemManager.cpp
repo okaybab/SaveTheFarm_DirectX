@@ -5,6 +5,7 @@
 #include "EnemySpawnManager.h"
 #include "SoundManager.h"
 #include <AnimationCurve.h>
+#include <Collider2D.h>
 
 using namespace GOTOEngine;
 
@@ -470,7 +471,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 					auto iceeffect = new GameObject;
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+					iceeffect->GetTransform()->SetLocalScale(enemy->GetComponent<Collider2D>()->GetSize() * 0.003f);
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 1);
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
@@ -506,7 +507,7 @@ void ItemManager::UseItem(int player, ItemType item)
 
 					auto iceeffect = new GameObject;
 					iceeffect->GetTransform()->SetPosition(enemy->GetTransform()->GetPosition());
-					iceeffect->GetTransform()->SetLocalScale({ 0.4f, 0.4f });
+					iceeffect->GetTransform()->SetLocalScale(enemy->GetComponent<Collider2D>()->GetSize()*0.003f);
 					iceeffect->AddComponent<SpriteRenderer>()->SetRenderLayer(1 << 2);
 					iceeffect->GetComponent<SpriteRenderer>()->SetSprite(iced);
 					iceeffect->GetTransform()->SetParent(enemy->GetTransform());
