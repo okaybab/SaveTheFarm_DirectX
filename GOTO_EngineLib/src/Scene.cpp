@@ -56,7 +56,7 @@ void Scene::Clear()
 
 		for (auto& comp : sceneGameObj->GetAllComponents())
 		{
-			std::cout << "      =>>  Comp [ " << WStringHelper::wstring_to_string(comp->name) << " | " << typeid(*comp).name() << "] " << std::endl;
+			std::cout << "      =>>  Comp [ " << WStringHelper::wstring_to_string(comp->name) << " | " << typeid(*comp).name() << " ] " << std::endl;
 		}
 	}
 #endif //_DEBUG_DESTRUCTION
