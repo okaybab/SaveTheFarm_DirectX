@@ -16,8 +16,13 @@ void GOTOEngine::ResourceManager::ShutDown()
 void GOTOEngine::ResourceManager::Clear()
 {
 	//강제로 모든 리소스를 파괴
-	for (auto& res : m_resources)
+	auto resourcesCopy = m_resources;
+
+	for (auto& res : resourcesCopy)
 	{
+		if (!Object::IsValidObject(res))
+			continue;
+
 		res->m_refCount = 0;
 		Object::DestroyImmediate(res);
 	}
@@ -41,9 +46,11 @@ void GOTOEngine::ResourceManager::UnRegisterResource(Resource* resource)
 
 void GOTOEngine::ResourceManager::DestroyUnusedResource()
 {
-	for (auto& res : m_resources)
+	auto resourcesCopy = m_resources;
+
+	for (auto& res : resourcesCopy)
 	{
-		if (res->m_refCount == 0)
+		if (Object::IsValidObject(res) && res->m_refCount == 0)
 		{
 			Object::DestroyImmediate(res);
 		}
