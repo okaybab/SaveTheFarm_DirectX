@@ -15,7 +15,8 @@ void Scene::UnregisterGameObject(GameObject* go)
 {
 	auto it = std::find(m_gameObjects.begin(), m_gameObjects.end(), go);
 	if (it != m_gameObjects.end()) {
-		m_gameObjects.erase(it);
+		*it = std::move(m_gameObjects.back()); // ¸¶Áö¸· ¿ø¼Ò¸¦ µ¤¾î¾¸
+		m_gameObjects.pop_back();
 	}
 }
 

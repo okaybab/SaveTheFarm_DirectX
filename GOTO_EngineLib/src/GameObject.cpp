@@ -32,7 +32,8 @@ void GOTOEngine::GameObject::UnRegisterComponent(Component* comp)
 {
 	auto it = std::find(m_components.begin(), m_components.end(), comp);
 	if (it != m_components.end()) {
-		m_components.erase(it);
+		*it = std::move(m_components.back()); // ¸¶Áö¸· ¿ø¼Ò¸¦ µ¤¾î¾¸
+		m_components.pop_back();
 	}
 }
 
