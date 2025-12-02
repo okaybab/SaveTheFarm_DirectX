@@ -32,8 +32,7 @@ void GOTOEngine::GameObject::UnRegisterComponent(Component* comp)
 {
 	auto it = std::find(m_components.begin(), m_components.end(), comp);
 	if (it != m_components.end()) {
-		*it = std::move(m_components.back()); // ¸¶Áö¸· ¿ø¼Ò¸¦ µ¤¾î¾¸
-		m_components.pop_back();
+		m_components.erase(it);
 	}
 }
 
@@ -57,8 +56,6 @@ void GOTOEngine::GameObject::UpdateActiveInHierarchy()
 
 void GOTOEngine::GameObject::Dispose()
 {
-	Object::Dispose();
-
 	////====== Æ®·£½º Æû ÆÄ±« ======////
 	// 
 	// 
@@ -76,7 +73,8 @@ void GOTOEngine::GameObject::Dispose()
 	////====== ÄÄÆ÷³ÍÆ® ÆÄ±« =======////
 	//
 	//
-	for (auto& comp : m_components)
+	std::vector<Component*> tempComponents = m_components;
+	for (auto& comp : tempComponents)
 	{
 		if (!IsValidObject(comp))
 			continue; // ÀÌ¹Ì ÆÄ±«µÈ ÄÄÆ÷³ÍÆ®´Â ¹«½Ã
@@ -85,6 +83,8 @@ void GOTOEngine::GameObject::Dispose()
 	//
 	//
 	////===========================////
+
+	Object::Dispose();
 }
 
 void GOTOEngine::GameObject::EnsureRectTransform()
