@@ -481,8 +481,12 @@ void GOTOEngine::CrosshairFire::TriggerModeUdpate()
     bool isHit = false;
     for (auto* obj : m_collider->GetCollideObjects())
     {
+        if (!IsValidObject(obj))
+            continue;
         for (auto* comp : obj->GetAllComponents())
         {
+            if (!IsValidObject(comp))
+                continue;
             if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
             {
                 attackable->TakeDamage(id, 1);
@@ -606,8 +610,12 @@ void GOTOEngine::CrosshairFire::HoldModeUdpate()
             {
                 if (loopCount == 0)
                     break;
+                if (!IsValidObject(obj))
+                    continue;
                 for (auto* comp : obj->GetAllComponents())
                 {
+                    if (!IsValidObject(comp))
+                        continue;
                     bool isHit = false;
                     if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
                     {
@@ -710,8 +718,13 @@ void GOTOEngine::CrosshairFire::FullAutoModeUdpate()
     bool isHit = false;
     for (auto* obj : m_collider->GetCollideObjects())
     {
+        if (!IsValidObject(obj))
+            continue;
         for (auto* comp : obj->GetAllComponents())
         {
+            if (!IsValidObject(comp))
+                continue;
+
             if (auto* attackable = dynamic_cast<IAttackAble*>(comp))
             {
                 attackable->TakeDamage(id, 1);
