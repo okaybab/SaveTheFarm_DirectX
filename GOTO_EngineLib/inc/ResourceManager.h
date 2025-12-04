@@ -37,8 +37,6 @@ namespace GOTOEngine
 
 			std::type_index typeIdx = typeid(T); // 요청된 타입 T의 type_index
 
-			auto sss = m_resourceTable;
-
 			//리소스 매니저에서 리소스테이블 내부 검색
 			//--- 1. 타입 검색
 			auto typeMapIt = m_resourceTable.find(typeIdx);
