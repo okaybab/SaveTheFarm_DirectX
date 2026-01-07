@@ -72,7 +72,7 @@ namespace GOTOEngine
 		void RegisterRigidBody2D(RigidBody2D* rigidBody);
 		void RegisterCollider2D(Collider2D* collider);
 
-		void UnRegisterRigigdBody2D(RigidBody2D* rigidBody);
+		void UnRegisterRigidBody2D(RigidBody2D* rigidBody);
 		void UnRegisterCollider2D(Collider2D* collider);
 
 		void RefreshBodyFromPhysicsWorld2D();

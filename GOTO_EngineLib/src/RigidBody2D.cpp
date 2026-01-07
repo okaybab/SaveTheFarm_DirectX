@@ -14,7 +14,7 @@ void GOTOEngine::RigidBody2D::AdditionalInitialize()
 
 GOTOEngine::RigidBody2D::~RigidBody2D()
 {
-	PhysicsManager::Get()->UnRegisterRigigdBody2D(this);
+	PhysicsManager::Get()->UnRegisterRigidBody2D(this);
 }
 
 void GOTOEngine::RigidBody2D::AddForce(Vector2 force)

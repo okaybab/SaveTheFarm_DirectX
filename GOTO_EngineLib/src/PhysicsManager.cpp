@@ -181,7 +181,7 @@ void GOTOEngine::PhysicsManager::RegisterCollider2D(Collider2D* collider)
 	m_body2DwrapperMap[createdBody2DWrapper->GetBody()] = createdBody2DWrapper;
 }
 
-void GOTOEngine::PhysicsManager::UnRegisterRigigdBody2D(RigidBody2D* rigidBody)
+void GOTOEngine::PhysicsManager::UnRegisterRigidBody2D(RigidBody2D* rigidBody)
 {
 	auto go = rigidBody->GetGameObject();
 	auto it = m_currentBody2Ds.find(go);

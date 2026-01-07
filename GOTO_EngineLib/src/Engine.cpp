@@ -95,7 +95,6 @@ void Engine::ProcessFrame()
 		ObjectDestructionManager::Get()->Update();
 		BehaviourManager::Get()->DisableBehaviours();
 		ResourceManager::Get()->DestroyUnusedResource();
-		ObjectDestructionManager::Get()->Update();
 		ObjectDestructionManager::Get()->Clear();
 
 		AudioManager::Get()->PreloadSceneAudioClips();
@@ -156,6 +155,7 @@ void Engine::ProcessFrame()
 	//BehaviourManager::Get()->BroadCastBehaviourMessage("OnDestroy");
 	ObjectDestructionManager::Get()->Update();
 	BehaviourManager::Get()->DisableBehaviours();
+	ResourceManager::Get()->DestroyUnusedResource();
 	ObjectDestructionManager::Get()->Clear();
 }
 

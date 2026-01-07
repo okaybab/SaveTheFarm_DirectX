@@ -52,8 +52,6 @@ namespace GOTOEngine
 		{ 
 			if (m_refCount > 0) 
 				--m_refCount; 
-			if (m_refCount == 0) 
-				DestroyImmediate(this); 
 		}
 
 		template <typename T>
