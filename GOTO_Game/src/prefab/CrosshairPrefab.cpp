@@ -24,8 +24,6 @@ GameObject* CrosshairPrefab::CreateCrosshair(int id)
 	auto crosshairMove = GO->AddComponent<CrosshairMove>();
 	crosshairMove->id = id;
 
-	auto s1 = new CrosshairMove();
-
 	auto GimmickAnimatorGO = new GameObject(L"Gimmick Animation");
 	auto gimmickSprite = GimmickAnimatorGO->AddComponent<SpriteRenderer>();
 	gimmickSprite->SetRenderLayer((1 << (id + 1)) | (1 << 3));
